@@ -48,7 +48,7 @@
     "groupTitle": "Login",
     "sampleRequest": [
       {
-        "url": "http://35.154.84.230/nanny-app/public/api/login"
+        "url": "http://35.154.84.230/nanny/public/api/login"
       }
     ]
   },
@@ -183,7 +183,7 @@
     "groupTitle": "Signup_Register",
     "sampleRequest": [
       {
-        "url": "http://35.154.84.230/nanny-app/public/api/register"
+        "url": "http://35.154.84.230/nanny/public/api/register"
       }
     ]
   }
