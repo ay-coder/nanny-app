@@ -130,6 +130,73 @@ class UsersController extends BaseApiController
     }
 
     /**
+     * Create
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function forgotpassword(Request $request)
+    {
+        if($request->get('email'))
+        {
+            $userObj = new User;
+
+            $user = $userObj->where('email', $request->get('email'))->first();
+
+            if($user)
+            {
+                if(1==1) // Send Mail Succes
+                {
+                    $successResponse = [
+                        'message' => 'Reset Password Mail send successfully.'
+                    ];
+                }
+
+                return $this->successResponse($successResponse);
+            }
+
+            return $this->setStatusCode(400)->failureResponse([
+                'error' => 'User not Found !'
+            ], 'Something went wrong !');
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');
+    }
+
+    /**
+     * Get User Profile
+     * 
+     * @param Request $request
+     * @return json
+     */
+    public function getUserProfile(Request $request)
+    {
+        if($request->get('user_id'))
+        {
+            $userObj = new User;
+
+            $user = $userObj->find($request->get('user_id'));
+
+            if($user)
+            {
+                $responseData = $this->userTransformer->transform($user);
+                
+                return $this->successResponse($responseData);
+            }
+
+            return $this->setStatusCode(400)->failureResponse([
+                'error' => 'User not Found !'
+            ], 'Something went wrong !');
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');     
+    }
+
+    /**
      * Logout request
      * @param  Request $request
      * @return json

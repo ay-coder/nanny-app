@@ -21,6 +21,7 @@ Route::group(['namespace' => 'Api',], function ()
 {
     Route::post('login', 'UsersController@login')->name('api.login');
     Route::post('register', 'UsersController@create')->name('api.register');
+    Route::post('forgotpassword', 'UsersController@forgotPassword')->name('api.forgotPassword');
 
     /*Route::post('verifyotp', 'UsersController@verifyOtp')->name('api.verifyotp');
     Route::post('resendotp', 'UsersController@resendOtp')->name('api.resendotp');
@@ -33,8 +34,5 @@ Route::group(['namespace' => 'Api',], function ()
 
 Route::group(['namespace' => 'Api', 'middleware' => 'jwt.customauth'], function () 
 {
-    Route::get('events', 'APIEventsController@index')->name('events.index');
-    Route::post('events/create', 'APIEventsController@create')->name('events.create');
-    Route::post('events/edit', 'APIEventsController@edit')->name('events.edit');
-    Route::post('events/delete', 'APIEventsController@delete')->name('events.delete');
+    Route::post('user-profile', 'UsersController@getUserProfile')->name('api.user-profile');
 });

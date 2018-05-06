@@ -1,6 +1,57 @@
 define({ "api": [
   {
     "type": "post",
+    "url": "forgotpassword",
+    "title": "Forgot Password",
+    "name": "forgotpassword",
+    "group": "Login",
+    "parameter": {
+      "fields": {
+        "Login": [
+          {
+            "group": "Login",
+            "type": "string",
+            "optional": false,
+            "field": "email",
+            "description": "<p>Email Id ( Valid Email )  - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n     \"data\": {\n         \"message\": \"Reset Password Mail send successfully.\"\n     },\n     \"status\": true,\n     \"message\": \"Success\",\n     \"code\": 200\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - Invalid Input ( Email Missing ) :",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "    {\n    \"error\": {\n        \"error\": \"User not Found !\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Login",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/forgotpassword"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "login",
     "title": "Login-Nanny App",
     "name": "login",
@@ -49,6 +100,57 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/login"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "user-profile",
+    "title": "User Profile",
+    "name": "user_profile",
+    "group": "Profile",
+    "parameter": {
+      "fields": {
+        "Profile": [
+          {
+            "group": "Profile",
+            "type": "integer",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>User Id - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n     \"data\": {\n         \"userId\": 3,\n         \"userToken\": \"\",\n         \"userType\": 1,\n         \"name\": \"Default User\",\n         \"mobile\": \"\",\n         \"deviceToken\": \"jlkjsaldkjfklasdf9384938409jklljlkjslkj\",\n         \"deviceType\": 1,\n         \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n         \"address\": \"Susmita Flat Vasna\",\n         \"city\": \"Ahmedabad\",\n         \"state\": \"Gujarat\",\n         \"zip\": \"380001\",\n         \"gender\": \"Male\",\n         \"birthday\": \"01/02/1992\",\n         \"status\": 1\n     },\n     \"status\": true,\n     \"message\": \"Success\",\n     \"code\": 200\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - Invalid Input ( Email Missing ) :",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "{\n    \"error\": {\n        \"error\": \"User not Found !\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Profile",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/user-profile"
       }
     ]
   },
