@@ -14,6 +14,7 @@ class UserTransformer extends Transformer
             'userToken'     => $data->token,
             'userType'      => isset($data->user_type) ? (int) $data->user_type : 0,
             'name'          => $this->nulltoBlank($data->name),
+            'mobile'        => $this->nulltoBlank($data->mobile),
             'deviceToken'   => $this->nulltoBlank($data->device_token),
             'deviceType'    => isset($data->device_type) ? (int) $data->device_type : 0,
             'profilePic'    => URL::to('/').'/uploads/user/' . $data->profile_pic, 

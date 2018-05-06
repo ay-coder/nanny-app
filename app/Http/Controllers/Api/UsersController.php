@@ -46,11 +46,19 @@ class UsersController extends BaseApiController
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json([
+                    'error'     => 'Invalid Credentials',
+                    'message'   => 'No User Found for given details',
+                    'status'    => false,
+                    ], 401);
             }
         } catch (JWTException $e) {
             // something went wrong
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json([
+                    'error'     => 'Somethin Went Wrong!',
+                    'message'   => 'Unable to Generate Token!',
+                    'status'    => false,
+                    ], 500);
         }
         
         $user = Auth::user()->toArray();
@@ -78,13 +86,17 @@ class UsersController extends BaseApiController
         if($request->file('profile_pic'))
         {
             $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
-            $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
-            $input = array_merge($input, ['profile_pic' => $imageName]);
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
         }
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users|max:255',
-            'name'  => 'required'
+            'email'     => 'required|unique:users|max:255',
+            'name'      => 'required',
+            'password'  => 'required',
         ]);
 
         if($validator->fails()) 
