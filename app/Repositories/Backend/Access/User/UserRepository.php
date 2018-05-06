@@ -36,9 +36,9 @@ class UserRepository extends BaseRepository
     /**
      * @param RoleRepository $role
      */
-    public function __construct(RoleRepository $role)
+    public function __construct()
     {
-        $this->role = $role;
+        $this->role = new RoleRepository;
     }
 
     /**
@@ -343,17 +343,29 @@ class UserRepository extends BaseRepository
      *
      * @return mixed
      */
-    protected function createUserStub($input)
+    public function createUserStub($input)
     {
-        $user = self::MODEL;
-        $user = new $user();
-        $user->name = $input['name'];
-        $user->email = $input['email'];
-        $user->password = bcrypt($input['password']);
-        $user->status = isset($input['status']) ? 1 : 0;
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
-        $user->confirmed = isset($input['confirmed']) ? 1 : 0;
-
+        $userData = [
+            'name'          => $input['name'],
+            'email'         => $input['email'],
+            'password'      => bcrypt($input['password']),
+            'status'        => 1,
+            'confirmed'     => 1,
+            'device_token'  => isset($input['device_token']) ? $input['device_token']: '',
+            'device_type'   => isset($input['device_type']) ? $input['device_type']: '',
+            'profile_pic'   => isset($input['profile_pic']) ? $input['profile_pic']: 'default.png',
+            'user_type'     => isset($input['user_type']) ? $input['user_type']: 1,
+            'gender'        => isset($input['gender']) ? $input['gender']: '',
+            'birthdate'     => isset($input['birthdate']) ? $input['birthdate']: '',
+            'address'       => isset($input['address']) ? $input['address']: '',
+            'city'          => isset($input['city']) ? $input['city']: '',
+            'state'         => isset($input['state']) ? $input['state']: '',
+            'zip'           => isset($input['zip']) ? $input['zip']: '',
+            'lat'           => isset($input['lat']) ? $input['lat']: '',
+            'long'          => isset($input['long']) ? $input['long']: ''
+        ];
+        
+        $user = User::create($userData);
         return $user;
     }
 }

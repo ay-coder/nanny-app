@@ -103,8 +103,8 @@ class BaseApiController extends BaseController
             'code'      => $code ? $code : $this->getStatusCode()
         ];
 
-        return response()->json([
-            (object)$response],
+        return response()->json(
+            (object)$response,
             $this->getStatusCode()  
         );
     }
@@ -126,8 +126,8 @@ class BaseApiController extends BaseController
             'code'      => $code ? $code : $this->getStatusCode()
         ];
 
-        return response()->json([
-            (object)$response],
+        return response()->json(
+            (object)$response,
             $this->getStatusCode()  
         );
     }

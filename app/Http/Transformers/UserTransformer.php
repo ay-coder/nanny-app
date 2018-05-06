@@ -3,16 +3,28 @@
 namespace App\Http\Transformers;
 
 use App\Http\Transformers;
+use URL;
 
 class UserTransformer extends Transformer 
 {
     public function transform($data) 
     {
         return [
-            'userId'    => $data->id,
-            'userToken' => $data->token,
-            'name'      => $this->nulltoBlank($data->name),
-            'email'     => $this->nulltoBlank($data->email)
+            'userId'        => $data->id,
+            'userToken'     => $data->token,
+            'userType'      => isset($data->user_type) ? (int) $data->user_type : 0,
+            'name'          => $this->nulltoBlank($data->name),
+            'deviceToken'   => $this->nulltoBlank($data->device_token),
+            'deviceType'    => isset($data->device_type) ? (int) $data->device_type : 0,
+            'profilePic'    => URL::to('/').'/uploads/user/' . $data->profile_pic, 
+            'address'       => $this->nulltoBlank($data->address),
+            'city'          => $this->nulltoBlank($data->city),
+            'state'         => $this->nulltoBlank($data->state),
+            'zip'           => $this->nulltoBlank($data->zip),
+            'gender'        => $this->nulltoBlank($data->gender),
+            'birthday'      => $this->nulltoBlank($data->birthdate),
+            'status'        => $data->status
+          
         ];
     }
     

@@ -20,8 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api',], function () 
 {
     Route::post('login', 'UsersController@login')->name('api.login');
-    /*Route::post('register', 'UsersController@register')->name('api.register');
-    Route::post('verifyotp', 'UsersController@verifyOtp')->name('api.verifyotp');
+    Route::post('register', 'UsersController@create')->name('api.register');
+
+    /*Route::post('verifyotp', 'UsersController@verifyOtp')->name('api.verifyotp');
     Route::post('resendotp', 'UsersController@resendOtp')->name('api.resendotp');
     Route::post('forgotpassword', 'UsersController@forgotPassword')->name('api.forgotPassword');
     Route::post('specializations', 'SpecializationController@specializationList')->name('api.specializationList');
