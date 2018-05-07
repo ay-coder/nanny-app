@@ -72,6 +72,20 @@ define({ "api": [
             "optional": false,
             "field": "password",
             "description": "<p>Password - Required</p>"
+          },
+          {
+            "group": "Login",
+            "type": "string",
+            "optional": false,
+            "field": "device_token",
+            "description": "<p>Device-Token - Required</p>"
+          },
+          {
+            "group": "Login",
+            "type": "integer",
+            "optional": false,
+            "field": "device_type",
+            "description": "<p>Device-Type ( 1 / 2) - Required</p>"
           }
         ]
       }
@@ -80,7 +94,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"userId\": 3,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTYyOTYwNSwiZXhwIjoxNTU3MTY1NjA1LCJuYmYiOjE1MjU2Mjk2MDUsImp0aSI6ImtSWkM2eWprc0w2aXBHNlQifQ.R2HL4t69E-vRboUKf9dlteEQwoJpc4Eb3I0tBlUkwGs\",\n    \"userType\": 1,\n    \"name\": \"Default User\",\n    \"mobile\": \"8000060541\",\n    \"deviceToken\": \"jlkjsaldkjfklasdf9384938409jklljlkjslkj\",\n    \"deviceType\": 1,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n    \"address\": \"Susmita Flat Vasna\",\n    \"city\": \"Ahmedabad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"380001\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/02/1992\",\n    \"status\": 1\n}",
+          "content": "{\n    \"userId\": 3,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTY2OTM0MCwiZXhwIjoxNTU3MjA1MzQwLCJuYmYiOjE1MjU2NjkzNDAsImp0aSI6InR1TG9Ra1czYkcxemI1Yk8ifQ.rAU83p-Wuc2SdI4RhqeMg2BkdyuSeS_sgemVR37mcVA\",\n    \"userType\": 1,\n    \"name\": \"Default User\",\n    \"mobile\": \"\",\n    \"deviceToken\": \"asjdfjkl7676736\",\n    \"deviceType\": 2,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n    \"address\": \"Susmita Flat Vasna\",\n    \"city\": \"Ahmedabad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"380001\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/02/1992\",\n    \"notificationCount\": 0,\n    \"profileCompletion\": 0,\n    \"status\": 1\n}",
           "type": "json"
         }
       ]
@@ -126,7 +140,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n     \"data\": {\n         \"userId\": 3,\n         \"userToken\": \"\",\n         \"userType\": 1,\n         \"name\": \"Default User\",\n         \"mobile\": \"\",\n         \"deviceToken\": \"jlkjsaldkjfklasdf9384938409jklljlkjslkj\",\n         \"deviceType\": 1,\n         \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n         \"address\": \"Susmita Flat Vasna\",\n         \"city\": \"Ahmedabad\",\n         \"state\": \"Gujarat\",\n         \"zip\": \"380001\",\n         \"gender\": \"Male\",\n         \"birthday\": \"01/02/1992\",\n         \"status\": 1\n     },\n     \"status\": true,\n     \"message\": \"Success\",\n     \"code\": 200\n }",
+          "content": "   {\n    \"userId\": 3,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTY2OTM0MCwiZXhwIjoxNTU3MjA1MzQwLCJuYmYiOjE1MjU2NjkzNDAsImp0aSI6InR1TG9Ra1czYkcxemI1Yk8ifQ.rAU83p-Wuc2SdI4RhqeMg2BkdyuSeS_sgemVR37mcVA\",\n    \"userType\": 1,\n    \"name\": \"Default User\",\n    \"mobile\": \"\",\n    \"deviceToken\": \"asjdfjkl7676736\",\n    \"deviceType\": 2,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n    \"address\": \"Susmita Flat Vasna\",\n    \"city\": \"Ahmedabad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"380001\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/02/1992\",\n    \"notificationCount\": 0,\n    \"profileCompletion\": 0,\n    \"status\": 1\n}",
           "type": "json"
         }
       ]
@@ -261,7 +275,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"userId\": 13,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjU2MzAxNDYsImV4cCI6MTU1NzE2NjE0NiwibmJmIjoxNTI1NjMwMTQ2LCJqdGkiOiJweGxEemU2RTkxeFhENmx5In0.PbYVLDL9T6nSumaC7X-biOtHMH7M09PqsHtC1Uc46-A\",\n    \"userType\": 1,\n    \"name\": \"Anuj Jaha\",\n    \"mobile\": \"8000060541\",\n    \"deviceToken\": \"\",\n    \"deviceType\": 1,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/81778_user.\",\n    \"address\": \"test\",\n    \"city\": \"Abad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"389489\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/01/1991\",\n    \"status\": 1\n}",
+          "content": "{\n    \"userId\": 3,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTY2OTM0MCwiZXhwIjoxNTU3MjA1MzQwLCJuYmYiOjE1MjU2NjkzNDAsImp0aSI6InR1TG9Ra1czYkcxemI1Yk8ifQ.rAU83p-Wuc2SdI4RhqeMg2BkdyuSeS_sgemVR37mcVA\",\n    \"userType\": 1,\n    \"name\": \"Default User\",\n    \"mobile\": \"\",\n    \"deviceToken\": \"asjdfjkl7676736\",\n    \"deviceType\": 2,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n    \"address\": \"Susmita Flat Vasna\",\n    \"city\": \"Ahmedabad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"380001\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/02/1992\",\n    \"notificationCount\": 0,\n    \"profileCompletion\": 0,\n    \"status\": 1\n}",
           "type": "json"
         }
       ]
