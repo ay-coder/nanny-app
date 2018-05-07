@@ -61,8 +61,16 @@ class UsersController extends BaseApiController
                     ], 500);
         }
         
-        $user = Auth::user()->toArray();
 
+        if($request->get('device_token') && $request->get('device_type'))
+        {
+            $user = Auth::user();
+            $user->device_type  = $request->get('device_type');
+            $user->device_token = $request->get('device_token');
+            $user->save();
+        }
+
+        $user = Auth::user()->toArray();
         $userData = array_merge($user, ['token' => $token]);
 
         $responseData = $this->userTransformer->transform((object)$userData);

@@ -10,21 +10,23 @@ class UserTransformer extends Transformer
     public function transform($data) 
     {
         return [
-            'userId'        => $data->id,
-            'userToken'     => $this->nulltoBlank($data->token),
-            'userType'      => isset($data->user_type) ? (int) $data->user_type : 0,
-            'name'          => $this->nulltoBlank($data->name),
-            'mobile'        => $this->nulltoBlank($data->mobile),
-            'deviceToken'   => $this->nulltoBlank($data->device_token),
-            'deviceType'    => isset($data->device_type) ? (int) $data->device_type : 0,
-            'profilePic'    => URL::to('/').'/uploads/user/' . $data->profile_pic, 
-            'address'       => $this->nulltoBlank($data->address),
-            'city'          => $this->nulltoBlank($data->city),
-            'state'         => $this->nulltoBlank($data->state),
-            'zip'           => $this->nulltoBlank($data->zip),
-            'gender'        => $this->nulltoBlank($data->gender),
-            'birthday'      => $this->nulltoBlank($data->birthdate),
-            'status'        => $data->status
+            'userId'            => $data->id,
+            'userToken'         => $this->nulltoBlank($data->token),
+            'userType'          => isset($data->user_type) ? (int) $data->user_type : 0,
+            'name'              => $this->nulltoBlank($data->name),
+            'mobile'            => $this->nulltoBlank($data->mobile),
+            'deviceToken'       => $this->nulltoBlank($data->device_token),
+            'deviceType'        => isset($data->device_type) ? (int) $data->device_type : 0,
+            'profilePic'        => URL::to('/').'/uploads/user/' . $data->profile_pic, 
+            'address'           => $this->nulltoBlank($data->address),
+            'city'              => $this->nulltoBlank($data->city),
+            'state'             => $this->nulltoBlank($data->state),
+            'zip'               => $this->nulltoBlank($data->zip),
+            'gender'            => $this->nulltoBlank($data->gender),
+            'birthday'          => $this->nulltoBlank($data->birthdate),
+            'notificationCount' => (int) 0,
+            'profileCompletion' => (int) 0,
+            'status'            => $data->status
           
         ];
     }
