@@ -236,7 +236,13 @@ class UsersController extends BaseApiController
 
         if($validator->fails()) 
         {
-            return $this->failureResponse($validator->messages());
+            $messageData = '';
+
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
         }
 
         $status = $repository->updateUserStub($userInfo['userId'], $input);
