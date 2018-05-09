@@ -12,6 +12,7 @@ class UserTransformer extends Transformer
         return [
             'userId'            => (int) $data->id,
             'userToken'         => $this->nulltoBlank($data->token),
+            'email'             => $this->nulltoBlank($data->email),
             'userType'          => isset($data->user_type) ? (int) $data->user_type : 0,
             'name'              => $this->nulltoBlank($data->name),
             'mobile'            => $this->nulltoBlank($data->mobile),
