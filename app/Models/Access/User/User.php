@@ -39,12 +39,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email', 
+        'mobile',
         'password', 
         'status',
         'confirmation_code', 
         'confirmed',
         'profile_pic',
-        'mobile',
         'device_token',
         'device_type',
         'user_type',

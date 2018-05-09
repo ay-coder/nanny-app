@@ -352,6 +352,7 @@ class UserRepository extends BaseRepository
             'status'        => 1,
             'confirmed'     => 1,
             'device_token'  => isset($input['device_token']) ? $input['device_token']: '',
+            'mobile'        => isset($input['mobile']) ? $input['mobile']: '',
             'device_type'   => isset($input['device_type']) ? $input['device_type']: '',
             'profile_pic'   => isset($input['profile_pic']) ? $input['profile_pic']: 'default.png',
             'user_type'     => isset($input['user_type']) ? $input['user_type']: 1,
