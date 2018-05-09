@@ -75,8 +75,7 @@ class UsersController extends BaseApiController
 
         $responseData = $this->userTransformer->transform((object)$userData);
 
-        // if no errors are encountered we can return a JWT
-        return response()->json($responseData);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -110,7 +109,7 @@ class UsersController extends BaseApiController
         if($validator->fails()) 
         {
             $messageData = '';
-            
+
             foreach($validator->messages()->toArray() as $message)
             {
                 $messageData = $message[0];
