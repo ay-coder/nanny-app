@@ -368,4 +368,60 @@ class UserRepository extends BaseRepository
         $user = User::create($userData);
         return $user;
     }
+
+    /**
+     * @param  $input
+     *
+     * @return mixed
+     */
+    public function updateUserStub($userId = null, $input = array())
+    {
+        if($userId && $input)
+        {
+            if(isset($input['password']))
+            {
+                unset($input['password']);
+            }
+
+            if(isset($input['id']))
+            {
+                unset($input['id']);
+            }
+
+            if(isset($input['email']))
+            {
+                unset($input['email']);
+            }   
+            
+            return User::where('id', $userId)->update($input);
+        }
+
+        return false;
+    }
+
+     /**
+     * Get Select Options
+     * 
+     * @param string $key
+     * @param string $value
+     * @return array
+     */
+    public function getSelectOptions($key = 'id', $value = 'name')
+    {
+        $options    = User::all();
+        $result     = [];
+        
+        if($options && count($options))
+        {
+            foreach($options as $option)
+            {
+                if($option->$key && $option->$value)
+                {
+                    $result[$option->$key] = $option->$value;
+                }
+            }
+        }
+
+        return $result;
+    }
 }

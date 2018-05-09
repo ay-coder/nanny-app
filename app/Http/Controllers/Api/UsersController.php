@@ -128,8 +128,7 @@ class UsersController extends BaseApiController
             $userData       = array_merge($user, ['token' => $token]);  
             $responseData   = $this->userTransformer->transform((object)$userData);
 
-            // if no errors are encountered we can return a JWT
-            return response()->json($responseData);
+            return $this->successResponse($responseData);
         }
 
         return $this->setStatusCode(400)->failureResponse([
@@ -190,6 +189,62 @@ class UsersController extends BaseApiController
             if($user)
             {
                 $responseData = $this->userTransformer->transform($user);
+                
+                return $this->successResponse($responseData);
+            }
+
+            return $this->setStatusCode(400)->failureResponse([
+                'error' => 'User not Found !'
+            ], 'Something went wrong !');
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');     
+    }
+
+    /**
+     * Update User Profile
+     * 
+     * @param Request $request
+     * @return json
+     */
+    public function updageUserProfile(Request $request)
+    {
+        $userInfo   = $this->getApiUserInfo();
+        $repository = new UserRepository;
+        $input      = $request->all();
+        
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+
+        if($validator->fails()) 
+        {
+            return $this->failureResponse($validator->messages());
+        }
+
+        $status = $repository->updateUserStub($userInfo['userId'], $input);
+
+        if($status)
+        {
+            $userObj = new User;
+
+            $user = $userObj->find($userInfo['userId']);
+
+            if($user)
+            {
+                $responseData = $this->userTransformer->updateUser($user);
                 
                 return $this->successResponse($responseData);
             }

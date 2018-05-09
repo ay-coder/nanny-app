@@ -16,9 +16,12 @@ class ModuleGenerator
 
     protected $routePath        = 'routes/Backend';
     protected $modelPath        = 'app/Models';
-    protected $controllerPath           = 'app/Http/Controllers/Backend';
-    protected $eloquentPath             = 'app/Repositories';
-    protected $viewPath                 = 'resources/views';
+    protected $controllerPath   = 'app/Http/Controllers/Backend';
+    protected $eloquentPath     = 'app/Repositories';
+    protected $viewPath         = 'resources/views';
+    protected $apiRoutePath     = 'routes/API';
+    protected $apiControllerPath = 'app/Http/Controllers/Api';
+    protected $apiTransformPath = 'app/Http/Transformers';
 
     public $createModuleViewFilePath;
     public $commonModuleViewFilePath;
@@ -102,13 +105,16 @@ class ModuleGenerator
         return $status;
     }
 
-    public function generateModuleView()
+    public function generateModuleView($moduleName = null, $tableName = null)
     {
+        $moduleName         = isset($moduleName) ? $moduleName : $this->moduleName;
+        $tableName          = isset($tableName) ? $tableName : $this->tableName;
         $viewPath           =  base_path() . DIRECTORY_SEPARATOR . $this->viewPath;
         $backendPath        = $viewPath. DIRECTORY_SEPARATOR . 'backend';
         $commonPath         = $viewPath. DIRECTORY_SEPARATOR . 'common';
-        $baseBackendPath    = $backendPath .  DIRECTORY_SEPARATOR . strtolower($this->moduleName);
-        $baseCommonPath     = $commonPath .  DIRECTORY_SEPARATOR . strtolower($this->moduleName);
+        $baseBackendPath    = $backendPath .  DIRECTORY_SEPARATOR . strtolower($moduleName);
+        $baseCommonPath     = $commonPath .  DIRECTORY_SEPARATOR . strtolower($moduleName);
+        $commonFormFile     = 'form.blade.php';
 
         if(! is_dir($baseBackendPath))
         {
@@ -123,14 +129,39 @@ class ModuleGenerator
         foreach($this->createModuleViewFiles as $viewFile)
         {
             copy($this->createModuleViewFilePath . DIRECTORY_SEPARATOR . $viewFile , $baseBackendPath . DIRECTORY_SEPARATOR . $viewFile);
-            chmod($baseBackendPath . DIRECTORY_SEPARATOR . $viewFile, 0777);
+            @chmod($baseBackendPath . DIRECTORY_SEPARATOR . $viewFile, 0777);
         }
 
         foreach($this->commonModuleViewFiles as $viewFile)
         {
             copy($this->commonModuleViewFilePath . DIRECTORY_SEPARATOR . $viewFile , $baseCommonPath . DIRECTORY_SEPARATOR . $viewFile);
-            chmod($baseCommonPath . DIRECTORY_SEPARATOR . $viewFile, 0777);
+            @chmod($baseCommonPath . DIRECTORY_SEPARATOR . $viewFile, 0777);
         }
+
+        $formFile   = $baseCommonPath . DIRECTORY_SEPARATOR . $commonFormFile;
+        $formHTML   = '';
+        $columns    = Schema::getColumnListing($tableName);
+
+        foreach($columns as $column)
+        {
+            if($column == 'id' || $column == 'created_at' || $column == 'updated_at' )
+                continue;
+
+            $fieldTitle = ucwords(str_replace("_", " ", $column));
+            $formHTML .= <<<EOD
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('$column', '$fieldTitle :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('$column', null, ['class' => 'form-control', 'placeholder' => '$fieldTitle', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
+EOD;
+        }
+
+        File::put($formFile, $formHTML);
+        //File::put($this->commonModuleViewFilePath . DIRECTORY_SEPARATOR . 'details.txt', 'Tabel Name ' . $table);
 
         return true;
     }
@@ -215,6 +246,130 @@ class ModuleGenerator
         return false;
     }
 
+    public function generateAPIRoute()
+    {
+        $basePath   = base_path() . DIRECTORY_SEPARATOR . $this->apiRoutePath;
+        $fileName   = ucfirst($this->moduleName) . '.php';
+
+        if(! is_dir($basePath))
+        {
+            mkdir($basePath, 0777, true);
+        }
+
+        $file       = $basePath . DIRECTORY_SEPARATOR . $fileName;
+        $content    = $this->getAPIRouteTemplate($this->moduleName);
+        $status     = File::put($file, $content);
+
+        if($status)
+        {
+            chmod($file, 0777);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function generateAPIController()
+    {
+        $basePath   = base_path() . DIRECTORY_SEPARATOR . $this->apiControllerPath;
+        $fileName   = "API".ucfirst($this->moduleName) . 'Controller.php';
+
+        if(! is_dir($basePath))
+        {
+            mkdir($basePath, 0777, true);
+        }
+
+        $file       = $basePath . DIRECTORY_SEPARATOR . $fileName;
+        $content    = $this->getAPIControllerTemplate($this->moduleName);
+        $status     = File::put($file, $content);
+
+        if($status)
+        {
+            chmod($file, 0777);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function generateAPITransformer($alias = null)
+    {
+        $basePath   = base_path() . DIRECTORY_SEPARATOR . $this->apiTransformPath;
+        $fileName   = ucfirst($this->moduleName) . 'Transformer.php';
+
+        if(! is_dir($basePath))
+        {
+            mkdir($basePath, 0777, true);
+        }
+
+        $file       = $basePath . DIRECTORY_SEPARATOR . $fileName;
+        $content    = $this->getAPITransformerTemplate($alias);
+        $status     = File::put($file, $content);
+
+        if($status)
+        {
+            chmod($file, 0777);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getAPITransformerTemplate($alias = null, $tableName = null)
+    {
+        $moduleName         = isset($moduleName) ? $moduleName : $this->moduleName;
+        $tableName          = isset($tableName) ? $tableName : $this->tableName;
+        $keyword            = '###MODULE-NAME###';
+        $lowerCaseKey       = '###LOWER-CASE-NAME###';
+        $lowerCase          = $alias ? $alias : strtolower($moduleName);
+        $change             = $moduleName;
+
+
+        // Check Table Schema
+        $columns = Schema::getColumnListing($tableName);
+
+        $text   = '';
+        $sr     = 0;
+        foreach($columns as $column)
+        {
+            $first = $sr == 0 ? '(int)' : '';
+            $text .= '"###LOWER-CASE-NAME###'. ucfirst(camel_case($column)) . '" => '. $first .' ##$##item->'.$column.', ';
+            $sr++;
+        }
+
+
+        $html               = <<<EOD
+<?php
+namespace App\Http\Transformers;
+
+use App\Http\Transformers;
+
+class ###MODULE-NAME###Transformer extends Transformer
+{
+    /**
+     * Transform
+     *
+     * @param array ##$##data
+     * @return array
+     */
+    public function transform(##$##item)
+    {
+        if(is_array(##$##item))
+        {
+            ##$##item = (object)##$##item;
+        }
+
+        return [
+            $text
+        ];
+    }
+}
+EOD;
+    $html = str_replace("##$##", '$', $html);
+    $html = str_replace($lowerCaseKey,  $lowerCase, $html);
+    return str_replace($keyword, $change, $html);
+    }
+
     public function generateEloquent()
     {
         $basePath   = base_path() . DIRECTORY_SEPARATOR . $this->eloquentPath;
@@ -249,6 +404,212 @@ class ModuleGenerator
     public function generateViews()
     {
 
+    }
+
+    public function getAPIControllerTemplate()
+    {
+        $moduleName         = isset($moduleName) ? $moduleName : $this->moduleName;
+        $keyword            = '###MODULE-NAME###';
+        $lowerCaseKey       = '###LOWER-CASE-NAME###';
+        $lowerCase          = strtolower($moduleName);
+        $change             = $moduleName;
+        $html               = <<<EOD
+<?php
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Http\Transformers\###MODULE-NAME###Transformer;
+use App\Http\Controllers\Api\BaseApiController;
+use App\Repositories\###MODULE-NAME###\Eloquent###MODULE-NAME###Repository;
+
+class API###MODULE-NAME###Controller extends BaseApiController
+{
+    /**
+     * ###MODULE-NAME### Transformer
+     *
+     * @var Object
+     */
+    protected ##$#####LOWER-CASE-NAME###Transformer;
+
+    /**
+     * Repository
+     *
+     * @var Object
+     */
+    protected ##$##repository;
+
+    /**
+     * PrimaryKey
+     *
+     * @var string
+     */
+    protected ##$##primaryKey = '###LOWER-CASE-NAME###Id';
+
+    /**
+     * __construct
+     *
+     */
+    public function __construct()
+    {
+        ##$##this->repository                       = new Eloquent###MODULE-NAME###Repository();
+        ##$##this->###LOWER-CASE-NAME###Transformer = new ###MODULE-NAME###Transformer();
+    }
+
+    /**
+     * List of All ###MODULE-NAME###
+     *
+     * @param Request ##$##request
+     * @return json
+     */
+    public function index(Request ##$##request)
+    {
+        ##$##paginate   = ##$##request->get('paginate') ? ##$##request->get('paginate') : false;
+        ##$##orderBy    = ##$##request->get('orderBy') ? ##$##request->get('orderBy') : 'id';
+        ##$##order      = ##$##request->get('order') ? ##$##request->get('order') : 'ASC';
+        ##$##items      = ##$##paginate ? ##$##this->repository->model->orderBy(##$##orderBy, ##$##order)->paginate(##$##paginate)->items() : ##$##this->repository->getAll(##$##orderBy, ##$##order);
+
+        if(isset(##$##items) && count(##$##items))
+        {
+            ##$##itemsOutput = ##$##this->###LOWER-CASE-NAME###Transformer->transformCollection(##$##items);
+
+            return ##$##this->successResponse(##$##itemsOutput);
+        }
+
+        return ##$##this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find ###MODULE-NAME###!'
+            ], 'No ###MODULE-NAME### Found !');
+    }
+
+    /**
+     * Create
+     *
+     * @param Request ##$##request
+     * @return string
+     */
+    public function create(Request ##$##request)
+    {
+        ##$##model = ##$##this->repository->create(##$##request->all());
+
+        if(##$##model)
+        {
+            ##$##responseData = ##$##this->###LOWER-CASE-NAME###Transformer->transform(##$##model);
+
+            return ##$##this->successResponse(##$##responseData, '###MODULE-NAME### is Created Successfully');
+        }
+
+        return ##$##this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+            ], 'Something went wrong !');
+    }
+
+    /**
+     * View
+     *
+     * @param Request ##$##request
+     * @return string
+     */
+    public function show(Request ##$##request)
+    {
+        ##$##itemId = (int) hasher()->decode(##$##request->get(##$##this->primaryKey));
+
+        if(##$##itemId)
+        {
+            ##$##itemData = ##$##this->repository->getById(##$##itemId);
+
+            if(##$##itemData)
+            {
+                ##$##responseData = ##$##this->###LOWER-CASE-NAME###Transformer->transform(##$##itemData);
+
+                return ##$##this->successResponse(##$##responseData, 'View Item');
+            }
+        }
+
+        return ##$##this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs or Item not exists !'
+            ], 'Something went wrong !');
+    }
+
+    /**
+     * Edit
+     *
+     * @param Request ##$##request
+     * @return string
+     */
+    public function edit(Request ##$##request)
+    {
+        ##$##itemId = (int) hasher()->decode(##$##request->get(##$##this->primaryKey));
+
+        if(##$##itemId)
+        {
+            ##$##status = ##$##this->repository->update(##$##itemId, ##$##request->all());
+
+            if(##$##status)
+            {
+                ##$##itemData       = ##$##this->repository->getById(##$##itemId);
+                ##$##responseData   = ##$##this->###LOWER-CASE-NAME###Transformer->transform(##$##itemData);
+
+                return ##$##this->successResponse(##$##responseData, '###MODULE-NAME### is Edited Successfully');
+            }
+        }
+
+        return ##$##this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');
+    }
+
+    /**
+     * Delete
+     *
+     * @param Request ##$##request
+     * @return string
+     */
+    public function delete(Request ##$##request)
+    {
+        ##$##itemId = (int) hasher()->decode(##$##request->get(##$##this->primaryKey));
+
+        if(##$##itemId)
+        {
+            ##$##status = ##$##this->repository->destroy(##$##itemId);
+
+            if(##$##status)
+            {
+                return ##$##this->successResponse([
+                    'success' => '###MODULE-NAME### Deleted'
+                ], '###MODULE-NAME### is Deleted Successfully');
+            }
+        }
+
+        return ##$##this->setStatusCode(404)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');
+    }
+}
+EOD;
+
+        $html = str_replace("##$##", '$', $html);
+        $html = str_replace($lowerCaseKey,  $lowerCase, $html);
+        return str_replace($keyword, $change, $html);
+    }
+
+    public function getAPIRouteTemplate($moduleName = null)
+    {
+        $moduleName         = isset($moduleName) ? $moduleName : $this->moduleName;
+        $keyword            = '###MODULE-NAME###';
+        $moduleRoutePrefix  = strtolower($moduleName);
+        $change             = $moduleName;
+        $html               = <<<EOD
+<?php
+Route::group(['namespace' => 'Api'], function()
+{
+    Route::get('$moduleRoutePrefix', 'API###MODULE-NAME###Controller@index')->name('$moduleRoutePrefix.index');
+    Route::post('$moduleRoutePrefix/create', 'API###MODULE-NAME###Controller@create')->name('$moduleRoutePrefix.create');
+    Route::post('$moduleRoutePrefix/edit', 'API###MODULE-NAME###Controller@edit')->name('$moduleRoutePrefix.edit');
+    Route::post('$moduleRoutePrefix/show', 'API###MODULE-NAME###Controller@show')->name('$moduleRoutePrefix.show');
+    Route::post('$moduleRoutePrefix/delete', 'API###MODULE-NAME###Controller@delete')->name('$moduleRoutePrefix.delete');
+});
+?>
+EOD;
+        return str_replace($keyword, $change, $html);
     }
 
     public function getRelationshipContent($moduleName = null)
@@ -369,6 +730,16 @@ EOD;
         $tableKey           = "###TABLE-NAME###";
         $timeStamp          = "###TABLE-TIMESTAMP###";
         $change             = $moduleName;
+
+        // Check Table Schema
+        $columns = Schema::getColumnListing($tableName);
+
+        $fillable   = '';
+        foreach($columns as $column)
+        {
+            $fillable .=  '"' . $column . '", ';
+        }
+
         $html               = <<<EOD
 <?php namespace App\Models\###MODULE-NAME###;
 
@@ -396,7 +767,7 @@ class ###MODULE-NAME### extends BaseModel
      *
      */
     protected ##$##fillable = [
-        'id',
+        $fillable
     ];
 
     /**
@@ -601,9 +972,37 @@ EOD;
     public function getEloquentTemplate($moduleName = null)
     {
         $moduleName         = isset($moduleName) ? $moduleName : $this->moduleName;
+        $tableName          = isset($tableName) ? $tableName : $this->tableName;
         $moduleRoutePrefix  = strtolower($moduleName);
         $keyword            = '###MODULE-NAME###';
+        $gridColumns        = '###GRID-COLUMNS###';
+        $gridHeaders        = '###GRID-HEADERS###';
         $change             = $moduleName;
+
+        // Check Table Schema
+        $columns = Schema::getColumnListing($tableName);
+
+        $gridColumns   = '';
+        $gridHeaders   = '';
+        foreach($columns as $column)
+        {
+            $gridHeaders .= "'".$column."'        => '".ucwords($column)."',\n";
+            $gridColumns .=  "'".$column."' =>   [
+                'data'          => '".$column."',
+                'name'          => '".$column."',
+                'searchable'    => true,
+                'sortable'      => true
+            ],\n\t\t";
+        }
+
+        $gridHeaders .= '"actions"         => "Actions"';
+        $gridColumns .= "'actions' => [
+            'data'          => 'actions',
+            'name'          => 'actions',
+            'searchable'    => false,
+            'sortable'      => false
+        ]";
+
         $html               = <<<EOD
 <?php namespace App\Repositories\###MODULE-NAME###;
 
@@ -639,8 +1038,7 @@ class Eloquent###MODULE-NAME###Repository extends DbRepository
      * @var array
      */
     public ##$##tableHeaders = [
-        'id'        => 'Id',
-        'actions'   => 'Actions'
+        ###GRID-HEADERS###
     ];
 
     /**
@@ -649,18 +1047,7 @@ class Eloquent###MODULE-NAME###Repository extends DbRepository
      * @var array
      */
     public ##$##tableColumns = [
-        'id' =>   [
-            'data'          => 'id',
-            'name'          => 'id',
-            'searchable'    => true,
-            'sortable'      => true
-        ],
-        'actions' => [
-            'data'          => 'actions',
-            'name'          => 'actions',
-            'searchable'    => false,
-            'sortable'      => false
-        ]
+        ###GRID-COLUMNS###
     ];
 
     /**
@@ -802,7 +1189,7 @@ class Eloquent###MODULE-NAME###Repository extends DbRepository
      */
     public function getAll(##$##orderBy = 'id', ##$##sort = 'asc')
     {
-        return ##$##this->model->all();
+        return ##$##this->model->orderBy(##$##orderBy, ##$##sort)->get();
     }
 
     /**
@@ -829,7 +1216,7 @@ class Eloquent###MODULE-NAME###Repository extends DbRepository
     public function getTableFields()
     {
         return [
-            ##$##this->model->getTable().'.id as id'
+            ##$##this->model->getTable().'.*'
         ];
     }
 
@@ -910,6 +1297,8 @@ class Eloquent###MODULE-NAME###Repository extends DbRepository
 }
 EOD;
         $html = str_replace("###LOWER-CASEMODULE-NAME###", strtolower($moduleName), $html);
+        $html = str_replace("###GRID-HEADERS###", $gridHeaders, $html);
+        $html = str_replace("###GRID-COLUMNS###", $gridColumns, $html);
         $html = str_replace("##$##", '$', $html);
         return str_replace($keyword, $change, $html);
     }

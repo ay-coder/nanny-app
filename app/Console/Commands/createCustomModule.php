@@ -64,7 +64,18 @@ class createCustomModule extends Command
         $viewStatus = $module->generateModuleView();
         $viewStatus ? $this->info("View Files Generated Successfully !") : $this->error("Ops, Something went wrong in View.");
 
+        // Generated API Route
+        $apiRouteStatus = $module->generateAPIRoute();
+        $apiRouteStatus ? $this->info("API Route Generated Successfully !") : $this->error("Ops, Something went wrong in API Route.");
+
+        // Generated API Controller
+        $apiControllerStatus = $module->generateAPIController();
+        $apiControllerStatus ? $this->info("API Controller Generated Successfully !") : $this->error("Ops, Something went wrong in API Controller.");
+
+         // Generated API Transformer
+        $apiTransformerStatus = $module->generateAPITransformer();
+        $apiTransformerStatus ? $this->info("API Transformer Generated Successfully !") : $this->error("Ops, Something went wrong in API Transformer .");
+
         $this->comment("Process Completed !");
     }
 }
-
