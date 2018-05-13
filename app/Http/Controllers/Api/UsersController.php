@@ -216,6 +216,16 @@ class UsersController extends BaseApiController
      */
     public function updageUserProfile(Request $request)
     {
+        $headerToken = request()->header('Authorization');
+
+        if($headerToken)
+        {
+            $token      = explode(" ", $headerToken);
+            $userToken  = $token[1];
+        }
+        
+
+
         $userInfo   = $this->getApiUserInfo();
         $repository = new UserRepository;
         $input      = $request->all();

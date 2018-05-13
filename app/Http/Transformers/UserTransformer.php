@@ -10,25 +10,24 @@ class UserTransformer extends Transformer
     public function transform($data) 
     {
         return [
-            'userId'            => (int) $data->id,
-            'userToken'         => $this->nulltoBlank($data->token),
-            'email'             => $this->nulltoBlank($data->email),
-            'userType'          => isset($data->user_type) ? (int) $data->user_type : 0,
-            'name'              => $this->nulltoBlank($data->name),
-            'mobile'            => $this->nulltoBlank($data->mobile),
-            'deviceToken'       => $this->nulltoBlank($data->device_token),
-            'deviceType'        => isset($data->device_type) ? (int) $data->device_type : 0,
-            'profilePic'        => URL::to('/').'/uploads/user/' . $data->profile_pic, 
-            'address'           => $this->nulltoBlank($data->address),
-            'city'              => $this->nulltoBlank($data->city),
-            'state'             => $this->nulltoBlank($data->state),
-            'zip'               => $this->nulltoBlank($data->zip),
-            'gender'            => $this->nulltoBlank($data->gender),
-            'birthday'          => $this->nulltoBlank($data->birthdate),
-            'notificationCount' => (int) 0,
-            'profileCompletion' => (int) 0,
-            'status'            => $data->status
-          
+            'user_id'               => (int) $data->id,
+            'user_token'            => $this->nulltoBlank($data->token),
+            'email'                 => $this->nulltoBlank($data->email),
+            'user_type'             => isset($data->user_type) ? (int) $data->user_type : 0,
+            'name'                  => $this->nulltoBlank($data->name),
+            'mobile'                => $this->nulltoBlank($data->mobile),
+            'device_token'          => $this->nulltoBlank($data->device_token),
+            'device_type'           => isset($data->device_type) ? (int) $data->device_type : 0,
+            'profile_pic'           => URL::to('/').'/uploads/user/' . $data->profile_pic, 
+            'address'               => $this->nulltoBlank($data->address),
+            'city'                  => $this->nulltoBlank($data->city),
+            'state'                 => $this->nulltoBlank($data->state),
+            'zip'                   => $this->nulltoBlank($data->zip),
+            'gender'                => $this->nulltoBlank($data->gender),
+            'birthday'              => $this->nulltoBlank($data->birthdate),
+            'notification_count'    => (int) 0,
+            'profile_completion'    => (int) 0,
+            'status'                => $data->status
         ];
     }
 
@@ -40,25 +39,34 @@ class UserTransformer extends Transformer
      */
     public function updateUser($data)
     {
-         return [
-            'userId'            => (int) $data->id,
-            'userType'          => isset($data->user_type) ? (int) $data->user_type : 0,
-            'name'              => $this->nulltoBlank($data->name),
-            'email'             => $this->nulltoBlank($data->email),
-            'mobile'            => $this->nulltoBlank($data->mobile),
-            'deviceToken'       => $this->nulltoBlank($data->device_token),
-            'deviceType'        => isset($data->device_type) ? (int) $data->device_type : 0,
-            'profilePic'        => URL::to('/').'/uploads/user/' . $data->profile_pic, 
-            'address'           => $this->nulltoBlank($data->address),
-            'city'              => $this->nulltoBlank($data->city),
-            'state'             => $this->nulltoBlank($data->state),
-            'zip'               => $this->nulltoBlank($data->zip),
-            'gender'            => $this->nulltoBlank($data->gender),
-            'birthday'          => $this->nulltoBlank($data->birthdate),
-            'notificationCount' => (int) 0,
-            'profileCompletion' => (int) 0,
-            'status'            => $data->status
-          
+        $headerToken = request()->header('Authorization');
+        $userToken   = '';
+
+        if($headerToken)
+        {
+            $token      = explode(" ", $headerToken);
+            $userToken  = $token[1];
+        }
+
+        return [
+            'user_id'            => (int) $data->id,
+            'user_token'         => $userToken,
+            'user_type'          => isset($data->user_type) ? (int) $data->user_type : 0,
+            'name'               => $this->nulltoBlank($data->name),
+            'email'              => $this->nulltoBlank($data->email),
+            'mobile'             => $this->nulltoBlank($data->mobile),
+            'device_token'       => $this->nulltoBlank($data->device_token),
+            'device_type'        => isset($data->device_type) ? (int) $data->device_type : 0,
+            'profile_pic'        => URL::to('/').'/uploads/user/' . $data->profile_pic, 
+            'address'            => $this->nulltoBlank($data->address),
+            'city'               => $this->nulltoBlank($data->city),
+            'state'              => $this->nulltoBlank($data->state),
+            'zip'                => $this->nulltoBlank($data->zip),
+            'gender'             => $this->nulltoBlank($data->gender),
+            'birthday'           => $this->nulltoBlank($data->birthdate),
+            'notification_count' => (int) 0,
+            'profile_completion' => (int) 0,
+            'status'             => $data->status
         ];  
     }
     

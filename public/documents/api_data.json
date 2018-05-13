@@ -2,14 +2,14 @@
   {
     "type": "get",
     "url": "babies",
-    "title": "Babies List",
+    "title": "Babies List ( Need Headers)",
     "name": "babies",
     "group": "Babies",
     "success": {
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": [\n        {\n            \"babiesId\": 1,\n            \"babiesParentId\": 3,\n            \"babiesTitle\": \"First Baby\",\n            \"babiesBirthdate\": \"08/30/2000\",\n            \"babiesAge\": 17,\n            \"babiesDescription\": \"this is test\",\n            \"babiesImage\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"baby_id\": 8,\n        \"parent_id\": 3,\n        \"title\": \"my baby\",\n        \"birthdate\": \"01/01/2005\",\n        \"age\": 13,\n        \"description\": \"This is test Baby\",\n        \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n    },\n    \"status\": true,\n    \"message\": \"Babies is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -35,7 +35,7 @@
   {
     "type": "post",
     "url": "babies/create",
-    "title": "Create New Baby",
+    "title": "Create New Baby ( Need Headers)",
     "name": "babies_create",
     "group": "Babies",
     "parameter": {
@@ -76,7 +76,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"babiesId\": 5,\n        \"babiesParentId\": 3,\n        \"babiesTitle\": \"Test Baby\",\n        \"babiesBirthdate\": \"01/01/2005\",\n        \"babiesAge\": 13,\n        \"babiesDescription\": \"This is test Baby\",\n        \"babiesImage\": \"http://nanny-app.local/uploads/babies/default.png\"\n    },\n    \"status\": true,\n    \"message\": \"Babies is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"baby_id\": 8,\n        \"parent_id\": 3,\n        \"title\": \"my baby\",\n        \"birthdate\": \"01/01/2005\",\n        \"age\": 13,\n        \"description\": \"This is test Baby\",\n        \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n    },\n    \"status\": true,\n    \"message\": \"Babies is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -102,7 +102,7 @@
   {
     "type": "post",
     "url": "babies/delete",
-    "title": "Delete Baby",
+    "title": "Delete Baby ( Need Headers)",
     "name": "babies_delete",
     "group": "Babies",
     "parameter": {
@@ -148,7 +148,7 @@
   {
     "type": "post",
     "url": "babies/edit",
-    "title": "Edit Baby Details",
+    "title": "Edit Baby Details ( Need Headers)",
     "name": "babies_edit",
     "group": "Babies",
     "parameter": {
@@ -196,7 +196,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"babiesId\": 5,\n        \"babiesParentId\": 3,\n        \"babiesTitle\": \"New Name\",\n        \"babiesBirthdate\": \"01/01/2014\",\n        \"babiesAge\": 4,\n        \"babiesDescription\": \"This is test Baby.\",\n        \"babiesImage\": \"http://nanny-app.local/uploads/babies/default.png\"\n    },\n    \"status\": true,\n    \"message\": \"Baby is Edited Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"baby_id\": 8,\n        \"parent_id\": 3,\n        \"title\": \"my baby\",\n        \"birthdate\": \"01/01/2005\",\n        \"age\": 13,\n        \"description\": \"This is test Baby\",\n        \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n    },\n    \"status\": true,\n    \"message\": \"Babies is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -314,7 +314,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "    {\n    \"data\": {\n        \"userId\": 3,\n        \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTg5MTk1NiwiZXhwIjoxNTU3NDI3OTU2LCJuYmYiOjE1MjU4OTE5NTYsImp0aSI6IjlBYlp3M3RobGZ4M2NVaksifQ.Zu8BSn9dOfQdoF2wcz1_HnY5jv9nvoAKqc7neVVWO6Y\",\n        \"email\": \"user@user.com\",\n        \"userType\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"\",\n        \"deviceToken\": \"asjdfjkl7676736\",\n        \"deviceType\": 2,\n        \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/02/1992\",\n        \"notificationCount\": 0,\n        \"profileCompletion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -340,7 +340,7 @@
   {
     "type": "post",
     "url": "update-user-profile",
-    "title": "Update User Profile",
+    "title": "Update User Profile ( Need Headers)",
     "name": "update_user_profile",
     "group": "Profile",
     "parameter": {
@@ -437,7 +437,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"userId\": 3,\n        \"userType\": 1,\n        \"name\": \"Anuj Jaha - 1\",\n        \"email\": \"user@user.com\",\n        \"mobile\": \"\",\n        \"deviceToken\": \"asjdfjkl7676736\",\n        \"deviceType\": 2,\n        \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/02/1992\",\n        \"notificationCount\": 0,\n        \"profileCompletion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTgwMDk0OSwiZXhwIjoxNTU3MzM2OTQ5LCJuYmYiOjE1MjU4MDA5NDksImp0aSI6ImlEN3dKd3U4RUtyRHdUNUIifQ.JU2T_95oEEayz8pBQi_sQuqjlSJawo72Z9Tc7TiSaOc\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"email\": \"user@user.com\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -463,7 +463,7 @@
   {
     "type": "post",
     "url": "user-profile",
-    "title": "User Profile",
+    "title": "User Profile ( Need Headers)",
     "name": "user_profile",
     "group": "Profile",
     "parameter": {
@@ -483,7 +483,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n     \"data\": {\n         \"userId\": 3,\n         \"userToken\": \"\",\n         \"email\": \"user@user.com\",\n         \"userType\": 1,\n         \"name\": \"Anuj Jaha\",\n         \"mobile\": \"\",\n         \"deviceToken\": \"asjdfjkl7676736\",\n         \"deviceType\": 2,\n         \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n         \"address\": \"Susmita Flat Vasna\",\n         \"city\": \"Ahmedabad\",\n         \"state\": \"Gujarat\",\n         \"zip\": \"380001\",\n         \"gender\": \"Male\",\n         \"birthday\": \"01/02/1992\",\n         \"notificationCount\": 0,\n         \"profileCompletion\": 0,\n         \"status\": 1\n     },\n     \"status\": true,\n     \"message\": \"Success\",\n     \"code\": 200\n }",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -625,7 +625,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"userId\": 3,\n    \"userToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTY2OTM0MCwiZXhwIjoxNTU3MjA1MzQwLCJuYmYiOjE1MjU2NjkzNDAsImp0aSI6InR1TG9Ra1czYkcxemI1Yk8ifQ.rAU83p-Wuc2SdI4RhqeMg2BkdyuSeS_sgemVR37mcVA\",\n    \"userType\": 1,\n    \"name\": \"Default User\",\n    \"mobile\": \"\",\n    \"deviceToken\": \"asjdfjkl7676736\",\n    \"deviceType\": 2,\n    \"profilePic\": \"http://nanny-app.local/uploads/user/default.png\",\n    \"address\": \"Susmita Flat Vasna\",\n    \"city\": \"Ahmedabad\",\n    \"state\": \"Gujarat\",\n    \"zip\": \"380001\",\n    \"gender\": \"Male\",\n    \"birthday\": \"01/02/1992\",\n    \"notificationCount\": 0,\n    \"profileCompletion\": 0,\n    \"status\": 1\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthday\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
