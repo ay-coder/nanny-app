@@ -224,8 +224,6 @@ class UsersController extends BaseApiController
             $userToken  = $token[1];
         }
         
-
-
         $userInfo   = $this->getApiUserInfo();
         $repository = new UserRepository;
         $input      = $request->all();
@@ -278,6 +276,42 @@ class UsersController extends BaseApiController
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs'
         ], 'Something went wrong !');     
+    }
+
+    public function updageUserPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password'  => 'required',
+        ]);
+
+        if($validator->fails()) 
+        {
+            $messageData = '';
+
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+        
+        $userInfo   = $this->getApiUserInfo();
+        $user       = User::find($userInfo['userId']);
+
+        $user->password = bcrypt($request->get('password'));
+
+        if ($user->save())
+        {
+            $successResponse = [
+                'message' => 'Password Updated successfully.'
+            ];
+            
+            return $this->successResponse($successResponse);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');
     }
 
     /**

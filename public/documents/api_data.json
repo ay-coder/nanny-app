@@ -339,6 +339,52 @@
   },
   {
     "type": "post",
+    "url": "update-password",
+    "title": "Update Password ( Need Headers)",
+    "name": "update_password",
+    "group": "Profile",
+    "parameter": {
+      "fields": {
+        "Profile": [
+          {
+            "group": "Profile",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>User Password - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"message\": \"Password Updated successfully.\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - Invalid Input ( Email Missing ) :",
+          "content": "{\n    \"error\": {\n        \"password\": [\n            \"The password field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The password field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Profile",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/update-password"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "update-user-profile",
     "title": "Update User Profile ( Need Headers)",
     "name": "update_user_profile",

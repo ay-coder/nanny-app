@@ -154,7 +154,7 @@ class APIBabiesController extends BaseApiController
 
         $validator = Validator::make($request->all(), [
             'title'     => 'required',
-            'babyId'    => 'required',
+            'baby_id'    => 'required',
         ]);
 
         if($validator->fails()) 
@@ -177,7 +177,7 @@ class APIBabiesController extends BaseApiController
             $input = array_merge($input, ['image' => $imageName]);
         }
 
-        $itemId = (int) hasher()->decode($request->get('babyId'));
+        $itemId = (int) hasher()->decode($request->get('baby_id'));
 
 
         if($itemId)
@@ -206,14 +206,14 @@ class APIBabiesController extends BaseApiController
      */
     public function delete(Request $request)
     {
-        $itemId = (int) hasher()->decode($request->get('babyId'));
+        $itemId = (int) hasher()->decode($request->get('baby_id'));
 
         if($itemId)
         {
             
             $userInfo   = $this->getAuthenticatedUser();
             $babyCount  = $this->repository->model->where([
-                'id'        => $request->get('babyId'),
+                'id'        => $request->get('baby_id'),
                 'parent_id' => $userInfo->id
                 ])->count();
             
