@@ -338,6 +338,39 @@
     ]
   },
   {
+    "type": "get",
+    "url": "logout",
+    "title": "Logout ( Need Headers)",
+    "name": "logout",
+    "group": "Logout",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"message\": \"User Logged out successfully.\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( User Not Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"User Not Found !\"\n    },\n    \"status\": false,\n    \"message\": \"User Not Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Logout",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/logout"
+      }
+    ]
+  },
+  {
     "type": "post",
     "url": "find-sitters",
     "title": "Find Sitters ( Need Headers)",

@@ -323,7 +323,7 @@ class UsersController extends BaseApiController
     public function logout(Request $request) 
     {
         $userInfo   = $this->getApiUserInfo();
-        $user       = User::find('id', $userInfo['userId']);
+        $user       = User::find($userInfo['userId']);
 
         $user->device_token = '';
 
