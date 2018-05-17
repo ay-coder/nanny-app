@@ -2,19 +2,19 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Transformers\ReviewsTransformer;
+use App\Http\Transformers\MessagesTransformer;
 use App\Http\Controllers\Api\BaseApiController;
-use App\Repositories\Reviews\EloquentReviewsRepository;
+use App\Repositories\Messages\EloquentMessagesRepository;
 use Illuminate\Support\Facades\Validator;
 
-class APIReviewsController extends BaseApiController
+class APIMessagesController extends BaseApiController
 {
     /**
-     * Reviews Transformer
+     * Messages Transformer
      *
      * @var Object
      */
-    protected $reviewsTransformer;
+    protected $messagesTransformer;
 
     /**
      * Repository
@@ -28,7 +28,7 @@ class APIReviewsController extends BaseApiController
      *
      * @var string
      */
-    protected $primaryKey = 'review_id';
+    protected $primaryKey = 'messagesId';
 
     /**
      * __construct
@@ -36,33 +36,34 @@ class APIReviewsController extends BaseApiController
      */
     public function __construct()
     {
-        $this->repository                       = new EloquentReviewsRepository();
-        $this->reviewsTransformer = new ReviewsTransformer();
+        $this->repository                       = new EloquentMessagesRepository();
+        $this->messagesTransformer = new MessagesTransformer();
     }
 
     /**
-     * List of All Reviews
+     * List of All Messages
      *
      * @param Request $request
      * @return json
      */
     public function index(Request $request)
     {
+        $userInfo   = $this->getAuthenticatedUser();
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
-        $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $order      = $request->get('order') ? $request->get('order') : 'DESC';
+        $items      = $paginate ? $this->repository->model->where('from_user_id', $userInfo->id)->orWhere('to_user_id', $userInfo->id)->with(['from_user', 'to_user'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order, $userInfo->id);
 
         if(isset($items) && count($items))
         {
-            $itemsOutput = $this->reviewsTransformer->transformCollection($items);
+            $itemsOutput = $this->messagesTransformer->transformCollection($items);
 
             return $this->successResponse($itemsOutput);
         }
 
         return $this->setStatusCode(400)->failureResponse([
-            'message' => 'Unable to find Reviews!'
-            ], 'No Reviews Found !');
+            'message' => 'Unable to find Messages!'
+            ], 'No Messages Found !');
     }
 
     /**
@@ -74,8 +75,7 @@ class APIReviewsController extends BaseApiController
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'sitter_id'     => 'required',
-            'rating'        => 'required',
+            'to_user_id'        => 'required',
         ]);
 
         if($validator->fails()) 
@@ -91,14 +91,27 @@ class APIReviewsController extends BaseApiController
         
         $userInfo   = $this->getAuthenticatedUser();
         $input      = $request->all();
-        $input      = array_merge($input, ['user_id' => $userInfo->id ]);
-        $model      = $this->repository->create($input);
+        $input      = array_merge($input, ['from_user_id' => $userInfo->id ]);
+
+
+        if($request->file('image'))
+        {
+            $imageName  = rand(11111, 99999) . '_message.' . $request->file('image')->getClientOriginalExtension();
+            if(strlen($request->file('image')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('image')->move(base_path() . '/public/uploads/messages/', $imageName);
+                $input = array_merge($input, ['image' => $imageName, 'is_image' => 1]);
+            }
+        }
+
+
+        $model = $this->repository->create($input);
 
         if($model)
         {
-            $responseData = $this->reviewsTransformer->transform($model);
+            $responseData = $this->messagesTransformer->transform($model);
 
-            return $this->successResponse($responseData, 'Reviews is Created Successfully');
+            return $this->successResponse($responseData, 'Messages is Created Successfully');
         }
 
         return $this->setStatusCode(400)->failureResponse([
@@ -122,7 +135,7 @@ class APIReviewsController extends BaseApiController
 
             if($itemData)
             {
-                $responseData = $this->reviewsTransformer->transform($itemData);
+                $responseData = $this->messagesTransformer->transform($itemData);
 
                 return $this->successResponse($responseData, 'View Item');
             }
@@ -150,9 +163,9 @@ class APIReviewsController extends BaseApiController
             if($status)
             {
                 $itemData       = $this->repository->getById($itemId);
-                $responseData   = $this->reviewsTransformer->transform($itemData);
+                $responseData   = $this->messagesTransformer->transform($itemData);
 
-                return $this->successResponse($responseData, 'Reviews is Edited Successfully');
+                return $this->successResponse($responseData, 'Messages is Edited Successfully');
             }
         }
 
@@ -178,8 +191,8 @@ class APIReviewsController extends BaseApiController
             if($status)
             {
                 return $this->successResponse([
-                    'success' => 'Reviews Deleted'
-                ], 'Reviews is Deleted Successfully');
+                    'success' => 'Messages Deleted'
+                ], 'Messages is Deleted Successfully');
             }
         }
 

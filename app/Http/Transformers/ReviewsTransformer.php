@@ -19,7 +19,11 @@ class ReviewsTransformer extends Transformer
         }
 
         return [
-            "reviewsId" => (int) $item->id, "reviewsUserId" =>  $item->user_id, "reviewsSitterId" =>  $item->sitter_id, "reviewsRating" =>  $item->rating, "reviewsDescription" =>  $item->description, "reviewsCreatedAt" =>  $item->created_at, "reviewsUpdatedAt" =>  $item->updated_at, 
+            "review_id"         => (int) $item->id, 
+            "user_id"           =>  $item->user_id, 
+            "sitter_id"         =>  $item->sitter_id,
+            "rating"            =>  $item->rating, 
+            "description"       =>  $item->description
         ];
     }
 }

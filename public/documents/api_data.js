@@ -371,6 +371,99 @@ define({ "api": [
     ]
   },
   {
+    "type": "get",
+    "url": "messages",
+    "title": "Get All Message ( Need Headers)",
+    "name": "messages",
+    "group": "Message",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": [\n        {\n            \"message_id\": 10,\n            \"from_user_id\": 3,\n            \"from_user_name\": \"Anuj Jaha - 2\",\n            \"to_user_id\": 1,\n            \"to_user_name\": \"Admin Istrator\",\n            \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n            \"message\": \"This is testing\",\n            \"is_image\": 1,\n            \"is_read\": 0\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( No Messages ):",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Messages!\"\n    },\n    \"status\": false,\n    \"message\": \"No Messages Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Message",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/messages"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "messages/create",
+    "title": "Create Message ( Need Headers)",
+    "name": "messages_create",
+    "group": "Message",
+    "parameter": {
+      "fields": {
+        "Message": [
+          {
+            "group": "Message",
+            "type": "integer",
+            "optional": false,
+            "field": "to_user_id",
+            "description": "<p>TO User Id - Required</p>"
+          },
+          {
+            "group": "Message",
+            "type": "string",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Message - Optional</p>"
+          },
+          {
+            "group": "Message",
+            "type": "file",
+            "optional": false,
+            "field": "image",
+            "description": "<p>Image - Optional</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"message_id\": 10,\n        \"from_user_id\": 3,\n        \"from_user_name\": \"Anuj Jaha - 2\",\n        \"to_user_id\": \"1\",\n        \"to_user_name\": \"Admin Istrator\",\n        \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n        \"message\": \"This is testing\",\n        \"is_image\": 1,\n        \"is_read\": 0\n    },\n    \"status\": true,\n    \"message\": \"Messages is Created Successfully\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( Validation Error ):",
+          "content": "{\n    \"error\": {\n        \"to_user_id\": [\n            \"The to user id field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The to user id field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Message",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/messages/create"
+      }
+    ]
+  },
+  {
     "type": "post",
     "url": "find-sitters",
     "title": "Find Sitters ( Need Headers)",
@@ -647,6 +740,126 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/user-profile"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "reviews/create",
+    "title": "Create Review ( Need Headers)",
+    "name": "reviews_create",
+    "group": "Reviews",
+    "parameter": {
+      "fields": {
+        "Reviews": [
+          {
+            "group": "Reviews",
+            "type": "integer",
+            "optional": false,
+            "field": "sitter_id",
+            "description": "<p>Sitter Id - Required</p>"
+          },
+          {
+            "group": "Reviews",
+            "type": "integer",
+            "optional": false,
+            "field": "rating",
+            "description": "<p>Rating - Required</p>"
+          },
+          {
+            "group": "Reviews",
+            "type": "string",
+            "optional": false,
+            "field": "description",
+            "description": "<p>Description - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( Validation Error ):",
+          "content": "{\n    \"error\": {\n        \"sitter_id\": [\n            \"The sitter id field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The sitter id field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Reviews",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/reviews/create"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "reviews/create",
+    "title": "Create Review ( Need Headers)",
+    "name": "reviews_create",
+    "group": "Reviews",
+    "parameter": {
+      "fields": {
+        "Reviews": [
+          {
+            "group": "Reviews",
+            "type": "integer",
+            "optional": false,
+            "field": "sitter_id",
+            "description": "<p>Sitter Id - Required</p>"
+          },
+          {
+            "group": "Reviews",
+            "type": "integer",
+            "optional": false,
+            "field": "rating",
+            "description": "<p>Rating - Required</p>"
+          },
+          {
+            "group": "Reviews",
+            "type": "string",
+            "optional": false,
+            "field": "description",
+            "description": "<p>Description - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( Validation Error ):",
+          "content": "{\n    \"error\": {\n        \"sitter_id\": [\n            \"The sitter id field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The sitter id field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Reviews",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/reviews/create"
       }
     ]
   },
