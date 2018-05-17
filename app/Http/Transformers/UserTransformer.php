@@ -24,7 +24,7 @@ class UserTransformer extends Transformer
             'state'                 => $this->nulltoBlank($data->state),
             'zip'                   => $this->nulltoBlank($data->zip),
             'gender'                => $this->nulltoBlank($data->gender),
-            'birthday'              => $this->nulltoBlank($data->birthdate),
+            'birthdate'             => $this->nulltoBlank($data->birthdate),
             'notification_count'    => (int) 0,
             'profile_completion'    => (int) 0,
             'status'                => $data->status
@@ -63,7 +63,7 @@ class UserTransformer extends Transformer
             'state'              => $this->nulltoBlank($data->state),
             'zip'                => $this->nulltoBlank($data->zip),
             'gender'             => $this->nulltoBlank($data->gender),
-            'birthday'           => $this->nulltoBlank($data->birthdate),
+            'birthdate'          => $this->nulltoBlank($data->birthdate),
             'notification_count' => (int) 0,
             'profile_completion' => (int) 0,
             'status'             => $data->status
