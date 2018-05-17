@@ -339,6 +339,66 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "find-sitters",
+    "title": "Find Sitters ( Need Headers)",
+    "name": "find_sitters",
+    "group": "Parent___Sitters",
+    "parameter": {
+      "fields": {
+        "Parent - Sitters": [
+          {
+            "group": "Parent - Sitters",
+            "type": "string",
+            "optional": false,
+            "field": "date",
+            "description": "<p>Date - Required</p>"
+          },
+          {
+            "group": "Parent - Sitters",
+            "type": "string",
+            "optional": false,
+            "field": "start_time",
+            "description": "<p>Start Time - Required</p>"
+          },
+          {
+            "group": "Parent - Sitters",
+            "type": "string",
+            "optional": false,
+            "field": "end_time",
+            "description": "<p>End Time - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": [\n        {\n            \"sitter_id\": 1,\n            \"user_id\": 3,\n            \"category\": \"child\",\n            \"about_me\": \"test\",\n            \"description\": \"this is description\",\n            \"email\": \"user@user.com\",\n            \"name\": \"Anuj Jaha - 2\",\n            \"mobile\": \"1223\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"address\": \"Test - Susmita\",\n            \"city\": \"Ahmedabad\",\n            \"state\": \"Gujarat\",\n            \"zip\": \"380001\",\n            \"gender\": \"Female\",\n            \"birthday\": \"04/07/1992\",\n            \"avg_rating\": 2.35,\n            \"reviews\": [\n                {\n                    \"review_by_id\": 3,\n                    \"review_by\": \"Anuj Jaha - 2\",\n                    \"rating\": \"2.4\",\n                    \"description\": \"This is Awesome Developers \",\n                    \"review_by_image\": \"http://nanny-app.local/uploads/user/default.png\"\n                },\n                {\n                    \"review_by_id\": 5,\n                    \"review_by\": \"Anuj Jaha\",\n                    \"rating\": \"2.3\",\n                    \"description\": \"this is another review\",\n                    \"review_by_image\": \"http://nanny-app.local/uploads/user/57299_user.jpg\"\n                }\n            ]\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( No Sitters Found ):",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Sitters!\"\n    },\n    \"status\": false,\n    \"message\": \"No Sitters Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Parent___Sitters",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/find-sitters"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "update-password",
     "title": "Update Password ( Need Headers)",
     "name": "update_password",
@@ -410,7 +470,7 @@ define({ "api": [
             "group": "Register",
             "type": "string",
             "optional": false,
-            "field": "device_id",
+            "field": "device_token",
             "description": "<p>Device Token - Optional</p>"
           },
           {
@@ -598,7 +658,7 @@ define({ "api": [
             "group": "Register",
             "type": "string",
             "optional": false,
-            "field": "device_id",
+            "field": "device_token",
             "description": "<p>Device Token - Optional</p>"
           },
           {

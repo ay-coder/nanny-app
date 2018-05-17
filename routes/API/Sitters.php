@@ -2,6 +2,7 @@
 Route::group(['namespace' => 'Api'], function()
 {
     Route::get('sitters', 'APISittersController@index')->name('sitters.index');
+    Route::post('find-sitters', 'APISittersController@findSitters')->name('sitters.index');
     Route::post('sitters/create', 'APISittersController@create')->name('sitters.create');
     Route::post('sitters/edit', 'APISittersController@edit')->name('sitters.edit');
     Route::post('sitters/show', 'APISittersController@show')->name('sitters.show');

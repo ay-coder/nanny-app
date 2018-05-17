@@ -1,4 +1,4 @@
-<?php namespace App\Models\Sitters\Traits\Relationship;
+<?php namespace App\Models\Reviews\Traits\Relationship;
 
 use App\Models\Access\User\User;
 use App\Models\Reviews\Reviews;
@@ -14,15 +14,4 @@ trait Relationship
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    /**
-     * Belongs to relations with User.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function reviews()
-    {
-        return $this->hasMany(Reviews::class, 'sitter_id');
-    }
-
 }

@@ -2,19 +2,18 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Transformers\SittersTransformer;
+use App\Http\Transformers\ReviewsTransformer;
 use App\Http\Controllers\Api\BaseApiController;
-use App\Repositories\Sitters\EloquentSittersRepository;
+use App\Repositories\Reviews\EloquentReviewsRepository;
 
-
-class APISittersController extends BaseApiController
+class APIReviewsController extends BaseApiController
 {
     /**
-     * Sitters Transformer
+     * Reviews Transformer
      *
      * @var Object
      */
-    protected $sittersTransformer;
+    protected $reviewsTransformer;
 
     /**
      * Repository
@@ -28,7 +27,7 @@ class APISittersController extends BaseApiController
      *
      * @var string
      */
-    protected $primaryKey = 'sittersId';
+    protected $primaryKey = 'reviewsId';
 
     /**
      * __construct
@@ -36,12 +35,12 @@ class APISittersController extends BaseApiController
      */
     public function __construct()
     {
-        $this->repository                       = new EloquentSittersRepository();
-        $this->sittersTransformer = new SittersTransformer();
+        $this->repository                       = new EloquentReviewsRepository();
+        $this->reviewsTransformer = new ReviewsTransformer();
     }
 
     /**
-     * List of All Sitters
+     * List of All Reviews
      *
      * @param Request $request
      * @return json
@@ -51,37 +50,18 @@ class APISittersController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
 
         if(isset($items) && count($items))
         {
-            $itemsOutput = $this->sittersTransformer->transformCollection($items);
+            $itemsOutput = $this->reviewsTransformer->transformCollection($items);
 
             return $this->successResponse($itemsOutput);
         }
 
         return $this->setStatusCode(400)->failureResponse([
-            'message' => 'Unable to find Sitters!'
-            ], 'No Sitters Found !');
-    }
-
-    public function findSitters(Request $request)
-    {
-        $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
-        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
-        $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
-
-        if(isset($items) && count($items))
-        {
-            $itemsOutput = $this->sittersTransformer->transformCollection($items);
-
-            return $this->successResponse($itemsOutput);
-        }
-
-        return $this->setStatusCode(400)->failureResponse([
-            'message' => 'Unable to find Sitters!'
-            ], 'No Sitters Found !');
+            'message' => 'Unable to find Reviews!'
+            ], 'No Reviews Found !');
     }
 
     /**
@@ -96,9 +76,9 @@ class APISittersController extends BaseApiController
 
         if($model)
         {
-            $responseData = $this->sittersTransformer->transform($model);
+            $responseData = $this->reviewsTransformer->transform($model);
 
-            return $this->successResponse($responseData, 'Sitters is Created Successfully');
+            return $this->successResponse($responseData, 'Reviews is Created Successfully');
         }
 
         return $this->setStatusCode(400)->failureResponse([
@@ -122,7 +102,7 @@ class APISittersController extends BaseApiController
 
             if($itemData)
             {
-                $responseData = $this->sittersTransformer->transform($itemData);
+                $responseData = $this->reviewsTransformer->transform($itemData);
 
                 return $this->successResponse($responseData, 'View Item');
             }
@@ -150,9 +130,9 @@ class APISittersController extends BaseApiController
             if($status)
             {
                 $itemData       = $this->repository->getById($itemId);
-                $responseData   = $this->sittersTransformer->transform($itemData);
+                $responseData   = $this->reviewsTransformer->transform($itemData);
 
-                return $this->successResponse($responseData, 'Sitters is Edited Successfully');
+                return $this->successResponse($responseData, 'Reviews is Edited Successfully');
             }
         }
 
@@ -178,8 +158,8 @@ class APISittersController extends BaseApiController
             if($status)
             {
                 return $this->successResponse([
-                    'success' => 'Sitters Deleted'
-                ], 'Sitters is Deleted Successfully');
+                    'success' => 'Reviews Deleted'
+                ], 'Reviews is Deleted Successfully');
             }
         }
 

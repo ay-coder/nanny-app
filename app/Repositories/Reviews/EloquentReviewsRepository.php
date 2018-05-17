@@ -1,30 +1,30 @@
-<?php namespace App\Repositories\Sitters;
+<?php namespace App\Repositories\Reviews;
 
 /**
- * Class EloquentSittersRepository
+ * Class EloquentReviewsRepository
  *
  * @author Anuj Jaha ( er.anujjaha@gmail.com)
  */
 
-use App\Models\Sitters\Sitters;
+use App\Models\Reviews\Reviews;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
 
-class EloquentSittersRepository extends DbRepository
+class EloquentReviewsRepository extends DbRepository
 {
     /**
-     * Sitters Model
+     * Reviews Model
      *
      * @var Object
      */
     public $model;
 
     /**
-     * Sitters Title
+     * Reviews Title
      *
      * @var string
      */
-    public $moduleTitle = 'Sitters';
+    public $moduleTitle = 'Reviews';
 
     /**
      * Table Headers
@@ -34,8 +34,8 @@ class EloquentSittersRepository extends DbRepository
     public $tableHeaders = [
         'id'        => 'Id',
 'user_id'        => 'User_id',
-'category'        => 'Category',
-'about_me'        => 'About_me',
+'sitter_id'        => 'Sitter_id',
+'rating'        => 'Rating',
 'description'        => 'Description',
 'created_at'        => 'Created_at',
 'updated_at'        => 'Updated_at',
@@ -60,15 +60,15 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'category' =>   [
-                'data'          => 'category',
-                'name'          => 'category',
+		'sitter_id' =>   [
+                'data'          => 'sitter_id',
+                'name'          => 'sitter_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'about_me' =>   [
-                'data'          => 'about_me',
-                'name'          => 'about_me',
+		'rating' =>   [
+                'data'          => 'rating',
+                'name'          => 'rating',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -139,13 +139,13 @@ class EloquentSittersRepository extends DbRepository
      * @var array
      */
     public $moduleRoutes = [
-        'listRoute'     => 'sitters.index',
-        'createRoute'   => 'sitters.create',
-        'storeRoute'    => 'sitters.store',
-        'editRoute'     => 'sitters.edit',
-        'updateRoute'   => 'sitters.update',
-        'deleteRoute'   => 'sitters.destroy',
-        'dataRoute'     => 'sitters.get-list-data'
+        'listRoute'     => 'reviews.index',
+        'createRoute'   => 'reviews.create',
+        'storeRoute'    => 'reviews.store',
+        'editRoute'     => 'reviews.edit',
+        'updateRoute'   => 'reviews.update',
+        'deleteRoute'   => 'reviews.destroy',
+        'dataRoute'     => 'reviews.get-list-data'
     ];
 
     /**
@@ -154,10 +154,10 @@ class EloquentSittersRepository extends DbRepository
      * @var array
      */
     public $moduleViews = [
-        'listView'      => 'sitters.index',
-        'createView'    => 'sitters.create',
-        'editView'      => 'sitters.edit',
-        'deleteView'    => 'sitters.destroy',
+        'listView'      => 'reviews.index',
+        'createView'    => 'reviews.create',
+        'editView'      => 'reviews.edit',
+        'deleteView'    => 'reviews.destroy',
     ];
 
     /**
@@ -166,11 +166,11 @@ class EloquentSittersRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model = new Sitters;
+        $this->model = new Reviews;
     }
 
     /**
-     * Create Sitters
+     * Create Reviews
      *
      * @param array $input
      * @return mixed
@@ -189,7 +189,7 @@ class EloquentSittersRepository extends DbRepository
     }
 
     /**
-     * Update Sitters
+     * Update Reviews
      *
      * @param int $id
      * @param array $input
@@ -210,7 +210,7 @@ class EloquentSittersRepository extends DbRepository
     }
 
     /**
-     * Destroy Sitters
+     * Destroy Reviews
      *
      * @param int $id
      * @return mixed
@@ -237,7 +237,7 @@ class EloquentSittersRepository extends DbRepository
      */
     public function getAll($orderBy = 'id', $sort = 'asc')
     {
-        return $this->model->with(['user', 'reviews', 'reviews.user'])->orderBy($orderBy, $sort)->get();
+        return $this->model->orderBy($orderBy, $sort)->get();
     }
 
     /**

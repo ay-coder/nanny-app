@@ -316,19 +316,29 @@ class UsersController extends BaseApiController
 
     /**
      * Logout request
+     * 
      * @param  Request $request
      * @return json
      */
     public function logout(Request $request) 
     {
-        /*$userId = $request->header('UserId');
-        $userToken = $request->header('UserToken');
-        $response = $this->users->deleteUserToken($userId, $userToken);
-        if ($response) {
-            return $this->ApiSuccessResponse(array());
-        } else {
-            return $this->respondInternalError('Error in Logout');
-        }*/
+        $userInfo   = $this->getApiUserInfo();
+        $user       = User::find('id', $userInfo['userId']);
+
+        $user->device_token = '';
+
+        if($user->save()) 
+        {
+             $successResponse = [
+                'message' => 'User Logged out successfully.'
+            ];
+
+            return $this->successResponse($successResponse);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'User Not Found !'
+        ], 'User Not Found !');
     }
 
 }
