@@ -220,6 +220,30 @@
     ]
   },
   {
+    "type": "get",
+    "url": "config",
+    "title": "Config ( No Headers Needed)",
+    "name": "config",
+    "group": "Config",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"support_number\": \"110001010\",\n        \"privacy_policy_url\": \"https://www.google.co.in/\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Config",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/config"
+      }
+    ]
+  },
+  {
     "type": "post",
     "url": "forgotpassword",
     "title": "Forgot Password",
@@ -380,7 +404,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": [\n        {\n            \"message_id\": 10,\n            \"from_user_id\": 3,\n            \"from_user_name\": \"Anuj Jaha - 2\",\n            \"to_user_id\": 1,\n            \"to_user_name\": \"Admin Istrator\",\n            \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n            \"message\": \"This is testing\",\n            \"is_image\": 1,\n            \"is_read\": 0\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": [\n        {\n            \"message_id\": 10,\n            \"from_user_id\": 3,\n            \"from_user_name\": \"Anuj Jaha - 2\",\n            \"to_user_id\": 1,\n            \"to_user_name\": \"Admin Istrator\",\n            \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n            \"message\": \"This is testing\",\n            \"is_image\": 1,\n            \"is_read\": 0,\n            \"message_time\": \"17-05-2018 18:24 pm\"\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -440,7 +464,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"message_id\": 10,\n        \"from_user_id\": 3,\n        \"from_user_name\": \"Anuj Jaha - 2\",\n        \"to_user_id\": \"1\",\n        \"to_user_name\": \"Admin Istrator\",\n        \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n        \"message\": \"This is testing\",\n        \"is_image\": 1,\n        \"is_read\": 0\n    },\n    \"status\": true,\n    \"message\": \"Messages is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"message_id\": 10,\n        \"from_user_id\": 3,\n        \"from_user_name\": \"Anuj Jaha - 2\",\n        \"to_user_id\": \"1\",\n        \"to_user_name\": \"Admin Istrator\",\n        \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n        \"message\": \"This is testing\",\n        \"is_image\": 1,\n        \"is_read\": 0,\n         \"message_time\": \"21-05-2018 04:23 am\"\n    },\n    \"status\": true,\n    \"message\": \"Messages is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -460,6 +484,52 @@
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/messages/create"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "requests/create",
+    "title": "Create Nanny Requests( Need Headers)",
+    "name": "requests_create",
+    "group": "Nanny_Requests",
+    "parameter": {
+      "fields": {
+        "Requests": [
+          {
+            "group": "Requests",
+            "type": "string",
+            "optional": false,
+            "field": "user_request",
+            "description": "<p>User Request - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"request_id\": 3,\n        \"user_id\": 3,\n        \"user_request\": \"this is testing\"\n    },\n    \"status\": true,\n    \"message\": \"Requests is Created Successfully\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "{\n    \"error\": {\n        \"user_request\": [\n            \"The user request field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The user request field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Nanny_Requests",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/requests/create"
       }
     ]
   },
@@ -780,7 +850,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -840,7 +910,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
