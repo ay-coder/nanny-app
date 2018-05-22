@@ -404,7 +404,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": [\n        {\n            \"message_id\": 10,\n            \"from_user_id\": 3,\n            \"from_user_name\": \"Anuj Jaha - 2\",\n            \"to_user_id\": 1,\n            \"to_user_name\": \"Admin Istrator\",\n            \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n            \"message\": \"This is testing\",\n            \"is_image\": 1,\n            \"is_read\": 0,\n            \"message_time\": \"17-05-2018 18:24 pm\"\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": [\n        {\n            \"message_id\": 10,\n            \"from_user_id\": 3,\n            \"from_user_name\": \"Anuj Jaha - 2\",\n            \"to_user_id\": 1,\n            \"to_user_name\": \"Admin Istrator\",\n            \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n            \"message\": \"This is testing\",\n            \"is_image\": 1,\n            \"is_read\": 0,\n            \"is_sender\": 1,\n            \"message_time\": \"17-05-2018 18:24 PM\"\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -464,7 +464,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"message_id\": 10,\n        \"from_user_id\": 3,\n        \"from_user_name\": \"Anuj Jaha - 2\",\n        \"to_user_id\": \"1\",\n        \"to_user_name\": \"Admin Istrator\",\n        \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n        \"message\": \"This is testing\",\n        \"is_image\": 1,\n        \"is_read\": 0,\n         \"message_time\": \"21-05-2018 04:23 am\"\n    },\n    \"status\": true,\n    \"message\": \"Messages is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"message_id\": 10,\n        \"from_user_id\": 3,\n        \"from_user_name\": \"Anuj Jaha - 2\",\n        \"to_user_id\": \"1\",\n        \"to_user_name\": \"Admin Istrator\",\n        \"image\": \"http://nanny-app.local/uploads/babies/16143_message.jpg\",\n        \"message\": \"This is testing\",\n        \"is_image\": 1,\n        \"is_read\": 0,\n        \"is_sender\": 1,\n        \"message_time\": \"21-05-2018 04:23 AM\"\n    },\n    \"status\": true,\n    \"message\": \"Messages is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -590,6 +590,52 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/find-sitters"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "sitters/show",
+    "title": "Show Single Sitter ( Need Headers)",
+    "name": "sitters_show",
+    "group": "Parent___Sitters",
+    "parameter": {
+      "fields": {
+        "Parent - Sitters": [
+          {
+            "group": "Parent - Sitters",
+            "type": "integer",
+            "optional": false,
+            "field": "sitter_id",
+            "description": "<p>Sitter Id - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"sitter_id\": 1,\n        \"user_id\": 3,\n        \"category\": \"Baby Child\",\n        \"about_me\": \"This is aboute me test.\",\n        \"description\": \"Thisi s descrition\",\n        \"email\": \"user@user.com\",\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"1223\",\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/24519_user.jpg\",\n        \"address\": \"Test - Susmita\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Female\",\n        \"birthday\": \"04/07/1992\",\n        \"avg_rating\": 2.325,\n        \"reviews\": [\n            {\n                \"review_by_id\": 3,\n                \"review_by\": \"Anuj Jaha - 2\",\n                \"rating\": \"2.4\",\n                \"description\": \"This is Awesome Developers \",\n                \"review_by_image\": \"http://nanny-app.local/uploads/user/24519_user.jpg\"\n            },\n            {\n                \"review_by_id\": 5,\n                \"review_by\": \"Anuj Jaha\",\n                \"rating\": \"2.3\",\n                \"description\": \"this is another review\",\n                \"review_by_image\": \"http://nanny-app.local/uploads/user/57299_user.jpg\"\n            },\n            {\n                \"review_by_id\": 3,\n                \"review_by\": \"Anuj Jaha - 2\",\n                \"rating\": \"2.3\",\n                \"description\": \"this is teston\",\n                \"review_by_image\": \"http://nanny-app.local/uploads/user/24519_user.jpg\"\n            },\n            {\n                \"review_by_id\": 3,\n                \"review_by\": \"Anuj Jaha - 2\",\n                \"rating\": \"2.3\",\n                \"description\": \"this is teston\",\n                \"review_by_image\": \"http://nanny-app.local/uploads/user/24519_user.jpg\"\n            }\n        ]\n    },\n    \"status\": true,\n    \"message\": \"View Item\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( No Sitters Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs or Item not exists !\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Parent___Sitters",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/sitters/show"
       }
     ]
   },

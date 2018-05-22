@@ -32,7 +32,8 @@ class MessagesTransformer extends Transformer
             "message"           =>  isset($item->message) ? $item->message : '',
             "is_image"          => (int) $item->is_image, 
             "is_read"           => (int) $item->is_read, 
-            "message_time"      => date('d-m-Y H:i a', strtotime($item->created_at))
+            'is_sender'         => ($item->from_user_id == 1 ) ? 0 : 1,
+            "message_time"      => date('d-m-Y H:i A', strtotime($item->created_at))
         ];
     }
 }
