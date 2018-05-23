@@ -25,7 +25,7 @@ class UserTransformer extends Transformer
             'zip'                   => $this->nulltoBlank($data->zip),
             'gender'                => $this->nulltoBlank($data->gender),
             'birthdate'             => $this->nulltoBlank($data->birthdate),
-            'notification_count'    => (int) 0,
+            'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
             'profile_completion'    => (int) 0,
             'status'                => $data->status
         ];
@@ -64,7 +64,7 @@ class UserTransformer extends Transformer
             'zip'                => $this->nulltoBlank($data->zip),
             'gender'             => $this->nulltoBlank($data->gender),
             'birthdate'          => $this->nulltoBlank($data->birthdate),
-            'notification_count' => (int) 0,
+            'notification_count' => (int) access()->getUserUnreadNotificationCount($data->id),
             'profile_completion' => (int) 0,
             'status'             => $data->status
         ];  

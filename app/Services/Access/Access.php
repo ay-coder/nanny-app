@@ -3,6 +3,7 @@
 namespace App\Services\Access;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use App\Models\Notifications\Notifications;
 
 /**
  * Class Access.
@@ -149,5 +150,21 @@ class Access
     public function hasPermissions($permissions, $needsAll = false)
     {
         return $this->allowMultiple($permissions, $needsAll);
+    }
+
+    /**
+     * Get Notification Count
+     * 
+     * @param int $userId
+     * @return int
+     */
+    public function getUserUnreadNotificationCount($userId = null)
+    {
+        if($userId)
+        {
+            return Notifications::where(['user_id' => $userId, 'is_read' => 0])->count();
+        }
+
+        return 0;
     }
 }

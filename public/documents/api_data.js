@@ -534,6 +534,39 @@ define({ "api": [
     ]
   },
   {
+    "type": "get",
+    "url": "notifications",
+    "title": "User Notifications ( Headers Needed)",
+    "name": "notifications",
+    "group": "Notifications",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": [\n        {\n            \"notification_id\": 1,\n            \"user_id\": 3,\n            \"user_name\": \"Anuj Jaha - 2\",\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Backend User\",\n            \"icon\": \"http://nanny-app.local/uploads/notifications/default.png\",\n            \"description\": \"Job Done\",\n            \"is_read\": 0,\n            \"read_time\": \"\",\n            \"created_at\": \"01-01-1970 00:00 AM\"\n        },\n        {\n            \"notification_id\": 2,\n            \"user_id\": 3,\n            \"user_name\": \"Anuj Jaha - 2\",\n            \"sitter_id\": 5,\n            \"sitter_name\": \"Anuj Jaha\",\n            \"icon\": \"http://nanny-app.local/uploads/notifications/default.png\",\n            \"description\": \"Job Started\",\n            \"is_read\": 0,\n            \"read_time\": \"\",\n            \"created_at\": \"01-01-1970 00:00 AM\"\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "{\n    \"error\": {\n        \"error\": \"User not Found !\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Notifications",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/notifications"
+      }
+    ]
+  },
+  {
     "type": "post",
     "url": "find-sitters",
     "title": "Find Sitters ( Need Headers)",
@@ -896,7 +929,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -956,7 +989,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
