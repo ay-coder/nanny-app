@@ -221,6 +221,132 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "booking",
+    "title": "User Bookings ( Headers Needed)",
+    "name": "booking",
+    "group": "Booking",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "    {\n    \"data\": [\n        {\n            \"booking_id\": 1,\n            \"user_id\": 1,\n            \"sitter_id\": 1,\n            \"sitter_name\": \"Admin Istrator\",\n            \"sitter_rating\": \"2.33\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 1,\n            \"booking_date\": \"2018-05-24\",\n            \"start_time\": \"10:23:17\",\n            \"end_time\": \"10:23:19\",\n            \"booking_startime\": \"2018-05-24 08:17:18\",\n            \"booking_endtime\": \"2018-05-24 08:22:22\",\n            \"booking_status\": \"PENDING\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 3,\n                    \"title\": \"Anuj New Name\",\n                    \"birthdate\": \"01/01/1992\",\n                    \"age\": 26,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n                },\n                {\n                    \"baby_id\": 4,\n                    \"title\": \"New Name\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/40242_baby.\"\n                },\n                {\n                    \"baby_id\": 5,\n                    \"title\": \"New Name\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n                },\n                {\n                    \"baby_id\": 6,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 2,\n            \"user_id\": 3,\n            \"sitter_id\": 1,\n            \"sitter_name\": \"Admin Istrator\",\n            \"sitter_rating\": \"2.33\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\":\"2018-01-01 10:50:00\",\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 3,\n            \"user_id\": 3,\n            \"sitter_id\": 1,\n            \"sitter_name\": \"Admin Istrator\",\n            \"sitter_rating\": \"2.33\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": \"2018-01-01 11:50:00\",\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 4,\n            \"user_id\": 3,\n            \"sitter_id\": 1,\n            \"sitter_name\": \"Admin Istrator\",\n            \"sitter_rating\": \"2.33\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 1,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": \"2018-01-01 11:50:00\",\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 3,\n                    \"title\": \"Anuj New Name\",\n                    \"birthdate\": \"01/01/1992\",\n                    \"age\": 26,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n                }\n            ]\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "    {\n        \"error\": {\n            \"error\": \"User not Found !\"\n        },\n        \"status\": false,\n        \"message\": \"Something went wrong !\",\n        \"code\": 400\n    }\n\n\n*",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response - Booking Not Found :",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Booking!\"\n    },\n    \"status\": false,\n    \"message\": \"No Booking Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Booking",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/booking"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "booking/create",
+    "title": "Create New Booking ( Need Headers)",
+    "name": "booking_create",
+    "group": "Booking",
+    "parameter": {
+      "fields": {
+        "Booking": [
+          {
+            "group": "Booking",
+            "type": "integer",
+            "optional": false,
+            "field": "sitter_id",
+            "description": "<p>Sitter ID - Required</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "integer",
+            "optional": false,
+            "field": "baby_id",
+            "description": "<p>Baby ID - Required</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "string",
+            "optional": false,
+            "field": "booking_date",
+            "description": "<p>Booking Date - Required</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "string",
+            "optional": false,
+            "field": "start_time",
+            "description": "<p>Start Time - Required</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "string",
+            "optional": false,
+            "field": "end_time",
+            "description": "<p>End Time - Required</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "integer",
+            "optional": false,
+            "field": "is_multiple",
+            "description": "<p>Is Multiple ( Flag 0/1) - Optional</p>"
+          },
+          {
+            "group": "Booking",
+            "type": "string",
+            "optional": false,
+            "field": "baby_ids",
+            "description": "<p>Multiple Baby Ids ( like 1,2,3) - Optional</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"booking_id\": 8,\n        \"user_id\": 3,\n        \"sitter_id\": 1,\n        \"sitter_name\": \"Admin Istrator\",\n        \"sitter_rating\": \"2.33\",\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"baby_id\": \"1\",\n        \"is_multiple\": \"1\",\n        \"booking_date\": \"2018-01-01\",\n        \"start_time\": \"10:50\",\n        \"end_time\": \"12:50\",\n        \"booking_startime\": \"2018-01-01 10:50:00\",\n        \"booking_endtime\": \"2018-01-01 12:50:00\",\n        \"booking_status\": \"REQUESTED\",\n        \"babies\": [\n            {\n                \"baby_id\": 1,\n                \"title\": \"New Name - updatd\",\n                \"birthdate\": \"01/01/2014\",\n                \"age\": 4,\n                \"description\": \"This is test Baby.\",\n                \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n            },\n            {\n                \"baby_id\": 1,\n                \"title\": \"New Name - updatd\",\n                \"birthdate\": \"01/01/2014\",\n                \"age\": 4,\n                \"description\": \"This is test Baby.\",\n                \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n            },\n            {\n                \"baby_id\": 3,\n                \"title\": \"Anuj New Name\",\n                \"birthdate\": \"01/01/1992\",\n                \"age\": 26,\n                \"description\": \"This is test Baby.\",\n                \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n            }\n        ]\n    },\n    \"status\": true,\n    \"message\": \"Booking is Created Successfully\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( Validation Error ):",
+          "content": "    {\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Booking",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/booking/create"
+      }
+    ]
+  },
+  {
+    "type": "get",
     "url": "config",
     "title": "Config ( No Headers Needed)",
     "name": "config",
@@ -929,7 +1055,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -989,7 +1115,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is test review\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"review_id\": 4,\n        \"user_id\": 3,\n        \"sitter_id\": \"1\",\n        \"rating\": \"2.3\",\n        \"description\": \"this is teston\"\n    },\n    \"status\": true,\n    \"message\": \"Reviews is Created Successfully\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
