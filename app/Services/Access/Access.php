@@ -4,6 +4,7 @@ namespace App\Services\Access;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Notifications\Notifications;
+use App\Models\Reviews\Reviews;
 
 /**
  * Class Access.
@@ -163,6 +164,24 @@ class Access
         if($userId)
         {
             return Notifications::where(['user_id' => $userId, 'is_read' => 0])->count();
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get Average Rating
+     * 
+     * @param int $sitterId
+     * @return int
+     */
+    public function getAverageRating($sitterId = null)
+    {
+        $reviews = Reviews::select('id', 'rating')->where('sitter_id', $sitterId)->get();
+
+        if(isset($reviews) && count($reviews))
+        {
+            return number_format($reviews->sum('rating') / count($reviews), 2);
         }
 
         return 0;
