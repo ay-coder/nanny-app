@@ -29,6 +29,7 @@ class BookingTransformer extends Transformer
             "user_id"           => (int) $item->user_id,
             "sitter_id"         => (int) $item->sitter_id,
             'sitter_name'       =>  $sitter->name,
+            'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
             'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
             'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
             "baby_id"           =>  $item->baby_id, 
