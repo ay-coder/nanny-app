@@ -1279,5 +1279,38 @@
         "url": "http://35.154.84.230/nanny/public/api/register"
       }
     ]
+  },
+  {
+    "type": "get",
+    "url": "plans",
+    "title": "Subscription Plans ( Headers Required)",
+    "name": "plans",
+    "group": "Subscription_Plans",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": [\n        {\n            \"plan_id\": 1,\n            \"title\": \"1 Reservation\",\n            \"sub_title\": \"Single\",\n            \"amount\": 20,\n            \"description\": \"This is single plan\",\n            \"plan_type\": \"A\"\n        },\n        {\n            \"plan_id\": 2,\n            \"title\": \"10 Reservations\",\n            \"sub_title\": \"Multiple\",\n            \"amount\": 25,\n            \"description\": \"10 Reservations\",\n            \"plan_type\": \"B\"\n        },\n        {\n            \"plan_id\": 3,\n            \"title\": \"Unlimited Reservations\",\n            \"sub_title\": \"Unlimited\",\n            \"amount\": 59,\n            \"description\": \"Unlimited \",\n            \"plan_type\": \"C\"\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Plan Found ):",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Plans!\"\n    },\n    \"status\": false,\n    \"message\": \"No Plans Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Subscription_Plans",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/plans"
+      }
+    ]
   }
 ]
