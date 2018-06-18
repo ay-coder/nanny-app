@@ -297,6 +297,18 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
+     * Get All Past Booking
+     *
+     * @param string $orderBy
+     * @param string $sort
+     * @return mixed
+     */
+    public function getAllPast($orderBy = 'id', $sort = 'asc')
+    {
+        return $this->model->whereIn('booking_status', ['COMPLETED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
+    }
+
+    /**
      * Get by Id
      *
      * @param int $id

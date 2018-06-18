@@ -347,6 +347,44 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "past-booking",
+    "title": "User Past Bookings ( Headers Needed)",
+    "name": "past_booking",
+    "group": "Booking",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "    {\n    \"data\": [\n        {\n            \"booking_id\": 1,\n            \"user_id\": 1,\n            \"sitter_id\": 1,\n            \"sitter_name\": \"Admin Istrator\",\n            \"sitter_contact\": \"8000060541\",\n            \"sitter_rating\": \"2.33\",\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 1,\n            \"booking_date\": \"2018-05-24\",\n            \"start_time\": \"10:23:17\",\n            \"end_time\": \"10:23:19\",\n            \"booking_startime\": \"2018-05-24 08:17:18\",\n            \"booking_endtime\": \"2018-05-24 08:22:22\",\n            \"booking_status\": \"COMPLETED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 3,\n                    \"title\": \"Anuj New Name\",\n                    \"birthdate\": \"01/01/1992\",\n                    \"age\": 26,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n                },\n                {\n                    \"baby_id\": 4,\n                    \"title\": \"New Name\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/40242_baby.\"\n                },\n                {\n                    \"baby_id\": 5,\n                    \"title\": \"New Name\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n                },\n                {\n                    \"baby_id\": 6,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/default.png\"\n                }\n            ]\n        },\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response - User Not Found :",
+          "content": "    {\n        \"error\": {\n            \"error\": \"User not Found !\"\n        },\n        \"status\": false,\n        \"message\": \"Something went wrong !\",\n        \"code\": 400\n    }\n\n\n*",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response - Booking Not Found :",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Booking!\"\n    },\n    \"status\": false,\n    \"message\": \"No Booking Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Booking",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/past-booking"
+      }
+    ]
+  },
+  {
+    "type": "get",
     "url": "config",
     "title": "Config ( No Headers Needed)",
     "name": "config",
@@ -795,6 +833,39 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/sitters/show"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "profile-completion",
+    "title": "Profile Completion ( Headers Required)",
+    "name": "profile_completion",
+    "group": "Profile",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "    {\n\t    \"data\": {\n\t        \"name\": true,\n\t        \"gender\": true,\n\t        \"mobile\": true,\n\t        \"address\": true,\n\t        \"birthdate\": true,\n\t        \"profile_completion_count\": 100\n\t    },\n\t    \"status\": true,\n\t    \"message\": \"Success\",\n\t    \"code\": 200\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Plan Found ):",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Plans!\"\n    },\n    \"status\": false,\n    \"message\": \"No Plans Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Profile",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/profile-completion"
       }
     ]
   },

@@ -287,4 +287,61 @@ class UsersController extends BaseApiController
 
         return $this->successResponse($successResponse);
     }
+
+    public function profileCompletion(Request $request)
+    {
+    	$userInfo = $this->getAuthenticatedUser();
+
+    	if(isset($userInfo) && isset($userInfo->id))
+		{
+			$count 	= 0;
+			$mobile = $gender = $address = $birthdate = $name 	= false;
+
+			if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
+			{
+				$count 	= $count + 20;
+				$name 	= true;
+			}
+
+			if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
+			{
+				$count 		= $count + 20;
+				$gender 	= true;
+			}
+
+			
+			if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
+			{
+				$count 		= $count + 20;
+				$mobile 	= true;
+			}
+
+			if(isset($userInfo->address) && strlen($userInfo->address) > 2)
+			{
+				$count 		= $count + 20;
+				$address 	= true;
+			}
+
+			if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
+			{
+				$count 		= $count + 20;
+				$birthdate 	= true;
+			}
+
+			$successResponse = [
+				'name'							=> $name,
+				'gender'						=> $gender,
+				'mobile'						=> $mobile,
+				'address'						=> $address,
+				'birthdate'						=> $birthdate,
+	            'profile_completion_count' 		=> (int) $count
+	        ];	
+
+	        return $this->successResponse($successResponse);
+		}
+    	
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'User Not Found !'
+        ], 'User Not Found !');
+    }
 }

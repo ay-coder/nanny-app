@@ -66,6 +66,31 @@ class APIBookingController extends BaseApiController
     }
 
     /**
+     * Past Bookings
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function pastBookings(Request $request)
+    {
+        $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
+        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
+        $order      = $request->get('order') ? $request->get('order') : 'ASC';
+        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
+
+        if(isset($items) && count($items))
+        {
+            $itemsOutput = $this->bookingTransformer->transformCollection($items);
+
+            return $this->successResponse($itemsOutput);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
+
+    /**
      * Create
      *
      * @param Request $request
