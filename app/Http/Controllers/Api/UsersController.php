@@ -77,7 +77,167 @@ class UsersController extends BaseApiController
 
         return $this->successResponse($responseData);
     }
+
+    /**
+     * Login request
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function socialLogin(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'social_token'      => 'required',
+            'social_provider'   => 'required'
+        ]);
+
+        if($validator->fails()) 
+        {
+            $messageData = '';
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+
+       
+        $user = User::where([
+                'social_provider'   => $request->get('social_provider'),
+                'social_token'      => $request->get('social_token')])->first();
+        
+        if(isset($user) && $user->id)
+        {
+            Auth::loginUsingId($user->id, true);
+
+            if($request->get('device_token') && $request->get('device_type'))
+            {
+                $user = Auth::user();
+                $user->device_type  = $request->get('device_type');
+                $user->device_token = $request->get('device_token');
+                $user->save();
+            }
+
+            $user       = Auth::user()->toArray();
+            $token      = JWTAuth::fromUser(Auth::user());
+            $userData   = array_merge($user, ['token' => $token]);
+            $responseData = $this->userTransformer->transform((object)$userData);
+
+            return $this->successResponse($responseData);
+        }
+
+        return response()->json([
+            'error'     => 'Invalid Credentials',
+            'message'   => 'No User Found for given details',
+            'status'    => false,
+            ], 401);
+    }
     
+     /**
+     * socialCreate
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function socialCreate(Request $request)
+    {
+        $repository = new UserRepository;
+        $input      = $request->all();
+        $input      = array_merge($input, ['profile_pic' => 'default.png']);
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+        $validator = Validator::make($request->all(), [
+            'email'             => 'required|unique:users|max:255',
+            'social_token'      => 'required|unique:users|max:255',
+            'social_provider'   => 'required'
+        ]);
+
+        if($validator->fails()) 
+        {
+            $messageData = '';
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+        $user = $repository->createSocialUserStub($input);
+        if($user)
+        {
+            Auth::loginUsingId($user->id, true);
+
+            $user           = Auth::user()->toArray();
+            $token          = JWTAuth::fromUser(Auth::user());
+            $userData       = array_merge($user, ['token' => $token]);  
+            $responseData   = $this->userTransformer->transform((object)$userData);
+            return $this->successResponse($responseData);
+        }
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+            ], 'Something went wrong !');
+    }
+
+    /**
+     * Create
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function create(Request $request)
+    {
+        $repository = new UserRepository;
+        $input      = $request->all();
+        $input      = array_merge($input, ['profile_pic' => 'default.png']);
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+        $validator = Validator::make($request->all(), [
+            'email'     => 'required|unique:users|max:255',
+            'name'      => 'required',
+            'password'  => 'required',
+        ]);
+        if($validator->fails()) 
+        {
+            $messageData = '';
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+        $user = $repository->createUserStub($input);
+        if($user)
+        {
+            Auth::loginUsingId($user->id, true);
+            $credentials = [
+                'email'     => $input['email'],
+                'password'  => $input['password']
+            ];
+            
+            $token          = JWTAuth::attempt($credentials);
+            $user           = Auth::user()->toArray();
+            $userData       = array_merge($user, ['token' => $token]);  
+            $responseData   = $this->userTransformer->transform((object)$userData);
+            return $this->successResponse($responseData);
+        }
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+            ], 'Something went wrong !');
+    }
+
     /**
      * Forgot Password
      *

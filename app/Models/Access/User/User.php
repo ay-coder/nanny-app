@@ -55,7 +55,9 @@ class User extends Authenticatable
         'state',
         'zip',
         'lat',
-        'long'
+        'long',
+        'social_provider',
+        'social_token'
     ];
 
     /**

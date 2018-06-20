@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Api',], function ()
 {
     Route::post('login', 'UsersController@login')->name('api.login');
     Route::post('register', 'UsersController@create')->name('api.register');
+    Route::post('social-register', 'UsersController@socialCreate')->name('api.social-register');
+    Route::post('social-login', 'UsersController@socialLogin')->name('api.login');
     Route::post('forgotpassword', 'UsersController@forgotPassword')->name('api.forgotPassword');
     Route::get('config', 'UsersController@config')->name('api.config');
     Route::get('profile-completion', 'UsersController@profileCompletion')->name('api.profile-completion');

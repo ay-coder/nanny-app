@@ -526,6 +526,73 @@ define({ "api": [
     ]
   },
   {
+    "type": "post",
+    "url": "social-login",
+    "title": "Social Login",
+    "name": "social_login",
+    "group": "Login",
+    "parameter": {
+      "fields": {
+        "Login": [
+          {
+            "group": "Login",
+            "type": "string",
+            "optional": false,
+            "field": "social_provider",
+            "description": "<p>Provider ( Gmail / Facebook ) - Required</p>"
+          },
+          {
+            "group": "Login",
+            "type": "string",
+            "optional": false,
+            "field": "social_token",
+            "description": "<p>Social Media Token ( Valid Token )  - Required</p>"
+          },
+          {
+            "group": "Login",
+            "type": "string",
+            "optional": false,
+            "field": "device_token",
+            "description": "<p>Device-Token - Required</p>"
+          },
+          {
+            "group": "Login",
+            "type": "integer",
+            "optional": false,
+            "field": "device_type",
+            "description": "<p>Device-Type ( 1 / 2) - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"error\": \"Invalid Credentials\",\n    \"message\": \"No User Found for given details\",\n    \"status\": false\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Login",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/social-login"
+      }
+    ]
+  },
+  {
     "type": "get",
     "url": "logout",
     "title": "Logout ( Need Headers)",
@@ -1348,6 +1415,85 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/register"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "social-register",
+    "title": "Social Signup -Nanny APp",
+    "name": "social_register",
+    "group": "Signup_Register",
+    "parameter": {
+      "fields": {
+        "Register": [
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "email",
+            "description": "<p>User Email ( Valid Email) - Required</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "social_provider",
+            "description": "<p>Social Provider (Gmail, Facebook) - Required</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "social_token",
+            "description": "<p>Social Provider Token (Valid Token) - Required</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "device_token",
+            "description": "<p>Device Token - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "device_type",
+            "description": "<p>iOS/Android(1/2) - Optional</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"error\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The email has already been taken.\",\n    \"code\": 200\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"error\": {\n        \"password\": [\n            \"The password field is required.\"\n        ]\n    },\n    \"status\": false,\n    \"message\": \"The password field is required.\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Signup_Register",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/social-register"
       }
     ]
   },

@@ -346,9 +346,44 @@ class UserRepository extends BaseRepository
     public function createUserStub($input)
     {
         $userData = [
-            'name'          => $input['name'],
+            'name'          => isset($input['name']) ? $input['name'] : '',
             'email'         => $input['email'],
-            'password'      => bcrypt($input['password']),
+            'password'      => isset($input['password']) ? bcrypt($input['password']) : bcrypt($input['email']),
+            'status'        => 1,
+            'confirmed'     => 1,
+            'device_token'  => isset($input['device_token']) ? $input['device_token']: '',
+            'mobile'        => isset($input['mobile']) ? $input['mobile']: '',
+            'device_type'   => isset($input['device_type']) ? $input['device_type']: '',
+            'profile_pic'   => isset($input['profile_pic']) ? $input['profile_pic']: 'default.png',
+            'user_type'     => isset($input['user_type']) ? $input['user_type']: 1,
+            'gender'        => isset($input['gender']) ? $input['gender']: '',
+            'birthdate'     => isset($input['birthdate']) ? $input['birthdate']: '',
+            'address'       => isset($input['address']) ? $input['address']: '',
+            'city'          => isset($input['city']) ? $input['city']: '',
+            'state'         => isset($input['state']) ? $input['state']: '',
+            'zip'           => isset($input['zip']) ? $input['zip']: '',
+            'lat'           => isset($input['lat']) ? $input['lat']: '',
+            'long'          => isset($input['long']) ? $input['long']: ''
+        ];
+        
+        $user = User::create($userData);
+        return $user;
+    }
+
+    /**
+     * @param  $input
+     *
+     * @return mixed
+     */
+    public function createSocialUserStub($input)
+    {
+        $userData = [
+            'name'              => isset($input['name']) ? $input['name'] : '',
+            'email'             => $input['email'],
+            'social_provider'   => $input['social_provider'],
+            'social_token'   => $input['social_token'],
+            'email'             => $input['email'],
+            'password'      => isset($input['password']) ? bcrypt($input['password']) : bcrypt($input['email']),
             'status'        => 1,
             'confirmed'     => 1,
             'device_token'  => isset($input['device_token']) ? $input['device_token']: '',
