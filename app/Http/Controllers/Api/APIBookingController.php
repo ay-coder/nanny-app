@@ -80,7 +80,7 @@ class APIBookingController extends BaseApiController
 
         if(isset($items) && count($items))
         {
-            $itemsOutput = $this->bookingTransformer->transformCollection($items);
+            $itemsOutput = $this->bookingTransformer->pastBookingTransform($items);
 
             return $this->successResponse($itemsOutput);
         }
