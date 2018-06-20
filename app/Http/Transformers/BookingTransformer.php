@@ -116,7 +116,7 @@ class BookingTransformer extends Transformer
                 "additional_fees"   => 5,
                 "other_charges"     => 3,
                 'per_hour'          => 10,
-                'total_hours'       => 2,
+                'total_hours'       => "2 hrs",
                 'sitter_total'      => 20,
                 "babies"            => []
             ];
