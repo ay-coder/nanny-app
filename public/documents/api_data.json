@@ -502,7 +502,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -569,7 +569,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNjE4OTM5OCwiZXhwIjoxNTU3NzI1Mzk4LCJuYmYiOjE1MjYxODkzOTgsImp0aSI6IjZUQ1gzUkF2M1A4OXpuWXEifQ.pzYX2psZW3YgTICK-uyh058sEzZmG7nT7Cd-3gMiE48\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -1082,7 +1082,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTgwMDk0OSwiZXhwIjoxNTU3MzM2OTQ5LCJuYmYiOjE1MjU4MDA5NDksImp0aSI6ImlEN3dKd3U4RUtyRHdUNUIifQ.JU2T_95oEEayz8pBQi_sQuqjlSJawo72Z9Tc7TiSaOc\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"email\": \"user@user.com\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL25hbm55LWFwcC5sb2NhbFwvYXBpXC9sb2dpbiIsImlhdCI6MTUyNTgwMDk0OSwiZXhwIjoxNTU3MzM2OTQ5LCJuYmYiOjE1MjU4MDA5NDksImp0aSI6ImlEN3dKd3U4RUtyRHdUNUIifQ.JU2T_95oEEayz8pBQi_sQuqjlSJawo72Z9Tc7TiSaOc\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"email\": \"user@user.com\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -1128,7 +1128,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 3,\n        \"user_token\": \"\",\n        \"email\": \"user@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"asjdfjkl7676736\",\n        \"device_type\": 2,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"Susmita Flat Vasna\",\n        \"city\": \"Ahmedabad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"380001\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/02/1992\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -1390,7 +1390,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]
@@ -1461,6 +1461,69 @@
             "optional": false,
             "field": "device_type",
             "description": "<p>iOS/Android(1/2) - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "name",
+            "description": "<p>User Name - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "gender",
+            "description": "<p>User Gender - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "birthdate",
+            "description": "<p>Birth date - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "user_type",
+            "description": "<p>Parent/Sitter( 1 / 2) - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "address",
+            "description": "<p>User Address - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "city",
+            "description": "<p>User City - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "state",
+            "description": "<p>User State - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "integer",
+            "optional": false,
+            "field": "zip",
+            "description": "<p>User Zip - Optional</p>"
+          },
+          {
+            "group": "Register",
+            "type": "string",
+            "optional": false,
+            "field": "profile_pic",
+            "description": "<p>User Avatar ( Image file ) - Optional</p>"
           }
         ]
       }
@@ -1469,7 +1532,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "content": "{\n    \"data\": {\n        \"user_id\": 17,\n        \"user_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOlwvXC9uYW5ueS1hcHAubG9jYWxcL2FwaVwvcmVnaXN0ZXIiLCJpYXQiOjE1MjYxODk1NTEsImV4cCI6MTU1NzcyNTU1MSwibmJmIjoxNTI2MTg5NTUxLCJqdGkiOiJJU01HQm5DanVueW10d2xvIn0.lyD-X5aY_UiSxleKTaWnU8KRK6OJUVwE1Fb73F5CBU4\",\n        \"email\": \"use21r11111340@user.com\",\n        \"user_type\": 1,\n        \"name\": \"Anuj Jaha\",\n        \"mobile\": \"80000605541\",\n        \"device_token\": \"kjdljf738473\",\n        \"device_type\": 1,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"test\",\n        \"city\": \"Abad\",\n        \"state\": \"Gujarat\",\n        \"zip\": \"389489\",\n        \"gender\": \"Male\",\n        \"birthdate\": \"01/01/1991\",\n        \"notification_count\": 0,\n        \"profile_completion\": 0,\n        \"status\": 1,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
           "type": "json"
         }
       ]

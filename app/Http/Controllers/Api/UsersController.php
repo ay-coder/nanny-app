@@ -141,18 +141,31 @@ class UsersController extends BaseApiController
      */
     public function socialCreate(Request $request)
     {
-        $repository = new UserRepository;
-        $input      = $request->all();
-        $input      = array_merge($input, ['profile_pic' => 'default.png']);
-        if($request->file('profile_pic'))
+        $validator = Validator::make($request->all(), [
+            'social_token'      => 'required',
+            'social_provider'   => 'required'
+        ]);
+
+        if($validator->fails()) 
         {
-            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
-            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            $messageData = '';
+            foreach($validator->messages()->toArray() as $message)
             {
-                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
-                $input = array_merge($input, ['profile_pic' => $imageName]);
+                $messageData = $message[0];
             }
+            return $this->failureResponse($validator->messages(), $messageData);
         }
+
+        $user = User::where([
+                'social_provider'   => $request->get('social_provider'),
+                'social_token'      => $request->get('social_token')])->first();
+        
+        if(isset($user) && $user->id)
+        {
+            return $this->socialLogin($request);
+        }
+
+        
         $validator = Validator::make($request->all(), [
             'email'             => 'required|unique:users|max:255',
             'social_token'      => 'required|unique:users|max:255',
@@ -168,6 +181,22 @@ class UsersController extends BaseApiController
             }
             return $this->failureResponse($validator->messages(), $messageData);
         }
+
+        $status = $this->socialLogin($request);
+
+        $repository = new UserRepository;
+        $input      = $request->all();
+        $input      = array_merge($input, ['profile_pic' => 'default.png']);
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+       
         $user = $repository->createSocialUserStub($input);
         if($user)
         {

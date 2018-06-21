@@ -27,7 +27,9 @@ class UserTransformer extends Transformer
             'birthdate'             => $this->nulltoBlank($data->birthdate),
             'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
             'profile_completion'    => (int) 0,
-            'status'                => $data->status
+            'status'                => $data->status,
+            'social_provider'       => $this->nulltoBlank($data->social_provider),
+            'social_token'          => $this->nulltoBlank($data->social_token)
         ];
     }
 
@@ -66,7 +68,9 @@ class UserTransformer extends Transformer
             'birthdate'          => $this->nulltoBlank($data->birthdate),
             'notification_count' => (int) access()->getUserUnreadNotificationCount($data->id),
             'profile_completion' => (int) 0,
-            'status'             => $data->status
+            'status'             => $data->status,
+            'social_provider'    => $this->nulltoBlank($data->social_provider),
+            'social_token'       => $this->nulltoBlank($data->social_token)
         ];  
     }
     
