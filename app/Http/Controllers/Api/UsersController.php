@@ -115,6 +115,18 @@ class UsersController extends BaseApiController
                 $user = Auth::user();
                 $user->device_type  = $request->get('device_type');
                 $user->device_token = $request->get('device_token');
+                
+
+                if($request->file('profile_image'))
+                {
+                    $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_image')->getClientOriginalExtension();
+                    if(strlen($request->file('profile_image')->getClientOriginalExtension()) > 0)
+                    {
+                        $request->file('profile_image')->move(base_path() . '/public/uploads/user/', $imageName);
+                        $user->profile_pic = $imageName;
+                    }
+                }
+
                 $user->save();
             }
 
