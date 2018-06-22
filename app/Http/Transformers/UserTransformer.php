@@ -9,6 +9,7 @@ class UserTransformer extends Transformer
 {
     public function transform($data) 
     {
+        $profileCompletion = access()->userProfileCompletion($data);
         return [
             'user_id'               => (int) $data->id,
             'user_token'            => $this->nulltoBlank($data->token),
@@ -26,7 +27,7 @@ class UserTransformer extends Transformer
             'gender'                => $this->nulltoBlank($data->gender),
             'birthdate'             => $this->nulltoBlank($data->birthdate),
             'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
-            'profile_completion'    => (int) 0,
+            'profile_completion'    => (int) $profileCompletion['profile_completion_count'],
             'status'                => $data->status,
             'social_provider'       => $this->nulltoBlank($data->social_provider),
             'social_token'          => $this->nulltoBlank($data->social_token)
@@ -50,6 +51,8 @@ class UserTransformer extends Transformer
             $userToken  = $token[1];
         }
 
+        $profileCompletion = access()->userProfileCompletion($data);
+        
         return [
             'user_id'            => (int) $data->id,
             'user_token'         => $userToken,
@@ -67,7 +70,7 @@ class UserTransformer extends Transformer
             'gender'             => $this->nulltoBlank($data->gender),
             'birthdate'          => $this->nulltoBlank($data->birthdate),
             'notification_count' => (int) access()->getUserUnreadNotificationCount($data->id),
-            'profile_completion' => (int) 0,
+            'profile_completion' => (int) $profileCompletion['profile_completion_count'],
             'status'             => $data->status,
             'social_provider'    => $this->nulltoBlank($data->social_provider),
             'social_token'       => $this->nulltoBlank($data->social_token)
