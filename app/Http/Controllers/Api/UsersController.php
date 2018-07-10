@@ -397,7 +397,7 @@ class UsersController extends BaseApiController
         {
             $userObj = new User;
 
-            $user = $userObj->find($userInfo['userId']);
+            $user = $userObj->with('babies')->where('id', $userInfo['userId'])->first();
 
             if($user)
             {
