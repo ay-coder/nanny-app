@@ -5,6 +5,7 @@ namespace App\Services\Access;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Notifications\Notifications;
 use App\Models\Reviews\Reviews;
+use App\Models\Babies\Babies;
 
 /**
  * Class Access.
@@ -243,5 +244,23 @@ class Access
             'birthdate'                     => $birthdate,
             'profile_completion_count'      => (int) $count
         ];
+    }
+
+    /**
+     * Get User BabyCount
+     * 
+     * @param int $userId
+     * @return int
+     */
+    public function getUserBabyCount($userId = null)
+    {
+        if($userId)
+        {
+            $baby = new Babies;
+
+            return $baby->where('parent_id', $userId)->count();
+        }
+
+        return 0;
     }
 }

@@ -61,7 +61,6 @@ class UsersController extends BaseApiController
                     ], 500);
         }
         
-
         if($request->get('device_token') && $request->get('device_type'))
         {
             $user = Auth::user();
@@ -70,7 +69,9 @@ class UsersController extends BaseApiController
             $user->save();
         }
 
-        $user = Auth::user()->with('babies')->first()->toArray();
+        $user = Auth::user()->toArray();
+        
+
         $userData = array_merge($user, ['token' => $token]);
 
         $responseData = $this->userTransformer->transform((object)$userData);

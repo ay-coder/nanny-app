@@ -29,7 +29,7 @@ class UserTransformer extends Transformer
             'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
             'profile_completion'    => (int) $profileCompletion['profile_completion_count'],
             'status'                => $data->status,
-            'baby_count'            => (int) (isset($data->babies) ? count($data->babies) : 0),
+            'baby_count'            => (int) access()->getUserBabyCount($data->id),
             'social_provider'       => $this->nulltoBlank($data->social_provider),
             'social_token'          => $this->nulltoBlank($data->social_token)
         ];
