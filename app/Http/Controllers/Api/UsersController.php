@@ -70,7 +70,7 @@ class UsersController extends BaseApiController
             $user->save();
         }
 
-        $user = Auth::user()->toArray();
+        $user = Auth::user()->with('babies')->first()->toArray();
         $userData = array_merge($user, ['token' => $token]);
 
         $responseData = $this->userTransformer->transform((object)$userData);
