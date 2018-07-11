@@ -26,6 +26,7 @@ class BabiesTransformer extends Transformer
             "birthdate"     =>  isset($item->birthdate) ? $item->birthdate : '',
             "age"           =>  isset($item->age) ? (int) $item->age : 0,
             "description"   =>  isset($item->description) ? $item->description : '', 
+            "baby_count"    => isset($item->user->babies) ? count($item->user->babies) : 0,
             "image"         =>  URL::to('/').'/uploads/babies/'.$item->image
         ];
     }
