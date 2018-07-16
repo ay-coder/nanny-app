@@ -6,6 +6,7 @@ use App\Models\Event\Event;
 use App\Models\System\Session;
 use App\Models\Access\User\SocialLogin;
 use App\Models\Babies\Babies;
+use App\Models\Sitters\Sitters;
 
 /**
  * Class UserRelationship.
@@ -53,4 +54,13 @@ trait UserRelationship
     {
         return $this->hasMany(Babies::class, 'parent_id');
     }    
+
+    /**
+     * @return mixed
+     */
+    public function sitter()
+    {
+        return $this->hasOne(Sitters::class, 'user_id');
+    }
+    
 }

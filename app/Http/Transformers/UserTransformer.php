@@ -44,12 +44,16 @@ class UserTransformer extends Transformer
     public function sitterTranform($data) 
     {
         $profileCompletion  = access()->userProfileCompletion($data);
-        $sitterMode         = access()->sitterMode($data->id);
+        $data->sitter       = (object) $data->sitter;
+        $sitterMode         = $data->sitter->vacation_mode;
+
 
         return [
             'user_id'               => (int) $data->id,
             'user_token'            => $this->nulltoBlank($data->token),
             'email'                 => $this->nulltoBlank($data->email),
+            'about_me'              => $data->sitter->about_me,
+            'description'           => $data->sitter->description,
             'user_type'             => isset($data->user_type) ? (int) $data->user_type : 0,
             'name'                  => $this->nulltoBlank($data->name),
             'mobile'                => $this->nulltoBlank($data->mobile),

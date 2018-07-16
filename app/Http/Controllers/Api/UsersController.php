@@ -18,6 +18,7 @@ use App\Http\Utilities\FileUploads;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuthExceptions\JWTException;
 use App\Http\Controllers\Api\BaseApiController;
+use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Repositories\Backend\Access\User\UserRepository;
 use Auth;
 
@@ -115,10 +116,9 @@ class UsersController extends BaseApiController
             $user->save();
         }
 
-        $user = Auth::user()->toArray();
-        
-
-        $userData = array_merge($user, ['token' => $token]);
+        $userInfo   = Auth::user();
+        $user       = User::where('id', $userInfo->id)->with('sitter')->first()->toArray();
+        $userData   = array_merge($user, ['token' => $token]);
 
         $responseData = $this->userTransformer->sitterTranform((object)$userData);
 
@@ -355,6 +355,36 @@ class UsersController extends BaseApiController
             return $this->setStatusCode(400)->failureResponse([
                 'error' => 'User not Found !'
             ], 'Something went wrong !');
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Something went wrong !');
+    }
+
+    /**
+     * Change Password
+     * 
+     * @param Request $request
+     * @return string
+     */
+    public function changePassword(Request $request)
+    {
+        if($request->get('password'))
+        {
+            $userInfo = $this->getAuthenticatedUser();
+            $userInfo->password = bcrypt($request->get('password'));
+
+            if ($userInfo->save()) 
+            {
+                event(new UserPasswordChanged($userInfo));
+
+                $successResponse = [
+                    'message' => 'Password Updated successfully.'
+                ];
+            
+                return $this->successResponse($successResponse);
+            }
         }
 
         return $this->setStatusCode(400)->failureResponse([

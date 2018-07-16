@@ -1562,6 +1562,52 @@
   },
   {
     "type": "post",
+    "url": "change-password",
+    "title": "Change Password - Sitter App",
+    "name": "change_password",
+    "group": "Sitter",
+    "parameter": {
+      "fields": {
+        "Password": [
+          {
+            "group": "Password",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>Password - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n {\n    \"data\": {\n        \"message\": \"Password Updated successfully.\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Plan Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Sitter",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/change-password"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "sitter-login",
     "title": "Login-Sitter App",
     "name": "sitter_login",
