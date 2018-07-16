@@ -85,6 +85,52 @@ class UsersController extends BaseApiController
      * @param Request $request
      * @return type
      */
+    public function sitterLogin(Request $request) 
+    {
+        $credentials = $request->only('email', 'password');
+
+        try {
+            // verify the credentials and create a token for the user
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                    'error'     => 'Invalid Credentials',
+                    'message'   => 'No User Found for given details',
+                    'status'    => false,
+                    ], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong
+            return response()->json([
+                    'error'     => 'Somethin Went Wrong!',
+                    'message'   => 'Unable to Generate Token!',
+                    'status'    => false,
+                    ], 500);
+        }
+        
+        if($request->get('device_token') && $request->get('device_type'))
+        {
+            $user = Auth::user();
+            $user->device_type  = $request->get('device_type');
+            $user->device_token = $request->get('device_token');
+            $user->save();
+        }
+
+        $user = Auth::user()->toArray();
+        
+
+        $userData = array_merge($user, ['token' => $token]);
+
+        $responseData = $this->userTransformer->sitterTranform((object)$userData);
+
+        return $this->successResponse($responseData);
+    }
+
+    /**
+     * Login request
+     * 
+     * @param Request $request
+     * @return type
+     */
     public function socialLogin(Request $request) 
     {
         $validator = Validator::make($request->all(), [

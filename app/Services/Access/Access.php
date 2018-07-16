@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Notifications\Notifications;
 use App\Models\Reviews\Reviews;
 use App\Models\Babies\Babies;
+use App\Models\Sitters\Sitters;
 
 /**
  * Class Access.
@@ -259,6 +260,27 @@ class Access
             $baby = new Babies;
 
             return $baby->where('parent_id', $userId)->count();
+        }
+
+        return 0;
+    }
+
+    /**
+     * Sitter Mode
+     * 
+     * @param int $sitterId
+     * @return int
+     */
+    public function sitterMode($sitterId = null)
+    {
+        if($sitterId)
+        {
+            $sitter = Sitters::where('user_id', $sitterId)->first();
+
+            if($sitter)
+            {
+                return $sitter->vacation_mode;
+            }
         }
 
         return 0;

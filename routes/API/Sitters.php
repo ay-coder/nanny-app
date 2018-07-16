@@ -7,5 +7,9 @@ Route::group(['namespace' => 'Api'], function()
     Route::post('sitters/edit', 'APISittersController@edit')->name('sitters.edit');
     Route::post('sitters/show', 'APISittersController@show')->name('sitters.show');
     Route::post('sitters/delete', 'APISittersController@delete')->name('sitters.delete');
+    
+    Route::get('sitters/calendar', 'APISittersController@getMyCalendar')->name('sitters.calendar');
+
+    Route::post('sitters/vacation', 'APISittersController@vacationMode')->name('sitters.vacation');
 });
 ?>

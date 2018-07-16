@@ -9,7 +9,7 @@ class UserTransformer extends Transformer
 {
     public function transform($data) 
     {
-        $profileCompletion = access()->userProfileCompletion($data);
+        $profileCompletion  = access()->userProfileCompletion($data);
         return [
             'user_id'               => (int) $data->id,
             'user_token'            => $this->nulltoBlank($data->token),
@@ -34,6 +34,44 @@ class UserTransformer extends Transformer
             'social_token'          => $this->nulltoBlank($data->social_token)
         ];
     }
+
+    /**
+     * Sitter Tranform
+     * 
+     * @param object $data
+     * @return array
+     */
+    public function sitterTranform($data) 
+    {
+        $profileCompletion  = access()->userProfileCompletion($data);
+        $sitterMode         = access()->sitterMode($data->id);
+
+        return [
+            'user_id'               => (int) $data->id,
+            'user_token'            => $this->nulltoBlank($data->token),
+            'email'                 => $this->nulltoBlank($data->email),
+            'user_type'             => isset($data->user_type) ? (int) $data->user_type : 0,
+            'name'                  => $this->nulltoBlank($data->name),
+            'mobile'                => $this->nulltoBlank($data->mobile),
+            'device_token'          => $this->nulltoBlank($data->device_token),
+            'device_type'           => isset($data->device_type) ? (int) $data->device_type : 0,
+            'profile_pic'           => URL::to('/').'/uploads/user/' . $data->profile_pic, 
+            'address'               => $this->nulltoBlank($data->address),
+            'city'                  => $this->nulltoBlank($data->city),
+            'state'                 => $this->nulltoBlank($data->state),
+            'zip'                   => $this->nulltoBlank($data->zip),
+            'gender'                => $this->nulltoBlank($data->gender),
+            'birthdate'             => $this->nulltoBlank($data->birthdate),
+            'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
+            'profile_completion'    => (int) $profileCompletion['profile_completion_count'],
+            'status'                => $data->status,
+            'baby_count'            => (int) access()->getUserBabyCount($data->id),
+            'social_provider'       => $this->nulltoBlank($data->social_provider),
+            'social_token'          => $this->nulltoBlank($data->social_token),
+            'vacation_mode'         => $sitterMode
+        ];
+    }
+    
 
     /**
      * Update User

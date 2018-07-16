@@ -24,7 +24,7 @@ class Sitters extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "user_id", "category", "about_me", "description", "created_at", "updated_at", 
+        "id", "user_id", "vacation_mode", "category", "about_me", "description", "created_at", "updated_at", 
     ];
 
     /**
