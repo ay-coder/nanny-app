@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Transformers\SittersTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Sitters\EloquentSittersRepository;
+use App\Repositories\Booking\EloquentBookingRepository;
 use App\Models\Booking\Booking;
 use App\Models\Sitters\Sitters;
 
@@ -242,6 +243,58 @@ class APISittersController extends BaseApiController
         }
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter or Invalid Input!'
+            ], 'No Sitter Found or Invalid Input !');
+    }
+
+    /**
+     * Vacation Mode
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function activeBookings(Request $request)
+    {
+        $bookingRepo    = new EloquentBookingRepository;
+        $userInfo       = $this->getAuthenticatedUser();
+        $items          = $bookingRepo->getSitterActiveBookings($userInfo->id);
+
+        
+        if(isset($items) && count($items))
+        {
+            $itemsOutput = $this->sittersTransformer->calendarTransform($items);
+
+            return $this->successResponse($itemsOutput);   
+        }
+            
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Sitter Bookings!'
+            ], 'No Sitter Found or Invalid Input !');
+    }
+
+    /**
+     * Vacation Mode
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function pastBookings(Request $request)
+    {
+        $bookingRepo    = new EloquentBookingRepository;
+        $userInfo       = $this->getAuthenticatedUser();
+        $items          = $bookingRepo->getSitterPastBookings($userInfo->id);
+
+        
+        if(isset($items) && count($items))
+        {
+            $itemsOutput = $this->sittersTransformer->calendarTransform($items);
+
+            return $this->successResponse($itemsOutput);   
+        }
+            
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Sitter Bookings!'
             ], 'No Sitter Found or Invalid Input !');
     }
 }

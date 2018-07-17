@@ -410,4 +410,44 @@ class EloquentBookingRepository extends DbRepository
 
         return json_encode($this->setTableStructure($clientColumns));
     }
+
+    /**
+     * Get Sitter Active Bookings 
+     * 
+     * @param int $sitterId
+     * @return array
+     */
+    public function getSitterActiveBookings($sitterId = null)
+    {
+        if($sitterId)
+        {
+            return $this->model->with(['user', 'sitter', 'baby'])
+            ->where('sitter_id', $sitterId)
+            ->whereDate('booking_date', '>=', date('Y-m-d'))
+            ->whereNotIn('booking_status', ['COMPLETED'])
+            ->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Sitter Past Bookings 
+     * 
+     * @param int $sitterId
+     * @return array
+     */
+    public function getSitterPastBookings($sitterId = null)
+    {
+        if($sitterId)
+        {
+            return $this->model->with(['user', 'sitter', 'baby'])
+            ->where('sitter_id', $sitterId)
+            ->whereDate('booking_date', '<', date('Y-m-d'))
+            ->whereNotIn('booking_status', ['CANCELED'])
+            ->get();
+        }
+
+        return false;
+    }
 }

@@ -11,5 +11,9 @@ Route::group(['namespace' => 'Api'], function()
     Route::get('sitters/calendar', 'APISittersController@getMyCalendar')->name('sitters.calendar');
 
     Route::post('sitters/vacation', 'APISittersController@vacationMode')->name('sitters.vacation');
+
+    Route::get('sitters/active-bookings', 'APISittersController@activeBookings')->name('sitters.active-bookings');
+
+    Route::get('sitters/past-bookings', 'APISittersController@pastBookings')->name('sitters.past-bookings');
 });
 ?>

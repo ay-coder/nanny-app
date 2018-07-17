@@ -43,6 +43,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'jwt.customauth'], function 
     Route::post('change-password', 'UsersController@changePassword')->name('api.change-password');
     
     Route::post('update-user-profile', 'UsersController@updageUserProfile')->name('api.update-user-profile');
+
+    Route::post('update-sitter-profile', 'UsersController@updageSitterProfile')->name('api.update-sitter-profile');
+
+
     Route::post('update-password', 'UsersController@updageUserPassword')->name('api.update-user-password');
     Route::get('logout', 'UsersController@logout')->name('api.logout');
 });

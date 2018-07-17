@@ -1675,6 +1675,39 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "sitters/active-bookings",
+    "title": "Active Bookings - Sitter App",
+    "name": "sitters_active_bookings",
+    "group": "Sitter",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n    {\n    \"data\": [\n        {\n            \"booking_id\": 1,\n            \"user_id\": 1,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-05-24\",\n            \"start_time\": \"10:23:17\",\n            \"end_time\": \"10:23:19\",\n            \"booking_startime\": \"2018-05-24 08:17:18\",\n            \"booking_endtime\": \"2018-05-24 08:22:22\",\n            \"booking_status\": \"COMPLETED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 3,\n            \"user_id\": 3,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": null,\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 8,\n            \"user_id\": 3,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 1,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": \"2018-01-01 10:50:00\",\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 3,\n                    \"title\": \"Anuj New Name\",\n                    \"birthdate\": \"01/01/1992\",\n                    \"age\": 26,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n                }\n            ]\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Booking Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Sitter",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/sitters/active-bookings"
+      }
+    ]
+  },
+  {
+    "type": "get",
     "url": "sitters/calendar",
     "title": "Get Calendar ( Headers Required)",
     "name": "sitters_calendar",
@@ -1703,6 +1736,39 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/sitters/calendar"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "sitters/past-bookings",
+    "title": "Past Bookings - Sitter App",
+    "name": "sitters_past_bookings",
+    "group": "Sitter",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n    {\n    \"data\": [\n        {\n            \"booking_id\": 1,\n            \"user_id\": 1,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-05-24\",\n            \"start_time\": \"10:23:17\",\n            \"end_time\": \"10:23:19\",\n            \"booking_startime\": \"2018-05-24 08:17:18\",\n            \"booking_endtime\": \"2018-05-24 08:22:22\",\n            \"booking_status\": \"COMPLETED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 3,\n            \"user_id\": 3,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 0,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": null,\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                }\n            ]\n        },\n        {\n            \"booking_id\": 8,\n            \"user_id\": 3,\n            \"sitter_id\": 2,\n            \"sitter_name\": \"Anuj Jaha - 2\",\n            \"sitter_contact\": \"\",\n            \"sitter_rating\": 0,\n            \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n            \"baby_id\": 1,\n            \"is_multiple\": 1,\n            \"booking_date\": \"2018-01-01\",\n            \"start_time\": \"10:50:00\",\n            \"end_time\": \"12:50:00\",\n            \"booking_startime\": \"2018-01-01 10:50:00\",\n            \"booking_endtime\": \"2018-01-01 12:50:00\",\n            \"booking_status\": \"REQUESTED\",\n            \"babies\": [\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 1,\n                    \"title\": \"New Name - updatd\",\n                    \"birthdate\": \"01/01/2014\",\n                    \"age\": 4,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/82052_baby.jpg\"\n                },\n                {\n                    \"baby_id\": 3,\n                    \"title\": \"Anuj New Name\",\n                    \"birthdate\": \"01/01/1992\",\n                    \"age\": 26,\n                    \"description\": \"This is test Baby.\",\n                    \"image\": \"http://nanny-app.local/uploads/babies/90492_baby.\"\n                }\n            ]\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Booking Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Sitter",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/sitters/past-bookings"
       }
     ]
   },
@@ -1749,6 +1815,80 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://35.154.84.230/nanny/public/api/sitters/vacation"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "update-sitter-profile",
+    "title": "Update Profile - Sitter App",
+    "name": "update_sitter_profile",
+    "group": "Sitter",
+    "parameter": {
+      "fields": {
+        "Update": [
+          {
+            "group": "Update",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Name - Optional</p>"
+          },
+          {
+            "group": "Update",
+            "type": "string",
+            "optional": false,
+            "field": "about_me",
+            "description": "<p>About Me - Optional</p>"
+          },
+          {
+            "group": "Update",
+            "type": "integer",
+            "optional": false,
+            "field": "vacation_mode",
+            "description": "<p>Vacation Mode ( 0 / 1) - Optional</p>"
+          },
+          {
+            "group": "Update",
+            "type": "string",
+            "optional": false,
+            "field": "description",
+            "description": "<p>Description - Optional</p>"
+          },
+          {
+            "group": "Update",
+            "type": "string",
+            "optional": false,
+            "field": "category",
+            "description": "<p>Category - Optional</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n     {\n    \"data\": {\n        \"user_id\": 2,\n        \"user_token\": \"\",\n        \"email\": \"executive@executive.com\",\n        \"about_me\": true,\n        \"category\": \"Baby Child\",\n        \"vacation_mode\": 1,\n        \"description\": \"Thisi s descrition\",\n        \"user_type\": 0,\n        \"name\": \"Anuj Jaha - 2\",\n        \"mobile\": \"\",\n        \"device_token\": \"\",\n        \"device_type\": 0,\n        \"profile_pic\": \"http://nanny-app.local/uploads/user/default.png\",\n        \"address\": \"\",\n        \"city\": \"\",\n        \"state\": \"\",\n        \"zip\": \"\",\n        \"gender\": \"\",\n        \"birthdate\": \"\",\n        \"notification_count\": 0,\n        \"profile_completion\": 20,\n        \"status\": 1,\n        \"baby_count\": 0,\n        \"social_provider\": \"\",\n        \"social_token\": \"\"\n    },\n    \"status\": true,\n    \"message\": \"Success\",\n    \"code\": 200\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Sitter Found ):",
+          "content": "{\n    \"error\": {\n        \"reason\": \"Invalid Inputs\"\n    },\n    \"status\": false,\n    \"message\": \"Something went wrong !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Sitter",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/update-sitter-profile"
       }
     ]
   },

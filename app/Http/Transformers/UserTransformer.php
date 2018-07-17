@@ -45,15 +45,15 @@ class UserTransformer extends Transformer
     {
         $profileCompletion  = access()->userProfileCompletion($data);
         $data->sitter       = (object) $data->sitter;
-        $sitterMode         = $data->sitter->vacation_mode;
-
-
+        
         return [
             'user_id'               => (int) $data->id,
             'user_token'            => $this->nulltoBlank($data->token),
             'email'                 => $this->nulltoBlank($data->email),
-            'about_me'              => $data->sitter->about_me,
-            'description'           => $data->sitter->description,
+            'about_me'              => $this->nulltoBlank($data->sitter->about_me),
+            'category'              => $this->nulltoBlank($data->sitter->category),
+            'vacation_mode'         => (int) $data->sitter->vacation_mode,
+            'description'           => $this->nulltoBlank($data->sitter->description),
             'user_type'             => isset($data->user_type) ? (int) $data->user_type : 0,
             'name'                  => $this->nulltoBlank($data->name),
             'mobile'                => $this->nulltoBlank($data->mobile),
@@ -72,7 +72,7 @@ class UserTransformer extends Transformer
             'baby_count'            => (int) access()->getUserBabyCount($data->id),
             'social_provider'       => $this->nulltoBlank($data->social_provider),
             'social_token'          => $this->nulltoBlank($data->social_token),
-            'vacation_mode'         => $sitterMode
+            'user_type '            => 2
         ];
     }
     
@@ -120,7 +120,7 @@ class UserTransformer extends Transformer
             'social_token'       => $this->nulltoBlank($data->social_token)
         ];  
     }
-    
+
     public function getUserInfo($data) 
     {
         return [
