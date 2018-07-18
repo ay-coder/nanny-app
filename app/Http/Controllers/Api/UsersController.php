@@ -126,6 +126,34 @@ class UsersController extends BaseApiController
     }
 
     /**
+     * Sitter Profile request
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function sitterProfile(Request $request) 
+    {
+        
+        $userInfo = $this->getAuthenticatedUser();
+        $user       = User::where('id', $userInfo->id)->with('sitter')->first()->toArray();
+
+        $headerToken = request()->header('Authorization');
+
+        if($headerToken)
+        {
+            $token      = explode(" ", $headerToken);
+            $userToken  = $token[1];
+        }
+
+        
+        $userData   = array_merge($user, ['token' => $userToken]);
+
+        $responseData = $this->userTransformer->sitterTranform((object)$userData);
+
+        return $this->successResponse($responseData);
+    }
+
+    /**
      * Login request
      * 
      * @param Request $request

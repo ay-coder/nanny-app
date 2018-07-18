@@ -2,6 +2,7 @@
 Route::group(['namespace' => 'Api'], function()
 {
     Route::get('sitters', 'APISittersController@index')->name('sitters.index');
+    
     Route::post('find-sitters', 'APISittersController@findSitters')->name('sitters.index');
     Route::post('sitters/create', 'APISittersController@create')->name('sitters.create');
     Route::post('sitters/edit', 'APISittersController@edit')->name('sitters.edit');
@@ -15,5 +16,7 @@ Route::group(['namespace' => 'Api'], function()
     Route::get('sitters/active-bookings', 'APISittersController@activeBookings')->name('sitters.active-bookings');
 
     Route::get('sitters/past-bookings', 'APISittersController@pastBookings')->name('sitters.past-bookings');
+
+    Route::post('sitters/add-timings', 'APISittersController@addTimings')->name('sitters.add-timings');
 });
 ?>

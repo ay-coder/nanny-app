@@ -297,4 +297,45 @@ class APISittersController extends BaseApiController
             'message' => 'Unable to find Sitter Bookings!'
             ], 'No Sitter Found or Invalid Input !');
     }
+
+    /**
+     * Add Timings Mode
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function addTimings(Request $request)
+    {
+        $userInfo       = $this->getAuthenticatedUser();
+        $sitter         = Sitters::where('user_id', $userInfo->id)->first();
+
+        if($sitter)
+        {
+            if($request->has('sitter_start_time'))
+            {
+                $sitter->sitter_start_time = date("H:i:s", strtotime($request->get('sitter_start_time')));
+            }
+
+            if($request->has('sitter_end_time'))
+            {
+                $sitter->sitter_end_time = date("H:i:s", strtotime($request->get('sitter_end_time')));
+            }
+        }
+
+        if($sitter->save())
+        {
+            $message = "Updated Sitter Timings";
+
+            return $this->successResponse([
+                'success' => 'Sitter Timings Updated'
+            ], $message);
+        }
+            
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Sitter!'
+            ], 'No Sitter Found or Invalid Input !');
+    }
+
+
 }

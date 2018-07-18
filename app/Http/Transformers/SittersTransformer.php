@@ -89,6 +89,7 @@ class SittersTransformer extends Transformer
                 "booking_id"        => (int) $item->id,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
+                "user_name"         =>  $user->name,
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),

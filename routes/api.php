@@ -46,6 +46,8 @@ Route::group(['namespace' => 'Api', 'middleware' => 'jwt.customauth'], function 
 
     Route::post('update-sitter-profile', 'UsersController@updageSitterProfile')->name('api.update-sitter-profile');
 
+    Route::get('sitter-profile', 'UsersController@sitterProfile')->name('api.sitter-profile');
+
 
     Route::post('update-password', 'UsersController@updageUserPassword')->name('api.update-user-password');
     Route::get('logout', 'UsersController@logout')->name('api.logout');
