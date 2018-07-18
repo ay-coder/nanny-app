@@ -103,6 +103,10 @@ class SittersTransformer extends Transformer
                 "booking_startime"  =>  $item->booking_start_time, 
                 "booking_endtime"   =>  $item->booking_end_time, 
                 "booking_status"    =>  $item->booking_status, 
+                'address'           => $this->nulltoBlank($user->address),
+                'city'              => $this->nulltoBlank($user->city),
+                'state'             => $this->nulltoBlank($user->state),
+                'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => []
             ];
 
