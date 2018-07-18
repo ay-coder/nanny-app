@@ -43,7 +43,6 @@ class UserTransformer extends Transformer
      */
     public function sitterTranform($data) 
     {
-        $profileCompletion  = access()->userProfileCompletion($data);
         $data->sitter       = (object) $data->sitter;
         
         return [
@@ -68,12 +67,10 @@ class UserTransformer extends Transformer
             'gender'                => $this->nulltoBlank($data->gender),
             'birthdate'             => $this->nulltoBlank($data->birthdate),
             'notification_count'    => (int) access()->getUserUnreadNotificationCount($data->id),
-            'profile_completion'    => (int) $profileCompletion['profile_completion_count'],
             'status'                => $data->status,
-            'baby_count'            => (int) access()->getUserBabyCount($data->id),
             'social_provider'       => $this->nulltoBlank($data->social_provider),
             'social_token'          => $this->nulltoBlank($data->social_token),
-            'user_type '            => 2
+            'user_type'             => 2
         ];
     }
     

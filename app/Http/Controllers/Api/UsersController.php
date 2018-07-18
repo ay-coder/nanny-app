@@ -569,6 +569,9 @@ class UsersController extends BaseApiController
         unset($input['about_me']);
         unset($input['description']);
         unset($input['category']);
+        unset($input['vacation_mode']);
+        unset($input['sitter_start_time']);
+        unset($input['sitter_end_time']);
 
         $status = $repository->updateUserStub($userInfo['userId'], $input);
 
@@ -580,24 +583,33 @@ class UsersController extends BaseApiController
 
             if($request->has('about_me'))
             {
-                $user->sitter->about_me = $request->has('about_me');
+                $user->sitter->about_me = $request->get('about_me');
             }
 
             if($request->has('category'))
             {
-                $user->sitter->category = $request->has('category');
+                $user->sitter->category = $request->get('category');
             }
 
             if($request->has('description'))
             {
-                $user->sitter->description = $request->has('description');
+                $user->sitter->description = $request->get('description');
             }
 
             if($request->has('vacation_mode'))
             {
-                $user->sitter->vacation_mode = $request->has('vacation_mode');
+                $user->sitter->vacation_mode = $request->get('vacation_mode');
+            }
+            
+            if($request->has('sitter_start_time'))
+            {
+                $user->sitter->sitter_start_time = $request->get('sitter_start_time');
             }
 
+            if($request->has('sitter_end_time'))
+            {
+                $user->sitter->sitter_end_time = $request->get('sitter_end_time');
+            }
 
             if($user)
             {
