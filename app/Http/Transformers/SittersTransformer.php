@@ -106,7 +106,7 @@ class SittersTransformer extends Transformer
                 "babies"            => []
             ];
 
-            if(isset($baby))
+            if(isset($baby) && isset($baby->id))
             {
                 $babyData[$sr] = [
                     'baby_id'       => (int) $baby->id,
