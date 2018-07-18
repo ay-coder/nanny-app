@@ -94,6 +94,7 @@ class SittersTransformer extends Transformer
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
                 'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
+                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic, 
                 "baby_id"           =>  $item->baby_id, 
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
                 "booking_date"      =>  $item->booking_date, 
