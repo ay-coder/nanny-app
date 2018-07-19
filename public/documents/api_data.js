@@ -1608,6 +1608,52 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "booking/cancel",
+    "title": "Cancel Booking - Sitter App",
+    "name": "booking_cancel",
+    "group": "Sitter",
+    "parameter": {
+      "fields": {
+        "Sitter": [
+          {
+            "group": "Sitter",
+            "type": "integer",
+            "optional": false,
+            "field": "booking_id",
+            "description": "<p>Booking Id - Required</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\n{\n        \"data\": {\n            \"success\": \"Booking Canceled by Sitter\"\n        },\n        \"status\": true,\n        \"message\": \"Booking Canceled by Sitter\",\n        \"code\": 200\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response ( NO Booking Found ):",
+          "content": "{\n    \"error\": {\n        \"message\": \"Unable to find Booking!\"\n    },\n    \"status\": false,\n    \"message\": \"No Booking Found !\",\n    \"code\": 400\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "nanny-input/example.js",
+    "groupTitle": "Sitter",
+    "sampleRequest": [
+      {
+        "url": "http://35.154.84.230/nanny/public/api/booking/cancel"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "booking/reject",
     "title": "Reject Booking - Sitter App",
     "name": "booking_reject",

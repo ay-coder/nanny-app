@@ -11,6 +11,7 @@ Route::group(['namespace' => 'Api'], function()
 
     Route::post('booking/accept', 'APIBookingController@accept')->name('booking.accept');
     Route::post('booking/reject', 'APIBookingController@reject')->name('booking.reject');
+    Route::post('booking/cancel', 'APIBookingController@cancel')->name('booking.cancel');
 
     Route::post('booking/start', 'APIBookingController@start')->name('booking.start');
     Route::post('booking/stop', 'APIBookingController@stop')->name('booking.stop');
