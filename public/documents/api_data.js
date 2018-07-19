@@ -1708,7 +1708,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "booking/stop",
-    "title": "Start Booking - Sitter App",
+    "title": "Stop Booking - Sitter App",
     "name": "booking_stop",
     "group": "Sitter",
     "parameter": {
@@ -1726,7 +1726,7 @@ define({ "api": [
             "type": "datetime",
             "optional": false,
             "field": "booking_end_time",
-            "description": "<p>Booking Start Time ( Y-m-d H:i:s) - Required</p>"
+            "description": "<p>Booking End Time ( Y-m-d H:i:s) - Required</p>"
           }
         ]
       }
