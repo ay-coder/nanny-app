@@ -225,4 +225,145 @@ class APIBookingController extends BaseApiController
             'reason' => 'Invalid Inputs'
         ], 'Something went wrong !');
     }
+
+    /**
+     * Accept
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function accept(Request $request)
+    {
+        if($request->has('booking_id'))
+        {
+            $userInfo       = $this->getAuthenticatedUser();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $request->get('booking_id'),
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'REQUESTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $bookingInfo->booking_status = 'ACCEPTED';
+                if($bookingInfo->save())
+                {
+                    return $this->successResponse([
+                        'success' => 'Booking Accepted by Sitter'
+                    ], 'Booking Accepted by Sitter');
+                }
+            }
+        }
+        
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
+
+    /* Reject
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function reject(Request $request)
+    {
+        if($request->has('booking_id'))
+        {
+            $userInfo       = $this->getAuthenticatedUser();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $request->get('booking_id'),
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'REQUESTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $bookingInfo->booking_status = 'REJECTED';
+                if($bookingInfo->save())
+                {
+                    return $this->successResponse([
+                        'success' => 'Booking Rejected by Sitter'
+                    ], 'Booking Rejected by Sitter');
+                }
+            }
+        }
+        
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
+
+    /**
+     * Start
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function start(Request $request)
+    {
+        if($request->has('booking_id') && $request->has('booking_start_time'))
+        {
+            $userInfo       = $this->getAuthenticatedUser();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $request->get('booking_id'),
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'ACCEPTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $startTime = date('Y-m-d H:i:s', strtotime($request->get('booking_start_time')));
+                $bookingInfo->booking_status     = 'STARTED';
+                $bookingInfo->booking_start_time = $startTime;
+
+                if($bookingInfo->save())
+                {
+                    return $this->successResponse([
+                        'success' => 'Booking Started by Sitter'
+                    ], 'Booking Started by Sitter');
+                }
+            }
+        }
+        
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
+
+    /**
+     * Stop
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function stop(Request $request)
+    {
+        if($request->has('booking_id') && $request->has('booking_end_time'))
+        {
+            $userInfo       = $this->getAuthenticatedUser();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $request->get('booking_id'),
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'STARTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $stopTime = date('Y-m-d H:i:s', strtotime($request->get('booking_end_time')));
+                $bookingInfo->booking_status     = 'COMPLETED';
+                $bookingInfo->booking_end_time = $stopTime;
+
+                if($bookingInfo->save())
+                {
+                    return $this->successResponse([
+                        'success' => 'Booking Completed by Sitter'
+                    ], 'Booking Completed by Sitter');
+                }
+            }
+        }
+        
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
 }
