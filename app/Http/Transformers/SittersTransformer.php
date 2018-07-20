@@ -31,7 +31,7 @@ class SittersTransformer extends Transformer
         }
         
         $response =  [
-            "sitter_id"             => (int) $item->id, 
+            "sitter_id"             => (int) $item->user_id, 
             "user_id"               => $item->user_id, 
             "category"              => $item->category, 
             "about_me"              => $item->about_me, 

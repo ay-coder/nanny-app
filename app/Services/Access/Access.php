@@ -285,4 +285,9 @@ class Access
 
         return 0;
     }
+
+    public function getSitterPerHour($sitterId = null)
+    {
+        return 10;
+    }
 }

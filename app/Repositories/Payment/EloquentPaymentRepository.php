@@ -1,30 +1,30 @@
-<?php namespace App\Repositories\Booking;
+<?php namespace App\Repositories\Payment;
 
 /**
- * Class EloquentBookingRepository
+ * Class EloquentPaymentRepository
  *
  * @author Anuj Jaha ( er.anujjaha@gmail.com)
  */
 
-use App\Models\Booking\Booking;
+use App\Models\Payment\Payment;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
 
-class EloquentBookingRepository extends DbRepository
+class EloquentPaymentRepository extends DbRepository
 {
     /**
-     * Booking Model
+     * Payment Model
      *
      * @var Object
      */
     public $model;
 
     /**
-     * Booking Title
+     * Payment Title
      *
      * @var string
      */
-    public $moduleTitle = 'Booking';
+    public $moduleTitle = 'Payment';
 
     /**
      * Table Headers
@@ -33,17 +33,19 @@ class EloquentBookingRepository extends DbRepository
      */
     public $tableHeaders = [
         'id'        => 'Id',
-'user_id'        => 'User_id',
+'booking_id'        => 'Booking_id',
 'sitter_id'        => 'Sitter_id',
-'baby_id'        => 'Baby_id',
-'baby_ids'        => 'Baby_ids',
-'is_multiple'        => 'Is_multiple',
-'booking_date'        => 'Booking_date',
-'start_time'        => 'Start_time',
-'end_time'        => 'End_time',
-'booking_start_time'        => 'Booking_start_time',
-'booking_end_time'        => 'Booking_end_time',
-'booking_status'        => 'Booking_status',
+'per_hour'        => 'Per_hour',
+'total_hour'        => 'Total_hour',
+'sub_total'        => 'Sub_total',
+'tax'        => 'Tax',
+'other_charges'        => 'Other_charges',
+'parking_fees'        => 'Parking_fees',
+'total'        => 'Total',
+'description'        => 'Description',
+'payment_status'        => 'Payment_status',
+'payment_via'        => 'Payment_via',
+'payment_details'        => 'Payment_details',
 'status'        => 'Status',
 'created_at'        => 'Created_at',
 'updated_at'        => 'Updated_at',
@@ -62,9 +64,9 @@ class EloquentBookingRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'user_id' =>   [
-                'data'          => 'user_id',
-                'name'          => 'user_id',
+		'booking_id' =>   [
+                'data'          => 'booking_id',
+                'name'          => 'booking_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -74,57 +76,69 @@ class EloquentBookingRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'baby_id' =>   [
-                'data'          => 'baby_id',
-                'name'          => 'baby_id',
+		'per_hour' =>   [
+                'data'          => 'per_hour',
+                'name'          => 'per_hour',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'baby_ids' =>   [
-                'data'          => 'baby_ids',
-                'name'          => 'baby_ids',
+		'total_hour' =>   [
+                'data'          => 'total_hour',
+                'name'          => 'total_hour',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'is_multiple' =>   [
-                'data'          => 'is_multiple',
-                'name'          => 'is_multiple',
+		'sub_total' =>   [
+                'data'          => 'sub_total',
+                'name'          => 'sub_total',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_date' =>   [
-                'data'          => 'booking_date',
-                'name'          => 'booking_date',
+		'tax' =>   [
+                'data'          => 'tax',
+                'name'          => 'tax',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'start_time' =>   [
-                'data'          => 'start_time',
-                'name'          => 'start_time',
+		'other_charges' =>   [
+                'data'          => 'other_charges',
+                'name'          => 'other_charges',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'end_time' =>   [
-                'data'          => 'end_time',
-                'name'          => 'end_time',
+		'parking_fees' =>   [
+                'data'          => 'parking_fees',
+                'name'          => 'parking_fees',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_start_time' =>   [
-                'data'          => 'booking_start_time',
-                'name'          => 'booking_start_time',
+		'total' =>   [
+                'data'          => 'total',
+                'name'          => 'total',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_end_time' =>   [
-                'data'          => 'booking_end_time',
-                'name'          => 'booking_end_time',
+		'description' =>   [
+                'data'          => 'description',
+                'name'          => 'description',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_status' =>   [
-                'data'          => 'booking_status',
-                'name'          => 'booking_status',
+		'payment_status' =>   [
+                'data'          => 'payment_status',
+                'name'          => 'payment_status',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+		'payment_via' =>   [
+                'data'          => 'payment_via',
+                'name'          => 'payment_via',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+		'payment_details' =>   [
+                'data'          => 'payment_details',
+                'name'          => 'payment_details',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -195,13 +209,13 @@ class EloquentBookingRepository extends DbRepository
      * @var array
      */
     public $moduleRoutes = [
-        'listRoute'     => 'booking.index',
-        'createRoute'   => 'booking.create',
-        'storeRoute'    => 'booking.store',
-        'editRoute'     => 'booking.edit',
-        'updateRoute'   => 'booking.update',
-        'deleteRoute'   => 'booking.destroy',
-        'dataRoute'     => 'booking.get-list-data'
+        'listRoute'     => 'payment.index',
+        'createRoute'   => 'payment.create',
+        'storeRoute'    => 'payment.store',
+        'editRoute'     => 'payment.edit',
+        'updateRoute'   => 'payment.update',
+        'deleteRoute'   => 'payment.destroy',
+        'dataRoute'     => 'payment.get-list-data'
     ];
 
     /**
@@ -210,10 +224,10 @@ class EloquentBookingRepository extends DbRepository
      * @var array
      */
     public $moduleViews = [
-        'listView'      => 'booking.index',
-        'createView'    => 'booking.create',
-        'editView'      => 'booking.edit',
-        'deleteView'    => 'booking.destroy',
+        'listView'      => 'payment.index',
+        'createView'    => 'payment.create',
+        'editView'      => 'payment.edit',
+        'deleteView'    => 'payment.destroy',
     ];
 
     /**
@@ -222,11 +236,11 @@ class EloquentBookingRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model = new Booking;
+        $this->model = new Payment;
     }
 
     /**
-     * Create Booking
+     * Create Payment
      *
      * @param array $input
      * @return mixed
@@ -245,7 +259,7 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Update Booking
+     * Update Payment
      *
      * @param int $id
      * @param array $input
@@ -266,7 +280,7 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Destroy Booking
+     * Destroy Payment
      *
      * @param int $id
      * @return mixed
@@ -293,19 +307,7 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAll($orderBy = 'id', $sort = 'asc')
     {
-        return $this->model->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
-    }
-
-    /**
-     * Get All Past Booking
-     *
-     * @param string $orderBy
-     * @param string $sort
-     * @return mixed
-     */
-    public function getAllPast($orderBy = 'id', $sort = 'asc')
-    {
-        return $this->model->whereIn('booking_status', ['COMPLETED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
+        return $this->model->orderBy($orderBy, $sort)->get();
     }
 
     /**
@@ -409,48 +411,5 @@ class EloquentBookingRepository extends DbRepository
         unset($clientColumns['username']);
 
         return json_encode($this->setTableStructure($clientColumns));
-    }
-
-    /**
-     * Get Sitter Active Bookings 
-     * 
-     * @param int $sitterId
-     * @return array
-     */
-    public function getSitterActiveBookings($sitterId = null)
-    {
-        if($sitterId)
-        {
-            return $this->model->with(['user', 'sitter', 'baby'])
-            ->where('sitter_id', $sitterId)
-            ->whereDate('booking_date', '>=', date('Y-m-d'))
-            ->whereNotIn('booking_status', ['COMPLETED', 'CANCELED'])
-            ->get();
-        }
-
-        return false;
-    }
-
-    /**
-     * Get Sitter Past Bookings 
-     * 
-     * @param int $sitterId
-     * @return array
-     */
-    public function getSitterPastBookings($sitterId = null)
-    {
-        if($sitterId)
-        {
-            return $this->model->with(['user', 'sitter', 'baby'])
-            ->where([
-                'sitter_id'         => $sitterId,
-                'booking_status'    => 'COMPLETED'
-            ])
-            ->whereDate('booking_date', '<', date('Y-m-d'))
-            ->whereNotIn('booking_status', ['CANCELED'])
-            ->get();
-        }
-
-        return false;
     }
 }
