@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Payment\EloquentPaymentRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Booking\Booking;
+use App\Models\Payment\Payment;
 
 class APIPaymentController extends BaseApiController
 {

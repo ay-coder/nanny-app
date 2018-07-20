@@ -2,6 +2,7 @@
 
 use App\Models\Access\User\User;
 use App\Models\Babies\Babies;
+use App\Models\Payment\Payment;
 
 trait Relationship
 {
@@ -33,5 +34,15 @@ trait Relationship
     public function baby()
     {
         return $this->belongsTo(Babies::class, 'baby_id');
+    }
+
+    /**
+     * Belongs to relations with Sitter.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'booking_id');
     }
 }

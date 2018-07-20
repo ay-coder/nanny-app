@@ -284,10 +284,9 @@ class APISittersController extends BaseApiController
         $userInfo       = $this->getAuthenticatedUser();
         $items          = $bookingRepo->getSitterPastBookings($userInfo->id);
 
-        
         if(isset($items) && count($items))
         {
-            $itemsOutput = $this->sittersTransformer->calendarTransform($items);
+            $itemsOutput = $this->sittersTransformer->pastBookingTransform($items);
 
             return $this->successResponse($itemsOutput);   
         }
@@ -295,6 +294,35 @@ class APISittersController extends BaseApiController
 
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter Bookings!'
+            ], 'No Sitter Found or Invalid Input !');
+    }
+
+    /**
+     * Vacation Mode
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function getBooking(Request $request)
+    {
+        if($request->has('booking_id'))
+        {
+            $bookingRepo    = new EloquentBookingRepository;
+            $userInfo       = $this->getAuthenticatedUser();
+            $item           = $bookingRepo->getSingleBooking($request->get('booking_id'));
+
+            if(isset($item) && count($item))
+            {
+                $itemsOutput = $this->sittersTransformer->singleBookingTransform($item);
+
+                return $this->successResponse($itemsOutput);   
+            }
+                
+            
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Sitter Booking!'
             ], 'No Sitter Found or Invalid Input !');
     }
 

@@ -6,6 +6,7 @@ use App\Http\Transformers\BookingTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Booking\EloquentBookingRepository;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Payment\Payment;
 
 class APIBookingController extends BaseApiController
 {
@@ -387,6 +388,26 @@ class APIBookingController extends BaseApiController
 
                 if($bookingInfo->save())
                 {
+                    $perHour        = access()->getSitterPerHour($userInfo->id);
+                    $hourdiff       = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
+                    $hourTotal      = abs($hourdiff * $perHour);
+                    $parkingFees    = $request->has('parking_fees') ? $request->get('parking_fees') : 0;
+
+                    $inputData = [
+                        'booking_id'    => $request->get('booking_id'),
+                        'sitter_id'     => $userInfo->id,
+                        'per_hour'      => $perHour,
+                        'total_hour'    => $hourdiff,
+                        'sub_total'     => $hourTotal,
+                        'tax'           => 0,
+                        'other_charges' => 0,
+                        'parking_fees'  => $parkingFees,
+                        'total'         => $parkingFees + ($hourdiff * $perHour),
+                        'description'   => 'Test Mode - Payment'
+                    ];
+
+                    $paymentInfo = Payment::create($inputData);
+
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'
                     ], 'Booking Completed by Sitter');

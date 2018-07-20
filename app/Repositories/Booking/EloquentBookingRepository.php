@@ -424,7 +424,7 @@ class EloquentBookingRepository extends DbRepository
             return $this->model->with(['user', 'sitter', 'baby'])
             ->where('sitter_id', $sitterId)
             ->whereDate('booking_date', '>=', date('Y-m-d'))
-            ->whereNotIn('booking_status', ['COMPLETED', 'CANCELED'])
+            ->whereNotIn('booking_status', ['COMPLETED', 'CANCELED', 'REJECTED'])
             ->get();
         }
 
@@ -441,14 +441,29 @@ class EloquentBookingRepository extends DbRepository
     {
         if($sitterId)
         {
-            return $this->model->with(['user', 'sitter', 'baby'])
-            ->where([
-                'sitter_id'         => $sitterId,
-                'booking_status'    => 'COMPLETED'
-            ])
+            return $this->model->with(['user', 'sitter', 'baby', 'payment'])
+            ->where('sitter_id', $sitterId)
             ->whereDate('booking_date', '<', date('Y-m-d'))
-            ->whereNotIn('booking_status', ['CANCELED'])
+            ->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Sitter Past Bookings 
+     * 
+     * @param int $sitterId
+     * @return array
+     */
+    public function getSingleBooking($bookingId = null)
+    {
+        if($bookingId)
+        {
+            return $this->model->with(['user', 'sitter', 'baby', 'payment'])
+            ->where('id', $bookingId)
+            ->first();
         }
 
         return false;
