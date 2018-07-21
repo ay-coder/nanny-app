@@ -696,7 +696,9 @@ class UsersController extends BaseApiController
     {
         $successResponse = [
             'support_number'        => '110001010',
-            'privacy_policy_url'    => 'https://www.google.co.in/'
+            'privacy_policy_url'    => 'https://www.google.co.in/',
+            'tax'                   => (float) 0,
+            'other_charges'         => (float) 0
         ];
 
         return $this->successResponse($successResponse);
