@@ -71,7 +71,7 @@ class UserTransformer extends Transformer
             'social_provider'       => $this->nulltoBlank($data->social_provider),
             'social_token'          => $this->nulltoBlank($data->social_token),
             'user_type'             => 2,
-            'per_hour'              => access()->getSitterPerHour($data->id)
+            'per_hour'              => (float) access()->getSitterPerHour($data->id)
         ];
     }
     

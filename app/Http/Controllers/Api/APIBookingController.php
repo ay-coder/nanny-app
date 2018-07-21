@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Booking\EloquentBookingRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Payment\Payment;
+use App\Models\Access\User\User;
 use App\Library\Push\PushNotification;
 
 class APIBookingController extends BaseApiController
@@ -132,7 +133,8 @@ class APIBookingController extends BaseApiController
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
             'booking_start_time' => $bookingStartTime,
             'booking_end_time'  => $bookingEndTime,
-            'booking_status'    => 'REQUESTED'
+            'booking_status'    => 'REQUESTED',
+            'parking_fees'      => isset($input['parking_fees']) ? ['parking_fees'] : 0
         ]);
 
         $model = $this->repository->create($input);
@@ -395,7 +397,7 @@ class APIBookingController extends BaseApiController
                     $perHour        = access()->getSitterPerHour($userInfo->id);
                     $hourdiff       = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
                     $hourTotal      = abs($hourdiff * $perHour);
-                    $parkingFees    = $request->has('parking_fees') ? $request->get('parking_fees') : 0;
+                    $parkingFees    = isset($bookingInfo->parking_fees) ? $bookingInfo->parking_fees : 0;
 
                     $inputData = [
                         'booking_id'    => $request->get('booking_id'),
@@ -410,27 +412,38 @@ class APIBookingController extends BaseApiController
                         'description'   => 'Test Mode - Payment'
                     ];
 
-                    $paymentInfo = Payment::create($inputData);
-                   /* $notificationText = 'Job is Successfully Completed';
-                    if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 1)
-                    {
-                        $payload = [
-                            'mtitle'    => '',
-                            'mdesc'     => $notificationText
-                        ];
+                    $parent         = User::find($bookingInfo->user_id);
+                    $paymentInfo    = Payment::create($inputData);
+                    $parentText     = config('constants.NotificationText.PARENT.JOB_STOP');
+                    $sitterText     = config('constants.NotificationText.SITTER.JOB_STOP');
+                    $parentpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $parentText
+                    ];
+                    $sitterpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $sitterText
+                    ];
 
-                        PushNotification::iOS($payload, $user->device_token);
+                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
+                    {
+                        PushNotification::iOS($parentpayload, $parent->device_token);
                     }
 
-                    if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 0)
+                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
                     {
-                        $payload = [
-                            'mtitle'    => '',
-                            'mdesc'     => $notificationText
-                        ];
+                        PushNotification::android($parentpayload, $parent->device_token);
+                    }
 
-                        PushNotification::android($payload, $user->device_token);
-                    }*/
+                    if(isset($userInfo ->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
+                    {
+                        PushNotification::iOS($sitterpayload, $userInfo->device_token);
+                    }
+
+                    if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 0)
+                    {
+                        PushNotification::android($sitterpayload, $userInfo->device_token);
+                    }
 
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'
