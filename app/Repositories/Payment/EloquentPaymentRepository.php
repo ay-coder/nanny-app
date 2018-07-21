@@ -9,6 +9,7 @@
 use App\Models\Payment\Payment;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use Cartalyst\Stripe\Stripe;
 
 class EloquentPaymentRepository extends DbRepository
 {
@@ -411,5 +412,39 @@ class EloquentPaymentRepository extends DbRepository
         unset($clientColumns['username']);
 
         return json_encode($this->setTableStructure($clientColumns));
+    }
+
+    /**
+     * Add Payment
+     * 
+     * @param int $paymentId
+     * @param string $token
+     */
+    public function addPayment($paymentId = null, $token = null)
+    {
+        if($paymentId && $token)
+        {
+            $payment = $this->model->where('id', $paymentId)->first();
+
+            if(isset($payment))
+            {
+                $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
+                $charge = $stripe->charges()->create([
+                    'amount'            => $payment->total,
+                    'currency'          => 'usd',
+                    'description'       => 'Paid By Sitter',
+                    'source'            => $token,
+                    'statement_descriptor' =>'Test Payment'
+                ]);
+
+                $payment->payment_status = 1;
+                $payment->payment_via = "STRIPE - " . $charge['id'];
+                $payment->payment_details = $charge['statement_descriptor'];
+
+                return $payment->save();
+            }
+        }
+
+        return false;
     }
 }

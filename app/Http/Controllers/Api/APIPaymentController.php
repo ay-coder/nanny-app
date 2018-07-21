@@ -217,4 +217,46 @@ class APIPaymentController extends BaseApiController
             'reason' => 'Invalid Inputs'
         ], 'Something went wrong !');
     }
+
+    /**
+     * Add Payment
+     * 
+     * @param Request $request
+     */
+    public function addPayment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'booking_id'    => 'required',
+            'payment_id'    => 'required',
+            'token'         => 'required'
+        ]);
+
+        if($validator->fails()) 
+        {
+            $messageData = '';
+
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+
+        $userInfo       = $this->getAuthenticatedUser();
+        $paymentId      = $request->get('payment_id');
+        $bookingId      = $request->get('booking_id');
+        $token          = $request->get('token');
+        $paymentStatus  = $this->repository->addPayment($paymentId, $token);
+
+        if($paymentStatus)
+        {
+            return $this->successResponse([
+                'success' => 'Payment Done Successfully !'
+            ], 'Payment Done Successfully ');
+        }
+
+        return $this->setStatusCode(404)->failureResponse([
+            'reason' => 'Invalid Inputs'
+        ], 'Payment Failed !');
+    }
 }
