@@ -180,7 +180,7 @@ class SittersTransformer extends Transformer
                     'parking_fees'  => (float) $payment->parking_fees,
                     'total'         => (float) $payment->total,
                     'description'   => $payment->description,
-                    'payment_status'=> $this->nulltoBlank($payment->payment_status),
+                     'payment_status'=> isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
                     'payment_via'=> $this->nulltoBlank($payment->payment_via),
                     'payment_details'=> $this->nulltoBlank($payment->payment_details)
                 ];
