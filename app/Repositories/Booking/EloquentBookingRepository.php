@@ -425,7 +425,7 @@ class EloquentBookingRepository extends DbRepository
             ->where('sitter_id', $sitterId)
             ->whereDate('booking_date', '>=', date('Y-m-d'))
             ->whereNotIn('booking_status', ['COMPLETED', 'CANCELED', 'REJECTED'])
-            ->orderBy('booking_date', 'DESC')
+            ->orderBy('booking_date')
             ->get();
         }
 
