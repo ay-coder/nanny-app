@@ -297,15 +297,32 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
+     * Get All
+     *
+     * @param string $orderBy
+     * @param string $sort
+     * @return mixed
+     */
+    public function getAllParentActiveBookings($orderBy = 'booking_date', $sort = 'asc')
+    {
+        return $this->model->with(['user', 'sitter', 'baby'])
+            ->whereDate('booking_date', '>=', date('Y-m-d'))
+            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED'])
+            ->orderBy($orderBy, $sort)->get();
+    }
+
+    
+
+    /**
      * Get All Past Booking
      *
      * @param string $orderBy
      * @param string $sort
      * @return mixed
      */
-    public function getAllPast($orderBy = 'id', $sort = 'asc')
+    public function getAllPast($orderBy = 'booking_date', $sort = 'asc')
     {
-        return $this->model->whereIn('booking_status', ['COMPLETED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
+        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
     }
 
     /**

@@ -50,9 +50,12 @@ class APIBookingController extends BaseApiController
     public function index(Request $request)
     {
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
-        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
+        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)
+            ->whereDate('booking_date', '>=', date('Y-m-d'))
+            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED'])
+        ->paginate($paginate)->items() : $this->repository->getAllParentActiveBookings($orderBy, $order);
 
         if(isset($items) && count($items))
         {
@@ -75,9 +78,9 @@ class APIBookingController extends BaseApiController
     public function pastBookings(Request $request)
     {
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
-        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
+        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
 
         if(isset($items) && count($items))
         {
