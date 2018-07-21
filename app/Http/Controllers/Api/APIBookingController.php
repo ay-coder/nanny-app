@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Booking\EloquentBookingRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Payment\Payment;
+use App\Library\Push\PushNotification;
 
 class APIBookingController extends BaseApiController
 {
@@ -410,6 +411,26 @@ class APIBookingController extends BaseApiController
                     ];
 
                     $paymentInfo = Payment::create($inputData);
+                   /* $notificationText = 'Job is Successfully Completed';
+                    if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 1)
+                    {
+                        $payload = [
+                            'mtitle'    => '',
+                            'mdesc'     => $notificationText
+                        ];
+
+                        PushNotification::iOS($payload, $user->device_token);
+                    }
+
+                    if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 0)
+                    {
+                        $payload = [
+                            'mtitle'    => '',
+                            'mdesc'     => $notificationText
+                        ];
+
+                        PushNotification::android($payload, $user->device_token);
+                    }*/
 
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'

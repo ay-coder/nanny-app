@@ -47,6 +47,7 @@ class SittersTransformer extends Transformer
             'gender'                => $this->nulltoBlank($item->user->gender),
             'birthday'              => $this->nulltoBlank($item->user->birthdate),
             'avg_rating'            => $avgRating,
+            'per_hour'              => access()->getSitterPerHour($item->user_id),
             'reviews'               => []
         ];
 
