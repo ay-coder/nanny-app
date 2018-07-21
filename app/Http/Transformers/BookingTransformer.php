@@ -131,13 +131,6 @@ class BookingTransformer extends Transformer
                 "booking_startime"  =>  $item->booking_start_time, 
                 "booking_endtime"   =>  $item->booking_end_time, 
                 "booking_status"    =>  $item->booking_status, 
-                "total_cost"        => 30,
-                "tax"               => 2,
-                "additional_fees"   => 5,
-                "other_charges"     => 3,
-                'per_hour'          => 10,
-                'total_hours'       => "2 hrs",
-                'sitter_total'      => 20,
                 "babies"            => [],
                 "payment"           => $paymentData,
             ];
