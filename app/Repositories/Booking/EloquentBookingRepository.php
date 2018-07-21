@@ -475,6 +475,28 @@ class EloquentBookingRepository extends DbRepository
      * @param int $sitterId
      * @return array
      */
+    public function getSitterCompletedBookings($sitterId = null)
+    {
+        if($sitterId)
+        {
+            return $this->model->with(['user', 'sitter', 'baby', 'payment'])
+            ->where([
+                'sitter_id'         => $sitterId,
+                'booking_status'    => 'COMPLETED'
+            ])
+            ->orderBy('booking_date', 'DESC')
+            ->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Sitter Past Bookings 
+     * 
+     * @param int $sitterId
+     * @return array
+     */
     public function getSingleBooking($bookingId = null)
     {
         if($bookingId)

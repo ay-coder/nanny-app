@@ -365,5 +365,28 @@ class APISittersController extends BaseApiController
             ], 'No Sitter Found or Invalid Input !');
     }
 
+    /**
+     * My Earnings
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function myEarnings(Request $request)
+    {
+        $userInfo       = $this->getAuthenticatedUser();
+        $sitter         = Sitters::where('user_id', $userInfo->id)->first();
+        $bookingRepo    = new EloquentBookingRepository;
+        $sitterBookings = $bookingRepo->getSitterCompletedBookings($userInfo->id);
 
+        if(isset($sitterBookings) && count($sitterBookings))
+        {
+            $result = $this->sittersTransformer->sitterEarningTransform($sitterBookings);
+
+            return $this->successResponse($result);   
+            
+        }
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Sitter!'
+            ], 'No Sitter Found or Invalid Input !');
+    }
 }
