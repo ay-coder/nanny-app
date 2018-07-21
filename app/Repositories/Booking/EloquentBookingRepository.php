@@ -444,7 +444,6 @@ class EloquentBookingRepository extends DbRepository
         {
             return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
-            ->whereDate('booking_date', '<', date('Y-m-d'))
             ->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->orderBy('booking_date', 'DESC')
             ->get();
