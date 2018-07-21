@@ -134,7 +134,7 @@ class APIBookingController extends BaseApiController
             'booking_start_time' => $bookingStartTime,
             'booking_end_time'  => $bookingEndTime,
             'booking_status'    => 'REQUESTED',
-            'parking_fees'      => isset($input['parking_fees']) ? ['parking_fees'] : 0
+            'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
         ]);
 
         $model = $this->repository->create($input);
