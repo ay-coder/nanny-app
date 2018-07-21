@@ -82,7 +82,7 @@ class APIBookingController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
 
         if(isset($items) && count($items))
         {

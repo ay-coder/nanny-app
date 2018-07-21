@@ -322,7 +322,7 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAllPast($orderBy = 'booking_date', $sort = 'asc')
     {
-        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
+        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment'])->orderBy($orderBy, $sort)->get();
     }
 
     /**

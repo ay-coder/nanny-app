@@ -91,9 +91,29 @@ class BookingTransformer extends Transformer
 
         foreach($items as $item)
         {
-            $user   = (object) $item->user;
-            $sitter = (object) $item->sitter;
-            $baby   = (object) $item->baby;
+            $user           = (object) $item->user;
+            $sitter         = (object) $item->sitter;
+            $baby           = (object) $item->baby;
+            $payment        = (object) $item->payment;
+            $paymentData    = [];
+
+            if(isset($payment) && isset($payment->id))
+            {
+                $paymentData = [
+                    'payment_id'    => (int) $payment->id,
+                    'per_hour'      => (float) $payment->per_hour,
+                    'total_hour'    => (float) $payment->total_hour,
+                    'sub_total'     => (float) $payment->sub_total,
+                    'tax'           => (float) $payment->tax,
+                    'other_charges' => (float) $payment->other_charges,
+                    'parking_fees'  => (float) $payment->parking_fees,
+                    'total'         => (float) $payment->total,
+                    'description'   => $payment->description,
+                    'payment_status'=> $this->nulltoBlank($payment->payment_status),
+                    'payment_via'=> $this->nulltoBlank($payment->payment_via),
+                    'payment_details'=> $this->nulltoBlank($payment->payment_details)
+                ];
+            }
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
@@ -118,7 +138,8 @@ class BookingTransformer extends Transformer
                 'per_hour'          => 10,
                 'total_hours'       => "2 hrs",
                 'sitter_total'      => 20,
-                "babies"            => []
+                "babies"            => [],
+                "payment"           => $paymentData,
             ];
 
             $babyData[] = [
