@@ -51,7 +51,7 @@ class APIMessagesController extends BaseApiController
         $userInfo   = $this->getAuthenticatedUser();
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
-        $order      = $request->get('order') ? $request->get('order') : 'DESC';
+        $order      = $request->get('order') ? $request->get('order') : 'asc';
         $items      = $paginate ? $this->repository->model->where('from_user_id', $userInfo->id)->orWhere('to_user_id', $userInfo->id)->with(['from_user', 'to_user'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order, $userInfo->id);
 
         if(isset($items) && count($items))

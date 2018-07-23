@@ -56,7 +56,7 @@ class APIBookingController extends BaseApiController
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
         $items      = $paginate ? $this->repository->model->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $order)
             ->whereDate('booking_date', '>=', date('Y-m-d'))
-            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED'])
+            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
         ->paginate($paginate)->items() : $this->repository->getAllParentActiveBookings($orderBy, $order);
 
         if(isset($items) && count($items))
