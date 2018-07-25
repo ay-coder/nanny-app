@@ -306,8 +306,8 @@ class EloquentBookingRepository extends DbRepository
     public function getAllParentActiveBookings($orderBy = 'booking_date', $sort = 'asc')
     {
         return $this->model->with(['user', 'sitter', 'baby'])
-            ->whereDate('booking_date', '>=', date('Y-m-d'))
-            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED'])
+            /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
+            ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
             ->orderBy($orderBy, $sort)->get();
     }
 
@@ -322,7 +322,10 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAllPast($orderBy = 'booking_date', $sort = 'asc')
     {
-        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment'])->orderBy($orderBy, $sort)->get();
+        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
+            ->with(['user', 'sitter', 'baby', 'payment'])
+            ->orderBy($orderBy, $sort)
+            ->get();
     }
 
     /**
@@ -440,8 +443,8 @@ class EloquentBookingRepository extends DbRepository
         {
             return $this->model->with(['user', 'sitter', 'baby'])
             ->where('sitter_id', $sitterId)
-            ->whereDate('booking_date', '>=', date('Y-m-d'))
-            ->whereNotIn('booking_status', ['COMPLETED', 'CANCELED', 'REJECTED'])
+            /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
+            ->whereIn('booking_status', ['REQUESTED', 'ACCEPTED', 'STARTED', 'COMPLETED'])
             ->orderBy('booking_date')
             ->get();
         }
