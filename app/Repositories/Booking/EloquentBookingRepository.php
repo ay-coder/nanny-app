@@ -9,6 +9,7 @@
 use App\Models\Booking\Booking;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use Auth;
 
 class EloquentBookingRepository extends DbRepository
 {
@@ -305,8 +306,11 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAllParentActiveBookings($orderBy = 'booking_date', $sort = 'asc')
     {
+        $parentId = Auth::user()->id;
+
         return $this->model->with(['user', 'sitter', 'baby'])
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
+            ->where('user_id', $parentId)
             ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
             ->orderBy($orderBy, $sort)->get();
     }
@@ -322,8 +326,11 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAllPast($orderBy = 'booking_date', $sort = 'asc')
     {
+        $parentId = Auth::user()->id;
+        
         return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->with(['user', 'sitter', 'baby', 'payment'])
+            ->where('user_id', $parentId)
             ->orderBy($orderBy, $sort)
             ->get();
     }
