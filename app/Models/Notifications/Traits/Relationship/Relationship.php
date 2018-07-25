@@ -1,6 +1,7 @@
 <?php namespace App\Models\Notifications\Traits\Relationship;
 
 use App\Models\Access\User\User;
+use App\Models\Booking\Booking;
 
 trait Relationship
 {
@@ -31,6 +32,6 @@ trait Relationship
      */
     public function booking()
     {
-        return $this->belongsTo(User::class, 'sitter_id');
+        return $this->belongsTo(Booking::class, 'booking_id');
     }
 }

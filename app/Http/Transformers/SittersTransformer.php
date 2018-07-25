@@ -108,7 +108,7 @@ class SittersTransformer extends Transformer
                 'city'              => $this->nulltoBlank($user->city),
                 'state'             => $this->nulltoBlank($user->state),
                 'zip'               => $this->nulltoBlank($user->zip),
-                "babies"            => []
+                "babies"            => [],
             ];
 
             if(isset($baby) && isset($baby->id))
@@ -210,6 +210,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
+                'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
            
@@ -314,6 +315,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
+                'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
             if(isset($baby) && isset($baby->id))
@@ -413,7 +415,8 @@ class SittersTransformer extends Transformer
                 'state'             => $this->nulltoBlank($user->state),
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
-                "payment"           => $paymentData
+                "payment"           => $paymentData,
+                'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
             if(isset($baby) && isset($baby->id))

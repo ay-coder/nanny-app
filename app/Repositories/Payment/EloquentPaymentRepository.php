@@ -419,12 +419,14 @@ class EloquentPaymentRepository extends DbRepository
      * 
      * @param int $paymentId
      * @param string $token
+     * @param float $tip
      */
-    public function addPayment($paymentId = null, $token = null)
+    public function addPayment($paymentId = null, $token = null, $tip = 0)
     {
         if($paymentId && $token)
         {
-            $payment = $this->model->where('id', $paymentId)->first();
+            $payment    = $this->model->where('id', $paymentId)->first();
+            $total      = $payment->total + $tip;
 
             if(isset($payment))
             {
@@ -437,9 +439,10 @@ class EloquentPaymentRepository extends DbRepository
                     'statement_descriptor' =>'Test Payment'
                 ]);
 
-                $payment->payment_status = 1;
-                $payment->payment_via = "STRIPE - " . $charge['id'];
-                $payment->payment_details = $charge['statement_descriptor'];
+                $payment->payment_status    = 1;
+                $payment->payment_via       = "STRIPE - " . $charge['id'];    
+                $payment->payment_details   = $charge['statement_descriptor'];
+                $payment->tip               = $tip;
 
                 return $payment->save();
             }
