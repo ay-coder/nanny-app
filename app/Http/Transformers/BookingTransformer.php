@@ -37,8 +37,8 @@ class BookingTransformer extends Transformer
             "booking_date"      =>  $item->booking_date, 
             "start_time"        =>  $item->start_time, 
             "end_time"          =>  $item->end_time, 
-            "booking_startime"  =>  $item->booking_start_time, 
-            "booking_endtime"   =>  $item->booking_end_time, 
+            "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
+            "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
             "booking_status"    =>  $item->booking_status, 
             "babies"            => []
         ];
@@ -128,8 +128,8 @@ class BookingTransformer extends Transformer
                 "booking_date"      =>  $item->booking_date, 
                 "start_time"        =>  $item->start_time, 
                 "end_time"          =>  $item->end_time, 
-                "booking_startime"  =>  $item->booking_start_time, 
-                "booking_endtime"   =>  $item->booking_end_time, 
+                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
+                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
                 "booking_status"    =>  $item->booking_status, 
                 "babies"            => [],
                 "payment"           => $paymentData,
