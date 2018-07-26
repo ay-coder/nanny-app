@@ -426,7 +426,7 @@ class EloquentPaymentRepository extends DbRepository
         if($paymentId && $token)
         {
             $payment    = $this->model->where('id', $paymentId)->first();
-            $total      = (float) $payment->total;
+            $total      = (int) $payment->total;
 
             if(isset($payment))
             {
