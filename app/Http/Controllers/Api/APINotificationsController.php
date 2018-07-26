@@ -51,7 +51,7 @@ class APINotificationsController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->where('user_id', $userInfo->id)->with(['user', 'sitter'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($userInfo->id, $orderBy, $order);
+        $items      = $paginate ? $this->repository->model->where('user_id', $userInfo->id)->with(['user', 'sitter', 'booking', 'booking.payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($userInfo->id, $orderBy, $order);
 
         if(isset($items) && count($items))
         {
