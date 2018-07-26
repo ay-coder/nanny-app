@@ -428,6 +428,8 @@ class EloquentPaymentRepository extends DbRepository
             $payment    = $this->model->where('id', $paymentId)->first();
             $total      = (int) $payment->total;
 
+            dd($total);
+
             if(isset($payment))
             {
                 $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
