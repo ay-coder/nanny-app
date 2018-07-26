@@ -82,9 +82,29 @@ class SittersTransformer extends Transformer
         $sr = 0;
         foreach($items as $item)   
         {
-            $user   = (object) $item->user;
-            $sitter = (object) $item->sitter;
-            $baby   = (object) $item->baby;
+            $user           = (object) $item->user;
+            $sitter         = (object) $item->sitter;
+            $baby           = (object) $item->baby;
+            $payment        = (object) $item->payment;
+            $paymentData    = [];
+
+            if(isset($payment) && isset($payment->id))
+            {
+                $paymentData = [
+                    'payment_id'    => (int) $payment->id,
+                    'per_hour'      => (float) $payment->per_hour,
+                    'total_hour'    => (float) $payment->total_hour,
+                    'sub_total'     => (float) $payment->sub_total,
+                    'tax'           => (float) $payment->tax,
+                    'other_charges' => (float) $payment->other_charges,
+                    'parking_fees'  => (float) $payment->parking_fees,
+                    'total'         => (float) $payment->total,
+                    'description'   => $payment->description,
+                     'payment_status'=> isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
+                    'payment_via'=> $this->nulltoBlank($payment->payment_via),
+                    'payment_details'=> $this->nulltoBlank($payment->payment_details)
+                ];
+            }
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
@@ -109,6 +129,8 @@ class SittersTransformer extends Transformer
                 'state'             => $this->nulltoBlank($user->state),
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
+                "payment"           => $paymentData,
+                'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
             if(isset($baby) && isset($baby->id))

@@ -448,7 +448,7 @@ class EloquentBookingRepository extends DbRepository
     {
         if($sitterId)
         {
-            return $this->model->with(['user', 'sitter', 'baby'])
+            return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
             ->whereIn('booking_status', ['REQUESTED', 'ACCEPTED', 'STARTED', 'COMPLETED'])
