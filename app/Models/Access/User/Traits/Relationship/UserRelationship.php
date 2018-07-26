@@ -7,6 +7,7 @@ use App\Models\System\Session;
 use App\Models\Access\User\SocialLogin;
 use App\Models\Babies\Babies;
 use App\Models\Sitters\Sitters;
+use App\Models\Booking\Booking;
 
 /**
  * Class UserRelationship.
@@ -62,5 +63,12 @@ trait UserRelationship
     {
         return $this->hasOne(Sitters::class, 'user_id');
     }
-    
+        
+    /**
+     * @return mixed
+     */
+    public function parent_bookings()
+    {
+        return $this->hasMany(Booking::class, 'user_id');
+    } 
 }

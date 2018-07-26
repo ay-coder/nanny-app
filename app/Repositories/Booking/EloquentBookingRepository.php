@@ -9,6 +9,8 @@
 use App\Models\Booking\Booking;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use App\Models\Payment\Payment;
+use App\Models\Access\User\User;
 use Auth;
 
 class EloquentBookingRepository extends DbRepository
@@ -306,12 +308,24 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAllParentActiveBookings($orderBy = 'booking_date', $sort = 'asc')
     {
-        $parentId = Auth::user()->id;
-
+        $parentId   = Auth::user()->id;
+        $userInfo   = User::with('parent_bookings', 'parent_bookings.payment')->where('id', $parentId)->first();
+        $skippIds   = [];
+        if(isset($userInfo->parent_bookings) && count($userInfo->parent_bookings))
+        {
+            foreach($userInfo->parent_bookings as $booking)
+            {
+                if(isset($booking->payment) && $booking->payment->payment_status == 1)
+                {
+                    $skippIds[] = $booking->id;
+                }
+            }
+        }
         return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
             ->where('user_id', $parentId)
             ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
+            ->whereNotIn('id', $skippIds)
             ->orderBy($orderBy, $sort)->get();
     }
 
@@ -448,10 +462,14 @@ class EloquentBookingRepository extends DbRepository
     {
         if($sitterId)
         {
+            $paidActiveBookingIds = [];
+            $paidActiveBookingIds = Payment::where('sitter_id', $sitterId)->pluck('booking_id')->toArray();
+
             return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
             ->whereIn('booking_status', ['REQUESTED', 'ACCEPTED', 'STARTED', 'COMPLETED'])
+            ->whereNotIn('id', $paidActiveBookingIds)
             ->orderBy('booking_date')
             ->get();
         }
