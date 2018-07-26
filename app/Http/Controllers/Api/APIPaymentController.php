@@ -242,11 +242,13 @@ class APIPaymentController extends BaseApiController
             return $this->failureResponse($validator->messages(), $messageData);
         }
 
+
+        $tipAmount      =  $request->get('tip') ? $request->get('tip') : 0;
         $userInfo       = $this->getAuthenticatedUser();
         $paymentId      = $request->get('payment_id');
         $bookingId      = $request->get('booking_id');
         $token          = $request->get('token');
-        $tip            = $request->has('tip') ? $request->get('tip') : 0;
+        $tip            = (int) $tipAmount;
         $paymentStatus  = $this->repository->addPayment($paymentId, $token, $tip);
 
         if($paymentStatus)
