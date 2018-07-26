@@ -426,11 +426,9 @@ class EloquentPaymentRepository extends DbRepository
         if($paymentId && $token)
         {
             $payment    = $this->model->where('id', $paymentId)->first();
-            $total      = (int) $payment->total;
+            $total      = (float) $payment->total + $tip;
 
-            dd($total);
-
-            if(isset($payment))
+            if(isset($payment) && $total > 0)
             {
                 $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
                 $charge = $stripe->charges()->create([
