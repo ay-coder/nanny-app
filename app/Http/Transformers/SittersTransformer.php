@@ -389,6 +389,7 @@ class SittersTransformer extends Transformer
         $response = [];
         $output   = [];
         $total    = 0;
+        $tipTotal = 0;
         $sr       = 0;
         foreach($items as $item)
         {
@@ -400,7 +401,8 @@ class SittersTransformer extends Transformer
 
             if(isset($payment) && isset($payment->id))
             {
-                $total = $total + $payment->total;
+                $total      = $total + $payment->total;
+                $tipTotal   = $tipTotal + $payment->tip;
                 $paymentData = [
                     'payment_id'    => (int) $payment->id,
                     'per_hour'      => (float) $payment->per_hour,
@@ -487,6 +489,7 @@ class SittersTransformer extends Transformer
         }
 
         $output = [
+            'total_tips'    => (float) $tipTotal,
             'total_earning' => (float) $total,
             'bookings'      => $response
         ];
