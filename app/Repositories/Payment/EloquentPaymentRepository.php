@@ -432,7 +432,7 @@ class EloquentPaymentRepository extends DbRepository
             {
                 $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
                 $charge = $stripe->charges()->create([
-                    'amount'            => $payment->total,
+                    'amount'            => $total,
                     'currency'          => 'usd',
                     'description'       => 'Paid By Sitter',
                     'source'            => $token,
