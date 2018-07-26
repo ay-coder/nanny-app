@@ -308,7 +308,7 @@ class EloquentBookingRepository extends DbRepository
     {
         $parentId = Auth::user()->id;
 
-        return $this->model->with(['user', 'sitter', 'baby'])
+        return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
             ->where('user_id', $parentId)
             ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
