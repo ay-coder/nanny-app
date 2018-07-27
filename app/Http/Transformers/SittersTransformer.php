@@ -86,6 +86,7 @@ class SittersTransformer extends Transformer
             $sitter         = (object) $item->sitter;
             $baby           = (object) $item->baby;
             $payment        = (object) $item->payment;
+            $babyData[$sr]  = [];
             $paymentData    = [];
 
             if(isset($payment) && isset($payment->id))
@@ -154,6 +155,7 @@ class SittersTransformer extends Transformer
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
                 $babies     = Babies::whereIn('id', $babyIds)->get();
+                
 
                 if(isset($babies) && count($babies))
                 {
@@ -238,6 +240,7 @@ class SittersTransformer extends Transformer
             ];
 
            
+            $babyData[$sr] = [];
 
             if(isset($baby) && isset($baby->id))
             {
@@ -259,7 +262,6 @@ class SittersTransformer extends Transformer
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
                 $babies     = Babies::whereIn('id', $babyIds)->get();
-
                 if(isset($babies) && count($babies))
                 {
                     foreach($babies as $baby)
@@ -343,6 +345,8 @@ class SittersTransformer extends Transformer
                 'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
+            $babyData = [];
+
             if(isset($baby) && isset($baby->id))
             {
                 $babyData[] = [
@@ -398,7 +402,7 @@ class SittersTransformer extends Transformer
             $baby           = (object) $item->baby;
             $payment       = (object) $item->payment;
             $paymentData    = [];
-
+            $babyData       = [];
             if(isset($payment) && isset($payment->id))
             {
                 $total      = $total + $payment->total;
