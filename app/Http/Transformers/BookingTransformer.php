@@ -24,7 +24,7 @@ class BookingTransformer extends Transformer
         $sitter         = (object) $item->sitter;
         $baby           = (object) $item->baby;
         $payment        = (object) $item->payment;
-        $paymentData    = [];
+        $paymentData    = (object) [];
 
         if(isset($payment) && isset($payment->id))
         {
