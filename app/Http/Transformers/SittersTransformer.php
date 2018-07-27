@@ -201,7 +201,7 @@ class SittersTransformer extends Transformer
                     'total'         => (float) $payment->total,
                     'tip'           => (float) $payment->tip,
                     'description'   => $payment->description,
-                     'payment_status'=> (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
+                    'payment_status'=> (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
                     'payment_via'=> $this->nulltoBlank($payment->payment_via),
                     'payment_details'=> $this->nulltoBlank($payment->payment_details)
                 ];
@@ -300,7 +300,7 @@ class SittersTransformer extends Transformer
                     'total'         => (float) $payment->total,
                     'tip'           => (float) $payment->tip,
                     'description'   => $payment->description,
-                    'payment_status'=> $this->nulltoBlank($payment->payment_status),
+                    'payment_status'=> (int) $this->nulltoBlank($payment->payment_status),
                     'payment_via'=> $this->nulltoBlank($payment->payment_via),
                     'payment_details'=> $this->nulltoBlank($payment->payment_details)
                 ];
