@@ -265,7 +265,7 @@ class SittersTransformer extends Transformer
                 "babies"            => [],
                 "payment"           => $paymentData,
                 'babies'            => $babyData,
-                'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
+                'payment_status'    => (int) isset($payment->payment_status) ? (int) $payment->payment_status : 0,
             ];
 
             $sr++;
