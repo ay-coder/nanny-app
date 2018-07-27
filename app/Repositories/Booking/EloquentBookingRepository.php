@@ -487,8 +487,14 @@ class EloquentBookingRepository extends DbRepository
     {
         if($sitterId)
         {
+            $completedBookings = Payment::where([
+                'sitter_id'         => $sitterId,
+                'payment_status'    => 1
+            ])->pluck('booking_id');
+
             return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
+            ->whereIn('booking_id', $completedBookings)
             ->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->orderBy('booking_date', 'DESC')
             ->get();
