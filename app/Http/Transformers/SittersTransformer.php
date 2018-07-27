@@ -87,7 +87,7 @@ class SittersTransformer extends Transformer
             $baby           = (object) $item->baby;
             $payment        = (object) $item->payment;
             $babyData       = [];
-            $paymentData    = [];
+            $paymentData    = (object) [];
 
             if(isset($payment) && isset($payment->id))
             {
@@ -185,7 +185,7 @@ class SittersTransformer extends Transformer
             $sitter     = (object) $item->sitter;
             $baby       = (object) $item->baby;
             $payment    = (object) $item->payment;
-            $paymentData = [];
+            $paymentData = (object)[];
             $babyData   = [];
 
             if(isset($payment) && isset($payment->id))
@@ -284,7 +284,7 @@ class SittersTransformer extends Transformer
             $sitter     = (object) $item->sitter;
             $baby       = (object) $item->baby;
             $payment    = (object) $item->payment;
-            $paymentData = [];
+            $paymentData = (object)[];
             $babyData   = [];
 
             if(isset($payment) && isset($payment->id))
@@ -386,7 +386,7 @@ class SittersTransformer extends Transformer
             $sitter         = (object) $item->sitter;
             $baby           = (object) $item->baby;
             $payment       = (object) $item->payment;
-            $paymentData    = [];
+            $paymentData    = (object) [];
             $babyData       = [];
 
             if(isset($payment) && isset($payment->id))
