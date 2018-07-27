@@ -492,12 +492,23 @@ class EloquentBookingRepository extends DbRepository
                 'payment_status'    => 1
             ])->pluck('booking_id');
 
-            return $this->model->with(['user', 'sitter', 'baby', 'payment'])
+            $completed =  $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
             ->whereIn('booking_id', $completedBookings)
             ->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->orderBy('booking_date', 'DESC')
             ->get();
+
+            $canceled = $this->model->with(['user', 'sitter', 'baby', 'payment'])
+            ->where('sitter_id', $sitterId)
+            ->whereIn('booking_status', ['CANCELED'])
+            ->orderBy('booking_date', 'DESC')
+            ->get();
+
+            $all = $completed->merge($canceled);
+
+            return $all;
+
         }
 
         return false;
