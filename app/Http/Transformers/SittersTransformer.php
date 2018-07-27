@@ -86,7 +86,7 @@ class SittersTransformer extends Transformer
             $sitter         = (object) $item->sitter;
             $baby           = (object) $item->baby;
             $payment        = (object) $item->payment;
-            $babyData[$sr]  = [];
+            $babyData       = [];
             $paymentData    = [];
 
             if(isset($payment) && isset($payment->id))
@@ -106,6 +106,39 @@ class SittersTransformer extends Transformer
                     'payment_via'=> $this->nulltoBlank($payment->payment_via),
                     'payment_details'=> $this->nulltoBlank($payment->payment_details)
                 ];
+            }
+
+            if(isset($baby) && isset($baby->id))
+            {
+                $babyData[] = [
+                    'baby_id'       => (int) $baby->id,
+                    "title"         =>  isset($baby->title) ? $baby->title : '',
+                    "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
+                    "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
+                    "description"   =>  isset($baby->description) ? $baby->description : '', 
+                    "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
+                ];
+            }
+            
+            if($item->is_multiple == 1 && isset($item->baby_ids))
+            {
+                $babyIds    = array_values(explode(',', $item->baby_ids));
+                $babies     = Babies::whereIn('id', $babyIds)->get();
+
+                if(isset($babies) && count($babies))
+                {
+                    foreach($babies as $baby)
+                    {
+                        $babyData[] = [
+                            'baby_id'       => (int) $baby->id,
+                            "title"         =>  isset($baby->title) ? $baby->title : '',
+                            "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
+                            "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
+                            "description"   =>  isset($baby->description) ? $baby->description : '', 
+                            "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
+                        ];
+                    }
+                }
             }
 
             $response[$sr] = [
@@ -132,48 +165,9 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
+                'babies'            => $babyData,
                 'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
-
-            if(isset($baby) && isset($baby->id))
-            {
-                $babyData[$sr] = [
-                    'baby_id'       => (int) $baby->id,
-                    "title"         =>  isset($baby->title) ? $baby->title : '',
-                    "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
-                    "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                    "description"   =>  isset($baby->description) ? $baby->description : '', 
-                    "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
-                ];
-            }
-            else
-            {
-                $babyData[$sr] = [];
-            }
-
-            if($item->is_multiple == 1 && isset($item->baby_ids))
-            {
-                $babyIds    = array_values(explode(',', $item->baby_ids));
-                $babies     = Babies::whereIn('id', $babyIds)->get();
-                
-
-                if(isset($babies) && count($babies))
-                {
-                    foreach($babies as $baby)
-                    {
-                        $babyData[] = [
-                            'baby_id'       => (int) $baby->id,
-                            "title"         =>  isset($baby->title) ? $baby->title : '',
-                            "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
-                            "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                            "description"   =>  isset($baby->description) ? $baby->description : '', 
-                            "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
-                        ];
-                    }
-                }
-            }
-
-            $response[$sr]['babies'] = $babyData;
             $sr++;
         }
 
@@ -240,7 +234,6 @@ class SittersTransformer extends Transformer
             ];
 
            
-            $babyData[$sr] = [];
 
             if(isset($baby) && isset($baby->id))
             {
@@ -262,6 +255,7 @@ class SittersTransformer extends Transformer
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
                 $babies     = Babies::whereIn('id', $babyIds)->get();
+
                 if(isset($babies) && count($babies))
                 {
                     foreach($babies as $baby)
@@ -345,8 +339,6 @@ class SittersTransformer extends Transformer
                 'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
-            $babyData = [];
-
             if(isset($baby) && isset($baby->id))
             {
                 $babyData[] = [
@@ -402,7 +394,7 @@ class SittersTransformer extends Transformer
             $baby           = (object) $item->baby;
             $payment       = (object) $item->payment;
             $paymentData    = [];
-            $babyData       = [];
+
             if(isset($payment) && isset($payment->id))
             {
                 $total      = $total + $payment->total;
