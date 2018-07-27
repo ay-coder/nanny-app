@@ -311,6 +311,7 @@ class EloquentBookingRepository extends DbRepository
         $parentId   = Auth::user()->id;
         $userInfo   = User::with('parent_bookings', 'parent_bookings.payment')->where('id', $parentId)->first();
         $skippIds   = [];
+
         if(isset($userInfo->parent_bookings) && count($userInfo->parent_bookings))
         {
             foreach($userInfo->parent_bookings as $booking)
@@ -497,7 +498,7 @@ class EloquentBookingRepository extends DbRepository
 
             $completed =  $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
-            ->whereIn('booking_id', $completedBookings)
+            ->whereIn('id', $completedBookings)
             ->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->orderBy('booking_date', 'DESC')
             ->get();
