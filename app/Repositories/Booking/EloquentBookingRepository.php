@@ -463,7 +463,10 @@ class EloquentBookingRepository extends DbRepository
         if($sitterId)
         {
             $paidActiveBookingIds = [];
-            $paidActiveBookingIds = Payment::where('sitter_id', $sitterId)->pluck('booking_id')->toArray();
+            $paidActiveBookingIds = Payment::where([
+                'sitter_id'         => $sitterId,
+                'payment_status'    => 1
+            ])->pluck('booking_id')->toArray();
 
             return $this->model->with(['user', 'sitter', 'baby', 'payment'])
             ->where('sitter_id', $sitterId)
