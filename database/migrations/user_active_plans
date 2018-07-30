@@ -1,0 +1,9 @@
+user_active_plans
+
+user_id
+plan_id
+allowed_bookings
+status
+activated_at
+
+
