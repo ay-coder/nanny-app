@@ -10,6 +10,7 @@ use App\Models\Activation\Activation;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
 use App\Models\Plans\Plans;
+use Cartalyst\Stripe\Stripe;
 
 class EloquentActivationRepository extends DbRepository
 {
