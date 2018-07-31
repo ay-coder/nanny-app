@@ -311,8 +311,8 @@ class APIBookingController extends BaseApiController
         {
             $userInfo       = $this->getAuthenticatedUser();
             $bookingInfo    = $this->repository->model->where([
-                'id'                => $request->get('booking_id'),
-                'sitter_id'         => $userInfo->id
+                'id'        => $request->get('booking_id'),
+                'user_id'   => $userInfo->id
             ])->whereNotIn('booking_status', ['STARTED', 'COMPLETED', 'CANCELED'])->first();
 
             if(isset($bookingInfo))
