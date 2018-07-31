@@ -74,7 +74,7 @@ class SittersTransformer extends Transformer
 
         return $response;
     }
-
+    
     public function calendarTransform($items)
     {
         $response = [];
