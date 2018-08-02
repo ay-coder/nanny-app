@@ -6,9 +6,11 @@
 return [
     'NotificationText' => [
     	'PARENT'	=> [
-    		'JOB_STOP' => "Your Job Successfully Completed!"
+    		'JOB_START'	=> "Your Job Started !",
+    		'JOB_STOP' => "Your Job Successfully Completed!",
     	],
     	'SITTER'	=> [
+    		'JOB_START'	=> "Your Job Started !",
     		'JOB_STOP' => "Your Job Successfully Completed!"
     	]
     ]
