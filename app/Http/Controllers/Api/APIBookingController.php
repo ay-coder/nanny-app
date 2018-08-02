@@ -154,15 +154,15 @@ class APIBookingController extends BaseApiController
             ];
 
             $storeParentNotification = [
-                'user_id'       => $parent->id,
-                'sitter_id'     => $userInfo->id,
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
                 'description'   => $parentText
             ];
 
             $storeSitterNotification = [
-                'user_id'       => $parent->id,
-                'sitter_id'     => $userInfo->id,
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
                 'description'   => $sitterText
             ];
