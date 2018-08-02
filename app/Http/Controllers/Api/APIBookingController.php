@@ -141,6 +141,55 @@ class APIBookingController extends BaseApiController
 
         if($model)
         {
+            $parent         = User::find($model->user_id);
+            $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+            $parentpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $parentText
+            ];
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText
+            ];
+
+            $storeParentNotification = [
+                'user_id'       => $parent->id,
+                'sitter_id'     => $userInfo->id,
+                'booking_id'    => $model->id,
+                'description'   => $parentText
+            ];
+
+            $storeSitterNotification = [
+                'user_id'       => $parent->id,
+                'sitter_id'     => $userInfo->id,
+                'booking_id'    => $model->id,
+                'description'   => $sitterText
+            ];
+            
+            access()->addNotification($storeParentNotification);
+            access()->addNotification($storeSitterNotification);
+
+            if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
+            {
+                PushNotification::iOS($parentpayload, $parent->device_token);
+            }
+
+            if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
+            {
+                PushNotification::android($parentpayload, $parent->device_token);
+            }
+
+            if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
+            {
+                PushNotification::iOS($sitterpayload, $userInfo->device_token);
+            }
+
+            if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 0)
+            {
+                PushNotification::android($sitterpayload, $userInfo->device_token);
+            }
+
             $responseData = $this->bookingTransformer->transform($model);
 
             return $this->successResponse($responseData, 'Booking is Created Successfully');
