@@ -197,6 +197,7 @@ class SittersTransformer extends Transformer
             $payment    = (object) $item->payment;
             $paymentData = (object)[];
             $babyData   = [];
+            $originalBaby   = false;
 
             if(isset($payment) && isset($payment->id))
             {
@@ -219,6 +220,7 @@ class SittersTransformer extends Transformer
 
             if(isset($baby) && isset($baby->id))
             {
+                $originalBaby = $baby->id;
                 $babyData[] = [
                     'baby_id'       => (int) $baby->id,
                     "title"         =>  isset($baby->title) ? $baby->title : '',
@@ -233,12 +235,18 @@ class SittersTransformer extends Transformer
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
                 $babies     = Babies::whereIn('id', $babyIds)->get();
+                $allBaby    = [];
 
                 if(isset($babies) && count($babies))
                 {
                     foreach($babies as $baby)
                     {
-                        $babyData[] = [
+                        if($originalBaby == $baby->id)
+                        {
+                            continue;
+                        }
+
+                        $allBaby[] = [
                             'baby_id'       => (int) $baby->id,
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
@@ -274,7 +282,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
-                'babies'            => $babyData,
+                'babies'            => isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData,
                 'payment_status'    => (int) isset($payment->payment_status) ? (int) $payment->payment_status : 0,
             ];
 
