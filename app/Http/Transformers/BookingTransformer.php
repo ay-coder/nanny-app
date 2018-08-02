@@ -45,13 +45,15 @@ class BookingTransformer extends Transformer
             ];
         }
 
+        $sitterRating = access()->getAverageRating($item->sitter_id);
+
         $response = [
             "booking_id"        => (int) $item->id,
             "user_id"           => (int) $item->user_id,
             "sitter_id"         => (int) $item->sitter_id,
             'sitter_name'       =>  $sitter->name,
             'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
-            'sitter_rating'     =>  (int) access()->getAverageRating($item->sitter_id),
+            'sitter_rating'     =>  (int) $sitterRating,
             'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
             "baby_id"           =>  $item->baby_id, 
             "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
@@ -139,13 +141,14 @@ class BookingTransformer extends Transformer
                 ];
             }
 
-            $response[$sr] = [
+            $sitterRating   = access()->getAverageRating($item->sitter_id);
+            $response[$sr]  = [
                 "booking_id"        => (int) $item->id,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
-                'sitter_rating'     =>  (int) access()->getAverageRating($item->sitter_id),
+                'sitter_rating'     =>  (int) $sitterRating,
                 'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
                 "baby_id"           =>  $item->baby_id, 
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
