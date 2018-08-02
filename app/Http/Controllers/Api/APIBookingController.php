@@ -155,15 +155,17 @@ class APIBookingController extends BaseApiController
 
             $storeParentNotification = [
                 'user_id'       => $model->user_id,
-                'sitter_id'     => null,
+                'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
+                'to_user_id'    => $model->user_id,
                 'description'   => $parentText
             ];
 
             $storeSitterNotification = [
-                'user_id'       => null,
+                'user_id'       => $model->user_id,
                 'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
+                'to_user_id'    => $model->sitter_id,
                 'description'   => $sitterText
             ];
             
@@ -453,15 +455,17 @@ class APIBookingController extends BaseApiController
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
-                        'sitter_id'     => null,
+                        'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $parent->id,
                         'description'   => $parentText
                     ];
 
                     $storeSitterNotification = [
-                        'user_id'       => null,
+                        'user_id'       => $parent->id,
                         'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $userInfo->id,
                         'description'   => $sitterText
                     ];
                     
@@ -565,14 +569,16 @@ class APIBookingController extends BaseApiController
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
-                        'sitter_id'     => null,
+                        'sitter_id'     => $userInfo->id,
+                        'to_user_id'    => $parent->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $parentText
                     ];
 
                     $storeSitterNotification = [
-                        'user_id'       => null,
+                        'user_id'       => $parent->id,
                         'sitter_id'     => $userInfo->id,
+                        'to_user_id'    => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $sitterText
                     ];
