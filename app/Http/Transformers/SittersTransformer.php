@@ -88,6 +88,7 @@ class SittersTransformer extends Transformer
             $payment        = (object) $item->payment;
             $babyData       = [];
             $paymentData    = (object) [];
+            $originalBaby   = false;
 
             if(isset($payment) && isset($payment->id))
             {
@@ -110,6 +111,7 @@ class SittersTransformer extends Transformer
 
             if(isset($baby) && isset($baby->id))
             {
+                $originalBaby = $baby->id; 
                 $babyData[] = [
                     'baby_id'       => (int) $baby->id,
                     "title"         =>  isset($baby->title) ? $baby->title : '',
@@ -130,6 +132,11 @@ class SittersTransformer extends Transformer
                 {
                     foreach($babies as $baby)
                     {
+                        if($originalBaby == $baby->id)
+                        {
+                            continue;
+                        }
+
                         $allBaby[] = [
                             'baby_id'       => (int) $baby->id,
                             "title"         =>  isset($baby->title) ? $baby->title : '',
@@ -141,10 +148,6 @@ class SittersTransformer extends Transformer
                     }
                 }
             }
-
-            $myBabies = isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData;
-
-            $myBabies = array_unique($myBabies);
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
@@ -170,7 +173,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
-                'babies'            => $myBabies,
+                'babies'            => isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData,
                 'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
             $sr++;
