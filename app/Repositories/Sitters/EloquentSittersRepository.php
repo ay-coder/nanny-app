@@ -251,7 +251,7 @@ class EloquentSittersRepository extends DbRepository
         if($id)
         {
              return $this->model->with(['user', 'reviews', 'reviews.user'])
-             ->where('id', $id)
+             ->where('user_id', $id)
              ->first();
         }
 
