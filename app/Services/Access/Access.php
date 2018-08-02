@@ -172,6 +172,21 @@ class Access
     }
 
     /**
+     * Add Notification
+     * 
+     * @param array $data
+     */
+    public function addNotification($data = array())
+    {
+        if(isset($data) && count($data))
+        {
+            return Notifications::create($data);
+        }
+
+        return false;
+    }
+
+    /**
      * Get Average Rating
      * 
      * @param int $sitterId

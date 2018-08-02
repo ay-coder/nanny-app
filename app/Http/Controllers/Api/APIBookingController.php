@@ -402,9 +402,33 @@ class APIBookingController extends BaseApiController
                         'mdesc'     => $sitterText
                     ];
 
+                    $storeParentNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'description'   => $parentText
+                    ];
+
+                    $storeSitterNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'description'   => $sitterText
+                    ];
+                    
+                    access()->addNotification($storeParentNotification);
+                    access()->addNotification($storeSitterNotification);
+
                     if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
                     {
                         PushNotification::iOS($parentpayload, $parent->device_token);
+                        $storeNotification = [
+                            'user_id'       => $parent->id,
+                            'sitter_id'     => $userInfo->id,
+                            'booking_id'    => $bookingInfo->id,
+                            'description'   => $parentText
+                        ];
+                        access()->addNotification()
                     }
 
                     if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
@@ -412,7 +436,7 @@ class APIBookingController extends BaseApiController
                         PushNotification::android($parentpayload, $parent->device_token);
                     }
 
-                    if(isset($userInfo ->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
+                    if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
                     {
                         PushNotification::iOS($sitterpayload, $userInfo->device_token);
                     }
@@ -490,6 +514,23 @@ class APIBookingController extends BaseApiController
                         'mtitle'    => '',
                         'mdesc'     => $sitterText
                     ];
+
+                    $storeParentNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'description'   => $parentText
+                    ];
+
+                    $storeSitterNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'description'   => $sitterText
+                    ];
+                    
+                    access()->addNotification($storeParentNotification);
+                    access()->addNotification($storeSitterNotification);
 
                     if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
                     {
