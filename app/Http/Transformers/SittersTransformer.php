@@ -124,12 +124,13 @@ class SittersTransformer extends Transformer
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
                 $babies     = Babies::whereIn('id', $babyIds)->get();
+                $allBaby    = [];
 
                 if(isset($babies) && count($babies))
                 {
                     foreach($babies as $baby)
                     {
-                        $babyData[] = [
+                        $allBaby[] = [
                             'baby_id'       => (int) $baby->id,
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
@@ -165,7 +166,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
-                'babies'            => $babyData,
+                'babies'            => isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData,
                 'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
             $sr++;
