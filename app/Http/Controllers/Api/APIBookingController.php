@@ -332,6 +332,39 @@ class APIBookingController extends BaseApiController
             ], 'No Booking Found !');
     }
 
+    /* Reject
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function cancelBySitter(Request $request)
+    {
+        if($request->has('booking_id'))
+        {
+            $userInfo       = $this->getAuthenticatedUser();
+            $bookingInfo    = $this->repository->model->where([
+                'id'        => $request->get('booking_id'),
+                'sitter_id' => $userInfo->id
+            ])->whereNotIn('booking_status', ['STARTED', 'COMPLETED', 'CANCELED'])->first();
+
+            if(isset($bookingInfo))
+            {
+                $bookingInfo->booking_status = 'CANCELED';
+                if($bookingInfo->save())
+                {
+                    return $this->successResponse([
+                        'success' => 'Booking Cancel by Sitter'
+                    ], 'Booking Cancel by Sitter');
+                }
+            }
+        }
+        
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Booking!'
+            ], 'No Booking Found !');
+    }
+    
+
     /**
      * Start
      *
