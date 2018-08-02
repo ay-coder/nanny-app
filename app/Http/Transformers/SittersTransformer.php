@@ -142,6 +142,10 @@ class SittersTransformer extends Transformer
                 }
             }
 
+            $myBabies = isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData;
+
+            $myBabies = array_unique($myBabies);
+
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
                 "user_id"           => (int) $item->user_id,
@@ -166,7 +170,7 @@ class SittersTransformer extends Transformer
                 'zip'               => $this->nulltoBlank($user->zip),
                 "babies"            => [],
                 "payment"           => $paymentData,
-                'babies'            => isset($allBaby) && count($allBaby) ? array_merge($babyData, $allBaby) : $babyData,
+                'babies'            => $myBabies,
                 'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
             $sr++;
