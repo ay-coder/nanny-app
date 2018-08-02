@@ -169,6 +169,8 @@ class SittersTransformer extends Transformer
                 'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
             $sr++;
+
+            reset($babyData);
         }
 
         return $response;
@@ -367,6 +369,8 @@ class SittersTransformer extends Transformer
                 'babies'            => $babyData,
                 'payment_status'    => (int) isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
+
+            reset($babyData);
         }
 
         return $response;
