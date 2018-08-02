@@ -1,4 +1,4 @@
-\<?php
+<?php
 Route::group(['namespace' => 'Api'], function()
 {
     Route::get('booking', 'APIBookingController@index')->name('booking.index');
