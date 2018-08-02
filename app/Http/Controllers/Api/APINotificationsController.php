@@ -67,6 +67,28 @@ class APINotificationsController extends BaseApiController
             ], 'No Notifications Found !');
     }
 
+
+    public function sitterNotification(Request $request)
+    {
+        $userInfo   = $this->getAuthenticatedUser();
+        $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
+        $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
+        $order      = $request->get('order') ? $request->get('order') : 'ASC';
+        $items      = $paginate ? $this->repository->model->where('sitter_id', $userInfo->id)->with(['user', 'sitter', 'booking', 'booking.payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllSitter($userInfo->id, $orderBy, $order);
+
+        if(isset($items) && count($items))
+        {
+            $itemsOutput = $this->notificationsTransformer->transformCollection($items);
+
+            $this->repository->markReadAll($userInfo->id);
+
+            return $this->successResponse($itemsOutput);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Notifications!'
+            ], 'No Notifications Found !');
+    }
     /**
      * Create
      *

@@ -2,6 +2,7 @@
 Route::group(['namespace' => 'Api'], function()
 {
     Route::get('notifications', 'APINotificationsController@index')->name('notifications.index');
+    Route::get('sitter-notifications', 'APINotificationsController@sitterNotification')->name('notifications.sitter-notifications');
     Route::post('notifications/create', 'APINotificationsController@create')->name('notifications.create');
     Route::post('notifications/edit', 'APINotificationsController@edit')->name('notifications.edit');
     Route::post('notifications/show', 'APINotificationsController@show')->name('notifications.show');

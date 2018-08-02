@@ -263,6 +263,19 @@ class EloquentNotificationsRepository extends DbRepository
     }
 
     /**
+     * Get All
+     *
+     * @param string $userId
+     * @param string $orderBy
+     * @param string $sort
+     * @return mixed
+     */
+    public function getAllSitter($userId = null, $orderBy = 'id', $sort = 'asc')
+    {
+        return $this->model->with(['user', 'sitter', 'booking', 'booking.payment'])->where('sitter_id' ,$userId)->orderBy($orderBy, $sort)->get();
+    }
+
+    /**
      * Get by Id
      *
      * @param int $id
