@@ -20,6 +20,9 @@ use Tymon\JWTAuthExceptions\JWTException;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Events\Backend\Access\User\UserPasswordChanged;
 use App\Repositories\Backend\Access\User\UserRepository;
+use Twilio;
+use Twilio\Jwt\AccessToken;
+use Twilio\Jwt\Grants\VoiceGrant;
 use Auth;
 
 class UsersController extends BaseApiController
@@ -759,5 +762,38 @@ class UsersController extends BaseApiController
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'User Not Found !'
         ], 'User Not Found !');
+    }
+
+    public function callToken(Request $request)
+    {
+        $twilioAccountSid   = 'ACdcf7bf55f7ff0faada90d4afaa5d06fe';
+        $twilioApiKey       = 'SK3afa5f7717294db9adfd23bfa54e3d3b';
+        $twilioApiSecret    = 'cibniYvO6qRyZ31Sn2KZheYVy5wwSGZZ';
+        
+        // Required for Voice grant
+        $outgoingApplicationSid = 'PNebb6b08a67e0eec24de4e67e9b0bdc79';
+
+        // An identifier for your app - can be anything you'd like
+        $identity = "john_doe";
+
+        // Create access token, which we will serialize and send to the client
+        $token = new AccessToken(
+            $twilioAccountSid,
+            $twilioApiKey,
+            $twilioApiSecret,
+            3600,
+            $identity
+        );
+        // Create Voice grant
+        $voiceGrant = new VoiceGrant();
+        $voiceGrant->setOutgoingApplicationSid($outgoingApplicationSid);
+        // Add grant to token
+        $token->addGrant($voiceGrant);
+        // render token to string
+        
+        $successResponse = [    
+            'token' => $token->toJWT()
+        ];
+        return $this->successResponse($successResponse);
     }
 }

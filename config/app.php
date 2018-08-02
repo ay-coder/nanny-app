@@ -272,6 +272,8 @@ return [
         'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
 
         'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        
+        'Twilio' => Aloha\Twilio\Support\Laravel\Facade::class,
     ],
 
 ];
