@@ -261,7 +261,6 @@ class EloquentNotificationsRepository extends DbRepository
     {
         return $this->model->with(['user', 'sitter', 'booking', 'booking.payment'])
             ->where('user_id' ,$userId)
-            ->groupBy('booking_id')
             ->orderBy($orderBy, $sort)->get();
     }
 
@@ -277,7 +276,6 @@ class EloquentNotificationsRepository extends DbRepository
     {
         return $this->model->with(['user', 'sitter', 'booking', 'booking.payment'])
         ->where('sitter_id' ,$userId)
-        ->groupBy('booking_id')
         ->orderBy($orderBy, $sort)->get();
     }
 

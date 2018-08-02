@@ -155,13 +155,13 @@ class APIBookingController extends BaseApiController
 
             $storeParentNotification = [
                 'user_id'       => $model->user_id,
-                'sitter_id'     => $model->sitter_id,
+                'sitter_id'     => null,
                 'booking_id'    => $model->id,
                 'description'   => $parentText
             ];
 
             $storeSitterNotification = [
-                'user_id'       => $model->user_id,
+                'user_id'       => null,
                 'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
                 'description'   => $sitterText
@@ -453,13 +453,13 @@ class APIBookingController extends BaseApiController
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
+                        'sitter_id'     => null,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $parentText
                     ];
 
                     $storeSitterNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => null,
                         'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $sitterText
@@ -565,13 +565,13 @@ class APIBookingController extends BaseApiController
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
+                        'sitter_id'     => null,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $parentText
                     ];
 
                     $storeSitterNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => null,
                         'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $sitterText

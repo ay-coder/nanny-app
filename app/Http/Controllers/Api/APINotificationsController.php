@@ -78,6 +78,7 @@ class APINotificationsController extends BaseApiController
 
         if(isset($items) && count($items))
         {
+
             $itemsOutput = $this->notificationsTransformer->transformCollection($items);
 
             $this->repository->markReadAll($userInfo->id);
