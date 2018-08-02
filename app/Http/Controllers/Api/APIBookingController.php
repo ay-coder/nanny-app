@@ -428,7 +428,6 @@ class APIBookingController extends BaseApiController
                             'booking_id'    => $bookingInfo->id,
                             'description'   => $parentText
                         ];
-                        access()->addNotification()
                     }
 
                     if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
