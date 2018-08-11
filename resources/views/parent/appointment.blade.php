@@ -111,6 +111,9 @@
                     <!-- Review List Start -->
                     <ul class="review-list">
                         <li>
+                            No Reviews
+                        </li>
+                        {{-- <li>
                             <div class="user small">
                                 <div class="img-wrap">
                                     <img src="../assets/images/sitter2.png" alt="">
@@ -133,7 +136,7 @@
                                 </div>
                             </div>
                             <p>LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure.</p>
-                        </li>
+                        </li> --}}
                     </ul>
                     <!-- Review List End -->
                 </div>
