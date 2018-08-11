@@ -228,7 +228,7 @@ class APISittersController extends BaseApiController
             $sitter   = Sitters::where('user_id', $userInfo->id)->first();
 
             $sitter->vacation_mode = $request->get('vacation_mode');
-            
+
             if($sitter->save())
             {
                 $message = $request->get('vacation_mode') ? 'On Vacation - Enjoy Holidays!' : 'Back to work !';
@@ -256,14 +256,14 @@ class APISittersController extends BaseApiController
         $userInfo       = $this->getAuthenticatedUser();
         $items          = $bookingRepo->getSitterActiveBookings($userInfo->id);
 
-        
+
         if(isset($items) && count($items))
         {
             $itemsOutput = $this->sittersTransformer->calendarTransform($items);
 
-            return $this->successResponse($itemsOutput);   
+            return $this->successResponse($itemsOutput);
         }
-            
+
 
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter Bookings!'
@@ -286,9 +286,9 @@ class APISittersController extends BaseApiController
         {
             $itemsOutput = $this->sittersTransformer->pastBookingTransform($items);
 
-            return $this->successResponse($itemsOutput);   
+            return $this->successResponse($itemsOutput);
         }
-            
+
 
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter Bookings!'
@@ -313,10 +313,10 @@ class APISittersController extends BaseApiController
             {
                 $itemsOutput = $this->sittersTransformer->singleBookingTransform($item);
 
-                return $this->successResponse($itemsOutput);   
+                return $this->successResponse($itemsOutput);
             }
-                
-            
+
+
         }
 
         return $this->setStatusCode(400)->failureResponse([
@@ -356,7 +356,7 @@ class APISittersController extends BaseApiController
                 'success' => 'Sitter Timings Updated'
             ], $message);
         }
-            
+
 
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter!'
@@ -380,8 +380,8 @@ class APISittersController extends BaseApiController
         {
             $result = $this->sittersTransformer->sitterEarningTransform($sitterBookings);
 
-            return $this->successResponse($result);   
-            
+            return $this->successResponse($result);
+
         }
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter!'

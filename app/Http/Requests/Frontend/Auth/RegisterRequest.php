@@ -31,6 +31,7 @@ class RegisterRequest extends Request
             'name'                 => 'required|max:255',
             'email'                => ['required', 'email', 'max:255', Rule::unique('users')],
             'password'             => 'required|min:6|confirmed',
+            'mobile'               => 'required|numeric',
             'g-recaptcha-response' => 'required_if:captcha_status,true|captcha',
         ];
     }

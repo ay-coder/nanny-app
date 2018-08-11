@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Access\User\Traits\UserSendPasswordReset;
 use App\Models\Access\User\Traits\Attribute\UserAttribute;
 use App\Models\Access\User\Traits\Relationship\UserRelationship;
+use Carbon\Carbon;
 
 /**
  * Class User.
@@ -38,11 +39,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email', 
+        'email',
         'mobile',
-        'password', 
+        'password',
         'status',
-        'confirmation_code', 
+        'confirmation_code',
         'confirmed',
         'profile_pic',
         'device_token',
@@ -91,5 +92,17 @@ class User extends Authenticatable
     {
         $user = $user ? $user : $this;
         return $user->first_name . ' ' . $user->last_name;
+    }
+
+    /**
+     * Accessor for Age.
+     */
+    public function getAgeAttribute()
+    {
+        if(!empty($this->attributes['birthdate']))
+        {
+            return Carbon::parse(Carbon::createFromFormat('d/m/Y', $this->attributes['birthdate'])->format('d-m-Y'))->age;
+        }
+        return '';
     }
 }

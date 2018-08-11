@@ -77,7 +77,7 @@ class APIRequestsController extends BaseApiController
             'user_request'     => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 

@@ -416,7 +416,7 @@ class EloquentPaymentRepository extends DbRepository
 
     /**
      * Add Payment
-     * 
+     *
      * @param int $paymentId
      * @param string $token
      * @param float $tip
@@ -440,7 +440,7 @@ class EloquentPaymentRepository extends DbRepository
                 ]);
 
                 $payment->payment_status    = 1;
-                $payment->payment_via       = "STRIPE - " . $charge['id'];    
+                $payment->payment_via       = "STRIPE - " . $charge['id'];
                 $payment->payment_details   = $charge['statement_descriptor'];
                 $payment->tip               = $tip;
 

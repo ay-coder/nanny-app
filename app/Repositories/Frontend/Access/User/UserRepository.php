@@ -89,8 +89,10 @@ class UserRepository extends BaseRepository
         $user = new $user();
         $user->name = $data['name'];
         $user->email = $data['email'];
+        $user->mobile = $data['mobile'];
         $user->confirmation_code = md5(uniqid(mt_rand(), true));
         $user->status = 1;
+        $user->user_type = isset($data['user_type']) ? $data['user_type'] : 1; // 1 = parent , 2 = sitter
         $user->password = $provider ? null : bcrypt($data['password']);
         $user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
 
@@ -236,6 +238,29 @@ class UserRepository extends BaseRepository
         }
 
         return $user->save();
+    }
+
+    public function updateParent($id, $request)
+    {
+        $user = $this->find($id);
+        $user->name = $request->name;
+        $user->mobile = $request->mobile;
+        $user->birthdate = \Carbon\Carbon::createFromFormat('d/m/Y', $request->birthdate)->format('d/m/Y');
+        $user->address = $request->address;
+        $user->gender = $request->gender;
+
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $user->profile_pic = $imageName;
+            }
+        }
+
+        return $user->save();
+
     }
 
     /**

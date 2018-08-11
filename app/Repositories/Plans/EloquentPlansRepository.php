@@ -70,7 +70,7 @@ class EloquentPlansRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		
+
 		'plan_type' =>   [
                 'data'          => 'plan_type',
                 'name'          => 'plan_type',

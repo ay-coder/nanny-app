@@ -10,6 +10,7 @@ use App\Models\Babies\Babies;
 use App\Models\Access\User\User;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use Carbon\Carbon;
 
 class EloquentBabiesRepository extends DbRepository
 {
@@ -378,5 +379,29 @@ class EloquentBabiesRepository extends DbRepository
         unset($clientColumns['username']);
 
         return json_encode($this->setTableStructure($clientColumns));
+    }
+
+    public function updateBabies($request)
+    {
+        foreach ($request->data as $key => $value) {
+            $baby = $this->getById($key);
+            $baby->title = $value['title'];
+            $baby->birthdate = $value['birthdate'];
+            $baby->age = Carbon::parse(Carbon::createFromFormat('d/m/Y', $value['birthdate'])->format('d-m-Y'))->age;
+            $baby->description = $value['description'];
+            $baby->title = $value['title'];
+
+            if(isset($value['image']) && ($value['image']->getClientOriginalExtension() !== ''))
+            {
+                $file = $value['image'];
+                $imageName  = rand(11111, 99999) . '_baby.' . $file->getClientOriginalExtension();
+                $file->move(base_path() . '/public/uploads/babies/', $imageName);
+                $baby->image = $imageName;
+            }
+
+            $baby->save();
+        }
+
+        return true;
     }
 }

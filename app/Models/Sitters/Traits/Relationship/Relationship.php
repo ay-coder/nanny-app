@@ -22,7 +22,7 @@ trait Relationship
      */
     public function reviews()
     {
-        return $this->hasMany(Reviews::class, 'sitter_id');
+        return $this->hasMany(Reviews::class, 'sitter_id', 'user_id');
     }
 
 }

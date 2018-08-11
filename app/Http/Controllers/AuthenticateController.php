@@ -13,7 +13,7 @@ class AuthenticateController extends Controller
 {
 	/**
 	 * Authenticate User
-	 * 
+	 *
 	 * @param Request $request
 	 * @return json
 	 */
@@ -30,9 +30,9 @@ class AuthenticateController extends Controller
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-		
+
 		$user = Auth::user();
-		
+
 		// if no errors are encountered we can return a JWT
         return response()->json(compact('token', 'user'));
 	}

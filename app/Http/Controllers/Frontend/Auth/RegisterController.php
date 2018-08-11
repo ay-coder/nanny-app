@@ -7,6 +7,7 @@ use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Http\Requests\Frontend\Auth\RegisterRequest;
 use App\Repositories\Frontend\Access\User\UserRepository;
+use App\Helpers\Frontend\Auth\Socialite;
 
 /**
  * Class RegisterController.
@@ -40,7 +41,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('frontend.auth.register');
+        return view('frontend.auth.register')->withSocialiteLinks((new Socialite())->getSocialLinks());;
     }
 
     /**

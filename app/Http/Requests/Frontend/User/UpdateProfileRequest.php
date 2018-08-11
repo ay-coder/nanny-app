@@ -26,9 +26,20 @@ class UpdateProfileRequest extends Request
      */
     public function rules()
     {
-        return [
-            'name'  => 'required',
-            'email' => 'sometimes|required|email',
-        ];
+        if(access()->user()->user_type !== '1') {
+            return [
+                'name'  => 'required',
+                'email' => 'sometimes|required|email',
+            ];
+        } else {
+            return [
+                'name'      => 'required',
+                'email'     => 'sometimes|required|email',
+                'mobile'    => 'required',
+                'birthdate' => 'required',
+                'address'   => 'required',
+                'gender'    => 'required',
+            ];
+        }
     }
 }

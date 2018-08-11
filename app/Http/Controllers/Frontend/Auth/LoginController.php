@@ -29,7 +29,11 @@ class LoginController extends Controller
             return route('admin.dashboard');
         }
 
-        return route('frontend.user.dashboard');
+        if(access()->user()->user_type == 1) {
+            return route('frontend.user.parent.dashboard');
+        } else {
+            return route('frontend.user.sitter.dashboard');
+        }
     }
 
     /**
@@ -53,6 +57,12 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        if(!$user->hasRole('administrator') && $request->user_type !== $user->user_type)
+        {
+            access()->logout();
+            throw new GeneralException('These credentials do not match our records.');
+        }
+
         /*
          * Check to see if the users account is confirmed and active
          */

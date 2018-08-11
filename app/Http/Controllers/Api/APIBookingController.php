@@ -114,7 +114,7 @@ class APIBookingController extends BaseApiController
             'end_time'      => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -312,7 +312,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
@@ -345,7 +345,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
@@ -409,7 +409,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
@@ -505,7 +505,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
@@ -612,7 +612,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');

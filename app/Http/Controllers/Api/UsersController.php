@@ -39,11 +39,11 @@ class UsersController extends BaseApiController
 
     /**
      * Login request
-     * 
+     *
      * @param Request $request
      * @return type
      */
-    public function login(Request $request) 
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -64,7 +64,7 @@ class UsersController extends BaseApiController
                     'status'    => false,
                     ], 500);
         }
-        
+
         if($request->get('device_token') && $request->get('device_type'))
         {
             $user = Auth::user();
@@ -74,7 +74,7 @@ class UsersController extends BaseApiController
         }
 
         $user = Auth::user()->toArray();
-        
+
 
         $userData = array_merge($user, ['token' => $token]);
 
@@ -85,11 +85,11 @@ class UsersController extends BaseApiController
 
     /**
      * Login request
-     * 
+     *
      * @param Request $request
      * @return type
      */
-    public function sitterLogin(Request $request) 
+    public function sitterLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -110,7 +110,7 @@ class UsersController extends BaseApiController
                     'status'    => false,
                     ], 500);
         }
-        
+
         if($request->get('device_token') && $request->get('device_type'))
         {
             $user = Auth::user();
@@ -130,13 +130,13 @@ class UsersController extends BaseApiController
 
     /**
      * Sitter Profile request
-     * 
+     *
      * @param Request $request
      * @return type
      */
-    public function sitterProfile(Request $request) 
+    public function sitterProfile(Request $request)
     {
-        
+
         $userInfo = $this->getAuthenticatedUser();
         $user       = User::where('id', $userInfo->id)->with('sitter')->first()->toArray();
 
@@ -148,7 +148,7 @@ class UsersController extends BaseApiController
             $userToken  = $token[1];
         }
 
-        
+
         $userData   = array_merge($user, ['token' => $userToken]);
 
         $responseData = $this->userTransformer->sitterTranform((object)$userData);
@@ -158,18 +158,18 @@ class UsersController extends BaseApiController
 
     /**
      * Login request
-     * 
+     *
      * @param Request $request
      * @return type
      */
-    public function socialLogin(Request $request) 
+    public function socialLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'social_token'      => 'required',
             'social_provider'   => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
             foreach($validator->messages()->toArray() as $message)
@@ -179,11 +179,11 @@ class UsersController extends BaseApiController
             return $this->failureResponse($validator->messages(), $messageData);
         }
 
-       
+
         $user = User::where([
                 'social_provider'   => $request->get('social_provider'),
                 'social_token'      => $request->get('social_token')])->first();
-        
+
         if(isset($user) && $user->id)
         {
             Auth::loginUsingId($user->id, true);
@@ -222,7 +222,7 @@ class UsersController extends BaseApiController
             'status'    => false,
             ], 401);
     }
-    
+
      /**
      * socialCreate
      *
@@ -236,7 +236,7 @@ class UsersController extends BaseApiController
             'social_provider'   => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
             foreach($validator->messages()->toArray() as $message)
@@ -249,20 +249,20 @@ class UsersController extends BaseApiController
         $user = User::where([
                 'social_provider'   => $request->get('social_provider'),
                 'social_token'      => $request->get('social_token')])->first();
-        
+
         if(isset($user) && $user->id)
         {
             return $this->socialLogin($request);
         }
 
-        
+
         $validator = Validator::make($request->all(), [
             'email'             => 'required|unique:users|max:255',
             'social_token'      => 'required|unique:users|max:255',
             'social_provider'   => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
             foreach($validator->messages()->toArray() as $message)
@@ -286,7 +286,7 @@ class UsersController extends BaseApiController
                 $input = array_merge($input, ['profile_pic' => $imageName]);
             }
         }
-       
+
         $user = $repository->createSocialUserStub($input);
         if($user)
         {
@@ -294,7 +294,7 @@ class UsersController extends BaseApiController
 
             $user           = Auth::user()->toArray();
             $token          = JWTAuth::fromUser(Auth::user());
-            $userData       = array_merge($user, ['token' => $token]);  
+            $userData       = array_merge($user, ['token' => $token]);
             $responseData   = $this->userTransformer->transform((object)$userData);
             return $this->successResponse($responseData);
         }
@@ -328,7 +328,7 @@ class UsersController extends BaseApiController
             'name'      => 'required',
             'password'  => 'required',
         ]);
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
             foreach($validator->messages()->toArray() as $message)
@@ -345,10 +345,10 @@ class UsersController extends BaseApiController
                 'email'     => $input['email'],
                 'password'  => $input['password']
             ];
-            
+
             $token          = JWTAuth::attempt($credentials);
             $user           = Auth::user()->toArray();
-            $userData       = array_merge($user, ['token' => $token]);  
+            $userData       = array_merge($user, ['token' => $token]);
             $responseData   = $this->userTransformer->transform((object)$userData);
             return $this->successResponse($responseData);
         }
@@ -395,7 +395,7 @@ class UsersController extends BaseApiController
 
     /**
      * Change Password
-     * 
+     *
      * @param Request $request
      * @return string
      */
@@ -406,14 +406,14 @@ class UsersController extends BaseApiController
             $userInfo = $this->getAuthenticatedUser();
             $userInfo->password = bcrypt($request->get('password'));
 
-            if ($userInfo->save()) 
+            if ($userInfo->save())
             {
                 event(new UserPasswordChanged($userInfo));
 
                 $successResponse = [
                     'message' => 'Password Updated successfully.'
                 ];
-            
+
                 return $this->successResponse($successResponse);
             }
         }
@@ -425,7 +425,7 @@ class UsersController extends BaseApiController
 
     /**
      * Get User Profile
-     * 
+     *
      * @param Request $request
      * @return json
      */
@@ -440,7 +440,7 @@ class UsersController extends BaseApiController
             if($user)
             {
                 $responseData = $this->userTransformer->transform($user);
-                
+
                 return $this->successResponse($responseData);
             }
 
@@ -451,12 +451,12 @@ class UsersController extends BaseApiController
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs'
-        ], 'Something went wrong !');     
+        ], 'Something went wrong !');
     }
 
     /**
      * Update User Profile
-     * 
+     *
      * @param Request $request
      * @return json
      */
@@ -469,11 +469,11 @@ class UsersController extends BaseApiController
             $token      = explode(" ", $headerToken);
             $userToken  = $token[1];
         }
-        
+
         $userInfo   = $this->getApiUserInfo();
         $repository = new UserRepository;
         $input      = $request->all();
-        
+
         if($request->file('profile_pic'))
         {
             $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
@@ -488,7 +488,7 @@ class UsersController extends BaseApiController
             'name' => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -510,7 +510,7 @@ class UsersController extends BaseApiController
             if($user)
             {
                 $responseData = $this->userTransformer->updateUser($user);
-                
+
                 return $this->successResponse($responseData);
             }
 
@@ -521,12 +521,12 @@ class UsersController extends BaseApiController
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs'
-        ], 'Something went wrong !');     
+        ], 'Something went wrong !');
     }
 
      /**
      * Update Sitter Profile
-     * 
+     *
      * @param Request $request
      * @return json
      */
@@ -539,11 +539,11 @@ class UsersController extends BaseApiController
             $token      = explode(" ", $headerToken);
             $userToken  = $token[1];
         }
-        
+
         $userInfo   = $this->getApiUserInfo();
         $repository = new UserRepository;
         $input      = $request->all();
-        
+
         if($request->file('profile_pic'))
         {
             $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
@@ -558,7 +558,7 @@ class UsersController extends BaseApiController
             'name' => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -603,7 +603,7 @@ class UsersController extends BaseApiController
             {
                 $user->sitter->vacation_mode = $request->get('vacation_mode');
             }
-            
+
             if($request->has('sitter_start_time'))
             {
                 $user->sitter->sitter_start_time = $request->get('sitter_start_time');
@@ -618,7 +618,7 @@ class UsersController extends BaseApiController
             {
                 $user->sitter->save();
                 $responseData = $this->userTransformer->sitterTranform($user);
-                
+
                 return $this->successResponse($responseData);
             }
 
@@ -629,7 +629,7 @@ class UsersController extends BaseApiController
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs'
-        ], 'Something went wrong !');     
+        ], 'Something went wrong !');
     }
 
     public function updageUserPassword(Request $request)
@@ -638,7 +638,7 @@ class UsersController extends BaseApiController
             'password'  => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -648,7 +648,7 @@ class UsersController extends BaseApiController
             }
             return $this->failureResponse($validator->messages(), $messageData);
         }
-        
+
         $userInfo   = $this->getApiUserInfo();
         $user       = User::find($userInfo['userId']);
 
@@ -659,7 +659,7 @@ class UsersController extends BaseApiController
             $successResponse = [
                 'message' => 'Password Updated successfully.'
             ];
-            
+
             return $this->successResponse($successResponse);
         }
 
@@ -670,18 +670,18 @@ class UsersController extends BaseApiController
 
     /**
      * Logout request
-     * 
+     *
      * @param  Request $request
      * @return json
      */
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
         $userInfo   = $this->getApiUserInfo();
         $user       = User::find($userInfo['userId']);
 
         $user->device_token = '';
 
-        if($user->save()) 
+        if($user->save())
         {
             $successResponse = [
                 'message' => 'User Logged out successfully.'
@@ -728,7 +728,7 @@ class UsersController extends BaseApiController
 				$gender 	= true;
 			}
 
-			
+
 			if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
 			{
 				$count 		= $count + 20;
@@ -754,11 +754,11 @@ class UsersController extends BaseApiController
 				'address'						=> $address,
 				'birthdate'						=> $birthdate,
 	            'profile_completion_count' 		=> (int) $count
-	        ];	
+	        ];
 
 	        return $this->successResponse($successResponse);
 		}
-    	
+
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'User Not Found !'
         ], 'User Not Found !');

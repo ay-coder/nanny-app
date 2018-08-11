@@ -26,7 +26,7 @@ class Babies extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "parent_id", "title", "birthdate", "age", "description", "image", "status", "created_at", "updated_at", 
+        "id", "parent_id", "title", "birthdate", "age", "description", "image", "status", "created_at", "updated_at",
     ];
 
     /**

@@ -7,25 +7,25 @@ use App\Http\Transformers\EventTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Event\EloquentEventRepository;
 
-class APIEventsController extends BaseApiController 
-{   
+class APIEventsController extends BaseApiController
+{
     /**
      * Event Transformer
-     * 
+     *
      * @var Object
      */
     protected $eventTransformer;
 
     /**
      * Repository
-     * 
+     *
      * @var Object
      */
     protected $repository;
 
     /**
      * __construct
-     * 
+     *
      * @param EventTransformer $eventTransformer
      */
     public function __construct(EloquentEventRepository $repository, EventTransformer $eventTransformer)
@@ -38,11 +38,11 @@ class APIEventsController extends BaseApiController
 
     /**
      * List of All Events
-     * 
+     *
      * @param Request $request
      * @return json
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $userInfo   = $this->getApiUserInfo();
         $events     = $this->repository->getAll()->toArray();
@@ -64,7 +64,7 @@ class APIEventsController extends BaseApiController
 
     /**
      * Create
-     * 
+     *
      * @param Request $request
      * @return string
      */
@@ -88,7 +88,7 @@ class APIEventsController extends BaseApiController
 
     /**
      * Edit
-     * 
+     *
      * @param Request $request
      * @return string
      */
@@ -114,7 +114,7 @@ class APIEventsController extends BaseApiController
 
     /**
      * Delete
-     * 
+     *
      * @param Request $request
      * @return string
      */

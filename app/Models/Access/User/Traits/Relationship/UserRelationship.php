@@ -54,7 +54,7 @@ trait UserRelationship
     public function babies()
     {
         return $this->hasMany(Babies::class, 'parent_id');
-    }    
+    }
 
     /**
      * @return mixed
@@ -63,12 +63,12 @@ trait UserRelationship
     {
         return $this->hasOne(Sitters::class, 'user_id');
     }
-        
+
     /**
      * @return mixed
      */
     public function parent_bookings()
     {
         return $this->hasMany(Booking::class, 'user_id');
-    } 
+    }
 }
