@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use App\Repositories\Frontend\Access\User\UserRepository;
+use Illuminate\Http\Request;
+use App\Repositories\Babies\EloquentBabiesRepository;
 
 /**
  * Class ProfileController.
@@ -43,5 +45,83 @@ class ProfileController extends Controller
         }
 
         return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.profile_updated'));
+    }
+
+    /**
+     * Update Parent
+     * @param  Request $request
+     * @return [type]
+     */
+    public function updateParent(UpdateProfileRequest $request)
+    {
+        $output = $this->user->updateParent(access()->id(), $request);
+
+        return redirect()->route('frontend.user.parent.account')->withFlashSuccess(trans('strings.frontend.user.profile_updated'));
+    }
+
+    /**
+     * Update Babies
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function updateBabies(Request $request)
+    {
+        $babyRepository = new EloquentBabiesRepository();
+        $output = $babyRepository->updateBabies($request);
+
+        return redirect()->route('frontend.user.parent.account')->withFlashSuccess('Babies Successfully updated.');
+    }
+
+    /**
+     * Add Babies
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function addBabies(Request $request)
+    {
+        $babyRepository = new EloquentBabiesRepository();
+        $input = $request->all();
+        $input      = array_merge($input, ['image' => 'default.png', 'parent_id' => access()->user()->id]);
+
+        if($request->file('image'))
+        {
+            $imageName  = rand(11111, 99999) . '_baby.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(base_path() . '/public/uploads/babies/', $imageName);
+            $input = array_merge($input, ['image' => $imageName]);
+        }
+
+        $output = $babyRepository->create($input);
+
+        return redirect()->route('frontend.user.parent.account')->withFlashSuccess('Babies Successfully added.');
+    }
+
+    /**
+     * Delete
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function deleteBaby($id)
+    {
+        if($id)
+        {
+            $babyRepository = new EloquentBabiesRepository();
+            $userInfo   = access()->user();
+            $babyCount  = $babyRepository->model->where([
+                'id'        => $id,
+                'parent_id' => $userInfo->id
+                ])->count();
+
+            if($babyCount > 0)
+            {
+                $status     = $babyRepository->destroy($id);
+
+                if($status)
+                {
+                    return redirect()->route('frontend.user.parent.account')->withFlashSuccess('Baby Successfully deleted.');
+                }
+            }
+        }
+        return redirect()->route('frontend.user.parent.account')->withFlashDelete('Baby Not Found or Baby Already Deleted !');
     }
 }

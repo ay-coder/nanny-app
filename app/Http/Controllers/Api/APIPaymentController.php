@@ -79,7 +79,7 @@ class APIPaymentController extends BaseApiController
             'booking_id'     => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -99,7 +99,7 @@ class APIPaymentController extends BaseApiController
         ])->first();
 
         if(isset($bookingInfo) && $bookingInfo->id)
-        {       
+        {
             $perHour  = access()->getSitterPerHour();
             $hourdiff = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
             $input    = $request->all();
@@ -119,7 +119,7 @@ class APIPaymentController extends BaseApiController
             ];
 
             $model = $this->repository->create($inputData);
-            
+
             if($model)
             {
                 $responseData = $this->paymentTransformer->transform($model);
@@ -129,7 +129,7 @@ class APIPaymentController extends BaseApiController
         }
 
 
-        
+
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs'
@@ -220,7 +220,7 @@ class APIPaymentController extends BaseApiController
 
     /**
      * Add Payment
-     * 
+     *
      * @param Request $request
      */
     public function addPayment(Request $request)
@@ -231,7 +231,7 @@ class APIPaymentController extends BaseApiController
             'token'         => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 

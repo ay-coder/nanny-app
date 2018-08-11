@@ -330,7 +330,7 @@ class EloquentBookingRepository extends DbRepository
             ->orderBy($orderBy, $sort)->get();
     }
 
-    
+
 
     /**
      * Get All Past Booking
@@ -342,7 +342,7 @@ class EloquentBookingRepository extends DbRepository
     public function getAllPast($orderBy = 'booking_date', $sort = 'asc')
     {
         $parentId = Auth::user()->id;
-        
+
         return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->with(['user', 'sitter', 'baby', 'payment'])
             ->where('user_id', $parentId)
@@ -454,8 +454,8 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Get Sitter Active Bookings 
-     * 
+     * Get Sitter Active Bookings
+     *
      * @param int $sitterId
      * @return array
      */
@@ -482,8 +482,8 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Get Sitter Past Bookings 
-     * 
+     * Get Sitter Past Bookings
+     *
      * @param int $sitterId
      * @return array
      */
@@ -519,8 +519,8 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Get Sitter Past Bookings 
-     * 
+     * Get Sitter Past Bookings
+     *
      * @param int $sitterId
      * @return array
      */
@@ -541,8 +541,8 @@ class EloquentBookingRepository extends DbRepository
     }
 
     /**
-     * Get Sitter Past Bookings 
-     * 
+     * Get Sitter Past Bookings
+     *
      * @param int $sitterId
      * @return array
      */

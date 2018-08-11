@@ -24,7 +24,7 @@ class Plans extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "title", "amount", "description", "sub_title", "plan_type", "status", "created_at", "updated_at", 
+        "id", "title", "amount", "description", "sub_title", "plan_type", "status", "created_at", "updated_at",
     ];
 
     /**

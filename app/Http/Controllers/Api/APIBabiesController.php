@@ -80,7 +80,7 @@ class APIBabiesController extends BaseApiController
             'title'     => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -157,7 +157,7 @@ class APIBabiesController extends BaseApiController
             'baby_id'    => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -169,7 +169,7 @@ class APIBabiesController extends BaseApiController
         }
 
         $userInfo   = $this->getAuthenticatedUser();
-        
+
         if($request->file('image'))
         {
             $imageName  = rand(11111, 99999) . '_baby.' . $request->file('image')->getClientOriginalExtension();
@@ -210,13 +210,13 @@ class APIBabiesController extends BaseApiController
 
         if($itemId)
         {
-            
+
             $userInfo   = $this->getAuthenticatedUser();
             $babyCount  = $this->repository->model->where([
                 'id'        => $request->get('baby_id'),
                 'parent_id' => $userInfo->id
                 ])->count();
-            
+
             if($babyCount > 0)
             {
                 $status     = $this->repository->destroy($itemId);

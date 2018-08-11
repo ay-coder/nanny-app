@@ -105,3 +105,84 @@ if (! function_exists('getRtlCss')) {
         return implode('/', $path).'/'.$filename.'.rtl.css';
     }
 }
+
+if (! function_exists('profileCompletion')) {
+
+    /**
+     * User Profile complition percentage
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    function profileCompletion($userInfo)
+    {
+        $count  = 0;
+        $mobile = $gender = $address = $birthdate = $name   = false;
+
+        if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
+        {
+            $count  = $count + 20;
+            $name   = true;
+        }
+
+        if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
+        {
+            $count      = $count + 20;
+            $gender     = true;
+        }
+
+
+        if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
+        {
+            $count      = $count + 20;
+            $mobile     = true;
+        }
+
+        if(isset($userInfo->address) && strlen($userInfo->address) > 2)
+        {
+            $count      = $count + 20;
+            $address    = true;
+        }
+
+        if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
+        {
+            $count      = $count + 20;
+            $birthdate  = true;
+        }
+
+        return (int) $count;
+    }
+}
+
+if (! function_exists('AvgRating')) {
+
+    /**
+     * User Avg Rating
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    function AvgRating($userId = null, $sitterId = null)
+    {
+        $rating = new App\Models\Reviews\Reviews();
+
+        if(!is_null($userId)) {
+            $rating = $rating->where('user_id', $userId);
+        }
+
+        if(!is_null($sitterId)) {
+            $rating = $rating->where('sitter_id', $sitterId);
+        }
+
+        $rating = $rating->avg('rating');
+
+        if(is_null($rating))
+        {
+            $rating = 0;
+        }
+
+        return $rating;
+    }
+}

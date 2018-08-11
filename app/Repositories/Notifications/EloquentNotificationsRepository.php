@@ -367,13 +367,13 @@ class EloquentNotificationsRepository extends DbRepository
 
     /**
      * Mark Read All
-     * 
+     *
      * @param int $userId
      * @return bool
      */
     public function markReadAll($userId = null)
     {
-        if($userId)       
+        if($userId)
         {
             return $this->model->where('user_id', $userId)->update([
                 'is_read'   => 1,

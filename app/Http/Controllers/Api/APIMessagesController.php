@@ -78,7 +78,7 @@ class APIMessagesController extends BaseApiController
             'to_user_id'        => 'required',
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -88,7 +88,7 @@ class APIMessagesController extends BaseApiController
             }
             return $this->failureResponse($validator->messages(), $messageData);
         }
-        
+
         $userInfo   = $this->getAuthenticatedUser();
         $input      = $request->all();
         $input      = array_merge($input, ['from_user_id' => $userInfo->id ]);
