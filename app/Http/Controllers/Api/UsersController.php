@@ -764,6 +764,10 @@ class UsersController extends BaseApiController
         ], 'User Not Found !');
     }
 
+    /**
+     * Call Token
+     * @param Request $request
+     */
     public function callToken(Request $request)
     {
         $twilioAccountSid   = 'ACdcf7bf55f7ff0faada90d4afaa5d06fe';
@@ -771,7 +775,8 @@ class UsersController extends BaseApiController
         $twilioApiSecret    = 'cibniYvO6qRyZ31Sn2KZheYVy5wwSGZZ';
         
         // Required for Voice grant
-        $outgoingApplicationSid = 'PNebb6b08a67e0eec24de4e67e9b0bdc79';
+        //$outgoingApplicationSid = 'PNebb6b08a67e0eec24de4e67e9b0bdc79';
+        $outgoingApplicationSid = 'CRfd3b32a393732fdf7056b975f8a6a6c5';
 
         // An identifier for your app - can be anything you'd like
         $identity = "john_doe";
