@@ -29,17 +29,17 @@ class SittersTransformer extends Transformer
             $reviews    = collect($item->reviews);
             $avgRating  = $reviews->sum('rating') / count($reviews);
         }
-        
+
         $response =  [
-            "sitter_id"             => (int) $item->user_id, 
-            "user_id"               => $item->user_id, 
-            "category"              => $item->category, 
-            "about_me"              => $item->about_me, 
-            "description"           => $item->description, 
+            "sitter_id"             => (int) $item->user_id,
+            "user_id"               => $item->user_id,
+            "category"              => $item->category,
+            "about_me"              => $item->about_me,
+            "description"           => $item->description,
             'email'                 => $this->nulltoBlank($item->user->email),
             'name'                  => $this->nulltoBlank($item->user->name),
             'mobile'                => $this->nulltoBlank($item->user->mobile),
-            'profile_pic'           => URL::to('/').'/uploads/user/' . $item->user->profile_pic, 
+            'profile_pic'           => URL::to('/').'/uploads/user/' . $item->user->profile_pic,
             'address'               => $this->nulltoBlank($item->user->address),
             'city'                  => $this->nulltoBlank($item->user->city),
             'state'                 => $this->nulltoBlank($item->user->state),
@@ -55,7 +55,7 @@ class SittersTransformer extends Transformer
         {
             $reviewData = [];
 
-            foreach($item->reviews as $review)   
+            foreach($item->reviews as $review)
             {
                 $review = (object)$review;
                 $review->user = (object) $review->user;
@@ -74,13 +74,13 @@ class SittersTransformer extends Transformer
 
         return $response;
     }
-    
+
     public function calendarTransform($items)
     {
         $response = [];
 
         $sr = 0;
-        foreach($items as $item)   
+        foreach($items as $item)
         {
             $user           = (object) $item->user;
             $sitter         = (object) $item->sitter;
@@ -111,17 +111,17 @@ class SittersTransformer extends Transformer
 
             if(isset($baby) && isset($baby->id))
             {
-                $originalBaby = $baby->id; 
+                $originalBaby = $baby->id;
                 $babyData[] = [
                     'baby_id'       => (int) $baby->id,
                     "title"         =>  isset($baby->title) ? $baby->title : '',
                     "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                     "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                    "description"   =>  isset($baby->description) ? $baby->description : '', 
+                    "description"   =>  isset($baby->description) ? $baby->description : '',
                     "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                 ];
             }
-            
+
             if($item->is_multiple == 1 && isset($item->baby_ids))
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
@@ -142,7 +142,7 @@ class SittersTransformer extends Transformer
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                             "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                            "description"   =>  isset($baby->description) ? $baby->description : '', 
+                            "description"   =>  isset($baby->description) ? $baby->description : '',
                             "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                         ];
                     }
@@ -157,16 +157,16 @@ class SittersTransformer extends Transformer
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
-                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
-                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic, 
-                "baby_id"           =>  $item->baby_id, 
+                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic,
+                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic,
+                "baby_id"           =>  $item->baby_id,
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
-                "booking_date"      =>  $item->booking_date, 
-                "start_time"        =>  $item->start_time, 
-                "end_time"          =>  $item->end_time, 
-                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
-                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
-                "booking_status"    =>  $item->booking_status, 
+                "booking_date"      =>  $item->booking_date,
+                "start_time"        =>  $item->start_time,
+                "end_time"          =>  $item->end_time,
+                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time),
+                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
+                "booking_status"    =>  $item->booking_status,
                 'address'           => $this->nulltoBlank($user->address),
                 'city'              => $this->nulltoBlank($user->city),
                 'state'             => $this->nulltoBlank($user->state),
@@ -189,7 +189,7 @@ class SittersTransformer extends Transformer
         $response = [];
 
         $sr = 0;
-        foreach($items as $item)   
+        foreach($items as $item)
         {
             $user       = (object) $item->user;
             $sitter     = (object) $item->sitter;
@@ -226,11 +226,11 @@ class SittersTransformer extends Transformer
                     "title"         =>  isset($baby->title) ? $baby->title : '',
                     "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                     "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                    "description"   =>  isset($baby->description) ? $baby->description : '', 
+                    "description"   =>  isset($baby->description) ? $baby->description : '',
                     "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                 ];
             }
-            
+
             if($item->is_multiple == 1 && isset($item->baby_ids))
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
@@ -251,7 +251,7 @@ class SittersTransformer extends Transformer
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                             "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                            "description"   =>  isset($baby->description) ? $baby->description : '', 
+                            "description"   =>  isset($baby->description) ? $baby->description : '',
                             "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                         ];
                     }
@@ -266,16 +266,16 @@ class SittersTransformer extends Transformer
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
-                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
-                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic, 
-                "baby_id"           =>  $item->baby_id, 
+                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic,
+                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic,
+                "baby_id"           =>  $item->baby_id,
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
-                "booking_date"      =>  $item->booking_date, 
-                "start_time"        =>  $item->start_time, 
-                "end_time"          =>  $item->end_time, 
-                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
-                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
-                "booking_status"    =>  $item->booking_status, 
+                "booking_date"      =>  $item->booking_date,
+                "start_time"        =>  $item->start_time,
+                "end_time"          =>  $item->end_time,
+                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time),
+                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
+                "booking_status"    =>  $item->booking_status,
                 'address'           => $this->nulltoBlank($user->address),
                 'city'              => $this->nulltoBlank($user->city),
                 'state'             => $this->nulltoBlank($user->state),
@@ -331,11 +331,11 @@ class SittersTransformer extends Transformer
                     "title"         =>  isset($baby->title) ? $baby->title : '',
                     "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                     "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                    "description"   =>  isset($baby->description) ? $baby->description : '', 
+                    "description"   =>  isset($baby->description) ? $baby->description : '',
                     "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                 ];
             }
-           
+
 
             if($item->is_multiple == 1 && isset($item->baby_ids))
             {
@@ -351,7 +351,7 @@ class SittersTransformer extends Transformer
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                             "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                            "description"   =>  isset($baby->description) ? $baby->description : '', 
+                            "description"   =>  isset($baby->description) ? $baby->description : '',
                             "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                         ];
                     }
@@ -366,16 +366,16 @@ class SittersTransformer extends Transformer
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
-                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
-                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic, 
-                "baby_id"           =>  $item->baby_id, 
+                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic,
+                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic,
+                "baby_id"           =>  $item->baby_id,
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
-                "booking_date"      =>  $item->booking_date, 
-                "start_time"        =>  $item->start_time, 
-                "end_time"          =>  $item->end_time, 
-                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
-                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
-                "booking_status"    =>  $item->booking_status, 
+                "booking_date"      =>  $item->booking_date,
+                "start_time"        =>  $item->start_time,
+                "end_time"          =>  $item->end_time,
+                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time),
+                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
+                "booking_status"    =>  $item->booking_status,
                 'address'           => $this->nulltoBlank($user->address),
                 'city'              => $this->nulltoBlank($user->city),
                 'state'             => $this->nulltoBlank($user->state),
@@ -437,11 +437,11 @@ class SittersTransformer extends Transformer
                     "title"         =>  isset($baby->title) ? $baby->title : '',
                     "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                     "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                    "description"   =>  isset($baby->description) ? $baby->description : '', 
+                    "description"   =>  isset($baby->description) ? $baby->description : '',
                     "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                 ];
             }
-            
+
             if($item->is_multiple == 1 && isset($item->baby_ids))
             {
                 $babyIds    = array_values(explode(',', $item->baby_ids));
@@ -456,7 +456,7 @@ class SittersTransformer extends Transformer
                             "title"         =>  isset($baby->title) ? $baby->title : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                             "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                            "description"   =>  isset($baby->description) ? $baby->description : '', 
+                            "description"   =>  isset($baby->description) ? $baby->description : '',
                             "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
                         ];
                     }
@@ -471,16 +471,16 @@ class SittersTransformer extends Transformer
                 'sitter_name'       =>  $sitter->name,
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  access()->getAverageRating($item->sitter_id),
-                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic, 
-                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic, 
-                "baby_id"           =>  $item->baby_id, 
+                'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic,
+                'user_profile_pic'  =>  URL::to('/').'/uploads/user/' . $user->profile_pic,
+                "baby_id"           =>  $item->baby_id,
                 "is_multiple"       =>  (int) isset($item->is_multiple) ? $item->is_multiple : 0,
-                "booking_date"      =>  $item->booking_date, 
-                "start_time"        =>  $item->start_time, 
-                "end_time"          =>  $item->end_time, 
-                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time), 
-                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time), 
-                "booking_status"    =>  $item->booking_status, 
+                "booking_date"      =>  $item->booking_date,
+                "start_time"        =>  $item->start_time,
+                "end_time"          =>  $item->end_time,
+                "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time),
+                "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
+                "booking_status"    =>  $item->booking_status,
                 'address'           => $this->nulltoBlank($user->address),
                 'city'              => $this->nulltoBlank($user->city),
                 'state'             => $this->nulltoBlank($user->state),
@@ -499,7 +499,7 @@ class SittersTransformer extends Transformer
             'total_earning' => (float) $total,
             'bookings'      => $response
         ];
-            
+
         return $output;
     }
 }

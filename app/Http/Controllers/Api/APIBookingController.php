@@ -168,7 +168,7 @@ class APIBookingController extends BaseApiController
                 'to_user_id'    => $model->sitter_id,
                 'description'   => $sitterText
             ];
-            
+
             access()->addNotification($storeParentNotification);
             access()->addNotification($storeSitterNotification);
 
@@ -377,7 +377,7 @@ class APIBookingController extends BaseApiController
                 }
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
@@ -414,7 +414,7 @@ class APIBookingController extends BaseApiController
             'message' => 'Unable to find Booking!'
             ], 'No Booking Found !');
     }
-    
+
 
     /**
      * Start
@@ -468,7 +468,7 @@ class APIBookingController extends BaseApiController
                         'to_user_id'    => $userInfo->id,
                         'description'   => $sitterText
                     ];
-                    
+
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
@@ -582,7 +582,7 @@ class APIBookingController extends BaseApiController
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $sitterText
                     ];
-                    
+
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 

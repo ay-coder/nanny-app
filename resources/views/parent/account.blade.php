@@ -49,7 +49,7 @@
 
                     <!-- Parent Detail Edit form Start-->
                     <div class="parent-profile edit">
-                        {{ Form::open(['route' => 'frontend.user.parent.update']) }}
+                        {{ Form::open(['route' => 'frontend.user.parent.update', 'files' => true, 'enctype'=>'multipart/form-data']) }}
                             <div class="form-row">
                                 <div class="form-group upload-image">
                                     <label for="name" class="inputFilelabel"></label>

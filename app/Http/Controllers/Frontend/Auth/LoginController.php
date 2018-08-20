@@ -25,14 +25,14 @@ class LoginController extends Controller
      */
     public function redirectPath()
     {
-        if (access()->allow('view-backend')) {
-            return route('admin.dashboard');
-        }
-
         if(access()->user()->user_type == 1) {
             return route('frontend.user.parent.dashboard');
-        } else {
+        } elseif(access()->user()->user_type == 2) {
             return route('frontend.user.sitter.dashboard');
+        }
+
+        if (access()->allow('view-backend')) {
+            return route('admin.dashboard');
         }
     }
 

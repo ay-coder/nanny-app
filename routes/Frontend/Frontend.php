@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('parent/search', 'DashboardController@searchSitters')->name('parent.search');
         Route::get('parent/find/{id}', 'DashboardController@findSitter')->name('parent.findsitter');
         Route::post('parent/booksitter', 'DashboardController@bookSitter')->name('parent.booksitter');
+
         /*
          * Sitter Dashboard Specific
          */
@@ -51,12 +52,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('parent/babies/add', 'ProfileController@addBabies')->name('parent.babies.add');
         Route::any('parent/baby/delete/{id}', 'ProfileController@deleteBaby')->name('parent.babies.delete');
 
+        Route::post('sitter/update', 'ProfileController@updateSitter')->name('sitter.update');
+
         /*
          * Notifications
          */
         Route::get('parent/notification', 'AccountController@parentNotification')->name('parent.notification');
 
         Route::get('sitter/notification', 'AccountController@sitterNotification')->name('sitter.notification');
+        Route::get('sitter/earning', 'AccountController@sitterEarnings')->name('sitter.earning');
+        Route::get('sitter/vacation', 'AccountController@vacationMode')->name('sitter.vacation');
+        Route::post('sitter/changevacation', 'AccountController@changeVacationMode')->name('sitter.changevacation');
 
         /*
          * Subscription
@@ -67,6 +73,10 @@ Route::group(['middleware' => 'auth'], function () {
          * Appointment
          */
         Route::get('parent/myappointment', 'AppointmentController@index')->name('parent.myappointment');
-        Route::get('parent/myappointment/delete/{id}', 'AppointmentController@delete')->name('parent.appointment.delete');
+        Route::get('parent/myappointment/{id}/delete', 'AppointmentController@delete')->name('parent.appointment.delete');
+
+        Route::get('booking/{booking_id}/accept', 'AppointmentController@accept')->name('sitter.booking.accept');
+        Route::get('booking/{booking_id}/reject', 'AppointmentController@reject')->name('sitter.booking.reject');
+        Route::get('booking/{booking_id}', 'AppointmentController@getBooking')->name('sitter.booking');
     });
 });

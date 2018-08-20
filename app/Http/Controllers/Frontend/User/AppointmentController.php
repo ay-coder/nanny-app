@@ -49,4 +49,85 @@ class AppointmentController extends Controller
 
         return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Appointment is Deleted Successfully');
     }
+
+    /**
+     * Accept
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function accept($bookingId)
+    {
+        if($bookingId)
+        {
+            $userInfo       = access()->user();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $bookingId,
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'REQUESTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $bookingInfo->booking_status = 'ACCEPTED';
+                if($bookingInfo->save())
+                {
+                    return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking accepted Successfully');
+                }
+            }
+        }
+
+        return redirect()->route('frontend.user.sitter.notification')->withFlashDanger('Unable to find Booking!');
+    }
+
+    /* Reject
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function reject($bookingId)
+    {
+        if($bookingId)
+        {
+            $userInfo       = access()->user();
+            $bookingInfo    = $this->repository->model->where([
+                'id'                => $bookingId,
+                'sitter_id'         => $userInfo->id,
+                'booking_status'    => 'REQUESTED'
+            ])->first();
+
+            if(isset($bookingInfo))
+            {
+                $bookingInfo->booking_status = 'REJECTED';
+                if($bookingInfo->save())
+                {
+                    return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking rejected Successfully');
+                }
+            }
+        }
+
+        return redirect()->route('frontend.user.sitter.notification')->withFlashDanger('Unable to find Booking!');
+    }
+
+    /**
+     * get Single Booking
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function getBooking($bookingId)
+    {
+        if($bookingId)
+        {
+            $userInfo       = access()->user();
+            $booking        = $this->repository->getSingleBooking($bookingId);
+
+            if(isset($booking) && count($booking))
+            {
+                return view('sitter.earning-detail', compact('booking'));
+            }
+        }
+
+        return redirect()->back()->withFlashDanger('Unable to find Sitter Booking!');
+    }
 }

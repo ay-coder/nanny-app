@@ -37,8 +37,12 @@
             <div class="btn-grpup">
                 <button type="submit" class="btn btn-default">Log In</button>
                 <span class="separator">or</span>
-                <a href="#" class="btn btn-default google-login">Login with Google</a>
-                <a href="#" class="btn btn-default facebook-login">Login with facebook</a>
+
+                {{-- {!! $socialite_links !!} --}}
+
+                <a href="{{ route('frontend.auth.social.login', ['provider' => 'google']) }}" class="btn btn-default google-login">Login with Google</a>
+                <a href="{{ route('frontend.auth.social.login', ['provider' => 'facebook']) }}" class="btn btn-default facebook-login">Login with facebook</a>
+
                 <span class="acount-link">Don’t have an account? <a href="{{ route('frontend.auth.register') }}">Sign Up</a></span>
             </div>
         {{ Form::close() }}

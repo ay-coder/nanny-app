@@ -124,4 +124,17 @@ class ProfileController extends Controller
         }
         return redirect()->route('frontend.user.parent.account')->withFlashDelete('Baby Not Found or Baby Already Deleted !');
     }
+
+
+    /**
+     * Update Sitter
+     * @param  Request $request
+     * @return [type]
+     */
+    public function updateSitter(UpdateProfileRequest $request)
+    {
+        $output = $this->user->updateSitter(access()->id(), $request);
+
+        return redirect()->route('frontend.user.sitter.account')->withFlashSuccess(trans('strings.frontend.user.profile_updated'));
+    }
 }

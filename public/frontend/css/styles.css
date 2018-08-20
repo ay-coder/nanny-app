@@ -555,6 +555,10 @@ label, label.control-label{color: #767676; font-family: 'Dosis', sans-serif; fon
 .m-15 {
 	margin : 15px 0px;
 }
+
+.table td, .table th .v-align-top {
+    vertical-align: top;
+}
 /********Developer Css end********/
 
 

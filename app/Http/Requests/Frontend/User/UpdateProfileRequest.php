@@ -26,12 +26,7 @@ class UpdateProfileRequest extends Request
      */
     public function rules()
     {
-        if(access()->user()->user_type !== '1') {
-            return [
-                'name'  => 'required',
-                'email' => 'sometimes|required|email',
-            ];
-        } else {
+        if(access()->user()->user_type == '1') {
             return [
                 'name'      => 'required',
                 'email'     => 'sometimes|required|email',
@@ -39,6 +34,23 @@ class UpdateProfileRequest extends Request
                 'birthdate' => 'required',
                 'address'   => 'required',
                 'gender'    => 'required',
+            ];
+
+        } else if(access()->user()->user_type == '2') {
+            return [
+                'name'              => 'required',
+                'email'             => 'sometimes|required|email',
+                'mobile'            => 'required',
+                'birthdate'         => 'required',
+                'address'           => 'required',
+                'gender'            => 'required',
+                'sitter_start_time' => 'required',
+                'sitter_end_time'   => 'required|after:sitter_start_time',
+            ];
+        } else {
+            return [
+                'name'  => 'required',
+                'email' => 'sometimes|required|email',
             ];
         }
     }

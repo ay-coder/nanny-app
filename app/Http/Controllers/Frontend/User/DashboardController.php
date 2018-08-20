@@ -37,7 +37,7 @@ class DashboardController extends Controller
     {
         $repository = new EloquentSittersRepository();
         session(['find_sitter' => $request->except('_token')]);
-        $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])->orderBy('id', 'asc')->paginate(6);
+        $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
 
         return view('parent.sitterlisting', compact('sitters'));
     }
