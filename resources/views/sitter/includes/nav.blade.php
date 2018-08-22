@@ -38,7 +38,7 @@
                               {{ access()->user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.earning') }}">My Jobs</a>
+                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.myjobs') }}">My Jobs</a>
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.account') }}">My Profile<span class="status"></span></a>
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.earning') }}">My Earning</a>
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.vacation') }}">Vacation Mode</a>

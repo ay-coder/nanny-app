@@ -82,5 +82,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('booking/{booking_id}/accept', 'AppointmentController@accept')->name('sitter.booking.accept');
         Route::get('booking/{booking_id}/reject', 'AppointmentController@reject')->name('sitter.booking.reject');
         Route::get('booking/{booking_id}', 'AppointmentController@getBooking')->name('sitter.booking');
+
+        Route::get('sitter/my-jobs', 'JobsController@index')->name('sitter.myjobs');
+        Route::get('job/{job_id}/start', 'JobsController@start')->name('sitter.job.start');
+        Route::get('job/{job_id}/stop', 'JobsController@stop')->name('sitter.job.stop');
+        Route::get('job/{job_id}/cancel', 'JobsController@cancel')->name('sitter.job.cancel');
+
     });
 });

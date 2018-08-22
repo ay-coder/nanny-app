@@ -198,6 +198,11 @@ class AppointmentController extends Controller
         return redirect()->back()->withFlashDanger('Unable to find Details of booking!');
     }
 
+    /**
+     * Booking Payment
+     * @param  Request $request
+     * @return
+     */
     public function bookingPayment(Request $request)
     {
         $userInfo       = access()->user();
