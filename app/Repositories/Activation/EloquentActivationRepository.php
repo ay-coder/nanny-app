@@ -354,7 +354,7 @@ class EloquentActivationRepository extends DbRepository
 
     /**
      * Add Payment
-     * 
+     *
      * @param int $planId
      * @param string $token
      * @param float $tip
@@ -368,10 +368,10 @@ class EloquentActivationRepository extends DbRepository
             if(isset($plan->id))
             {
                 $total = (float) $plan->amount;
-                
+
                 if(isset($plan) && $total > 0)
                 {
-                    $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
+                    $stripe = new Stripe('sk_test_cCkSSQAXKTqFXIx9mXL7b1N9');
                     $charge = $stripe->charges()->create([
                         'amount'            => $total,
                         'currency'          => 'usd',
@@ -395,7 +395,7 @@ class EloquentActivationRepository extends DbRepository
                         $totalBookings = 10;
                     }
 
-                    
+
                     return $this->model->create([
                         'user_id'           => access()->user()->id,
                         'plan_id'           => $planId,

@@ -83,7 +83,7 @@ class APIActivationController extends BaseApiController
             'token'     => 'required'
         ]);
 
-        if($validator->fails()) 
+        if($validator->fails())
         {
             $messageData = '';
 
@@ -122,7 +122,7 @@ class APIActivationController extends BaseApiController
         if($request->has('user_id'))
         {
             $userId = $request->get('user_id');
-            
+
             $activationInfo = $this->repository->model->where([
                 'user_id'           => $userId,
                 'payment_status'    => 1,

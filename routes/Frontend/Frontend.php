@@ -68,11 +68,15 @@ Route::group(['middleware' => 'auth'], function () {
          * Subscription
          */
         Route::get('parent/subscription', 'SubscriptionController@index')->name('parent.subscription');
+        Route::post('parent/plansubscription', 'SubscriptionController@subscribePlan')->name('parent.plansubscription');
 
         /*
          * Appointment
          */
         Route::get('parent/myappointment', 'AppointmentController@index')->name('parent.myappointment');
+        Route::post('parent/appointment/payment', 'AppointmentController@bookingPayment')->name('parent.bookingpayment');
+        Route::get('parent/previous/{booking_id}', 'AppointmentController@previousParentBooking')->name('parent.previousbooking');
+        Route::get('parent/booking/{booking_id}', 'AppointmentController@ParentBookingdetails')->name('parent.bookingdetails');
         Route::get('parent/myappointment/{id}/delete', 'AppointmentController@delete')->name('parent.appointment.delete');
 
         Route::get('booking/{booking_id}/accept', 'AppointmentController@accept')->name('sitter.booking.accept');
