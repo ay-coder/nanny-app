@@ -1,5 +1,5 @@
 @extends('sitter.layouts.app')
-
+{!! Html::style('https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css') !!}
 @section('content')
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-wrap">
@@ -25,81 +25,7 @@
                     </div>
                 </div>
                 <div class="white-box-content" id="calender_view">
-                    <table class="table table-bordered calendar-table">
-                        <thead>
-                            <tr>
-                                <th colspan="7" class="month-text">May 2018</th>
-                            </tr>
-                            <tr>
-                                <th><span class="desktop-view">Sunday</span> <span class="mobile-view">Sun</span></th>
-                                <th><span class="desktop-view">Monday</span> <span class="mobile-view">Mon</span></th>
-                                <th><span class="desktop-view">Tuesday</span> <span class="mobile-view">Tue</span></th>
-                                <th><span class="desktop-view">Wednesday</span> <span class="mobile-view">Wed</span></th>
-                                <th><span class="desktop-view">Thursday</span> <span class="mobile-view">Thu</span></th>
-                                <th><span class="desktop-view">Friday</span> <span class="mobile-view">Fri</span></th>
-                                <th><span class="desktop-view">Saturday</span> <span class="mobile-view">Sat</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td valign="top" align="top" class="past-month">29</td>
-                                <td valign="top" align="top" class="past-month">30</td>
-                                <td valign="top" align="top"><span class="date">1</span></td>
-                                <td valign="top" align="top"><span class="date">2</span></td>
-                                <td valign="top" align="top"><span class="date">3</span></td>
-                                <td valign="top" align="top"><span class="date">4</span></td>
-                                <td valign="top" align="top"><span class="date">5</span></td>
-                            </tr>
-                            <tr>
-                                <td valign="top" align="top"><span class="date">6</span></td>
-                                <td valign="top" align="top"><span class="date">7</span></td>
-                                <td valign="top" align="top" class="current-date"><span class="date">8</span></td>
-                                <td valign="top" align="top"><span class="date">9</span></td>
-                                <td valign="top" align="top"><span class="date">10</span></td>
-                                <td valign="top" align="top"><span class="date">11</span></td>
-                                <td valign="top" align="top"><span class="date">12</span></td>
-                            </tr>
-                            <tr>
-                                <td valign="top" align="top"><span class="date">13</span></td>
-                                <td valign="top" align="top" class="events"><span class="date">14</span>
-                                <span class="events-list">
-                                    <a class="green" href="#">Item 1</a>
-                                    <a class="blue" href="#">Item 2</a>
-                                    <a class="yellow" href="#">Item 3</a>
-                                </span>
-                                </td>
-                                <td valign="top" align="top"><span class="date">15</span></td>
-                                <td valign="top" align="top"><span class="date">16</span></td>
-                                <td valign="top" align="top"><span class="date">17</span></td>
-                                <td valign="top" align="top"><span class="date">18</span></td>
-                                <td valign="top" align="top"  class="events"><span class="date">19</span>
-                                <span class="events-list">
-                                    <a class="green" href="#">Item 1</a>
-                                    <a class="blue" href="#">Item 2</a>
-                                    <a class="yellow" href="#">Item 3</a>
-                                </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td valign="top" align="top"><span class="date">20</span></td>
-                                <td valign="top" align="top"><span class="date">21</span></td>
-                                <td valign="top" align="top"><span class="date">22</span></td>
-                                <td valign="top" align="top"><span class="date">23</span></td>
-                                <td valign="top" align="top"><span class="date">24</span></td>
-                                <td valign="top" align="top"><span class="date">25</span></td>
-                                <td valign="top" align="top"><span class="date">26</span></td>
-                            </tr>
-                            <tr>
-                                <td valign="top" align="top"><span class="date">27</span></td>
-                                <td valign="top" align="top"><span class="date">28</span></td>
-                                <td valign="top" align="top"><span class="date">29</span></td>
-                                <td valign="top" align="top"><span class="date">30</span></td>
-                                <td valign="top" align="top"><span class="date">31</span></td>
-                                <td valign="top" align="top" class="next-month"><span class="date">1</span></td>
-                                <td valign="top" align="top" class="next-month"><span class="date">2</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div id="calendar"></div>
                 </div>
                 <div class="white-box-content" id="current_jobs" style="display: none;">
                     <!-- Upcoming Appointment list Start -->
@@ -291,9 +217,24 @@
 <!-- Notification Content Start -->
 @endsection
 @section('after-scripts')
+{!! Html::script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js') !!}
+{!! Html::script('https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js') !!}
 <script>
     $(document).ready(function(){
         Nanny.Myjobs();
+        $('#calendar').fullCalendar({
+            header: {
+              left: 'false',
+              center: 'prev title next',
+              right: ''
+            },
+            defaultDate: '<?php echo Carbon\Carbon::now(); ?>',
+            allDaySlot: false,
+            editable: false,
+            eventLimit: true, // allow "more" link when too many events
+            events : {!! $calenderData !!},
+            timeFormat: 'H(:mm)',
+          });
     });
 </script>
 @stop

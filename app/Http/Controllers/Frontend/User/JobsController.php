@@ -39,10 +39,29 @@ class JobsController extends Controller
      */
     public function index()
     {
-        $calender    = Booking::with(['user', 'sitter', 'baby'])->where('sitter_id', access()->user()->id)->get();
+        $calenderRecords    = Booking::with(['user', 'sitter', 'baby'])->where('sitter_id', access()->user()->id)->get();
+        if (count($calenderRecords) > 0) {
+            foreach ($calenderRecords as $key => $calenderRecord) {
+                if(!empty($calenderRecord->booking_start_time) && !empty($calenderRecord->booking_start_time)) {
+                    $booking_start_time     = str_replace(" ", 'T', $calenderRecord->booking_start_time);
+                    $booking_end_time       = str_replace(" ", 'T', $calenderRecord->booking_end_time);
+                    $session[] = [
+                        'start' => $booking_start_time,
+                    'end'   => $booking_end_time,
+                    'title' => $calenderRecord['user']->name];
+                }
+            }
+            $calenderData = json_encode($session, JSON_NUMERIC_CHECK);
+        } else {
+            $session['start'] = '';
+            $session['end'] = '';
+            $session['title'] = '';
+            $calenderData = json_encode($session, JSON_NUMERIC_CHECK);
+        }
+
         $currentJobs = $this->repository->getSitterActiveBookings(access()->user()->id);
         $pastJobs    = $this->repository->getSitterPastBookings(access()->user()->id);
-        return view('sitter.my-jobs', compact('calender', 'currentJobs', 'pastJobs'));
+        return view('sitter.my-jobs', compact('calenderData', 'currentJobs', 'pastJobs'));
     }
 
     /* Cancel
