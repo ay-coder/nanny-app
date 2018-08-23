@@ -34,6 +34,16 @@
         <div id="app">
             <div class="login-container">
                 <div class="login-signup-wrap">
+                    <!-- Content Area Start -->
+                    <div class="full-bg">
+                        <div class="full-bg-content">
+                            <img src="{!! asset('frontend/images/fivestar-logo-1.png') !!}" alt="Five Stars Sitter" class="d-none d-md-block">
+                            <h3>Caring For All That You Love</h3>
+                            <p class="short-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p class="copyright">&copy; Copyright Five Star Sitters. All Right Reserved. Contact Us: (702) 530-3229</p>
+                        </div>
+                    </div>
+                    <!-- Content Area End -->
                     <!-- Form Section Start -->
                     <div class="login-form">
                         <img src="{!! asset('frontend/images/grey_logo.png') !!}" alt="Five Stars Sitter">
@@ -47,16 +57,6 @@
                         </div>
                     </div>
                     <!-- Form Section End -->
-                    <!-- Content Area Start -->
-                    <div class="full-bg">
-                        <div class="full-bg-content">
-                            <img src="{!! asset('frontend/images/fivestar-logo-1.png') !!}" alt="Five Stars Sitter" class="d-none d-md-block">
-                            <h3>Caring For All That You Love</h3>
-                            <p class="short-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            <p class="copyright">&copy; Copyright Five Star Sitters. All Right Reserved. Contact Us: (702) 530-3229</p>
-                        </div>
-                    </div>
-                    <!-- Content Area End -->
                 </div><!-- .login-signup-wrap end -->
             </div><!-- login-container -->
         </div><!--#app-->
