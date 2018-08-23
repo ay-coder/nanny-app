@@ -74,7 +74,16 @@
         <div class="col-sm-12 col-lg-4 right-column">
             <div class="white-box">
                 <div class="white-box-content">
-                    <a href="javascript:void(0)" class="yet-to-start">Yet to start</a>
+                    @if($booking->booking_status == 'COMPLETED')
+                        <div class="text-center">
+                            <span class="time">
+                                <span class="start-time">{{ Carbon\Carbon::parse($booking->booking_start_time)->format('h:i A') }}</span> to
+                                <span>{{ Carbon\Carbon::parse($booking->booking_end_time)->format('h:i A') }}</span>
+                            </span>
+                        </div>
+                    @else
+                        <a href="javascript:void(0)" class="yet-to-start">Yet to start</a>
+                    @endif
                 </div>
             </div>
             <div class="white-box">
