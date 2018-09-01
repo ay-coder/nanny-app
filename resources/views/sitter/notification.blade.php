@@ -1,10 +1,10 @@
-@extends('parent.layouts.app')
+@extends('sitter.layouts.app')
 
 @section('content')
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('frontend.user.parent.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('frontend.user.sitter.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Notification</li>
     </ol>
 </div>
@@ -34,14 +34,16 @@
                                                     <span><img src="{!! asset('frontend/images/bell.png') !!}" alt=""></span>
                                                 </div>
                                                 <div class="notification-content">
-                                                    <h3>{{ $notification['sitter']->name }} <span>{{ $notification->description }}</span></h3>
+                                                    <h3>{{ $notification['user']->name }} <span>{{ $notification->description }}</span></h3>
                                                     <span class="time">{{ Carbon\Carbon::parse($notification->created_at)->format('h:i A') }}</span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="text-right">
-                                            @if($notification->is_read == 0)
-                                                <a href="#" class="btn btn-new btn-sm">New</a>
+
+                                            @if(!empty($notification['booking']) && $notification['booking']->booking_status == 'REQUESTED')
+                                                <a href="{{ route('frontend.user.sitter.booking.reject', ['booking_id' => $notification['booking']->id]) }}" class="btn btn-reject btn-sm">Reject</a>
+                                                <a href="{{ route('frontend.user.sitter.booking.accept', ['booking_id' => $notification['booking']->id]) }}" class="btn btn-accept btn-sm">Accept</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -69,25 +71,15 @@
         <!-- Inner Main Column End -->
 
         <!-- Inner Right Column Start -->
-        <div class="col-sm-4 right-column">
-            <!-- Contact and Chat section start -->
+        <div class="col-sm-4 col-lg-4 right-column">
             <div class="white-box">
+                <div class="white-box-title">
+                    <h3>Total Earning</h3>
+                </div>
                 <div class="white-box-content">
-                    <ul class="contact-detail">
-                        <li class="contact">
-                            <h3>Contact Us</h3>
-                            <span>779-450-7040</span>
-                            <a href="#" class="contact-btn">Contact</a>
-                        </li>
-                        <li class="chat">
-                            <h3>Genral Discussion</h3>
-                            <span>Chat with us</span>
-                            <a href="#" class="chat-btn">Chat</a>
-                        </li>
-                    </ul>
+                    <span class="total-earn">${{ totalEarning(access()->user()->id) }}</span>
                 </div>
             </div>
-            <!-- Contact and Chat section End -->
         </div>
         <!-- Inner Right Column End -->
     </div>

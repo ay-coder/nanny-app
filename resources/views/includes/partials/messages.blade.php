@@ -1,12 +1,12 @@
 @if ($errors->any())
-    <div class="alert alert-danger text-left alert-fadeout alert-dismissible margin-top-10 margin-bottom-5">
+    <div class="alert alert-danger text-left alert-fadeout alert-dismissible mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @foreach ($errors->all() as $error)
             {!! $error !!}<br/>
         @endforeach
     </div>
 @elseif (Session::get('flash_success'))
-    <div class="alert alert-success text-left alert-fadeout alert-dismissible margin-top-10 margin-bottom-5">
+    <div class="alert alert-success text-left alert-fadeout alert-dismissible mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @if(is_array(json_decode(Session::get('flash_success'), true)))
             {!! implode('', Session::get('flash_success')->all(':message<br/>')) !!}
@@ -15,7 +15,7 @@
         @endif
     </div>
 @elseif (Session::get('flash_warning'))
-    <div class="alert alert-warning text-left alert-fadeout margin-top-10 margin-bottom-5">
+    <div class="alert alert-warning text-left alert-fadeout mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @if(is_array(json_decode(Session::get('flash_warning'), true)))
             {!! implode('', Session::get('flash_warning')->all(':message<br/>')) !!}
@@ -24,7 +24,7 @@
         @endif
     </div>
 @elseif (Session::get('flash_info'))
-    <div class="alert alert-info text-left alert-fadeout alert-dismissible margin-top-10 margin-bottom-5">
+    <div class="alert alert-info text-left alert-fadeout alert-dismissible mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @if(is_array(json_decode(Session::get('flash_info'), true)))
             {!! implode('', Session::get('flash_info')->all(':message<br/>')) !!}
@@ -33,7 +33,7 @@
         @endif
     </div>
 @elseif (Session::get('flash_danger'))
-    <div class="alert alert-danger text-left alert-fadeout alert-dismissible margin-top-10 margin-bottom-5">
+    <div class="alert alert-danger text-left alert-fadeout alert-dismissible mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @if(is_array(json_decode(Session::get('flash_danger'), true)))
             {!! implode('', Session::get('flash_danger')->all(':message<br/>')) !!}
@@ -42,7 +42,7 @@
         @endif
     </div>
 @elseif (Session::get('flash_message'))
-    <div class="alert alert-info text-left alert-fadeout alert-dismissible margin-top-10 margin-bottom-5">
+    <div class="alert alert-info text-left alert-fadeout alert-dismissible mt-25 margin-top-10 margin-bottom-5">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         @if(is_array(json_decode(Session::get('flash_message'), true)))
             {!! implode('', Session::get('flash_message')->all(':message<br/>')) !!}

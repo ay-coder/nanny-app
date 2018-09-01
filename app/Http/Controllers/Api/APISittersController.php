@@ -129,7 +129,7 @@ class APISittersController extends BaseApiController
                 return $this->successResponse($itemsOutput);
             }
         }
-        
+
         return $this->setStatusCode(400)->failureResponse([
             'message' => 'Unable to find Sitter!'
             ], 'No Sitter Found !');

@@ -9,40 +9,6 @@ var Nanny = {
 			$(this).parent('.parent-profile').next('.parent-profile.edit').show();
 		});
 
-		// Save
-		// $('form#edit-form').submit(function( event ) {
-		// 	event.preventDefault();
-		// 	var profileEdit = $(this);
-		// 	var data = new FormData($('#edit-form')[0]);
-		// 	$.ajax({
-		// 		type: 'post',
-	 //        	url : ModuleConfig.UpdateProfileURL,
-	 //        	data : data,
-	 //        	processData: false,
-		// 		contentType: false,
-		// 		cache:false,
-		//     }).done(function (response) {
-		//     	var data = JSON.parse(response);
-		//     	console.log(data);
-		//     	if(data.status == true) {
-		//     		$('#ajax-messages').addClass('alert alert-success');
-		//         	$('#ajax-messages').html(data.message);
-		//         	profileEdit.parent(".parent-profile.edit").hide();
-		// 			profileEdit.parent(".parent-profile.edit").prev('.parent-profile').show();
-		//     	} else {
-		//     		$('#ajax-messages').addClass('alert alert-danger');
-		//         	$('#ajax-messages').html('There was a problem updating your profile. Please try again.');
-		//     	}
-		//         $('#ajax-messages').css('display', 'block');
-
-		//     }).fail(function () {
-		//         $('#ajax-messages').addClass('alert alert-danger');
-		//         $('#ajax-messages').html('Something went wrong Please try again.');
-		//         $('#ajax-messages').css('display', 'block');
-		//         //
-		//     });
-		// });
-
 		// Edit children
 		$('.btn-edit').on('click', function(){
 			$('.childern-list').hide();
@@ -85,7 +51,46 @@ var Nanny = {
 			$('#upcoming_appointment').css('display', 'none');
 		});
 	},
-	Home : function () {
+	Myjobs : function () {
+		$('#calender_view_btn').click(function() {
+			$('#calender_view_btn').addClass('active');
+
+			$('#current_jobs_btn').removeClass('active');
+			$('#previous_jobs_btn').removeClass('active');
+
+			$('#calender_view').css('display', 'block');
+
+			$('#current_jobs').css('display', 'none');
+			$('#previous_jobs').css('display', 'none');
+		});
+
+		$('#current_jobs_btn').click(function() {
+			$('#current_jobs_btn').addClass('active');
+
+			$('#calender_view_btn').removeClass('active');
+			$('#previous_jobs_btn').removeClass('active');
+
+			$('#current_jobs').css('display', 'block');
+
+			$('#calender_view').css('display', 'none');
+			$('#previous_jobs').css('display', 'none');
+		});
+
+		$('#previous_jobs_btn').click(function() {
+			$('#previous_jobs_btn').addClass('active');
+
+			$('#calender_view_btn').removeClass('active');
+			$('#current_jobs_btn').removeClass('active');
+
+			$('#previous_jobs').css('display', 'block');
+
+			$('#calender_view').css('display', 'none');
+			$('#current_jobs').css('display', 'none');
+		});
+
+		$('a.show_baby').click(function () {
+			$(this).closest('tr').next('tr').toggle();
+		});
 
 	}
 };

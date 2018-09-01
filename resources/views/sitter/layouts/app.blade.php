@@ -16,7 +16,7 @@
         <!-- Styles -->
         @yield('before-styles')
 
-        {{ Html::style('frontend/css/css/bootstrap.min.css') }}
+        {{ Html::style('frontend/css/bootstrap.min.css') }}
         {{ Html::style('frontend/css/bootstrap-datetimepicker.min.css') }}
         {{ Html::style('frontend/css/font-awesome.min.css') }}
         <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800|Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -34,7 +34,7 @@
     </head>
     <body id="app-layout">
         <div id="app">
-            @include('parent.includes.nav')
+            @include('sitter.includes.nav')
             <section class="main-content">
                 <div class="container">
                     <div class="row">
@@ -50,9 +50,16 @@
 
         <!-- Scripts -->
         @yield('before-scripts')
-        {!! Html::script(mix('js/frontend.js')) !!}
-        @yield('after-scripts')
         <script type="text/javascript" src="{!! asset('frontend/js/lib.min.js') !!}"></script>
+        <script>
+            var ModuleConfig = '';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        </script>
+        @yield('after-scripts')
         <script type="text/javascript" src="{!! asset('frontend/js/general.js') !!}"></script>
         <script type="text/javascript" src="{!! asset('js/custom/custom.js') !!}"></script>
         <script type="text/javascript" src="{!! asset('frontend/js/nanny-app.js') !!}"></script>

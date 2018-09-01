@@ -69,7 +69,27 @@
                             @if(count($previous) > 0)
                                 @foreach($previous as $pre)
                                     <tr>
-                                        <td><span class="date">{{ Carbon\Carbon::parse($pre->booking_date)->format('d F Y') }}</span></td>
+                                        <td>
+                                            @if($pre->booking_status == 'CANCELED')
+                                                <span class="date">
+                                                    {{ Carbon\Carbon::parse($pre->booking_date)->format('d F Y') }}
+                                                </span>
+                                            @else
+                                                @if(!empty($pre['payment']))
+                                                    <a href="{{ route('frontend.user.parent.previousbooking', ['booking_id' => $pre->id]) }}">
+                                                        <span class="date">
+                                                            {{ Carbon\Carbon::parse($pre->booking_date)->format('d F Y') }}
+                                                        </span>
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $pre->id]) }}">
+                                                        <span class="date">
+                                                            {{ Carbon\Carbon::parse($pre->booking_date)->format('d F Y') }}
+                                                        </span>
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        </td>
                                         <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($pre->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($pre->end_time)->format('h:i A') }}</span></span>
                                         </td>
                                         <td>
@@ -83,7 +103,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-right"><span class="price">${{ $pre['payment']->total }}</span></td>
+                                        <td class="text-right">
+                                            @if($pre->booking_status == 'CANCELED')
+                                                <a href="javascript:void(0);" class="btn btn-pending btn-sm">Canceled</a>
+                                            @endif
+                                            <span class="price">${{ isset($pre['payment']->total) ?: 0 }}</span></td>
                                     </tr>
                                 @endforeach
                             @else

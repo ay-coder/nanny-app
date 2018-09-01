@@ -3,6 +3,7 @@
 namespace App\Repositories\Frontend\Access\User;
 
 use App\Models\Access\User\User;
+use App\Models\Sitters\Sitters;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
@@ -11,6 +12,7 @@ use App\Models\Access\User\SocialLogin;
 use App\Events\Frontend\Auth\UserConfirmed;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Carbon\Carbon;
 
 /**
  * Class UserRepository.
@@ -89,7 +91,7 @@ class UserRepository extends BaseRepository
         $user = new $user();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->mobile = $data['mobile'];
+        $user->mobile = isset($data['mobile']) ?: null;
         $user->confirmation_code = md5(uniqid(mt_rand(), true));
         $user->status = 1;
         $user->user_type = isset($data['user_type']) ? $data['user_type'] : 1; // 1 = parent , 2 = sitter
@@ -261,6 +263,46 @@ class UserRepository extends BaseRepository
 
         return $user->save();
 
+    }
+
+    /**
+     * Update Sitter
+     * @param $id
+     * @param $request
+     * @return
+     */
+    public function updateSitter($id, $request)
+    {
+        $user = $this->find($id);
+        $user->name = $request->name;
+        $user->mobile = $request->mobile;
+        $user->birthdate = Carbon::createFromFormat('d/m/Y', $request->birthdate)->format('d/m/Y');
+        $user->address = $request->address;
+        $user->gender = $request->gender;
+
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $user->profile_pic = $imageName;
+            }
+        }
+
+        if($user->save()) {
+
+            $sitter   = Sitters::where('user_id', $id)->first();
+
+            $sitter->sitter_start_time = Carbon::parse($request->sitter_start_time)->format('H:i:s');
+            $sitter->sitter_end_time   = Carbon::parse($request->sitter_end_time)->format('H:i:s');
+            $sitter->about_me          = $request->about_me;
+            $sitter->description       = $request->description;
+
+            return $sitter->save();
+        }
+
+        throw new GeneralException('There was a problem updating your profile. Please try again.');
     }
 
     /**

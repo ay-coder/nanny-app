@@ -35,6 +35,13 @@ class ChangePasswordController extends Controller
   {
       $this->user->changePassword($request->all());
 
-      return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
+      if(access()->user()->user_type == 2) {
+        return redirect()->route('frontend.user.sitter.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
+      } else if(access()->user()->user_type == 1) {
+        return redirect()->route('frontend.user.parent.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
+      } else {
+        return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
+      }
+
   }
 }

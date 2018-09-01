@@ -157,7 +157,7 @@ class Access
 
     /**
      * Get Notification Count
-     * 
+     *
      * @param int $userId
      * @return int
      */
@@ -173,7 +173,7 @@ class Access
 
     /**
      * Add Notification
-     * 
+     *
      * @param array $data
      */
     public function addNotification($data = array())
@@ -188,7 +188,7 @@ class Access
 
     /**
      * Get Average Rating
-     * 
+     *
      * @param int $sitterId
      * @return int
      */
@@ -223,7 +223,7 @@ class Access
                 $gender     = true;
             }
 
-            
+
             if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
             {
                 $count      = $count + 20;
@@ -264,7 +264,7 @@ class Access
 
     /**
      * Get User BabyCount
-     * 
+     *
      * @param int $userId
      * @return int
      */
@@ -282,7 +282,7 @@ class Access
 
     /**
      * Sitter Mode
-     * 
+     *
      * @param int $sitterId
      * @return int
      */

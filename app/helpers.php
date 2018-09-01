@@ -186,3 +186,42 @@ if (! function_exists('AvgRating')) {
         return $rating;
     }
 }
+
+if (! function_exists('totalEarning')) {
+
+    /**
+     * User Avg Rating
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    function totalEarning($userId = null)
+    {
+        $total = 0;
+        if(is_null($userId)) {
+            $userInfo = App\Models\Access\User\User::where('user_id', access()->user()->id)->first();
+        } else {
+            $userInfo = access()->user();
+        }
+        $sitter         = App\Models\Sitters\Sitters::where('user_id', $userInfo->id)->first();
+        $bookingRepo    = new App\Repositories\Booking\EloquentBookingRepository();
+        $sitterBookings = $bookingRepo->getSitterCompletedBookings($userInfo->id);
+
+        if(isset($sitterBookings) && count($sitterBookings))
+        {
+            foreach ($sitterBookings as $item) {
+                $payment       = (object) $item->payment;
+                if(isset($payment) && isset($payment->id))
+                {
+                    $total      = $total + $payment->total;
+                }
+            }
+
+            return $total;
+        }
+
+        return $total;
+
+    }
+}

@@ -16,6 +16,8 @@ class FrontendController extends Controller
     {
         if(auth()->check() && access()->user()->user_type == 1) {
             return redirect()->route('frontend.user.parent.dashboard');
+        } elseif (auth()->check() && access()->user()->user_type == 2) {
+            return redirect()->route('frontend.user.sitter.dashboard');
         }
 
         return view('frontend.index');

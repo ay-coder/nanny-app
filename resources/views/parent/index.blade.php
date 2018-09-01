@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="search-box">
-    {{ Form::open(['route' => 'frontend.user.parent.search', 'id' => 'search-form', ]) }}
+    {{ Form::open(['route' => 'frontend.user.parent.search', 'id' => 'search-form']) }}
         <!-- Select Date, Time start -->
         <div class="form-row">
             <div class="form-group col-md-4 dropdown">
@@ -61,7 +61,7 @@
                 You don't have any baby. Please<a href="{{ route('frontend.user.parent.account') }}"> click here</a> to add babies.
             </div>
         @endif
-    </form>
+    {{ Form::close() }}
 </div>
 <!-- Search form End -->
 @endsection

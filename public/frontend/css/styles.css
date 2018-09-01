@@ -555,6 +555,13 @@ label, label.control-label{color: #767676; font-family: 'Dosis', sans-serif; fon
 .m-15 {
 	margin : 15px 0px;
 }
+
+.table td, .table th .v-align-top {
+    vertical-align: top;
+}
+
+.btn-view { background-color: #C9C9C9; color: rgba(255,255,255,0.5) !important; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: normal; line-height: 13px; text-align: center; text-transform: capitalize; }
+
 /********Developer Css end********/
 
 
