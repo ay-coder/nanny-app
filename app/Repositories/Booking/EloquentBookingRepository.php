@@ -296,7 +296,7 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getAll($orderBy = 'id', $sort = 'asc')
     {
-        return $this->model->with(['user', 'sitter', 'baby'])->orderBy($orderBy, $sort)->get();
+        return $this->model->with(['user', 'sitter', 'baby','review'])->orderBy($orderBy, $sort)->get();
     }
 
     /**
@@ -322,7 +322,7 @@ class EloquentBookingRepository extends DbRepository
                 }
             }
         }
-        return $this->model->with(['user', 'sitter', 'baby', 'payment'])
+        return $this->model->with(['user', 'sitter', 'baby', 'payment', 'review'])
             /*->whereDate('booking_date', '>=', date('Y-m-d'))*/
             ->where('user_id', $parentId)
             ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
@@ -344,7 +344,7 @@ class EloquentBookingRepository extends DbRepository
         $parentId = Auth::user()->id;
 
         return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
-            ->with(['user', 'sitter', 'baby', 'payment'])
+            ->with(['user', 'sitter', 'baby', 'payment', 'review'])
             ->where('user_id', $parentId)
             ->orderBy($orderBy, $sort)
             ->get();

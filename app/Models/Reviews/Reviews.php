@@ -24,7 +24,7 @@ class Reviews extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "user_id", "sitter_id", "rating", "description", "created_at", "updated_at",
+        "id", "user_id", "booking_id", "sitter_id", "rating", "description", "created_at", "updated_at",
     ];
 
     /**

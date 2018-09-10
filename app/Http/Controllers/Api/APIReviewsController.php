@@ -75,6 +75,7 @@ class APIReviewsController extends BaseApiController
     {
         $validator = Validator::make($request->all(), [
             'sitter_id'     => 'required',
+            'booking_id'    => 'required',
             'rating'        => 'required',
         ]);
 

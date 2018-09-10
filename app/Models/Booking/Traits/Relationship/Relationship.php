@@ -3,6 +3,7 @@
 use App\Models\Access\User\User;
 use App\Models\Babies\Babies;
 use App\Models\Payment\Payment;
+use App\Models\Reviews\Reviews;
 
 trait Relationship
 {
@@ -44,5 +45,15 @@ trait Relationship
     public function payment()
     {
         return $this->hasOne(Payment::class, 'booking_id');
+    }
+
+    /**
+     * Belongs to relations with Sitter.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function review()
+    {
+        return $this->hasOne(Reviews::class, 'booking_id');
     }
 }

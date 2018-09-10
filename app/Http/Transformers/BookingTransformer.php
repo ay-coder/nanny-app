@@ -23,8 +23,19 @@ class BookingTransformer extends Transformer
         $user           = (object) $item->user;
         $sitter         = (object) $item->sitter;
         $baby           = (object) $item->baby;
+        $review         = (object) $item->review;
         $payment        = (object) $item->payment;
         $paymentData    = (object) [];
+        $reviewData     = (object) [];
+
+        if(isset($review) && isset($review->id))
+        {
+            $reviewData = [
+                'review_id'     => (int) $review->id,
+                'rating'        => $review->rating,
+                'description'   => $review->description
+            ];
+        }
 
         if(isset($payment) && isset($payment->id))
         {
@@ -39,6 +50,7 @@ class BookingTransformer extends Transformer
                 'total'         => (float) $payment->total,
                 'tip'           => (float) $payment->tip,
                 'description'   => $payment->description,
+                
                 'payment_status'=> isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
                 'payment_via'=> $this->nulltoBlank($payment->payment_via),
                 'payment_details'=> $this->nulltoBlank($payment->payment_details)
@@ -64,6 +76,7 @@ class BookingTransformer extends Transformer
             "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
             "booking_status"    =>  $item->booking_status,
             "babies"            => [],
+            'bookingReview'     => $reviewData,
             'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             "payment"           => $paymentData
         ];
@@ -121,6 +134,16 @@ class BookingTransformer extends Transformer
             $baby           = (object) $item->baby;
             $payment        = (object) $item->payment;
             $paymentData    = (object) [];
+            $reviewData     = (object) [];
+
+            if(isset($review) && isset($review->id))
+            {
+                $reviewData = [
+                    'review_id'     => (int) $review->id,
+                    'rating'        => $review->rating,
+                    'description'   => $review->description
+                ];
+            }
 
             if(isset($payment) && isset($payment->id))
             {
@@ -155,6 +178,7 @@ class BookingTransformer extends Transformer
                 "booking_date"      =>  $item->booking_date,
                 "start_time"        =>  $item->start_time,
                 "end_time"          =>  $item->end_time,
+                'bookingReview'     => $reviewData,
                 "booking_startime"  =>  $this->nulltoBlank($item->booking_start_time),
                 "booking_endtime"   =>  $this->nulltoBlank($item->booking_end_time),
                 "booking_status"    =>  $item->booking_status,
