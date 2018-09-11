@@ -92,6 +92,37 @@ class DashboardController extends Controller
 
         if($model)
         {
+            $parent         = User::find($model->user_id);
+            $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+            $parentpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $parentText
+            ];
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText
+            ];
+
+            $storeParentNotification = [
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
+                'booking_id'    => $model->id,
+                'to_user_id'    => $model->user_id,
+                'description'   => $parentText
+            ];
+
+            $storeSitterNotification = [
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
+                'booking_id'    => $model->id,
+                'to_user_id'    => $model->sitter_id,
+                'description'   => $sitterText
+            ];
+
+            access()->addNotification($storeParentNotification);
+            access()->addNotification($storeSitterNotification);
+
             if(session()->has('find_sitter')){
                 session()->forget('find_sitter');
             }
