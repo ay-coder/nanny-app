@@ -237,7 +237,7 @@ class AppointmentController extends Controller
 
             if($model)
             {
-                return redirect()->roite('frontend.user.parent.myappointment')->withFlashSuccess('Payment is Created Successfully');
+                return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Payment is Created Successfully');
             }
         }
 
