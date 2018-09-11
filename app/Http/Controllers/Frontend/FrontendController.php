@@ -37,7 +37,10 @@ class FrontendController extends Controller
      */
     public function support()
     {
-        return view('parent.support');
+        if(auth()->check() && access()->user()->user_type == 1) {
+            return view('parent.support');
+        }
+            return view('sitter.support');
     }
 
     /**
@@ -46,7 +49,10 @@ class FrontendController extends Controller
      */
     public function aboutus()
     {
-        return view('parent.about-us');
+        if(auth()->check() && access()->user()->user_type == 1) {
+            return view('parent.about-us');
+        }
+        return view('sitter.about-us');
     }
 
     /**
@@ -55,7 +61,10 @@ class FrontendController extends Controller
      */
     public function services()
     {
-        return view('parent.services');
+        if(auth()->check() && access()->user()->user_type == 1) {
+            return view('parent.services');
+        }
+        return view('sitter.services');
     }
 
     /**
@@ -64,6 +73,9 @@ class FrontendController extends Controller
      */
     public function contactus()
     {
-        return view('parent.contact-us');
+        if(auth()->check() && access()->user()->user_type == 1) {
+            return view('parent.contact-us');
+        }
+        return view('sitter.contact-us');
     }
 }
