@@ -109,6 +109,25 @@ class APIMessagesController extends BaseApiController
 
         if($model)
         {
+            $toUser     = User::find($request->get('to_user_id'));
+            $toUserText = $toUser .' has sent you message';
+            $payloadData = [
+                'mtitle'    => '',
+                'mdesc'     => $toUserText,
+                'ntype'     => 'NEW_MESSAGE'
+            ];
+
+            $storeNotification = [
+                'user_id'       => $userInfo->id,
+                'to_user_id'    => $request->get('to_user_id'),
+                'description'   => $toUserText
+            ];
+
+            access()->addNotification($storeNotification);
+
+            access()->sentPushNotification($toUser, $payloadData);
+
+
             $responseData = $this->messagesTransformer->transform($model);
 
             return $this->successResponse($responseData, 'Messages is Created Successfully');
