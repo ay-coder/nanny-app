@@ -182,8 +182,8 @@ class APIBookingController extends BaseApiController
             access()->addNotification($storeParentNotification);
             access()->addNotification($storeSitterNotification);
 
-            access()->sentPushNotification($parent, $parentpayload)
-            access()->sentPushNotification($sitter, $sitterpayload)
+            access()->sentPushNotification($parent, $parentpayload);
+            access()->sentPushNotification($sitter, $sitterpayload);
 
             $responseData = $this->bookingTransformer->transform($model);
 
@@ -439,7 +439,7 @@ class APIBookingController extends BaseApiController
                     $parent         = User::find($bookingInfo->user_id);
                     $parentpayload  = [
                         'mtitle'    => '',
-                        'mdesc'     => $parentText
+                        'mdesc'     => $parentText,
                         'parent_id' => $parent->id,
                         'booking_id' => $bookingInfo->id,
                         'sitter_id' => $userInfo->id,
