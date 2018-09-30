@@ -143,16 +143,16 @@ class APIBookingController extends BaseApiController
         {
             $parent         = User::find($model->user_id);
             $sitter         = User::find($model->sitter_id);
-            $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+            //$parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
             $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
-            $parentpayload  = [
+            /*$parentpayload  = [
                 'mtitle'    => '',
                 'mdesc'     => $parentText,
                 'parent_id' => $parent->id,
                 'sitter_id' => $request->get('sitter_id'),
                 'booking_id' => $model->id,
                 'ntype'     => 'NEW_BOOKING'
-            ];
+            ];*/
 
             $sitterpayload  = [
                 'mtitle'    => '',
@@ -163,13 +163,13 @@ class APIBookingController extends BaseApiController
                 'ntype'     => 'NEW_BOOKING'
             ];
 
-            $storeParentNotification = [
+            /*$storeParentNotification = [
                 'user_id'       => $model->user_id,
                 'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
                 'to_user_id'    => $model->user_id,
                 'description'   => $parentText
-            ];
+            ];*/
 
             $storeSitterNotification = [
                 'user_id'       => $model->user_id,
@@ -179,10 +179,10 @@ class APIBookingController extends BaseApiController
                 'description'   => $sitterText
             ];
 
-            access()->addNotification($storeParentNotification);
+            //access()->addNotification($storeParentNotification);
             access()->addNotification($storeSitterNotification);
 
-            access()->sentPushNotification($parent, $parentpayload);
+            //access()->sentPushNotification($parent, $parentpayload);
             access()->sentPushNotification($sitter, $sitterpayload);
 
             $responseData = $this->bookingTransformer->transform($model);
