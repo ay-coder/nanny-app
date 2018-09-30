@@ -40,7 +40,6 @@
                                             </div>
                                         </td>
                                         <td class="text-right">
-
                                             @if(!empty($notification['booking']) && $notification['booking']->booking_status == 'REQUESTED')
                                                 <a href="{{ route('frontend.user.sitter.booking.reject', ['booking_id' => $notification['booking']->id]) }}" class="btn btn-reject btn-sm">Reject</a>
                                                 <a href="{{ route('frontend.user.sitter.booking.accept', ['booking_id' => $notification['booking']->id]) }}" class="btn btn-accept btn-sm">Accept</a>

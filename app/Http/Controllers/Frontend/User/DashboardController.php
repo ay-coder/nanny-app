@@ -81,8 +81,6 @@ class DashboardController extends Controller
             'booking_date'       => date('Y-m-d', strtotime($input['booking_date'])),
             'start_time'         => date('H:i:s', strtotime($input['start_time'])),
             'end_time'           => date('H:i:s', strtotime($input['end_time'])),
-            'booking_start_time' => $bookingStartTime,
-            'booking_end_time'   => $bookingEndTime,
             'booking_status'     => 'REQUESTED',
             'parking_fees'       => isset($input['parking_fees']) ? $input['parking_fees'] : 0
         ]);
@@ -130,13 +128,5 @@ class DashboardController extends Controller
         } else {
             return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('There is a Problem in Booking.  Please try again.');
         }
-    }
-	/**
-     * Sitter Dashboard
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function sitterIndex()
-    {
-        return view('sitter.index');
     }
 }

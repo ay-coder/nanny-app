@@ -9,6 +9,9 @@ var Nanny = {
 			$(this).parent('.parent-profile').next('.parent-profile.edit').show();
 		});
 
+		$('.add-children > ul > li').hide();
+		$('.edit-children > ul > li').hide();
+
 		// Edit children
 		$('.btn-edit').on('click', function(){
 			$('.childern-list').hide();

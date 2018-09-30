@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
         /*
          * Sitter Dashboard Specific
          */
-        Route::get('sitter/home', 'DashboardController@sitterIndex')->name('sitter.dashboard');
+        Route::get('sitter/home', 'JobsController@index')->name('sitter.dashboard');
 
         /*
          * User Account Specific

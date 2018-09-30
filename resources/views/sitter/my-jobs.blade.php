@@ -37,7 +37,8 @@
                                         <td>
                                             <span class="date">
                                                 <a href="javascript:void(0);" class="show_baby" style="color: #719D78;">
-                                                    {{ Carbon\Carbon::parse($currentJob->booking_date)->format('d F Y') }}
+
+                                                    {{ Carbon\Carbon::createFromFormat('Y-d-m', $currentJob->booking_date)->format('d F Y') }}
                                                 </a>
                                             </span>
                                         </td>
@@ -128,7 +129,7 @@
                                     <tr>
                                         <td>
                                             <span class="date">
-                                                {{ Carbon\Carbon::parse($pastJob->booking_date)->format('d F Y') }}
+                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pastJob->booking_date)->format('d F Y') }}
                                             </span>
                                         </td>
                                         <td>
@@ -228,7 +229,7 @@
               center: 'prev title next',
               right: ''
             },
-            defaultDate: '<?php echo Carbon\Carbon::now(); ?>',
+            defaultDate: '<?php echo \Carbon\Carbon::now(); ?>',
             allDaySlot: false,
             editable: false,
             eventLimit: true, // allow "more" link when too many events

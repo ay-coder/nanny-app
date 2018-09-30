@@ -100,7 +100,7 @@
                             <li>
                                 <a href="#" class="btn btn-cancel btn-sm">cancel</a>
                                 <div class="date-time">
-                                    <span class="date">{{ Carbon\Carbon::parse($up->booking_date)->format('d F Y') }}</span>
+                                    <span class="date">{{ Carbon\Carbon::createFromFormat('Y-d-m', $up->booking_date)->format('d F Y') }}</span>
                                     <span class="time"><span class="start-time">{{ Carbon\Carbon::parse($up->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($up->end_time)->format('h:i A') }}</span>
                                     </span>
                                 </div>

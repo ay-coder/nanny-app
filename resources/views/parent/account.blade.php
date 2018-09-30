@@ -87,7 +87,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="dob">Birthday</label>
-                                    {{ Form::text('birthdate', (!empty($user->birthdate)) ? \Carbon\Carbon::createFromFormat('d/m/Y',$user->birthdate)->format('d/m/Y') : null, ['class' => 'form-control date', 'placeholder' => 'Birthday', 'required' => 'required']) }}
+                                    {{ Form::text('birthdate', (!empty($user->birthdate)) ? \Carbon\Carbon::createFromFormat('d/m/Y',$user->birthdate)->format('d/m/Y') : null, ['class' => 'form-control pastdate', 'placeholder' => 'Birthday', 'required' => 'required']) }}
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="location">Address</label>
@@ -173,7 +173,7 @@
                                                 </div>
                                                 <div class="form-group dropdown">
                                                     <label for="name">Birthday</label>
-                                                    {{ Form::text("data[$baby->id][birthdate]", $baby->birthdate, ['class' => 'form-control date', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
+                                                    {{ Form::text("data[$baby->id][birthdate]", $baby->birthdate, ['class' => 'form-control pastdate', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
                                                 </div>
                                             </div>
                                             <div class="col-sm-8">
@@ -214,7 +214,7 @@
                                         </div>
                                         <div class="form-group dropdown">
                                             <label for="name">Birthday</label>
-                                            {{ Form::text("birthdate", null, ['class' => 'form-control date', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
+                                            {{ Form::text("birthdate", null, ['class' => 'form-control pastdate', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
                                         </div>
                                     </div>
                                     <div class="col-sm-8">

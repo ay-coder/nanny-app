@@ -22,6 +22,23 @@ $(function () {
 			viewMode: 'days',
             format: 'DD/MM/YYYY'
 		});
+
+		$('.futuredate').datetimepicker({
+			viewMode: 'days',
+            format: 'DD/MM/YYYY',
+            minDate: new Date(),
+		});
+
+		 var d = new Date();
+  		d.setDate(d.getDate() - 1);
+
+		$('.pastdate').datetimepicker({
+			viewMode: 'days',
+            format: 'DD/MM/YYYY',
+            maxDate: d,
+            defaultDate : d,
+		});
+
 		$('.startTime').datetimepicker({
             format: 'LT'
         });

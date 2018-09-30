@@ -8,6 +8,7 @@ use App\Repositories\Payment\EloquentPaymentRepository;
 use Illuminate\Http\Request;
 use App\Models\Booking\Booking;
 use Carbon\Carbon;
+use App\Models\Access\User\User;
 
 /**
  * Class AccountController.
@@ -78,6 +79,29 @@ class AppointmentController extends Controller
                 $bookingInfo->booking_status = 'ACCEPTED';
                 if($bookingInfo->save())
                 {
+                    $parentText     = config('constants.NotificationText.PARENT.JOB_ACCEPT');
+                    $sitterText     = config('constants.NotificationText.SITTER.JOB_ACCEPT');
+                    $parent         = User::find($bookingInfo->user_id);
+
+                    $storeParentNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $parent->id,
+                        'description'   => $parentText
+                    ];
+
+                    $storeSitterNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $userInfo->id,
+                        'description'   => $sitterText
+                    ];
+
+                    access()->addNotification($storeParentNotification);
+                    access()->addNotification($storeSitterNotification);
+
                     return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking accepted Successfully');
                 }
             }
@@ -107,6 +131,29 @@ class AppointmentController extends Controller
                 $bookingInfo->booking_status = 'REJECTED';
                 if($bookingInfo->save())
                 {
+                    $parentText     = config('constants.NotificationText.PARENT.JOB_REJECT');
+                    $sitterText     = config('constants.NotificationText.SITTER.JOB_REJECT');
+                    $parent         = User::find($bookingInfo->user_id);
+
+                    $storeParentNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $parent->id,
+                        'description'   => $parentText
+                    ];
+
+                    $storeSitterNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $userInfo->id,
+                        'description'   => $sitterText
+                    ];
+
+                    access()->addNotification($storeParentNotification);
+                    access()->addNotification($storeSitterNotification);
+
                     return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking rejected Successfully');
                 }
             }

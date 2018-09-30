@@ -333,7 +333,7 @@ class EloquentBabiesRepository extends DbRepository
             $input = array_merge($input, ['user_id' => access()->user()->id]);
         }
 
-        $dateOfBirth    = $input['birthdate'];
+        $dateOfBirth    = Carbon::createFromFormat('d/m/Y', $input['birthdate'])->format('Y-m-d');
         $today          = date("Y-m-d");
         $diff           = date_diff(date_create($dateOfBirth), date_create($today));
 

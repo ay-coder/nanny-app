@@ -39,12 +39,15 @@ class JobsController extends Controller
      */
     public function index()
     {
+        $session = array();
         $calenderRecords    = Booking::with(['user', 'sitter', 'baby'])->where('sitter_id', access()->user()->id)->get();
         if (count($calenderRecords) > 0) {
             foreach ($calenderRecords as $key => $calenderRecord) {
-                if(!empty($calenderRecord->booking_start_time) && !empty($calenderRecord->booking_start_time)) {
-                    $booking_start_time     = str_replace(" ", 'T', $calenderRecord->booking_start_time);
-                    $booking_end_time       = str_replace(" ", 'T', $calenderRecord->booking_end_time);
+                if(!empty($calenderRecord->booking_date) && !empty($calenderRecord->start_time) && !empty($calenderRecord->end_time)) {
+                    $date = Carbon::parse($calenderRecord->booking_date)->format('Y-d-m');
+
+                    $booking_start_time     = $date . 'T' . $calenderRecord->start_time;
+                    $booking_end_time       = $date . 'T' . $calenderRecord->end_time;
                     $session[] = [
                         'start' => $booking_start_time,
                     'end'   => $booking_end_time,
@@ -84,6 +87,29 @@ class JobsController extends Controller
                 $bookingInfo->booking_status = 'CANCELED';
                 if($bookingInfo->save())
                 {
+                    $parentText     = config('constants.NotificationText.PARENT.JOB_CANCEL');
+                    $sitterText     = config('constants.NotificationText.SITTER.JOB_CANCEL');
+                    $parent         = User::find($bookingInfo->user_id);
+
+                    $storeParentNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $parent->id,
+                        'description'   => $parentText
+                    ];
+
+                    $storeSitterNotification = [
+                        'user_id'       => $parent->id,
+                        'sitter_id'     => $userInfo->id,
+                        'booking_id'    => $bookingInfo->id,
+                        'to_user_id'    => $userInfo->id,
+                        'description'   => $sitterText
+                    ];
+
+                    access()->addNotification($storeParentNotification);
+                    access()->addNotification($storeSitterNotification);
+
                     return redirect()->route('frontend.user.sitter.myjobs')->withFlashDanger('Booking cancelled Successfully.');
                 }
             }
@@ -120,14 +146,6 @@ class JobsController extends Controller
                     $parentText     = config('constants.NotificationText.PARENT.JOB_START');
                     $sitterText     = config('constants.NotificationText.SITTER.JOB_START');
                     $parent         = User::find($bookingInfo->user_id);
-                    $parentpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $parentText
-                    ];
-                    $sitterpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $sitterText
-                    ];
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
@@ -203,14 +221,6 @@ class JobsController extends Controller
                     $paymentInfo    = Payment::create($inputData);
                     $parentText     = config('constants.NotificationText.PARENT.JOB_STOP');
                     $sitterText     = config('constants.NotificationText.SITTER.JOB_STOP');
-                    $parentpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $parentText
-                    ];
-                    $sitterpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $sitterText
-                    ];
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
