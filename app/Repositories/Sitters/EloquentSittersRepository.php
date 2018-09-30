@@ -237,7 +237,7 @@ class EloquentSittersRepository extends DbRepository
      */
     public function getAll($orderBy = 'id', $sort = 'asc')
     {
-        return $this->model->with(['user', 'reviews', 'reviews.user'])->orderBy($orderBy, $sort)->get();
+        return $this->model->where('vacation_mode', 0)->with(['user', 'reviews', 'reviews.user'])->orderBy($orderBy, $sort)->get();
     }
 
     /**

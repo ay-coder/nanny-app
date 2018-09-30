@@ -53,7 +53,7 @@ class APISittersController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->with('user')->where('vacation_mode', 0)->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
 
         if(isset($items) && count($items))
         {

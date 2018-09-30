@@ -54,7 +54,7 @@ class APIBookingController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with(['user', 'payment', 'sitter', 'baby'])->orderBy($orderBy, $order)
+        $items      = $paginate ? $this->repository->model->with(['user', 'payment', 'sitter', 'baby', 'review'])->orderBy($orderBy, $order)
             ->whereDate('booking_date', '>=', date('Y-m-d'))
             ->whereIn('booking_status', ['ACCEPTED', 'REQUESTED', 'STARTED', 'COMPLETED'])
         ->paginate($paginate)->items() : $this->repository->getAllParentActiveBookings($orderBy, $order);
@@ -82,7 +82,7 @@ class APIBookingController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
+        $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment', 'review'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
 
         if(isset($items) && count($items))
         {
@@ -142,24 +142,34 @@ class APIBookingController extends BaseApiController
         if($model)
         {
             $parent         = User::find($model->user_id);
-            $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+            $sitter         = User::find($model->sitter_id);
+            //$parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
             $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
-            $parentpayload  = [
+            /*$parentpayload  = [
                 'mtitle'    => '',
-                'mdesc'     => $parentText
-            ];
+                'mdesc'     => $parentText,
+                'parent_id' => $parent->id,
+                'sitter_id' => $request->get('sitter_id'),
+                'booking_id' => $model->id,
+                'ntype'     => 'NEW_BOOKING'
+            ];*/
+
             $sitterpayload  = [
                 'mtitle'    => '',
-                'mdesc'     => $sitterText
+                'mdesc'     => $sitterText,
+                'parent_id' => $parent->id,
+                'sitter_id' => $request->get('sitter_id'),
+                'booking_id' => $model->id,
+                'ntype'     => 'NEW_BOOKING'
             ];
 
-            $storeParentNotification = [
+            /*$storeParentNotification = [
                 'user_id'       => $model->user_id,
                 'sitter_id'     => $model->sitter_id,
                 'booking_id'    => $model->id,
                 'to_user_id'    => $model->user_id,
                 'description'   => $parentText
-            ];
+            ];*/
 
             $storeSitterNotification = [
                 'user_id'       => $model->user_id,
@@ -169,28 +179,11 @@ class APIBookingController extends BaseApiController
                 'description'   => $sitterText
             ];
 
-            access()->addNotification($storeParentNotification);
+            //access()->addNotification($storeParentNotification);
             access()->addNotification($storeSitterNotification);
 
-            if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
-            {
-                PushNotification::iOS($parentpayload, $parent->device_token);
-            }
-
-            if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
-            {
-                PushNotification::android($parentpayload, $parent->device_token);
-            }
-
-            if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
-            {
-                PushNotification::iOS($sitterpayload, $userInfo->device_token);
-            }
-
-            if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 0)
-            {
-                PushNotification::android($sitterpayload, $userInfo->device_token);
-            }
+            //access()->sentPushNotification($parent, $parentpayload);
+            access()->sentPushNotification($sitter, $sitterpayload);
 
             $responseData = $this->bookingTransformer->transform($model);
 
@@ -303,6 +296,31 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
+                $parent         = User::find($bookingInfo->parent_id);
+                $parentText     = $sitter->name . ' has Accepted your booking';
+                
+                $parentpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $parentText,
+                    'parent_id' => $parent->id,
+                    'sitter_id' => $userInfo->id,
+                    'booking_id' => $bookingInfo->id,
+                    'ntype'     => 'BOOKING_ACCEPTED'
+                ];
+
+
+                $storeParentNotification = [
+                    'user_id'       => $userInfo->id,
+                    'sitter_id'     => $userInfo->id,
+                    'booking_id'    => $bookingInfo->id,
+                    'to_user_id'    => $parent->id,
+                    'description'   => $parentText
+                ];
+
+                access()->addNotification($storeParentNotification);
+                
+                access()->sentPushNotification($parent, $parentpayload);
+
                 $bookingInfo->booking_status = 'ACCEPTED';
                 if($bookingInfo->save())
                 {
@@ -336,6 +354,31 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
+                $parent         = User::find($bookingInfo->parent_id);
+                $parentText     = $userInfo->name . ' has denied your booking';
+                
+                $parentpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $parentText,
+                    'parent_id' => $parent->id,
+                    'sitter_id' => $userInfo->id,
+                    'booking_id' => $bookingInfo->id,
+                    'ntype'     => 'BOOKING_REJECTEd'
+                ];
+
+
+                $storeParentNotification = [
+                    'user_id'       => $userInfo->id,
+                    'sitter_id'     => $userInfo->id,
+                    'booking_id'    => $bookingInfo->id,
+                    'to_user_id'    => $parent->id,
+                    'description'   => $parentText
+                ];
+
+                access()->addNotification($storeParentNotification);
+                
+                access()->sentPushNotification($parent, $parentpayload);
+                
                 $bookingInfo->booking_status = 'REJECTED';
                 if($bookingInfo->save())
                 {
@@ -368,12 +411,38 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
+                $sitter         = User::find($bookingInfo->sitter_id);
+                $sitterText     = $userInfo->name . ' has cancelled the appointment';
+                
+                $sitterpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $sitterText,
+                    'parent_id' => $userInfo->id,
+                    'sitter_id' => $sitter->id,
+                    'booking_id' => $bookingInfo->id,
+                    'ntype'     => 'BOOKING_PARENT_CANCELED'
+                ];
+
+
+                $storeSitterNotification = [
+                    'user_id'       => $userInfo->id,
+                    'sitter_id'     => $sitter->id,
+                    'booking_id'    => $bookingInfo->id,
+                    'to_user_id'    => $userInfo->id,
+                    'description'   => $sitterText
+                ];
+
+                access()->addNotification($storeSitterNotification);
+                
+                access()->sentPushNotification($sitter, $sitterpayload);
+
+
                 $bookingInfo->booking_status = 'CANCELED';
                 if($bookingInfo->save())
                 {
                     return $this->successResponse([
-                        'success' => 'Booking Cancel by Sitter'
-                    ], 'Booking Cancel by Sitter');
+                        'success' => 'Booking Cancel by Parent'
+                    ], 'Booking Cancel by Parent');
                 }
             }
         }
@@ -400,6 +469,31 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
+                $parent         = User::find($bookingInfo->parent_id);
+                $parentText     = $userInfo->name . ' has cancelled your booking';
+                
+                $parentpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $parentText,
+                    'parent_id' => $parent->id,
+                    'sitter_id' => $userInfo->id,
+                    'booking_id' => $bookingInfo->id,
+                    'ntype'     => 'BOOKING_SITTER_CANCELED'
+                ];
+
+
+                $storeParentNotification = [
+                    'user_id'       => $userInfo->id,
+                    'sitter_id'     => $userInfo->id,
+                    'booking_id'    => $bookingInfo->id,
+                    'to_user_id'    => $parent->id,
+                    'description'   => $parentText
+                ];
+
+                access()->addNotification($storeParentNotification);
+                
+                access()->sentPushNotification($parent, $parentpayload);
+
                 $bookingInfo->booking_status = 'CANCELED';
                 if($bookingInfo->save())
                 {
@@ -441,16 +535,15 @@ class APIBookingController extends BaseApiController
 
                 if($bookingInfo->save())
                 {
-                    $parentText     = config('constants.NotificationText.PARENT.JOB_START');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_START');
+                    $parentText     = $userInfo->name .' has started the job';
                     $parent         = User::find($bookingInfo->user_id);
                     $parentpayload  = [
                         'mtitle'    => '',
-                        'mdesc'     => $parentText
-                    ];
-                    $sitterpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $sitterText
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'booking_id' => $bookingInfo->id,
+                        'sitter_id' => $userInfo->id,
+                        'ntype'     => 'BOOKING_START'
                     ];
 
                     $storeParentNotification = [
@@ -461,43 +554,9 @@ class APIBookingController extends BaseApiController
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
-
-                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
-                    {
-                        PushNotification::iOS($parentpayload, $parent->device_token);
-                        $storeNotification = [
-                            'user_id'       => $parent->id,
-                            'sitter_id'     => $userInfo->id,
-                            'booking_id'    => $bookingInfo->id,
-                            'description'   => $parentText
-                        ];
-                    }
-
-                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
-                    {
-                        PushNotification::android($parentpayload, $parent->device_token);
-                    }
-
-                    if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
-                    {
-                        PushNotification::iOS($sitterpayload, $userInfo->device_token);
-                    }
-
-                    if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 0)
-                    {
-                        PushNotification::android($sitterpayload, $userInfo->device_token);
-                    }
-
+                    
+                    access()->sentPushNotification($parent, $parentpayload);
 
                     return $this->successResponse([
                         'success' => 'Booking Started by Sitter'
@@ -556,55 +615,28 @@ class APIBookingController extends BaseApiController
 
                     $parent         = User::find($bookingInfo->user_id);
                     $paymentInfo    = Payment::create($inputData);
-                    $parentText     = config('constants.NotificationText.PARENT.JOB_STOP');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_STOP');
+                    $parentText     = $userInfo->name . ' has stopped the job';
+
                     $parentpayload  = [
                         'mtitle'    => '',
-                        'mdesc'     => $parentText
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'booking_id' => $bookingInfo->id,
+                        'sitter_id' => $userInfo->id,
+                        'ntype'     => 'BOOKING_STOP'
                     ];
-                    $sitterpayload  = [
-                        'mtitle'    => '',
-                        'mdesc'     => $sitterText
-                    ];
-
+                    
                     $storeParentNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => $userInfo->id,
                         'sitter_id'     => $userInfo->id,
                         'to_user_id'    => $parent->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
-
-                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 1)
-                    {
-                        PushNotification::iOS($parentpayload, $parent->device_token);
-                    }
-
-                    if(isset($parent->device_token) && strlen($parent->device_token) > 4 && $parent->device_type == 0)
-                    {
-                        PushNotification::android($parentpayload, $parent->device_token);
-                    }
-
-                    if(isset($userInfo ->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 1)
-                    {
-                        PushNotification::iOS($sitterpayload, $userInfo->device_token);
-                    }
-
-                    if(isset($userInfo->device_token) && strlen($userInfo->device_token) > 4 && $userInfo->device_type == 0)
-                    {
-                        PushNotification::android($sitterpayload, $userInfo->device_token);
-                    }
+                     access()->sentPushNotification($parent, $parentpayload);
+                   
 
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'

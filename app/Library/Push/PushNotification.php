@@ -119,7 +119,11 @@ class PushNotification
 		$body['aps'] = array(
 			'alert' => array(
 			    'title' => $data['mtitle'],
-                'body' => $data['mdesc'],
+                'body' 	=> $data['mdesc'],
+                'ntype' => isset($data['ntype']) ? $data['ntype'] : '',
+                'booking_id' => isset($data['booking_id']) ? $data['booking_id'] : '',
+                'parent_id' => isset($data['parent_id']) ? $data['parent_id'] : '',
+                'sitter_id' => isset($data['sitter_id']) ? $data['sitter_id'] : '',
 			 ),
 			'sound' => 'default'
 		);

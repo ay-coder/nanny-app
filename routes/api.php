@@ -26,7 +26,7 @@ Route::group(['namespace' => 'Api',], function ()
     Route::post('social-login', 'UsersController@socialLogin')->name('api.login');
     Route::post('forgotpassword', 'UsersController@forgotPassword')->name('api.forgotPassword');
     Route::get('config', 'UsersController@config')->name('api.config');
-    Route::get('twilio-token', 'UsersController@callToken')->name('api.call-token');
+    Route::post('twilio-token', 'UsersController@callToken')->name('api.call-token');
     Route::get('profile-completion', 'UsersController@profileCompletion')->name('api.profile-completion');
 
     /*Route::post('verifyotp', 'UsersController@verifyOtp')->name('api.verifyotp');

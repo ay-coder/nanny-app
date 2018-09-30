@@ -24,6 +24,7 @@ use Twilio;
 use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VoiceGrant;
 use Auth;
+use Twilio\Rest\Client;
 
 class UsersController extends BaseApiController
 {
@@ -770,13 +771,27 @@ class UsersController extends BaseApiController
      */
     public function callToken(Request $request)
     {
+        // Your Account Sid and Auth Token from twilio.com/user/account
+        $sid = "AC0de83c8b176e844565d89674c558f212";
+        $token = "c8b3bdb413a324b23b899b777d7072b4";
+        $appSID = 'AP0d2358bd0d3341988939926b0b9af94b';
+
+        $client = new Client($sid, $token);
+        $mobile = $request->has('mobile') ? $request->get('mobile')  : '+919879352734';
+        $call = $client->calls->create(
+            "+15017122624",
+            $mobile,
+            array("url" => "https://demo.twilio.com/welcome/voice/")
+        );
+
         $twilioAccountSid   = 'ACdcf7bf55f7ff0faada90d4afaa5d06fe';
-        $twilioApiKey       = 'SK3afa5f7717294db9adfd23bfa54e3d3b';
-        $twilioApiSecret    = 'cibniYvO6qRyZ31Sn2KZheYVy5wwSGZZ';
+        $twilioApiKey       = 'SK6c8672d2448bf28ee09f36283e489ec6';
+        $twilioApiSecret    = 'T0MjKzlGqlRyR5Sl4uBKdKoYNhmEm567';
         
         // Required for Voice grant
         //$outgoingApplicationSid = 'PNebb6b08a67e0eec24de4e67e9b0bdc79';
-        $outgoingApplicationSid = 'CRfd3b32a393732fdf7056b975f8a6a6c5';
+        //$outgoingApplicationSid = 'CA9b6e7ce3fd72058483d0b0a0598bc8db';
+        $outgoingApplicationSid = $call->sid;
 
         // An identifier for your app - can be anything you'd like
         $identity = "john_doe";

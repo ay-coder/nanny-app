@@ -50,7 +50,7 @@ class APINotificationsController extends BaseApiController
         $userInfo   = $this->getAuthenticatedUser();
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
-        $order      = $request->get('order') ? $request->get('order') : 'ASC';
+        $order      = $request->get('order') ? $request->get('order') : 'DESC';
         $items      = $paginate ? $this->repository->model->where('user_id', $userInfo->id)->with(['user', 'sitter', 'booking', 'booking.payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($userInfo->id, $orderBy, $order);
 
         if(isset($items) && count($items))
@@ -73,7 +73,7 @@ class APINotificationsController extends BaseApiController
         $userInfo   = $this->getAuthenticatedUser();
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
-        $order      = $request->get('order') ? $request->get('order') : 'ASC';
+        $order      = $request->get('order') ? $request->get('order') : 'DESC';
         $items      = $paginate ? $this->repository->model->where('sitter_id', $userInfo->id)->with(['user', 'sitter', 'booking', 'booking.payment'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllSitter($userInfo->id, $orderBy, $order);
 
         if(isset($items) && count($items))

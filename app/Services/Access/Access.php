@@ -7,6 +7,7 @@ use App\Models\Notifications\Notifications;
 use App\Models\Reviews\Reviews;
 use App\Models\Babies\Babies;
 use App\Models\Sitters\Sitters;
+use App\Library\Push\PushNotification;
 
 /**
  * Class Access.
@@ -304,5 +305,30 @@ class Access
     public function getSitterPerHour($sitterId = null)
     {
         return 10;
+    }
+
+    /**
+     * Sent Push Notification
+     * 
+     * @param object $user
+     * @param array $payload
+     * @return bool
+     */
+    public function sentPushNotification($user = null, $payload = null)
+    {
+        if($user && $payload)
+        {
+            if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 1)
+            {
+                PushNotification::iOS($payload, $user->device_token);
+            }
+
+            if(isset($user->device_token) && strlen($user->device_token) > 4 && $user->device_type == 0)
+            {
+                PushNotification::android($payload, $user->device_token);
+            }
+        }
+
+        return true;
     }
 }
