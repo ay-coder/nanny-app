@@ -6,9 +6,15 @@
         <!-- Select Date, Time start -->
         <div class="form-row">
             <div class="form-group col-md-4 dropdown">
-                <label class="control-label" for="date">Date</label>
-                <input type="text" name="booking_date" class="form-control futuredate" required="required" placeholder="dd/mm/yyyy">
+                <label class="control-label" for="date">Start Date</label>
+                <input type="text" name="start_booking_date" class="form-control futuredate" required="required" placeholder="dd/mm/yyyy">
             </div>
+            <div class="form-group col-md-4 dropdown">
+                <label class="control-label" for="date">End Date</label>
+                <input type="text" name="end_booking_date" class="form-control futuredate" required="required" placeholder="dd/mm/yyyy">
+            </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="start-time">Start Time</label>
                 <input type="text" name="start_time" class="form-control startTime" required="required" placeholder="Start Time">

@@ -432,6 +432,7 @@ span.price{color: #719D78;	font-family: Dosis;	font-size: 18px; font-weight: 600
 .parent-profile.edit form{ width: 100%; position: relative; }
 .parent-profile.edit input, .parent-profile.edit select{position: relative;}
 .parent-profile.edit select{ height: auto !important; }
+.custom-select-gender { height: calc(2.25rem + 18px) !important; }
 .parent-profile.edit .btn-default{ position: absolute; top: 0; right: 0;     max-width: 130px; height: 43px; border-radius: 30px; line-height: 40px; padding: 0; font-size: 20px; }
 /*.edit-children ul li{ display: none; }*/
 .edit-children ul{ margin: 0; padding: 0; list-style-type: none; }

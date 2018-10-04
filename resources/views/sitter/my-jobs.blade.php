@@ -73,16 +73,21 @@
                                             </div>
                                         </td>
                                         <td class="text-right">
-                                            @if(empty($currentJob->booking_start_time))
-                                                <a href="{{ route('frontend.user.sitter.job.cancel', ['job_id' => $currentJob->id]) }}" class="btn btn-cancel btn-sm">Cancel
-                                                </a>
-                                                <a href="{{ route('frontend.user.sitter.job.start', ['job_id' => $currentJob->id]) }}" class="btn btn-start btn-sm active">Start</a>
+                                            @if($currentJob->booking_status == 'REQUESTED')
+                                                <a href="{{ route('frontend.user.sitter.booking.reject', ['booking_id' => $currentJob->id]) }}" class="btn btn-reject btn-sm">Reject</a>
+                                                <a href="{{ route('frontend.user.sitter.booking.accept', ['booking_id' => $currentJob->id]) }}" class="btn btn-accept btn-sm">Accept</a>
                                             @else
-                                                <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_start_time)->format('h:i A') }}</span>
-                                                @if(empty($currentJob->booking_end_time))
-                                                    <a href="{{ route('frontend.user.sitter.job.stop', ['job_id' => $currentJob->id]) }}" class="btn btn-stop btn-sm">Stop</a>
+                                                @if(empty($currentJob->booking_start_time))
+                                                    <a href="{{ route('frontend.user.sitter.job.cancel', ['job_id' => $currentJob->id]) }}" class="btn btn-cancel btn-sm">Cancel
+                                                    </a>
+                                                    <a href="{{ route('frontend.user.sitter.job.start', ['job_id' => $currentJob->id]) }}" class="btn btn-start btn-sm active">Start</a>
                                                 @else
-                                                    <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_end_time)->format('h:i A') }}</span>
+                                                    <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_start_time)->format('h:i A') }}</span>
+                                                    @if(empty($currentJob->booking_end_time))
+                                                        <a href="{{ route('frontend.user.sitter.job.stop', ['job_id' => $currentJob->id]) }}" class="btn btn-stop btn-sm">Stop</a>
+                                                    @else
+                                                        <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_end_time)->format('h:i A') }}</span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>

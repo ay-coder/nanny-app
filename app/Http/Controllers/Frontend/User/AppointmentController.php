@@ -102,12 +102,12 @@ class AppointmentController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
-                    return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking accepted Successfully');
+                    return redirect()->back()->withFlashSuccess('Booking accepted Successfully');
                 }
             }
         }
 
-        return redirect()->route('frontend.user.sitter.notification')->withFlashDanger('Unable to find Booking!');
+        return redirect()->back()->withFlashDanger('Unable to find Booking!');
     }
 
     /* Reject
@@ -154,12 +154,12 @@ class AppointmentController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
-                    return redirect()->route('frontend.user.sitter.notification')->withFlashSuccess('Booking rejected Successfully');
+                    return redirect()->back()->withFlashSuccess('Booking rejected Successfully');
                 }
             }
         }
 
-        return redirect()->route('frontend.user.sitter.notification')->withFlashDanger('Unable to find Booking!');
+        return redirect()->back()->withFlashDanger('Unable to find Booking!');
     }
 
     /**

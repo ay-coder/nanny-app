@@ -30,7 +30,13 @@
                             @if(count($upcoming) > 0)
                                 @foreach($upcoming as $up)
                                 <tr>
-                                    <td><span class="date"> {{ Carbon\Carbon::createFromFormat('Y-d-m', $up->booking_date)->format('d F Y') }}</span></td>
+                                    <td>
+                                        <span class="date">
+                                            <a href="javascript:void(0);" class="show_baby" style="color: #719D78;">
+                                                    {{ Carbon\Carbon::createFromFormat('Y-d-m', $up->booking_date)->format('d F Y') }}
+                                            </a>
+                                        </span>
+                                    </td>
                                     <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($up->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($up->end_time)->format('h:i A') }}</span></span></td>
                                     <td>
                                         <div class="user small">
@@ -46,10 +52,38 @@
                                     <td class="text-right">
                                         @if($up->booking_status == 'REQUESTED')
                                         <a href="javascript:void(0);" class="btn btn-pending btn-sm">Pending</a>
+                                        @elseif($up->booking_status !== 'REJECTED' && $up->booking_status !== 'CANCELED' && $up->booking_status !== 'COMPLETED' && is_null($up->booking_start_time))
+                                            <a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $up->id]) }}" class="btn btn-cancel btn-sm">cancel</a>
+                                        @else
+                                            @if(!is_null($up->booking_start_time) && is_null($up->booking_end_time))
+                                                <a href="javascript:void(0);" class="btn btn-pending btn-sm">Job Started</a>
+                                            @else
+                                                <a href="javascript:void(0);" class="btn btn-pending btn-sm">{{ ucfirst($up->booking_status) }}</a>
+                                            @endif
                                         @endif
-                                        <a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $up->id]) }}" class="btn btn-cancel btn-sm">cancel</a>
                                     </td>
                                 </tr>
+                                @if(!empty($up['baby']))
+                                        <tr class="baby-detail" style="display: none;">
+                                            <td colspan="4">
+                                                <div class="baby">
+                                                    <div class="baby-info">
+                                                        <div class="img-wrap">
+                                                            <img src="{{ url('/uploads/babies/'. $up['baby']->image) }}" alt="">
+                                                        </div>
+                                                        <div class="content-wrap">
+                                                            <h5>{{ $up['baby']->title }}</h5>
+                                                            <span class="yrs">{{ $up['baby']->age }} Yrs</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="special-instruction">
+                                                        <h3>Special Instruction</h3>
+                                                        <p>{{ $up['baby']->description }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             @else
                             <tr>
@@ -76,17 +110,17 @@
                                                 </span>
                                             @else
                                                 @if(!empty($pre['payment']))
-                                                    <a href="{{ route('frontend.user.parent.previousbooking', ['booking_id' => $pre->id]) }}">
-                                                        <span class="date">
-                                                            {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
-                                                        </span>
-                                                    </a>
+                                                    <span class="date">
+                                                        <a href="{{ route('frontend.user.parent.previousbooking', ['booking_id' => $pre->id]) }}">
+                                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
+                                                        </a>
+                                                    </span>
                                                 @else
-                                                    <a href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $pre->id]) }}">
-                                                        <span class="date">
-                                                            {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
-                                                        </span>
-                                                    </a>
+                                                    <span class="date">
+                                                        <a href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $pre->id]) }}">
+                                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
+                                                        </a>
+                                                    </span>
                                                 @endif
                                             @endif
                                         </td>

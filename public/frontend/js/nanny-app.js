@@ -53,6 +53,10 @@ var Nanny = {
 			$('#previous_appointment').css('display', 'block');
 			$('#upcoming_appointment').css('display', 'none');
 		});
+
+		$('a.show_baby').click(function () {
+			$(this).closest('tr').next('tr').toggle();
+		});
 	},
 	Myjobs : function () {
 		$('#calender_view_btn').click(function() {

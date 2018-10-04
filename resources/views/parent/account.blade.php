@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="gender">Gender</label>
-                                    {{ Form::select('gender', ['Male' => 'Male', 'Female' => 'Female'], $user->gender, ['class' => 'form-control', 'placeholder' => 'Select', 'required' => 'required']) }}
+                                    {{ Form::select('gender', ['Male' => 'Male', 'Female' => 'Female'], $user->gender, ['class' => 'form-control custom-select-gender', 'placeholder' => 'Select', 'required' => 'required']) }}
                                 </div>
                             </div>
                             <input type="submit" class="btn btn-default" value="Save">
