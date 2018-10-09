@@ -297,6 +297,7 @@ class APIBookingController extends BaseApiController
             if(isset($bookingInfo))
             {
                 $parent         = User::find($bookingInfo->parent_id);
+                $sitter         = User::find($bookingInfo->sitter_id);
                 $parentText     = $sitter->name . ' has Accepted your booking';
                 
                 $parentpayload  = [
