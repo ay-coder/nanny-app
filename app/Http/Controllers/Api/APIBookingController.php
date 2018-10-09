@@ -296,7 +296,7 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
-                $parent         = User::find($bookingInfo->parent_id);
+                $parent         = User::find($bookingInfo->user_id);
                 $sitter         = User::find($bookingInfo->sitter_id);
                 $parentText     = $sitter->name . ' has Accepted your booking';
                 
@@ -355,7 +355,7 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
-                $parent         = User::find($bookingInfo->parent_id);
+                $parent         = User::find($bookingInfo->user_id);
                 $parentText     = $userInfo->name . ' has denied your booking';
                 
                 $parentpayload  = [
@@ -470,7 +470,7 @@ class APIBookingController extends BaseApiController
 
             if(isset($bookingInfo))
             {
-                $parent         = User::find($bookingInfo->parent_id);
+                $parent         = User::find($bookingInfo->user_id);
                 $parentText     = $userInfo->name . ' has cancelled your booking';
                 
                 $parentpayload  = [
