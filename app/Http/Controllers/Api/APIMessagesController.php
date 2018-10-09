@@ -6,6 +6,7 @@ use App\Http\Transformers\MessagesTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Messages\EloquentMessagesRepository;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Access\User\User;
 
 class APIMessagesController extends BaseApiController
 {
