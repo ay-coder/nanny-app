@@ -22,7 +22,7 @@ class NotificationsTransformer extends Transformer
         $item->user     = (object)$item->user;
         $item->sitter   = (object)$item->sitter;
         $item->booking  = (object)$item->booking;
-        $bookingInfo    = [];
+        $bookingInfo    = (object) [];
 
 
         if(isset($item->booking) && isset($item->booking->id))
