@@ -24,7 +24,7 @@ class Booking extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "user_id", "sitter_id", "baby_id", "baby_ids", "is_multiple", "parking_fees", "booking_date", "start_time", "end_time", "booking_start_time", "booking_end_time", "booking_status", "status", "created_at", "updated_at", 
+        "id", "user_id", "sitter_id", "baby_id", "baby_ids", "is_multiple", "parking_fees", "booking_date", "start_time", "end_time", "booking_start_time", "booking_end_time", "booking_status", "status", "created_at", "updated_at",
     ];
 
     /**

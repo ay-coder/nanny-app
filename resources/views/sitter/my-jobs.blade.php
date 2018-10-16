@@ -38,7 +38,7 @@
                                             <span class="date">
                                                 <a href="javascript:void(0);" class="show_baby" style="color: #719D78;">
 
-                                                    {{ Carbon\Carbon::createFromFormat('Y-d-m', $currentJob->booking_date)->format('d F Y') }}
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $currentJob->booking_date)->format('d F Y') }}
                                                 </a>
                                             </span>
                                         </td>
@@ -134,7 +134,7 @@
                                     <tr>
                                         <td>
                                             <span class="date">
-                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pastJob->booking_date)->format('d F Y') }}
+                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $pastJob->booking_date)->format('d F Y') }}
                                             </span>
                                         </td>
                                         <td>
@@ -190,29 +190,41 @@
                 </div>
                 <div class="white-box-content">
                     <ul class="recent-activity">
-                        {{-- <li>
-                            <div class="user small">
-                                <div class="img-wrap">
-                                    <img src="../assets/images/sitter1.png" alt="">
-                                </div>
-                                <div class="content-wrap">
-                                    <div class="content-inner">
-                                        <h5>Elsie Burton</h5>
-                                        <address>4196 Pfeffer Landing</address>
+                        @if(count($calenderRecords) > 0)
+                            @foreach($calenderRecords as $calenderRecord)
+                                <li>
+                                    <div class="user small">
+                                        <div class="img-wrap">
+                                            <img src="{{ url('/uploads/user/'. $calenderRecord['user']->profile_pic) }}" alt="">
+                                        </div>
+                                        <div class="content-wrap">
+                                            <div class="content-inner">
+                                                <h5>{{$calenderRecord['user']->name}}</h5>
+                                                <address>
+                                                    {{ $calenderRecord['user']->address }}
+                                                    @if(!empty($calenderRecord['user']->city)),{{ $calenderRecord['user']->city }} @endif
+                                                    @if(!empty($calenderRecord['user']->state)),{{ $calenderRecord['user']->state }} @endif
+                                                    @if(!empty($calenderRecord['user']->zip)),{{ $calenderRecord['user']->zip }} @endif
+                                                </address>
+                                            </div>
+                                            @if(!empty($calenderRecord['payment']))
+                                                <div class="total-amt">
+                                                    ${{$calenderRecord['payment']->total}}
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="total-amt">
-                                        $400.00
+                                    <div class="date-time">
+                                        <span class="date">{{ Carbon\Carbon::createFromFormat('Y-m-d', $calenderRecord->booking_date)->format('d F Y') }}</span>
+                                        <span class="time"><span class="start-time">{{ Carbon\Carbon::parse($calenderRecord->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($calenderRecord->end_time)->format('h:i A') }}</span></span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="date-time">
-                                <span class="date">08 Dec 2017</span>
-                                <span class="time"><span class="start-time">9:30 AM</span><span>10:30 AM</span></span>
-                            </div>
-                        </li> --}}
-                        <li>
-                            No Recent Activity
-                        </li>
+                                </li>
+                            @endforeach
+                        @else
+                            <li>
+                                No Recent Activity
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>

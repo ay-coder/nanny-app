@@ -5,9 +5,9 @@ namespace App\Http\Requests\Frontend\User;
 use App\Http\Requests\Request;
 
 /**
- * Class SearchRequest.
+ * Class PaymentRequest.
  */
-class SearchRequest extends Request
+class PaymentRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,18 +27,18 @@ class SearchRequest extends Request
     public function rules()
     {
         return [
-            'start_booking_date' => 'required',
-            'end_booking_date' => 'required|after_or_equal:booking_date',
-            'start_time' => 'required',
-            'end_time' => 'required|after:start_time',
-            'baby_ids' => 'required'
+            'booking_id' => 'required',
+            'payment_id' => 'required',
+            'stripeToken' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'baby_ids.required' => 'Please select baby.'
+            'booking_id.required' => 'Payment Failed ! Please try again.',
+            'payment_id.required' => 'Payment Failed ! Please try again.',
+            'stripeToken.required' => 'Payment Failed ! Please try again.',
         ];
     }
 }

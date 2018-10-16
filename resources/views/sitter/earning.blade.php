@@ -26,7 +26,7 @@
                             @if(count($sitterBookings) > 0)
                                 @foreach($sitterBookings as $sitterBooking)
                                     <tr>
-                                        <td><a href="{{ route('frontend.user.sitter.booking', ['booking_id' => $sitterBooking->id]) }}"><span class="date"> {{ Carbon\Carbon::createFromFormat('Y-d-m', $sitterBooking->booking_date)->format('d F Y') }}</span></a></td>
+                                        <td><a href="{{ route('frontend.user.sitter.booking', ['booking_id' => $sitterBooking->id]) }}"><span class="date"> {{ Carbon\Carbon::createFromFormat('Y-m-d', $sitterBooking->booking_date)->format('d F Y') }}</span></a></td>
                                         <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($sitterBooking->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($sitterBooking->end_time)->format('h:i A') }}</span></span></td>
                                         <td>
                                             <div class="user small">

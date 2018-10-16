@@ -291,16 +291,16 @@ span.time span.end-time{ padding-left: 10px; }
 .right-column .review-list li .user .content-wrap h5{ font-size: 16px; padding-bottom: 4px; font-family: 'Dosis', sans-serif; }
 .right-column .review-list li p{ font-size: 16px; line-height: 20px; }
 
-#reviewnow .modal-header, #reviewnow .modal-footer, #reviewnow .modal-body{ padding: 1rem 2rem; }
-#reviewnow .modal-header{ border: 0; position: relative; }
-#reviewnow .modal-header .close{ background: url(../images/close.png) no-repeat 0 0; width: 46px; height: 46px; margin: 0; padding: 0; position: absolute; top: 14px; right: 9px; opacity: 1; }
-#reviewnow .modal-header .close span{ visibility: hidden; }
-#reviewnow .modal-content{ border-radius: .9rem; }
-#reviewnow .modal-footer{ justify-content: center; border:0; padding-top: 0 }
-#reviewnow .modal-footer .btn{ max-width: 289px; border-radius: 50px; margin-bottom: 20px; }
-#reviewnow img{ border-radius: 50%;  border: 2px solid #dee8e0; width: 125px; height: 125px; }
-#reviewnow h5.modal-title{height: 43px; color: #93C39A;	font-family: 'Dosis', sans-serif;	font-size: 34px; font-weight: 600; letter-spacing: 0.71px; line-height: 43px; width: 100%;}
-#reviewnow h3{color: #767676;	font-family: 'Dosis', sans-serif;	font-size: 24px;	font-weight: 600;	letter-spacing: 0.5px;	line-height: 31px; padding: 15px 0 10px;}
+.reviews-wrapper .modal-header, .reviews-wrapper .modal-footer, .reviews-wrapper .modal-body{ padding: 1rem 2rem; }
+.reviews-wrapper .modal-header{ border: 0; position: relative; }
+.reviews-wrapper .modal-header .close{ background: url(../images/close.png) no-repeat 0 0; width: 46px; height: 46px; margin: 0; padding: 0; position: absolute; top: 14px; right: 9px; opacity: 1; }
+.reviews-wrapper .modal-header .close span{ visibility: hidden; }
+.reviews-wrapper .modal-content{ border-radius: .9rem; }
+.reviews-wrapper .modal-footer{ justify-content: center; border:0; padding-top: 0 }
+.reviews-wrapper .modal-footer .btn{ max-width: 289px; border-radius: 50px; margin-bottom: 20px; }
+.reviews-wrapper img{ border-radius: 50%;  border: 2px solid #dee8e0; width: 125px; height: 125px; }
+.reviews-wrapper h5.modal-title{height: 43px; color: #93C39A;	font-family: 'Dosis', sans-serif;	font-size: 34px; font-weight: 600; letter-spacing: 0.71px; line-height: 43px; width: 100%;}
+.reviews-wrapper h3{color: #767676;	font-family: 'Dosis', sans-serif;	font-size: 24px;	font-weight: 600;	letter-spacing: 0.5px;	line-height: 31px; padding: 15px 0 10px;}
 
 .book-nanny{ display: flex; justify-content: center; align-items: center; min-height: 161px; }
 .book-nanny a.btn{ width: 165px; height: 42px; line-height: 40px; padding: 0; border-radius: 20px; font-size: 20px; }
@@ -709,7 +709,7 @@ footer{ background: #0c0a08; }
 
 	.btn-group .btn-secondary{ min-width: 84px; }
 
-	#reviewnow .modal-header, #reviewnow .modal-footer, #reviewnow .modal-body{ padding: 1rem; }
+	.reviews-wrapper .modal-header, .reviews-wrapper .modal-footer, .reviews-wrapper .modal-body{ padding: 1rem; }
 
 	/*Footer*/
 	.footer-bottom .copyright{ text-align: center; padding: 0 20px; }

@@ -99,5 +99,13 @@ var Nanny = {
 			$(this).closest('tr').next('tr').toggle();
 		});
 
-	}
+	},
+	Review : function() {
+		$('.starrr').starrr({
+	        rating: 1,
+	        change: function(e, value){
+	            $(this).closest('div.modal-content').find("input[name='rating']").val(value);
+	        }
+        });
+	},
 };

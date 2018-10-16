@@ -25,4 +25,14 @@ trait Relationship
     {
         return $this->belongsTo(Booking::class, 'booking_id');
     }
+
+    /**
+     * Belongs to relations with Sitter.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sitter()
+    {
+        return $this->belongsTo(User::class, 'sitter_id');
+    }
 }

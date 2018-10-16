@@ -164,9 +164,20 @@ if (! function_exists('AvgRating')) {
      *
      * @return string
      */
-    function AvgRating($userId = null, $sitterId = null)
+    function AvgRating($userId = null, $sitterId = null, $bookingId = null)
     {
         $rating = new App\Models\Reviews\Reviews();
+
+        if(!is_null($bookingId)) {
+            $rating = $rating->where('booking_id', $bookingId)->select('rating')->first();
+
+            if(is_null($rating))
+            {
+                $rating = 0;
+            }
+
+            return $rating->rating;
+        }
 
         if(!is_null($userId)) {
             $rating = $rating->where('user_id', $userId);

@@ -1,5 +1,5 @@
 <!-- Footer Start -->
-<footer>
+<footer style="height: 196px;">
     <div class="footer-top">
         <div class="container">
             <div class="row">

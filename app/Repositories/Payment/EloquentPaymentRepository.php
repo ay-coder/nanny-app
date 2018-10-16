@@ -430,7 +430,7 @@ class EloquentPaymentRepository extends DbRepository
 
             if(isset($payment) && $total > 0)
             {
-                $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
+                $stripe = new Stripe('sk_test_cCkSSQAXKTqFXIx9mXL7b1N9');
                 $charge = $stripe->charges()->create([
                     'amount'            => $total,
                     'currency'          => 'usd',

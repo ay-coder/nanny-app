@@ -299,7 +299,7 @@ class APIBookingController extends BaseApiController
                 $parent         = User::find($bookingInfo->user_id);
                 $sitter         = User::find($bookingInfo->sitter_id);
                 $parentText     = $sitter->name . ' has Accepted your booking';
-                
+
                 $parentpayload  = [
                     'mtitle'    => '',
                     'mdesc'     => $parentText,
@@ -319,7 +319,7 @@ class APIBookingController extends BaseApiController
                 ];
 
                 access()->addNotification($storeParentNotification);
-                
+
                 access()->sentPushNotification($parent, $parentpayload);
 
                 $bookingInfo->booking_status = 'ACCEPTED';
@@ -357,7 +357,7 @@ class APIBookingController extends BaseApiController
             {
                 $parent         = User::find($bookingInfo->user_id);
                 $parentText     = $userInfo->name . ' has denied your booking';
-                
+
                 $parentpayload  = [
                     'mtitle'    => '',
                     'mdesc'     => $parentText,
@@ -377,9 +377,9 @@ class APIBookingController extends BaseApiController
                 ];
 
                 access()->addNotification($storeParentNotification);
-                
+
                 access()->sentPushNotification($parent, $parentpayload);
-                
+
                 $bookingInfo->booking_status = 'REJECTED';
                 if($bookingInfo->save())
                 {
@@ -414,7 +414,7 @@ class APIBookingController extends BaseApiController
             {
                 $sitter         = User::find($bookingInfo->sitter_id);
                 $sitterText     = $userInfo->name . ' has cancelled the appointment';
-                
+
                 $sitterpayload  = [
                     'mtitle'    => '',
                     'mdesc'     => $sitterText,
@@ -434,7 +434,7 @@ class APIBookingController extends BaseApiController
                 ];
 
                 access()->addNotification($storeSitterNotification);
-                
+
                 access()->sentPushNotification($sitter, $sitterpayload);
 
 
@@ -472,7 +472,7 @@ class APIBookingController extends BaseApiController
             {
                 $parent         = User::find($bookingInfo->user_id);
                 $parentText     = $userInfo->name . ' has cancelled your booking';
-                
+
                 $parentpayload  = [
                     'mtitle'    => '',
                     'mdesc'     => $parentText,
@@ -492,7 +492,7 @@ class APIBookingController extends BaseApiController
                 ];
 
                 access()->addNotification($storeParentNotification);
-                
+
                 access()->sentPushNotification($parent, $parentpayload);
 
                 $bookingInfo->booking_status = 'CANCELED';
@@ -556,7 +556,7 @@ class APIBookingController extends BaseApiController
                     ];
 
                     access()->addNotification($storeParentNotification);
-                    
+
                     access()->sentPushNotification($parent, $parentpayload);
 
                     return $this->successResponse([
@@ -626,7 +626,7 @@ class APIBookingController extends BaseApiController
                         'sitter_id' => $userInfo->id,
                         'ntype'     => 'BOOKING_STOP'
                     ];
-                    
+
                     $storeParentNotification = [
                         'user_id'       => $userInfo->id,
                         'sitter_id'     => $userInfo->id,
@@ -637,7 +637,7 @@ class APIBookingController extends BaseApiController
 
                     access()->addNotification($storeParentNotification);
                      access()->sentPushNotification($parent, $parentpayload);
-                   
+
 
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'

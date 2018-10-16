@@ -122,7 +122,7 @@ class ProfileController extends Controller
                 }
             }
         }
-        return redirect()->route('frontend.user.parent.account')->withFlashDelete('Baby Not Found or Baby Already Deleted !');
+        return redirect()->route('frontend.user.parent.account')->withFlashDanger('Baby Not Found or Baby Already Deleted !');
     }
 
 

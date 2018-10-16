@@ -40,7 +40,7 @@ class JobsController extends Controller
     public function index()
     {
         $session = array();
-        $calenderRecords    = Booking::with(['user', 'sitter', 'baby'])->where('sitter_id', access()->user()->id)->get();
+        $calenderRecords    = Booking::with(['user', 'sitter', 'baby', 'payment'])->where('sitter_id', access()->user()->id)->orderBy('id', 'desc')->get();
         if (count($calenderRecords) > 0) {
             foreach ($calenderRecords as $key => $calenderRecord) {
                 if(!empty($calenderRecord->booking_date) && !empty($calenderRecord->start_time) && !empty($calenderRecord->end_time)) {
@@ -64,7 +64,7 @@ class JobsController extends Controller
 
         $currentJobs = $this->repository->getSitterActiveBookings(access()->user()->id);
         $pastJobs    = $this->repository->getSitterPastBookings(access()->user()->id);
-        return view('sitter.my-jobs', compact('calenderData', 'currentJobs', 'pastJobs'));
+        return view('sitter.my-jobs', compact('calenderData', 'currentJobs', 'pastJobs', 'calenderRecords'));
     }
 
     /* Cancel
@@ -110,7 +110,7 @@ class JobsController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
-                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashDanger('Booking cancelled Successfully.');
+                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Booking cancelled Successfully.');
                 }
             }
         }
@@ -166,7 +166,7 @@ class JobsController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
-                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashDanger('Job Started Successfully.');
+                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Job Started Successfully.');
                 }
             }
         }
@@ -241,7 +241,7 @@ class JobsController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
-                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashDanger('Job Stopped Successfully.');
+                    return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Job Stopped Successfully.');
                 }
             }
         }

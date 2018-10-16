@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Frontend\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\Booking\EloquentBookingRepository;
 use App\Repositories\Payment\EloquentPaymentRepository;
+use App\Repositories\Reviews\EloquentReviewsRepository;
 use Illuminate\Http\Request;
 use App\Models\Booking\Booking;
+use App\Http\Requests\Frontend\User\PaymentRequest;
 use Carbon\Carbon;
 use App\Models\Access\User\User;
 
@@ -22,6 +24,7 @@ class AppointmentController extends Controller
      */
     protected $repository;
     protected $paymentRepository;
+    protected $reviewRepository;
 
 	/**
      * __construct
@@ -31,6 +34,7 @@ class AppointmentController extends Controller
     {
         $this->repository = new EloquentBookingRepository();
         $this->paymentRepository = new EloquentPaymentRepository();
+        $this->reviewRepository = new EloquentReviewsRepository();
     }
 
     /**
@@ -41,8 +45,9 @@ class AppointmentController extends Controller
     {
         $upcoming = $this->repository->getAllParentActiveBookings('booking_date', 'ASC');
         $previous = $this->repository->getAllPast('booking_date', 'ASC');
+        $reviews = $this->reviewRepository->getMySubmittedReviews(['is_user' => access()->user()->id]);
 
-        return view('parent.appointment', compact('upcoming', 'previous'));
+        return view('parent.appointment', compact('upcoming', 'previous', 'reviews'));
     }
 
     /**
@@ -250,44 +255,21 @@ class AppointmentController extends Controller
      * @param  Request $request
      * @return
      */
-    public function bookingPayment(Request $request)
+    public function bookingPayment(PaymentRequest $request)
     {
+        $tipAmount      = $request->get('tip') ? $request->get('tip') : 0;
         $userInfo       = access()->user();
-        $booking        = new Booking;
-        $bookingInfo    = $booking->where([
-            'id'            => $request->get('booking_id'),
-            'sitter_id'     => $userInfo->id,
-            'booking_status' => 'COMPLETED'
-        ])->first();
+        $paymentId      = $request->get('payment_id');
+        $bookingId      = $request->get('booking_id');
+        $token          = $request->get('stripeToken');
+        $tip            = (float) $tipAmount;
+        $paymentStatus  = $this->paymentRepository->addPayment($paymentId, $token, $tip);
 
-        if(isset($bookingInfo) && $bookingInfo->id)
+        if($paymentStatus)
         {
-            $perHour  = access()->getSitterPerHour();
-            $hourdiff = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
-            $input    = $request->all();
-            $hourTotal   = abs($hourdiff * $perHour);
-            $parkingFees = $input['parking_fees'];
-            $inputData = [
-                'booking_id'    => $input['booking_id'],
-                'sitter_id'     => $userInfo->id,
-                'per_hour'      => $perHour,
-                'total_hour'    => $hourdiff,
-                'sub_total'     => $hourTotal,
-                'tax'           => 0,
-                'other_charges' => 0,
-                'parking_fees'  => $parkingFees,
-                'total'         => $parkingFees + ($hourdiff * $perHour),
-                'description'   => 'Test Mode - Payment'
-            ];
-
-            $model = $this->repository->create($inputData);
-
-            if($model)
-            {
-                return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Payment is Created Successfully');
-            }
+            return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Payment Done Successfully !');
         }
 
-        return redirect()->back()->withFlashDanger('Something went wrong !');
+        return redirect()->back()->withFlashDanger('Payment Failed ! Please try again.');
     }
 }

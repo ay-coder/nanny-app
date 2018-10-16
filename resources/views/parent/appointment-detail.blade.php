@@ -22,7 +22,7 @@
                         <tbody>
                             <!-- Nanny Detail Start -->
                             <tr>
-                                <td><span class="date">{{ Carbon\Carbon::createFromFormat('Y-d-m', $booking->booking_date)->format('d F Y') }}</span></td>
+                                <td><span class="date">{{ Carbon\Carbon::createFromFormat('Y-m-d', $booking->booking_date)->format('d F Y') }}</span></td>
                                 <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($booking->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}</span></span>
                                 </td>
                                 <td>
@@ -122,6 +122,7 @@
                                             </td>
                                             {{ Form::hidden('sub_total', $subTotal, ['id' => 'sub_total']) }}
                                             {{ Form::hidden('booking_id', $booking->id, ['id' => 'booking_id']) }}
+                                            {{ Form::hidden('payment_id', isset($booking['payment']->id) ? $booking['payment']->id : 0, ['id' => 'payment_id']) }}
                                             {{ Form::hidden('parking_fees', 0, ['id' => 'parking_fees']) }}
                                             <td class="price">
                                                 ${{ $subTotal }}

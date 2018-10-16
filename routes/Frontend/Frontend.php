@@ -88,5 +88,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('job/{job_id}/stop', 'JobsController@stop')->name('sitter.job.stop');
         Route::get('job/{job_id}/cancel', 'JobsController@cancel')->name('sitter.job.cancel');
 
+        /**
+         * Reviews
+         */
+        Route::post('reviews/create', 'ReviewsController@create')->name('parent.reviews.create');
     });
 });

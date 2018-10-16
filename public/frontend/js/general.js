@@ -45,8 +45,5 @@ $(function () {
 		$('.endTime').datetimepicker({
             format: 'LT'
         });
-
-		// Review Star
-		$('#star1').starrr();
 	});
 });

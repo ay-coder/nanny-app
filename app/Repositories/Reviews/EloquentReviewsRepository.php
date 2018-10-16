@@ -342,4 +342,17 @@ class EloquentReviewsRepository extends DbRepository
 
         return json_encode($this->setTableStructure($clientColumns));
     }
+
+    public function getMySubmittedReviews($option = array())
+    {
+        if(!is_null($option['is_user'])) {
+            return $this->model->orderBy('id', 'desc')->where('user_id', $option['is_user'])->with(['booking', 'user', 'sitter'])->get();
+        }
+
+        if(!is_null($option['is_sitter'])) {
+            return $this->model->orderBy('id', 'desc')->where('sitter', $option['is_sitter'])->with(['booking', 'user', 'sitter'])->get();
+        }
+
+        return $this->model->orderBy('id', 'desc')->with(['booking', 'user', 'sitter'])->get();
+    }
 }

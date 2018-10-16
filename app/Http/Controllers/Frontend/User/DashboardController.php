@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Access\User\User;
 use App\Repositories\Sitters\EloquentSittersRepository;
 use App\Repositories\Booking\EloquentBookingRepository;
+use Carbon\Carbon;
 
 /**
  * Class DashboardController.
@@ -69,16 +70,15 @@ class DashboardController extends Controller
         } else {
             return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('Something went wrong. Please try again.');
         }
+
+        $bookingDate = Carbon::createFromFormat('d/m/Y',$input['start_booking_date'])->format('Y-m-d');
         $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
         $input['baby_id'] = $input['baby_ids'][0];
         $input['baby_ids'] = implode(",", $input['baby_ids']);
         $input['sitter_id'] = $request->sitter_id;
-
-        $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['start_time']));
-        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['end_time']));
         $input              = array_merge($input, [
-            'user_id'            => access()->user()->id,
-            'booking_date'       => date('Y-m-d', strtotime($input['booking_date'])),
+            'user_id'             => access()->user()->id,
+            'booking_date'       => $bookingDate,
             'start_time'         => date('H:i:s', strtotime($input['start_time'])),
             'end_time'           => date('H:i:s', strtotime($input['end_time'])),
             'booking_status'     => 'REQUESTED',

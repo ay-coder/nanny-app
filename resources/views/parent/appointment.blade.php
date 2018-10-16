@@ -33,7 +33,7 @@
                                     <td>
                                         <span class="date">
                                             <a href="javascript:void(0);" class="show_baby" style="color: #719D78;">
-                                                    {{ Carbon\Carbon::createFromFormat('Y-d-m', $up->booking_date)->format('d F Y') }}
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $up->booking_date)->format('d F Y') }}
                                             </a>
                                         </span>
                                     </td>
@@ -106,19 +106,19 @@
                                         <td>
                                             @if($pre->booking_status == 'CANCELED')
                                                 <span class="date">
-                                                    {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $pre->booking_date)->format('d F Y') }}
                                                 </span>
                                             @else
-                                                @if(!empty($pre['payment']))
+                                                @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1)
                                                     <span class="date">
                                                         <a href="{{ route('frontend.user.parent.previousbooking', ['booking_id' => $pre->id]) }}">
-                                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
+                                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $pre->booking_date)->format('d F Y') }}
                                                         </a>
                                                     </span>
                                                 @else
                                                     <span class="date">
                                                         <a href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $pre->id]) }}">
-                                                                {{ Carbon\Carbon::createFromFormat('Y-d-m', $pre->booking_date)->format('d F Y') }}
+                                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $pre->booking_date)->format('d F Y') }}
                                                         </a>
                                                     </span>
                                                 @endif
@@ -132,14 +132,18 @@
                                                     <img src="{{ url('/uploads/user/'. $pre['sitter']->profile_pic) }}" alt="Profile Pic">
                                                 </div>
                                                 <div class="content-wrap">
-                                                    <span class="rating-wrap small"><span class="rating" style="width: {{(AvgRating(null, $pre['sitter']->id) * 20)}}%;"></span></span>
+                                                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1 && empty($pre['review']))
+                                                        <a style="margin-right: 2px;" href="JavaScript:void(0)" data-toggle="modal" data-target="#reviewnow_{{ $pre['payment']->id }}" class="btn btn-start btn-sm">Review now</a>
+                                                    @else
+                                                        <span class="rating-wrap small"><span class="rating" style="width: {{(AvgRating(null, null, $pre->id) * 20)}}%;"></span></span>
+                                                    @endif
                                                     <h5>{{ $pre['sitter']->name }}</h5>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="text-right">
                                             @if($pre->booking_status == 'CANCELED')
-                                                <a href="javascript:void(0);" class="btn btn-pending btn-sm">Canceled</a>
+                                                <a href="javascript:void(0);" class="btn btn-pending btn-sm">Cancelled</a>
                                             @endif
                                             <span class="price">${{ isset($pre['payment']->total) ?: 0 }}</span></td>
                                     </tr>
@@ -168,50 +172,85 @@
                 <div class="white-box-content">
                     <!-- Review List Start -->
                     <ul class="review-list">
-                        <li>
-                            No Reviews
-                        </li>
-                        {{-- <li>
-                            <div class="user small">
-                                <div class="img-wrap">
-                                    <img src="../assets/images/sitter2.png" alt="">
-                                </div>
-                                <div class="content-wrap">
-                                    <h5>Elsie Burton</h5>
-                                    <span class="rating-wrap small"><span class="rating"></span></span>
-                                </div>
-                            </div>
-                            <p>The state of Utah in the United States is home to lots of beautiful National Parks, & Bryce Canyon National Park ranks as three of the most magnificent & awe inspiring.</p>
-                        </li>
-                        <li>
-                            <div class="user small">
-                                <div class="img-wrap">
-                                    <img src="../assets/images/sitter2.png" alt="">
-                                </div>
-                                <div class="content-wrap">
-                                    <h5>Jeffery Massey</h5>
-                                    <span class="rating-wrap small"><span class="rating"></span></span>
-                                </div>
-                            </div>
-                            <p>LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure.</p>
-                        </li> --}}
+                        @if(count($reviews) > 0)
+                            @foreach($reviews as $review)
+                                <li>
+                                    <div class="user small">
+                                        <div class="img-wrap">
+                                            <img src="{{ url('/uploads/user/'. $review['sitter']->profile_pic) }}" alt="Profile Pic">
+                                        </div>
+                                        <div class="content-wrap">
+                                            <h5>{{ $review['sitter']->name }}</h5>
+                                            <span class="rating-wrap small"><span class="rating" style="width: {{($review->rating * 20)}}%;"></span></span>
+                                        </div>
+                                    </div>
+                                    <p>{{ $review->description }}</p>
+                                </li>
+                            @endforeach
+                        @else
+                            <li>
+                                No Reviews
+                            </li>
+                        @endif
                     </ul>
                     <!-- Review List End -->
                 </div>
             </div>
         </div>
         <!-- Inner Right Column End -->
+
+        <div class="reviews-wrapper">
+            @if(count($previous) > 0)
+                @foreach($previous as $pre)
+                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1 && empty($pre['review']))
+                        <div class="modal fade" id="reviewnow_{{ $pre['payment']->id }}" tabindex="-1" role="dialog" aria-labelledby="reviewnowTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    {{ Form::open(['route' => 'frontend.user.parent.reviews.create']) }}
+                                        <div class="modal-header text-center">
+                                            <h5 class="modal-title">Rate & Review</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group text-center">
+                                                <div class="img-wrap">
+                                                    <img src="{{ url('/uploads/user/'. $pre['sitter']->profile_pic) }}" alt="Profile Pic">
+                                                </div>
+                                            <h3>{{ $pre['sitter']->name }}</h3>
+                                            <div class='starrr'></div>
+                                            <input type="hidden" name="rating" value="1">
+                                            </div>
+                                            <input type="hidden" name="sitter_id" value="{{ $pre['sitter']->id }}">
+                                            <input type="hidden" name="booking_id" value="{{ $pre->id }}">
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="description" cols="30" rows="4" required="required"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer text-center">
+                                            <button type="submit" class="btn btn-default">Review</button>
+                                        </div>
+                                    {{ Form::close() }}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        </div>
     </div>
 </div><!-- .my-appointment end -->
 <!-- My Appointment Content End -->
 @endsection
 @section('after-scripts')
 <script>
-    var ModuleConfig = {
-        UpdateProfileURL : "{{ route('frontend.user.parent.update') }}"
-    };
     $(document).ready(function(){
+        var ModuleConfig = {
+            reviewURL : "{{ route('frontend.user.parent.update') }}"
+        };
         Nanny.Appointment();
+        Nanny.Review();
     });
 </script>
 @stop
