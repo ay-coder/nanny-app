@@ -252,7 +252,8 @@
             eventLimit: true, // allow "more" link when too many events
             events : {!! $calenderData !!},
             timeFormat: 'H(:mm)',
-          });
+            eventColor: '#719d78',
+        });
     });
 </script>
 @stop
