@@ -176,7 +176,7 @@ if (! function_exists('AvgRating')) {
                 $rating = 0;
             }
 
-            return isset($rating) ? $rating->rating : 0;
+            return isset($rating->rating) ? $rating->rating : 0;
         }
 
         if(!is_null($userId)) {
