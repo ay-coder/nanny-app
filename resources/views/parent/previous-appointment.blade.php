@@ -42,27 +42,31 @@
                             <!-- Nanny Detail End -->
 
                             <!-- Baby Detail Start -->
+                            @if(isset($babies) && count($babies))
                             @foreach($babies as $baby)
                                 <tr class="baby-detail">
                                     <td colspan="4">
                                         <div class="baby">
                                             <div class="baby-info">
                                                 <div class="img-wrap">
+                                                @if(isset($baby->image))
                                                     <img src="{{ url('/uploads/babies/'. $baby->image) }}" alt="">
+                                                @endif
                                                 </div>
                                                 <div class="content-wrap">
-                                                    <h5>{{ $baby->title }}</h5>
-                                                    <span class="yrs">{{ $baby->age }} Yrs</span>
+                                                    <h5>{{ isset($baby->title) ? $baby->title : '' }}</h5>
+                                                    <span class="yrs">{{ isset($baby->age) ? $baby->age : '' }} Yrs</span>
                                                 </div>
                                             </div>
                                             <div class="special-instruction">
                                                 <h3>Special Instruction</h3>
-                                                <p>{{ $baby->description }}</p>
+                                                <p>{{ isset($baby->description) ? $baby->description : '' }}</p>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
+                            @endif
                             <!-- Baby Detail End -->
                         </tbody>
                     </table>
