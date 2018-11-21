@@ -19,6 +19,52 @@ class PushNotification
 	{
 		exit('Init function is not allowed');
 	}
+
+	/**
+     * Android
+     * 
+     * @param array $data
+     * @param string $reg_id
+     * @return bool|mixed
+     */
+	public static function android($data, $devicetoken) 
+	{
+		$message = [
+			'title' => $data['mtitle'],
+            'body' 	=> $data['mdesc'],
+            'ntype' => isset($data['ntype']) ? $data['ntype'] : '',
+            'booking_id' => isset($data['booking_id']) ? $data['booking_id'] : '',
+            'parent_id' => isset($data['parent_id']) ? $data['parent_id'] : '',
+            'sitter_id' => isset($data['sitter_id']) ? $data['sitter_id'] : '',
+        ];
+	    
+
+		$fields = array
+		(
+			'registration_ids' 	=> array($devicetoken),
+		    'data'      		=> $message
+		);
+
+		$key = 'AAAA0e9WJsc:APA91bGd9tIMZzcrL7VPkBI9fMkqLsjDa0tHnFJokIbei8A7w0s7vmN0qA1GNAQ-D1xRdkiPeD7Q0GLzC1c5uXAOB584bp3J8unJtTjp3u58SunkbyzDG71hvMOd09CfDMlrNTKcVXPO';
+			 
+		$headers = array
+			(
+			    'Authorization: key='.$key,
+			    'Content-Type: application/json'
+			);
+			 
+		$ch = curl_init();
+		curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+		curl_setopt( $ch,CURLOPT_POST, true );
+		curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+		$result = curl_exec($ch );
+		curl_close( $ch );
+		
+		return $result;
+	}
 	
     /**
      * Android
@@ -27,7 +73,7 @@ class PushNotification
      * @param string $reg_id
      * @return bool|mixed
      */
-	public function android($data, $reg_id) 
+	public function android1($data, $reg_id) 
 	{
 	        $url = 'https://android.googleapis.com/gcm/send';
 
