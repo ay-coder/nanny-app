@@ -51,7 +51,7 @@ trait Attribute
     {
         $repository = new EloquentSittersRepository;
         $routes     = $repository->getModuleRoutes();
-
-        return $this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true) . $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
+        //$this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true) .
+        return  $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
     }
 }

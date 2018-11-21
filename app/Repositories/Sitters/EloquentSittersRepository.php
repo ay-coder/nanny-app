@@ -9,6 +9,7 @@
 use App\Models\Sitters\Sitters;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use App\Models\Access\User\User;
 
 class EloquentSittersRepository extends DbRepository
 {
@@ -32,14 +33,12 @@ class EloquentSittersRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
-'user_id'        => 'User_id',
-'category'        => 'Category',
-'about_me'        => 'About_me',
-'description'        => 'Description',
-'created_at'        => 'Created_at',
-'updated_at'        => 'Updated_at',
-"actions"         => "Actions"
+        'id'            => 'Id',
+        'category'      => 'Category',
+        'username'      => 'User Name',
+        'mobile'        => 'Contact Number',
+        'about_me'      => 'About',
+        "actions"       => "Actions"
     ];
 
     /**
@@ -54,15 +53,21 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'user_id' =>   [
-                'data'          => 'user_id',
-                'name'          => 'user_id',
+        'category' =>   [
+                'data'          => 'category',
+                'name'          => 'category',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'category' =>   [
-                'data'          => 'category',
-                'name'          => 'category',
+		'username' =>   [
+                'data'          => 'username',
+                'name'          => 'username',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+		'mobile' =>   [
+                'data'          => 'mobile',
+                'name'          => 'mobile',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -72,24 +77,7 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'description' =>   [
-                'data'          => 'description',
-                'name'          => 'description',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'created_at' =>   [
-                'data'          => 'created_at',
-                'name'          => 'created_at',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'updated_at' =>   [
-                'data'          => 'updated_at',
-                'name'          => 'updated_at',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
+		
 		'actions' => [
             'data'          => 'actions',
             'name'          => 'actions',
@@ -166,7 +154,8 @@ class EloquentSittersRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model = new Sitters;
+        $this->model        = new Sitters;
+        $this->userModel    = new User;
     }
 
     /**
@@ -177,8 +166,18 @@ class EloquentSittersRepository extends DbRepository
      */
     public function create($input)
     {
-        $input = $this->prepareInputData($input, true);
-        $model = $this->model->create($input);
+        $userData = [
+            'name'      => $input['name'],
+            'email'     => $input['email'],
+            'password'  => bcrypt($input['password']),
+            'mobile'    => $input['mobile'],
+            'user_type' => 1
+        ];
+
+        $user = User::create($userData);
+        
+        $input['user_id']  = $user->id;
+        $model  = $this->model->create($input);
 
         if($model)
         {
@@ -266,7 +265,10 @@ class EloquentSittersRepository extends DbRepository
     public function getTableFields()
     {
         return [
-            $this->model->getTable().'.*'
+            $this->model->getTable().'.*',
+            $this->userModel->getTable().'.name as username',
+            $this->userModel->getTable().'.mobile'
+
         ];
     }
 
@@ -275,7 +277,9 @@ class EloquentSittersRepository extends DbRepository
      */
     public function getForDataTable()
     {
-        return $this->model->select($this->getTableFields())->get();
+        //return $this->model->select($this->getTableFields())->get();
+        return  $this->model->select($this->getTableFields())
+                ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.user_id')->get();
     }
 
     /**
