@@ -21,6 +21,17 @@
     </div>
 </div>
 
+@if(! isset($item->user))
+    <div class="box-body">
+        <div class="form-group">
+            {{ Form::label('password', 'Name :', ['class' => 'col-lg-2 control-label']) }}
+            <div class="col-lg-10">
+                {{ Form::password('password', null, ['class' => 'form-control', 'disabled' => $disabled, 'placeholder' => 'Password', 'required' => 'required']) }}
+            </div>
+        </div>
+    </div>
+@endif
+
 <div class="box-body">
     <div class="form-group">
         {{ Form::label('email', 'Email Id:', ['class' => 'col-lg-2 control-label']) }}
