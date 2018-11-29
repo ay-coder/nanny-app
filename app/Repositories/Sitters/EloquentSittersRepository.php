@@ -36,8 +36,11 @@ class EloquentSittersRepository extends DbRepository
         'id'            => 'Id',
         'category'      => 'Category',
         'username'      => 'User Name',
+        'vacation_mode' => 'Vacation Mode',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
+        'sitter_start_time'      => 'Start Time',
+        'sitter_end_time'      => 'End Time',
         "actions"       => "Actions"
     ];
 
@@ -65,6 +68,12 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
+        'vacation_mode' =>   [
+                'data'          => 'vacation_mode',
+                'name'          => 'vacation_mode',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
 		'mobile' =>   [
                 'data'          => 'mobile',
                 'name'          => 'mobile',
@@ -77,7 +86,18 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		
+		'sitter_start_time' =>   [
+                'data'          => 'sitter_start_time',
+                'name'          => 'sitter_start_time',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'sitter_end_time' =>   [
+                'data'          => 'sitter_end_time',
+                'name'          => 'sitter_end_time',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
 		'actions' => [
             'data'          => 'actions',
             'name'          => 'actions',

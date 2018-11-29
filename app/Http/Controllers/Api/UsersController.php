@@ -25,6 +25,7 @@ use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VoiceGrant;
 use Auth;
 use Twilio\Rest\Client;
+use App\Library\Push\PushNotification;
 
 class UsersController extends BaseApiController
 {
@@ -814,6 +815,44 @@ class UsersController extends BaseApiController
         $successResponse = [    
             'token' => $token->toJWT()
         ];
+        return $this->successResponse($successResponse);
+    }
+
+    public function testNotification(Request $request)
+    {
+
+        $ios        = $request->has('android') ? false : true;
+        $text       = 'This is Test Push Notification';
+        $payload    = [
+            'mtitle' => '',
+            'mdesc'  => $text,
+        ];
+                    
+        if($request->get('device_token'))
+        {   
+            if($ios)
+            {
+                PushNotification::iOS($payload, $request->get('device_token'));
+                $successResponse = [
+                        'message' => 'Push Notification Done'
+                ];
+            }
+            else
+            {
+                PushNotification::android($payload, $request->get('device_token'));
+                $successResponse = [
+                        'message' => 'Push Notification Done'
+                ];    
+            }
+
+            return $this->successResponse($successResponse);
+        }
+
+        PushNotification::iOS($payload, '4f224e9fae894057074cb1a20682bd665f8bcb57');
+            $successResponse = [
+                    'message' => 'Push Notification Done to Default Device'
+            ];
+
         return $this->successResponse($successResponse);
     }
 }

@@ -147,6 +147,9 @@ class AdminSittersController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
+            ->addColumn('vacation_mode', function ($item) {
+                return $item->vacation_mode == 1  ? 'Yes' : 'No';
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })

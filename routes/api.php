@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Api',], function ()
     Route::post('twilio-token', 'UsersController@callToken')->name('api.call-token');
     Route::get('profile-completion', 'UsersController@profileCompletion')->name('api.profile-completion');
 
+    Route::any('test-push-notification', 'UsersController@testNotification')->name('api.test-notification');
+
     /*Route::post('verifyotp', 'UsersController@verifyOtp')->name('api.verifyotp');
     Route::post('resendotp', 'UsersController@resendOtp')->name('api.resendotp');
     Route::post('forgotpassword', 'UsersController@forgotPassword')->name('api.forgotPassword');
