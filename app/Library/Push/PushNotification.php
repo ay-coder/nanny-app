@@ -45,7 +45,7 @@ class PushNotification
 		    'data'      		=> $message
 		);
 
-		$key = 'AAAA0e9WJsc:APA91bGd9tIMZzcrL7VPkBI9fMkqLsjDa0tHnFJokIbei8A7w0s7vmN0qA1GNAQ-D1xRdkiPeD7Q0GLzC1c5uXAOB584bp3J8unJtTjp3u58SunkbyzDG71hvMOd09CfDMlrNTKcVXPO';
+		$key = 'AAAAj7injWw:APA91bEklt1tk-GhsC160XM2YyXSmaV2XqqvLDEu41Brn21YeMZfpUNspZ2Omk355U6dmBvwUPhZSD_Pcj1kjOCpELbd7J2vKfKn8_tLs2kAcfe963zYic-IA1IYJJN-xZdpOgQp93dC';
 			 
 		$headers = array
 			(
