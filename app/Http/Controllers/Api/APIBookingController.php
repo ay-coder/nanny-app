@@ -127,8 +127,9 @@ class APIBookingController extends BaseApiController
 
         $userInfo           = $this->getAuthenticatedUser();
         $input              = $request->all();
+        $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d H:i:s');
         $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['start_time']));
-        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['end_time']));
+        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['end_time']));
         $input              = array_merge($input, ['user_id' => $userInfo->id,
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
             'booking_start_time' => $bookingStartTime,

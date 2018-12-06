@@ -371,7 +371,7 @@ class EloquentActivationRepository extends DbRepository
 
                 if(isset($plan) && $total > 0)
                 {
-                    $stripe = new Stripe('sk_test_autrVFuGHApy11JWvn3hWpPY');
+                    $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
                     
                     $charge = $stripe->charges()->create([
                         'amount'            => $total,
