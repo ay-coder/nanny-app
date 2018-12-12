@@ -47,6 +47,17 @@ class LoginController extends Controller
             ->withSocialiteLinks((new Socialite())->getSocialLinks());
     }
 
+     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showAdminLoginForm()
+    {
+        return view('frontend.auth.admin-login')
+            ->withSocialiteLinks((new Socialite())->getSocialLinks());
+    }
+
     /**
      * @param Request $request
      * @param $user

@@ -147,6 +147,12 @@ class AdminPaymentController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
+            ->addColumn('booking_id', function ($item) {
+                return $item->booking->user->name;
+            })
+            ->addColumn('sitter_id', function ($item) {
+                return $item->sitter->name;
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })

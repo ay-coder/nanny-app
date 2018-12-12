@@ -35,22 +35,18 @@ class EloquentBookingRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
-'user_id'        => 'User_id',
-'sitter_id'        => 'Sitter_id',
-'baby_id'        => 'Baby_id',
-'baby_ids'        => 'Baby_ids',
-'is_multiple'        => 'Is_multiple',
-'booking_date'        => 'Booking_date',
-'start_time'        => 'Start_time',
-'end_time'        => 'End_time',
-'booking_start_time'        => 'Booking_start_time',
-'booking_end_time'        => 'Booking_end_time',
-'booking_status'        => 'Booking_status',
-'status'        => 'Status',
-'created_at'        => 'Created_at',
-'updated_at'        => 'Updated_at',
-"actions"         => "Actions"
+        'id'            => 'Id',
+        'username'      => 'username',
+        'sitter_id'     => 'Sitter',
+        'baby_id'       => 'Baby',
+        'is_multiple'   => 'Multiple',
+        'booking_date'  => 'Booking Date',
+        'start_time'    => 'Start Time',
+        'end_time'      => 'End Time',
+        'booking_start_time' => 'Booking Start Time',
+        'booking_end_time'   => 'Booking End Time',
+        'booking_status'     => 'Status',
+        "actions"         => "Actions"
     ];
 
     /**
@@ -65,9 +61,9 @@ class EloquentBookingRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'user_id' =>   [
-                'data'          => 'user_id',
-                'name'          => 'user_id',
+		'username' =>   [
+                'data'          => 'username',
+                'name'          => 'username',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -80,12 +76,6 @@ class EloquentBookingRepository extends DbRepository
 		'baby_id' =>   [
                 'data'          => 'baby_id',
                 'name'          => 'baby_id',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'baby_ids' =>   [
-                'data'          => 'baby_ids',
-                'name'          => 'baby_ids',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -128,24 +118,6 @@ class EloquentBookingRepository extends DbRepository
 		'booking_status' =>   [
                 'data'          => 'booking_status',
                 'name'          => 'booking_status',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'status' =>   [
-                'data'          => 'status',
-                'name'          => 'status',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'created_at' =>   [
-                'data'          => 'created_at',
-                'name'          => 'created_at',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'updated_at' =>   [
-                'data'          => 'updated_at',
-                'name'          => 'updated_at',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -225,7 +197,8 @@ class EloquentBookingRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model = new Booking;
+        $this->model        = new Booking;
+        $this->userModel    = new User;
     }
 
     /**
@@ -374,7 +347,8 @@ class EloquentBookingRepository extends DbRepository
     public function getTableFields()
     {
         return [
-            $this->model->getTable().'.*'
+            $this->model->getTable().'.*',
+            $this->userModel->getTable().'.name as username'
         ];
     }
 
@@ -383,7 +357,8 @@ class EloquentBookingRepository extends DbRepository
      */
     public function getForDataTable()
     {
-        return $this->model->select($this->getTableFields())->get();
+        return  $this->model->select($this->getTableFields())
+                ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.user_id')->get();
     }
 
     /**

@@ -49,6 +49,7 @@ trait Attribute
      */
     public function getAdminActionButtonsAttribute()
     {
+        return 'WIP';
         $repository = new EloquentBookingRepository;
         $routes     = $repository->getModuleRoutes();
 

@@ -147,6 +147,12 @@ class AdminBookingController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
+            ->addColumn('sitter_id', function ($item) {
+                return $item->sitter->name;
+            })
+            ->addColumn('baby_id', function ($item) {
+                return $item->baby->title;
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })

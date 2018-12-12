@@ -33,24 +33,19 @@ class EloquentPaymentRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
-'booking_id'        => 'Booking_id',
-'sitter_id'        => 'Sitter_id',
-'per_hour'        => 'Per_hour',
-'total_hour'        => 'Total_hour',
-'sub_total'        => 'Sub_total',
-'tax'        => 'Tax',
-'other_charges'        => 'Other_charges',
-'parking_fees'        => 'Parking_fees',
-'total'        => 'Total',
-'description'        => 'Description',
-'payment_status'        => 'Payment_status',
-'payment_via'        => 'Payment_via',
-'payment_details'        => 'Payment_details',
-'status'        => 'Status',
-'created_at'        => 'Created_at',
-'updated_at'        => 'Updated_at',
-"actions"         => "Actions"
+        'id'            => 'Id',
+        'booking_id'    => 'Parent',
+        'sitter_id'     => 'Sitter',
+        'per_hour'      => 'Per Hour',
+        'total_hour'    => 'Total Hour',
+        'sub_total'     => 'Sub Total',
+        'tax'           => 'Tax',
+        'parking_fees'  => 'Parking Fees',
+        'total'         => 'Total',
+        'description'   => 'Description',
+        'payment_via'   => 'Payment Ref',
+        'payment_details'   => 'Payment Details',
+        "actions"       => "Actions"
     ];
 
     /**
@@ -101,12 +96,6 @@ class EloquentPaymentRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'other_charges' =>   [
-                'data'          => 'other_charges',
-                'name'          => 'other_charges',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
 		'parking_fees' =>   [
                 'data'          => 'parking_fees',
                 'name'          => 'parking_fees',
@@ -125,12 +114,6 @@ class EloquentPaymentRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'payment_status' =>   [
-                'data'          => 'payment_status',
-                'name'          => 'payment_status',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
 		'payment_via' =>   [
                 'data'          => 'payment_via',
                 'name'          => 'payment_via',
@@ -140,24 +123,6 @@ class EloquentPaymentRepository extends DbRepository
 		'payment_details' =>   [
                 'data'          => 'payment_details',
                 'name'          => 'payment_details',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'status' =>   [
-                'data'          => 'status',
-                'name'          => 'status',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'created_at' =>   [
-                'data'          => 'created_at',
-                'name'          => 'created_at',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'updated_at' =>   [
-                'data'          => 'updated_at',
-                'name'          => 'updated_at',
                 'searchable'    => true,
                 'sortable'      => true
             ],

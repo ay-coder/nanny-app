@@ -49,6 +49,7 @@ trait Attribute
      */
     public function getAdminActionButtonsAttribute()
     {
+        return 'WIP';
         $repository = new EloquentPaymentRepository;
         $routes     = $repository->getModuleRoutes();
 

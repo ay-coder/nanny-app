@@ -44,6 +44,20 @@
                 </a>
             </li>
 
+            <li class="{{ active_class(Active::checkUriPattern('admin/booking')) }}">
+                <a href="{{ route('admin.booking.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Bookings</span>
+                </a>
+            </li>
+
+            <li class="{{ active_class(Active::checkUriPattern('admin/payment')) }}">
+                <a href="{{ route('admin.payment.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Payments</span>
+                </a>
+            </li>
+
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)
