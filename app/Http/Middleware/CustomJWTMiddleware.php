@@ -30,6 +30,9 @@ class CustomJWTMiddleware extends BaseJWTMiddleware
             return $this->respond('tymon.jwt.absent', 'token_not_provided', 400);
         }
 
+        $invalidTokenCode = 200;
+        $invalidDataCode  = 999;
+
         try 
         {
             $user = $this->auth->authenticate($token);
@@ -37,27 +40,31 @@ class CustomJWTMiddleware extends BaseJWTMiddleware
         {
             $respond = [
                 'success'   => false,
-                'message'   => 'Token Expired - Need to Regenerate Token'
+                'status'    => false,
+                'code'      => $invalidDataCode,
+                'message'   => 'Invalid Token - Wrong Token !'
             ];
-
-            return $this->respond('tymon.jwt.expired', $respond, $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.invalid', $respond, $invalidTokenCode, [$e]);
         } catch (JWTException $e)
         {
             $respond = [
                 'success'   => false,
+                'status'    => false,
+                'code'      => $invalidDataCode,
                 'message'   => 'Invalid Token - Wrong Token !'
             ];
-            return $this->respond('tymon.jwt.invalid', $respond, $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.invalid', $respond, $invalidTokenCode, [$e]);
         }
 
         if (! $user)
         {
             $respond = [
                 'success'   => false,
+                'status'    => false,
+                'code'      => $invalidDataCode,
                 'message'   => 'Opps, User not Found !'
             ];
-
-            return $this->respond('tymon.jwt.user_not_found', 'user_not_found', 404);
+            return $this->respond('tymon.jwt.invalid', $respond, $invalidTokenCode, [$e]);
         }
 
         $this->events->fire('tymon.jwt.valid', $user);

@@ -222,6 +222,12 @@ class EloquentSittersRepository extends DbRepository
         {
             $input = $this->prepareInputData($input);
 
+            if(isset($input['mobile']))
+            {
+                $model->user->mobile = $input['mobile'];
+                $model->user->save();
+            }
+
             return $model->update($input);
         }
 
