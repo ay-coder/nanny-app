@@ -840,6 +840,7 @@ class UsersController extends BaseApiController
             else
             {
                 PushNotification::android($payload, $request->get('device_token'));
+
                 $successResponse = [
                         'message' => 'Push Notification Done Android'
                 ];    
