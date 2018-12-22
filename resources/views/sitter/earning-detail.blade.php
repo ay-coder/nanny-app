@@ -42,7 +42,7 @@
                                     </div>
                                 </td>
                                 <td class="text-right">
-                                    <span class="price">${{ isset($booking['payment']->total) ? $booking['payment']->total : '0' }}</span>
+                                    <span class="price">${{ isset($booking['payment']) ? $booking['payment']->per_hour * $booking['payment']->total_hour + $booking['payment']->tip  : '0' }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -61,16 +61,22 @@
                     <table class="table table-borderless earning-table payment-info-table">
                         <tbody>
                             <tr>
-                                <td><span>Total Amount</span></td>
-                                <td class="price-info">${{ isset($booking['payment']->sub_total) ? $booking['payment']->sub_total : '0' }}</td>
+                                <td><span>Billing Detail</span>Per Hours</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->per_hour : 0 }}</td>
                             </tr>
                             <tr>
-                                <td><span>Tax</span></td>
-                                <td class="price-info">-${{ isset($booking['payment']->tax) ? $booking['payment']->tax : '0' }}</td>
+                                <td><span>Total Hours</span>{{ isset($booking['payment']) ? $booking['payment']->total_hour : 0 }} hrs</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->total_hour * $booking['payment']->per_hour : 0 }}</td>
                             </tr>
+                            
                             <tr class="grand-total">
-                                <td><span>Total Earning</span></td>
-                                <td class="price-info">${{ isset($booking['payment']->total) ? $booking['payment']->total : '0' }}</td>
+                                <td><span>Tip</span>Amount</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->tip : 0 }}</td>
+                            </tr>
+
+                            <tr class="grand-total">
+                                <td><span>Total</span>Amount</td>
+                                <td class="price-info">${{ isset($booking['payment']) ?  $booking['payment']->total + $booking['payment']->tip  : 0 }}</td>
                             </tr>
                         </tbody>
                     </table>
