@@ -195,8 +195,9 @@ class APIBookingController extends BaseApiController
 
                 $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
                 $isBooking->save();
-                
+
                 return $this->successResponse($responseData, 'Booking is Created Successfully');
+            }
         }
         else
         {
@@ -218,7 +219,7 @@ class APIBookingController extends BaseApiController
      */
     public function show(Request $request)
     {
-        /*$itemId = (int) hasher()->decode($request->get($this->primaryKey));
+        $itemId = (int) hasher()->decode($request->get($this->primaryKey));
 
         if($itemId)
         {
@@ -234,7 +235,7 @@ class APIBookingController extends BaseApiController
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'Invalid Inputs or Item not exists !'
-            ], 'Something went wrong !');*/
+            ], 'Something went wrong !');
     }
 
     /**
