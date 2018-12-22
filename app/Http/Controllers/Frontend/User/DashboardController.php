@@ -100,6 +100,7 @@ class DashboardController extends Controller
                 $parent         = User::find($model->user_id);
                 $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
                 $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+                $sitter         = User::find($model->sitter_id);
                 $parentpayload  = [
                     'mtitle'    => '',
                     'mdesc'     => $parentText
@@ -125,8 +126,9 @@ class DashboardController extends Controller
                     'description'   => $sitterText
                 ];
 
-                access()->addNotification($storeParentNotification);
+                // Notification
                 access()->addNotification($storeSitterNotification);
+                access()->sentPushNotification($sitter, $sitterpayload);
 
                 $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
                 $isBooking->save();
