@@ -175,7 +175,7 @@ class BookingTransformer extends Transformer
                 "booking_id"        => (int) $item->id,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
-                'sitter_name'       =>  $sitter->name,
+                'sitter_name'       =>  isset($sitter) ? $sitter->name : '',
                 'sitter_contact'    =>  isset($sitter->mobile) ? $sitter->mobile : '',
                 'sitter_rating'     =>  (int) $sitterRating,
                 'profile_pic'       =>  URL::to('/').'/uploads/user/' . $sitter->profile_pic,
