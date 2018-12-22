@@ -40,9 +40,6 @@
                                             </div>
                                         </td>
                                         <td class="text-right">
-                                            @if($notification->is_read == 0)
-                                                <a href="#" class="btn btn-new btn-sm">New</a>
-                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
