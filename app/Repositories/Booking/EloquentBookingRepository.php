@@ -36,7 +36,7 @@ class EloquentBookingRepository extends DbRepository
      */
     public $tableHeaders = [
         'id'            => 'Id',
-        'username'      => 'username',
+        'username'      => 'Parent',
         'sitter_id'     => 'Sitter',
         'baby_id'       => 'Baby',
         'is_multiple'   => 'Multiple',

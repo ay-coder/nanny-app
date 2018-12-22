@@ -41,6 +41,7 @@ class EloquentPaymentRepository extends DbRepository
         'sub_total'     => 'Sub Total',
         'tax'           => 'Tax',
         'parking_fees'  => 'Parking Fees',
+        'tip'           => 'Tip',
         'total'         => 'Total',
         'description'   => 'Description',
         'payment_via'   => 'Payment Ref',
