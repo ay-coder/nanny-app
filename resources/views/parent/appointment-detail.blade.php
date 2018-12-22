@@ -36,7 +36,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-right"><a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $booking->id]) }}" class="btn btn-cancel btn-sm">cancel</a></td>
+                                {{-- <td class="text-right"><a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $booking->id]) }}" class="btn btn-cancel btn-sm">cancel</a></td> --}}
                             </tr>
                             <!-- Nanny Detail End -->
 
