@@ -94,21 +94,14 @@ class AppointmentController extends Controller
 
 
             $bookingInfo->booking_status = 'CANCELED';
-            if($bookingInfo->save())
-            {
-                return $this->successResponse([
-                    'success' => 'Booking Cancel by Parent'
-                ], 'Booking Cancel by Parent');
-            }
-        }
+            $bookingInfo->save();
 
-        $status = $this->repository->destroy($id);
-
-        if($status)
-        {
             access()->restoreSingleBooking(access()->user()->id);
+            
             return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Appointment is Deleted Successfully');
         }
+
+       
 
         return redirect()->route('frontend.user.parent.myappointment')->withFlashDanger('Unable to delete Booking. Please try again!');
     }

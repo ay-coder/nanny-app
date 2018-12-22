@@ -53,6 +53,7 @@
                                     <td class="text-right">
                                         @if($up->booking_status == 'REQUESTED')
                                         <a href="javascript:void(0);" class="btn btn-pending btn-sm">Pending</a>
+                                        <a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $up->id]) }}" class="btn btn-cancel btn-sm">cancel</a>
 
                                         @elseif($up->booking_status !== 'REJECTED' && $up->booking_status !== 'CANCELED' && $up->booking_status !== 'COMPLETED' && is_null($up->booking_start_time))
                                             <a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $up->id]) }}" class="btn btn-cancel btn-sm">cancel</a>
