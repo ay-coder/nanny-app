@@ -46,7 +46,7 @@
                                             </div>
                                         </td>
                                         <td class="text-right">
-                                            <span class="price">${{ isset($sitterBooking['payment']->total) ? $sitterBooking['payment']->total : '0' }}</span>
+                                            <span class="price">${{ isset($sitterBooking['payment']) ? $sitterBooking['payment']->per_hour * $sitterBooking['payment']->total_hour + $sitterBooking['payment']->tip : '0' }}</span>
                                         </td>
                                     </tr>
                                 @endforeach

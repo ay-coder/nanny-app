@@ -225,7 +225,7 @@ if (! function_exists('totalEarning')) {
                 $payment       = (object) $item->payment;
                 if(isset($payment) && isset($payment->id))
                 {
-                    $total      = $total + $payment->total;
+                    $total      = $total + ( $payment->per_hour * $payment->total_hour + $payment->tip);
                 }
             }
 
