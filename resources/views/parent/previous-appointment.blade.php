@@ -87,16 +87,16 @@
                         <tbody>
                             <tr>
                                 <td><span>Billing Detail</span>Per Hours</td>
-                                <td class="price-info">${{ isset($booking['payment']->per_hour) ?: 0 }}</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->per_hour : 0 }}</td>
                             </tr>
                             <tr>
-                                <td><span>Total Hours</span>{{ isset($booking['payment']->total_hour) ?: 0 }} hrs</td>
-                                <td class="price-info">${{ isset($booking['payment']->sub_total) ?: 0 }}</td>
+                                <td><span>Total Hours</span>{{ isset($booking['payment']) ? $booking['payment']->total_hour : 0 }} hrs</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->total_hour * $booking['payment']->per_hour : 0 }}</td>
                             </tr>
                             
                             <tr class="grand-total">
                                 <td><span>Tip</span>Amount</td>
-                                <td class="price-info">${{ isset($booking['payment']->tip) ?: 0 }}</td>
+                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->tip : 0 }}</td>
                             </tr>
 
                             <tr class="grand-total">
