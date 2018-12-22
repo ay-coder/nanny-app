@@ -91,8 +91,8 @@
                                     @php
                                         $bookingBabies = access()->getBookingMultipleBabies($up->id);
                                     @endphp
-                                        
-                                    @if(isset($bookingBabies) && count($bookingBabies))
+                                    
+                                    @if(isset($bookingBabies) && count($bookingBabies) > 0)
                                         @foreach($bookingBabies as $baby)
                                             <tr class="baby-detail booking-babies-{{ $up->id }}" style="display: none;">
                                                 <td colspan="4">
