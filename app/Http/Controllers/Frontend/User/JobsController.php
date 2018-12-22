@@ -112,6 +112,8 @@ class JobsController extends Controller
                     access()->addNotification($storeParentNotification);
                     access()->addNotification($storeSitterNotification);
 
+                    access()->restoreSingleBooking($bookingInfo->user_id);
+                    
                     return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Booking cancelled Successfully.');
                 }
             }

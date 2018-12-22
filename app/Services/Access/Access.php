@@ -367,4 +367,19 @@ class Access
 
         return false;
     }
+
+    public function restoreSingleBooking($userId = null)
+    {
+        if($userId)
+        {
+            $activation = Activation::where('user_id', $userId)->orderBy('id', 'desc')->first();
+
+            if(isset($activation))        
+            {
+                $activation->allowed_bookings = $activation->allowed_bookings + 1;
+                $activation->save();
+            }
+        }
+        return true;
+    }
 }

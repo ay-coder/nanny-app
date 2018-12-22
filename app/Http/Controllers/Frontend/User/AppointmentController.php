@@ -59,6 +59,7 @@ class AppointmentController extends Controller
     {
         $status = $this->repository->destroy($id);
 
+        access()->restoreSingleBooking(access()->user()->id);
         return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Appointment is Deleted Successfully');
     }
 

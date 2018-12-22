@@ -453,6 +453,9 @@ class APIBookingController extends BaseApiController
 
                 access()->sentPushNotification($sitter, $sitterpayload);
 
+                // Restore Booking
+                access()->restoreSingleBooking($userInfo->id);
+
 
                 $bookingInfo->booking_status = 'CANCELED';
                 if($bookingInfo->save())
@@ -510,6 +513,8 @@ class APIBookingController extends BaseApiController
                 access()->addNotification($storeParentNotification);
 
                 access()->sentPushNotification($parent, $parentpayload);
+
+                access()->restoreSingleBooking($bookingInfo->user_id);
 
                 $bookingInfo->booking_status = 'CANCELED';
                 if($bookingInfo->save())
