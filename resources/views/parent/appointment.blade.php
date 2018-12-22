@@ -61,6 +61,10 @@
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">Job Started</a>
                                             @elseif($up->booking_status == 'COMPLETED')
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">Pay</a>
+
+                                                <a  class="btn btn-pending btn-sm" href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $up->id]) }}">
+                                                    Pay
+                                                </a>
                                             @else
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">{{ ucfirst($up->booking_status) }}</a>
                                             @endif
