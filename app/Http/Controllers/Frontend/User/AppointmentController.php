@@ -57,10 +57,59 @@ class AppointmentController extends Controller
      */
     public function delete($id)
     {
+        $bookingInfo    = $this->repository->model->where([
+            'id'        => $id
+        ])->first();
+
+        if(isset($bookingInfo))
+        {
+            $sitter         = User::find($bookingInfo->sitter_id);
+            $sitterText     = $userInfo->name . ' has cancelled the appointment';
+
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText,
+                'parent_id' => $userInfo->id,
+                'sitter_id' => $sitter->id,
+                'booking_id' => $bookingInfo->id,
+                'ntype'     => 'BOOKING_PARENT_CANCELED'
+            ];
+
+
+            $storeSitterNotification = [
+                'user_id'       => $userInfo->id,
+                'sitter_id'     => $sitter->id,
+                'booking_id'    => $bookingInfo->id,
+                'to_user_id'    => $sitter->id,
+                'description'   => $sitterText
+            ];
+
+            access()->addNotification($storeSitterNotification);
+
+            access()->sentPushNotification($sitter, $sitterpayload);
+
+            // Restore Booking
+            access()->restoreSingleBooking($userInfo->id);
+
+
+            $bookingInfo->booking_status = 'CANCELED';
+            if($bookingInfo->save())
+            {
+                return $this->successResponse([
+                    'success' => 'Booking Cancel by Parent'
+                ], 'Booking Cancel by Parent');
+            }
+        }
+
         $status = $this->repository->destroy($id);
 
-        access()->restoreSingleBooking(access()->user()->id);
-        return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Appointment is Deleted Successfully');
+        if($status)
+        {
+            access()->restoreSingleBooking(access()->user()->id);
+            return redirect()->route('frontend.user.parent.myappointment')->withFlashSuccess('Appointment is Deleted Successfully');
+        }
+
+        return redirect()->route('frontend.user.parent.myappointment')->withFlashDanger('Unable to delete Booking. Please try again!');
     }
 
     /**
