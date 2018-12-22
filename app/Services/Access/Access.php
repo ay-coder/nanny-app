@@ -196,6 +196,7 @@ class Access
      */
     public function getAverageRating($sitterId = null)
     {
+        return 40;
         $reviews = Reviews::select('id', 'rating')->where('sitter_id', $sitterId)->get();
 
         if(isset($reviews) && count($reviews))
