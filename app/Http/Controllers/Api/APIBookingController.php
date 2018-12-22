@@ -195,8 +195,9 @@ class APIBookingController extends BaseApiController
 
                 $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
                 $isBooking->save();
-                
+
                 return $this->successResponse($responseData, 'Booking is Created Successfully');
+            }
         }
         else
         {
