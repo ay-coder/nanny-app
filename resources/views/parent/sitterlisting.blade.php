@@ -23,7 +23,10 @@
                     <div class="content-wrap">
                         <h5>{{ $sitter['user']->name }}</h3>
                         <div class="rating-review">
-                            <span class="rating-wrap"><span class="rating" style="width: 100%;"></span></span>
+                            
+
+                            <span class="rating-wrap"><span class="rating" style="width: {{ AvgRating(null, $sitter['user']->id) * 20 }}%;"></span></span>
+                            
                             <span class="total-review">({{ $sitter['reviews']->count() }} Reviews)</span>
                         </div>
                         <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter['user']->id]) }}" class="btn btn-default">Book Nanny</a>
