@@ -8,6 +8,7 @@ use App\Models\Reviews\Reviews;
 use App\Models\Babies\Babies;
 use App\Models\Sitters\Sitters;
 use App\Library\Push\PushNotification;
+use App\Models\Activation\Activation;
 
 /**
  * Class Access.
@@ -332,5 +333,21 @@ class Access
         }
 
         return true;
+    }
+
+    /**
+     * Is ActiveBooking Available
+     *
+     * @param int
+     * @return boolean|object
+     */
+    public function isActiveBookingAvailable($userId = null)
+    {
+        if($userId)
+        {
+            return Activation::where('user_id', $userId)->where('allowed_bookings', '>', 0)->first();
+        }
+
+        return false;
     }
 }

@@ -284,6 +284,7 @@ class APISittersController extends BaseApiController
 
         if(isset($items) && count($items))
         {
+            $items = $items->sortByDesc('booking_date');
             $itemsOutput = $this->sittersTransformer->pastBookingTransform($items);
 
             return $this->successResponse($itemsOutput);
