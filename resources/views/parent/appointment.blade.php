@@ -61,7 +61,7 @@
                                             @if(!is_null($up->booking_start_time) && is_null($up->booking_end_time))
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">Job Started</a>
                                             @elseif($up->booking_status == 'COMPLETED')
-                                                <a  class="btn btn-pending btn-sm" href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $up->id]) }}">
+                                                <a  class="btn btn-start active btn-sm" href="{{ route('frontend.user.parent.bookingdetails', ['booking_id' => $up->id]) }}">
                                                     Pay
                                                 </a>
                                             @else

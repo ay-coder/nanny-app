@@ -91,7 +91,14 @@
                                                     @if(empty($currentJob->booking_end_time))
                                                         <a href="{{ route('frontend.user.sitter.job.stop', ['job_id' => $currentJob->id]) }}" class="btn btn-stop btn-sm">Stop</a>
                                                     @else
-                                                        <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_end_time)->format('h:i A') }}</span>
+                                                        <span class="time-info">
+                                                        {{ Carbon\Carbon::parse($currentJob->booking_end_time)->format('h:i A') }}</span>
+                                                    @endif
+
+                                                    @if($currentJob->booking_status == "COMPLETED")
+                                                        <a href="javascript:void(0);" class="btn btn-start btn-sm disabled">
+                                                        Pending Payment
+                                                        </a>
                                                     @endif
                                                 @endif
                                             @endif
