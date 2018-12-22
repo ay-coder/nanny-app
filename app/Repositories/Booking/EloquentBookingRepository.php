@@ -317,12 +317,11 @@ class EloquentBookingRepository extends DbRepository
         $parentId = Auth::user()->id;
 
 
-        return $this->model->where('booking_status', 'COMPLETED')
+        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
             ->with(['user', 'sitter', 'baby', 'payment', 'review'])
             ->leftjoin('data_payments', 'data_payments.booking_id', 'data_bookings.id')
             ->where('user_id', $parentId)
             ->where('data_payments.payment_status', '!=', null)
-            ->orWhere('booking_status', 'CANCELED')
             ->orderBy($orderBy, $sort)
             ->get();
     }
