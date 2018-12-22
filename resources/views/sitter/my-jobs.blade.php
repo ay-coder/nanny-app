@@ -214,7 +214,7 @@
                                             </div>
                                             @if(!empty($calenderRecord['payment']))
                                                 <div class="total-amt">
-                                                    ${{$calenderRecord['payment']->total}}
+                                                    ${{$calenderRecord['payment']->per_hour * $calenderRecord['payment']->total_hour + $calenderRecord['payment']->tip }}
                                                 </div>
                                             @endif
                                         </div>
