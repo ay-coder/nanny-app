@@ -181,7 +181,7 @@
                                             @if($pre->booking_status == 'CANCELED')
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">Cancelled</a>
                                             @endif
-                                            <span class="price">${{ isset($pre['payment']->total) ?: 0 }}</span></td>
+                                            <span class="price">${{ isset($pre['payment']) ? $pre['payment']->per_hour * $pre['payment']->total_hour + $pre['payment']->tip : 0 }}</span></td>
                                     </tr>
                                 @endforeach
                             @else
