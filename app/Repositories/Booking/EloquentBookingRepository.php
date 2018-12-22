@@ -317,13 +317,23 @@ class EloquentBookingRepository extends DbRepository
         $parentId = Auth::user()->id;
 
 
-        return $this->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])
+        $completed = $this->model->whereIn('booking_status', ['COMPLETED'])
             ->with(['user', 'sitter', 'baby', 'payment', 'review'])
             ->leftjoin('data_payments', 'data_payments.booking_id', 'data_bookings.id')
             ->where('user_id', $parentId)
-            ->where('data_payments.payment_status', '!=', null)
+            ->where('data_payments.payment_status', '!=', null) 
             ->orderBy($orderBy, $sort)
             ->get();
+
+         $canceled = $this->model->whereIn('booking_status', [ 'CANCELED'])
+            ->with(['user', 'sitter', 'baby', 'payment', 'review'])
+            ->where('user_id', $parentId)
+            ->orderBy($orderBy, $sort)
+            ->get();
+
+        $all = $completed->merge($canceled);
+
+        return $all->orderBy($orderBy);
     }
 
     /**
