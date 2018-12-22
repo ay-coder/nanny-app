@@ -127,69 +127,82 @@ class APIBookingController extends BaseApiController
         }
 
         $userInfo           = $this->getAuthenticatedUser();
-        $input              = $request->all();
-        $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d H:i:s');
-        $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['start_time']));
-        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['end_time']));
-        $input              = array_merge($input, ['user_id' => $userInfo->id,
-            'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
-            'booking_start_time' => $bookingStartTime,
-            'booking_end_time'  => $bookingEndTime,
-            'booking_status'    => 'REQUESTED',
-            'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
-        ]);
+        $isBooking          = access()->isActiveBookingAvailable($userInfo->id);
 
-        $model = $this->repository->create($input);
-
-        if($model)
+        if(isset($isBooking->id))
         {
-            $parent         = User::find($model->user_id);
-            $sitter         = User::find($model->sitter_id);
-            //$parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
-            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
-            /*$parentpayload  = [
-                'mtitle'    => '',
-                'mdesc'     => $parentText,
-                'parent_id' => $parent->id,
-                'sitter_id' => $request->get('sitter_id'),
-                'booking_id' => $model->id,
-                'ntype'     => 'NEW_BOOKING'
-            ];*/
+            $input              = $request->all();
+            $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d H:i:s');
+            $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['start_time']));
+            $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['end_time']));
+            $input              = array_merge($input, ['user_id' => $userInfo->id,
+                'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
+                'booking_start_time' => $bookingStartTime,
+                'booking_end_time'  => $bookingEndTime,
+                'booking_status'    => 'REQUESTED',
+                'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
+            ]);
 
-            $sitterpayload  = [
-                'mtitle'    => '',
-                'mdesc'     => $sitterText,
-                'parent_id' => $parent->id,
-                'sitter_id' => $request->get('sitter_id'),
-                'booking_id' => $model->id,
-                'ntype'     => 'NEW_BOOKING'
-            ];
+            $model = $this->repository->create($input);
 
-            /*$storeParentNotification = [
-                'user_id'       => $model->user_id,
-                'sitter_id'     => $model->sitter_id,
-                'booking_id'    => $model->id,
-                'to_user_id'    => $model->user_id,
-                'description'   => $parentText
-            ];*/
+            if($model)
+            {
+                $parent         = User::find($model->user_id);
+                $sitter         = User::find($model->sitter_id);
+                //$parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+                $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+                /*$parentpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $parentText,
+                    'parent_id' => $parent->id,
+                    'sitter_id' => $request->get('sitter_id'),
+                    'booking_id' => $model->id,
+                    'ntype'     => 'NEW_BOOKING'
+                ];*/
 
-            $storeSitterNotification = [
-                'user_id'       => $model->user_id,
-                'sitter_id'     => $model->sitter_id,
-                'booking_id'    => $model->id,
-                'to_user_id'    => $model->sitter_id,
-                'description'   => $sitterText
-            ];
+                $sitterpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $sitterText,
+                    'parent_id' => $parent->id,
+                    'sitter_id' => $request->get('sitter_id'),
+                    'booking_id' => $model->id,
+                    'ntype'     => 'NEW_BOOKING'
+                ];
 
-            //access()->addNotification($storeParentNotification);
-            access()->addNotification($storeSitterNotification);
+                /*$storeParentNotification = [
+                    'user_id'       => $model->user_id,
+                    'sitter_id'     => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'to_user_id'    => $model->user_id,
+                    'description'   => $parentText
+                ];*/
 
-            //access()->sentPushNotification($parent, $parentpayload);
-            access()->sentPushNotification($sitter, $sitterpayload);
+                $storeSitterNotification = [
+                    'user_id'       => $model->user_id,
+                    'sitter_id'     => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'to_user_id'    => $model->sitter_id,
+                    'description'   => $sitterText
+                ];
 
-            $responseData = $this->bookingTransformer->transform($model);
+                //access()->addNotification($storeParentNotification);
+                access()->addNotification($storeSitterNotification);
 
-            return $this->successResponse($responseData, 'Booking is Created Successfully');
+                //access()->sentPushNotification($parent, $parentpayload);
+                access()->sentPushNotification($sitter, $sitterpayload);
+
+                $responseData = $this->bookingTransformer->transform($model);
+
+                $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
+                $isBooking->save();
+                
+                return $this->successResponse($responseData, 'Booking is Created Successfully');
+        }
+        else
+        {
+            return $this->setStatusCode(400)->failureResponse([
+                'reason' => 'Please purchase Plan to Continue with Booking'
+                ], 'Please purchase Plan to Continue with Booking');
         }
 
         return $this->setStatusCode(400)->failureResponse([
