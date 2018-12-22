@@ -42,7 +42,6 @@
                             <a class="dropdown-item" href="{{ route('frontend.user.parent.account') }}">My Profile <span class="status"></span></a>
                             <a class="dropdown-item" href="{{ route('frontend.user.parent.subscription') }}">Subscriptions</a>
                             <a class="dropdown-item" href="{{ route('frontend.user.parent.notification') }}">Notification</a>
-                            <a class="dropdown-item" href="{{ route('frontend.support') }}">Support</a>
                             <a class="dropdown-item" href="{{ route('frontend.auth.logout') }}">Logout</a>
                         </div>
                     </li>
