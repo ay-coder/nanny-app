@@ -32,6 +32,11 @@ $(function () {
 		 var d = new Date();
   		d.setDate(d.getDate() - 1);
 
+  		$('.datePicker').datetimepicker({
+			viewMode: 'days',
+            format: 'DD/MM/YYYY',
+        });
+
 		$('.pastdate').datetimepicker({
 			viewMode: 'days',
             format: 'DD/MM/YYYY',

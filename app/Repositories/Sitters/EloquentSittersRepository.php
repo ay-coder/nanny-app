@@ -191,7 +191,7 @@ class EloquentSittersRepository extends DbRepository
             'email'     => $input['email'],
             'password'  => bcrypt($input['password']),
             'mobile'    => $input['mobile'],
-            'user_type' => 1
+            'user_type' => 2
         ];
 
         $user = User::create($userData);
@@ -218,13 +218,25 @@ class EloquentSittersRepository extends DbRepository
     {
         $model = $this->model->find($id);
 
+
         if($model)
         {
             $input = $this->prepareInputData($input);
+            $updateUser = false;
 
             if(isset($input['mobile']))
             {
                 $model->user->mobile = $input['mobile'];
+                $updateUser = true;
+            }
+            if(isset($input['name']))
+            {
+                $model->user->name = $input['name'];                    
+                $updateUser = true;
+            }
+
+            if($updateUser)
+            {
                 $model->user->save();
             }
 

@@ -65,68 +65,82 @@ class DashboardController extends Controller
      */
     public function bookSitter(Request $request)
     {
-        if(session()->has('find_sitter')){
+        if(session()->has('find_sitter'))
+        {
             $input = session('find_sitter');
-        } else {
+        }
+        else
+        {
             return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('Something went wrong. Please try again.');
         }
 
-        $bookingDate = Carbon::createFromFormat('d/m/Y',$input['start_booking_date'])->format('Y-m-d');
-        $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
-        $input['baby_id'] = $input['baby_ids'][0];
-        $input['baby_ids'] = implode(",", $input['baby_ids']);
-        $input['sitter_id'] = $request->sitter_id;
-        $input              = array_merge($input, [
-            'user_id'             => access()->user()->id,
-            'booking_date'       => $bookingDate,
-            'start_time'         => date('H:i:s', strtotime($input['start_time'])),
-            'end_time'           => date('H:i:s', strtotime($input['end_time'])),
-            'booking_status'     => 'REQUESTED',
-            'parking_fees'       => isset($input['parking_fees']) ? $input['parking_fees'] : 0
-        ]);
+        $isBooking = access()->isActiveBookingAvailable(access()->user()->id);
 
-        $bookingRepository = new EloquentBookingRepository();
-        $model = $bookingRepository->create($input);
-
-        if($model)
+        if(isset($isBooking) && count($isBooking))
         {
-            $parent         = User::find($model->user_id);
-            $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
-            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
-            $parentpayload  = [
-                'mtitle'    => '',
-                'mdesc'     => $parentText
-            ];
-            $sitterpayload  = [
-                'mtitle'    => '',
-                'mdesc'     => $sitterText
-            ];
+            $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
+            $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
+            $input['baby_id'] = $input['baby_ids'][0];
+            $input['baby_ids'] = implode(",", $input['baby_ids']);
+            $input['sitter_id'] = $request->sitter_id;
+            $input              = array_merge($input, [
+                'user_id'             => access()->user()->id,
+                'booking_date'       => $bookingDate,
+                'start_time'         => date('H:i:s', strtotime($input['start_time'])),
+                'end_time'           => date('H:i:s', strtotime($input['end_time'])),
+                'booking_status'     => 'REQUESTED',
+                'parking_fees'       => isset($input['parking_fees']) ? $input['parking_fees'] : 0
+            ]);
 
-            $storeParentNotification = [
-                'user_id'       => $model->user_id,
-                'sitter_id'     => $model->sitter_id,
-                'booking_id'    => $model->id,
-                'to_user_id'    => $model->user_id,
-                'description'   => $parentText
-            ];
+            $bookingRepository = new EloquentBookingRepository();
+            $model = $bookingRepository->create($input);
 
-            $storeSitterNotification = [
-                'user_id'       => $model->user_id,
-                'sitter_id'     => $model->sitter_id,
-                'booking_id'    => $model->id,
-                'to_user_id'    => $model->sitter_id,
-                'description'   => $sitterText
-            ];
+            if($model)
+            {
+                $parent         = User::find($model->user_id);
+                $parentText     = config('constants.NotificationText.PARENT.JOB_ADD');
+                $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+                $parentpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $parentText
+                ];
+                $sitterpayload  = [
+                    'mtitle'    => '',
+                    'mdesc'     => $sitterText
+                ];
 
-            access()->addNotification($storeParentNotification);
-            access()->addNotification($storeSitterNotification);
+                $storeParentNotification = [
+                    'user_id'       => $model->user_id,
+                    'sitter_id'     => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'to_user_id'    => $model->user_id,
+                    'description'   => $parentText
+                ];
 
-            if(session()->has('find_sitter')){
-                session()->forget('find_sitter');
-            }
-            return redirect()->route('frontend.user.parent.dashboard')->withFlashSuccess('Booking is Created Successfully');
-        } else {
-            return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('There is a Problem in Booking.  Please try again.');
+                $storeSitterNotification = [
+                    'user_id'       => $model->user_id,
+                    'sitter_id'     => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'to_user_id'    => $model->sitter_id,
+                    'description'   => $sitterText
+                ];
+
+                access()->addNotification($storeParentNotification);
+                access()->addNotification($storeSitterNotification);
+
+                $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
+                $isBooking->save();
+
+                if(session()->has('find_sitter')){
+                    session()->forget('find_sitter');
+                }
+                return redirect()->route('frontend.user.parent.dashboard')->withFlashSuccess('Booking is Created Successfully');
+            } else {
+                return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('There is a Problem in Booking.  Please try again.');
+            }   
         }
+        
+        return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('Please purchase plan to Continue Booking.');
+        
     }
 }

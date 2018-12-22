@@ -28,11 +28,12 @@
                     <table class="table table-borderless">
                         <tbody>
                             @if(count($upcoming) > 0)
+                               
                                 @foreach($upcoming as $up)
                                 <tr>
                                     <td>
                                         <span class="date">
-                                            <a href="javascript:void(0);" class="show_baby" style="color: #719D78;">
+                                            <a href="javascript:void(0);" data-id="{{ $up->id }}" class="show_baby" style="color: #719D78;">
                                                     {{ Carbon\Carbon::createFromFormat('Y-m-d', $up->booking_date)->format('d F Y') }}
                                             </a>
                                         </span>
@@ -63,8 +64,10 @@
                                         @endif
                                     </td>
                                 </tr>
+
+                                
                                 @if(!empty($up['baby']))
-                                        <tr class="baby-detail" style="display: none;">
+                                        <tr class="baby-detail booking-babies-{{ $up->id }}" style="display: none;">
                                             <td colspan="4">
                                                 <div class="baby">
                                                     <div class="baby-info">
@@ -83,6 +86,34 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    @endif
+                                   
+                                    @php
+                                        $bookingBabies = access()->getBookingMultipleBabies($up->id);
+                                    @endphp
+                                        
+                                    @if(isset($bookingBabies) && count($bookingBabies))
+                                        @foreach($bookingBabies as $baby)
+                                            <tr class="baby-detail booking-babies-{{ $up->id }}" style="display: none;">
+                                                <td colspan="4">
+                                                    <div class="baby">
+                                                        <div class="baby-info">
+                                                            <div class="img-wrap">
+                                                                <img src="{{ url('/uploads/babies/'. $baby->image) }}" alt="">
+                                                            </div>
+                                                            <div class="content-wrap">
+                                                                <h5>{{ $baby->title }}</h5>
+                                                                <span class="yrs">{{ $baby->age }} Yrs</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="special-instruction">
+                                                            <h3>Special Instruction</h3>
+                                                            <p>{{ $baby->description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @endif
                                 @endforeach
                             @else

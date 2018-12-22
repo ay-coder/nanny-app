@@ -64,6 +64,8 @@ class JobsController extends Controller
 
         $currentJobs = $this->repository->getSitterActiveBookings(access()->user()->id);
         $pastJobs    = $this->repository->getSitterPastBookings(access()->user()->id);
+        $pastJobs    = $pastJobs->sortByDesc('booking_date');
+
         return view('sitter.my-jobs', compact('calenderData', 'currentJobs', 'pastJobs', 'calenderRecords'));
     }
 

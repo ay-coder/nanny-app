@@ -156,6 +156,8 @@
                         <ul>
                             @if(isset($user->babies) && count($user->babies) > 0)
                                 @foreach($user->babies as $baby)
+
+                               
                                     <li class="edit-list">
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -172,8 +174,8 @@
                                                     {{ Form::text("data[$baby->id][title]", $baby->title, ['class' => 'form-control', 'placeholder' => 'Enter your name', 'required' => 'required']) }}
                                                 </div>
                                                 <div class="form-group dropdown">
-                                                    <label for="name">Birthday</label>
-                                                    {{ Form::text("data[$baby->id][birthdate]", $baby->birthdate, ['class' => 'form-control pastdate', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
+                                                    <label data-id="{{ $baby->birthdate}}" for="name">Birthday</label>
+                                                    {{ Form::text("data[$baby->id][birthdate]",  $baby->birthdate, ['class' => 'form-control datePicker', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
                                                 </div>
                                             </div>
                                             <div class="col-sm-8">

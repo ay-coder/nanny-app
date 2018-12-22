@@ -27,8 +27,8 @@ class SearchRequest extends Request
     public function rules()
     {
         return [
-            'start_booking_date' => 'required',
-            'end_booking_date' => 'required|after_or_equal:booking_date',
+            'booking_date' => 'required',
+            //'end_booking_date' => 'required|after_or_equal:booking_date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'baby_ids' => 'required'

@@ -54,8 +54,14 @@ var Nanny = {
 			$('#upcoming_appointment').css('display', 'none');
 		});
 
-		$('a.show_baby').click(function () {
-			$(this).closest('tr').next('tr').toggle();
+		$('a.show_baby').click(function (e) {
+			console.log(e.target);
+
+			var dataid = e.target.getAttribute('data-id');
+			
+			$('.booking-babies-'+dataid).toggle();
+
+			//$(this).closest('tr').next('tr').toggle();
 		});
 	},
 	Myjobs : function () {

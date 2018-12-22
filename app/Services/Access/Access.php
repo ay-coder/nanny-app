@@ -9,6 +9,7 @@ use App\Models\Babies\Babies;
 use App\Models\Sitters\Sitters;
 use App\Library\Push\PushNotification;
 use App\Models\Activation\Activation;
+use App\Models\Booking\Booking;
 
 /**
  * Class Access.
@@ -346,6 +347,22 @@ class Access
         if($userId)
         {
             return Activation::where('user_id', $userId)->where('allowed_bookings', '>', 0)->first();
+        }
+
+        return false;
+    }
+
+    public function getBookingMultipleBabies($bookingId = null)
+    {
+        if($bookingId)
+        {
+            $bookingInfo = Booking::where('id', $bookingId)->first();
+
+            if($bookingInfo->is_multiple == 1 && isset($bookingInfo->baby_ids))
+            {
+                $babyIds    = array_values(explode(',', $bookingInfo->baby_ids));
+                return Babies::where('id', '!=', $bookingInfo->id)->whereIn('id', $babyIds)->get();
+            }
         }
 
         return false;
