@@ -333,7 +333,7 @@ class EloquentBookingRepository extends DbRepository
 
         $all = $completed->merge($canceled);
 
-        return $all->orderBy($orderBy);
+        return $all->sortBy($orderBy);
     }
 
     /**
