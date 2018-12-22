@@ -153,7 +153,7 @@ class AdminPaymentController extends Controller
             ->addColumn('sitter_id', function ($item) {
                 return $item->sitter->name;
             })
-             ->addColumn('total', function ($item) {
+            ->addColumn('total', function ($item) {
                 return $item->total + $item->tip ;
             })
             ->addColumn('actions', function ($item) {

@@ -103,6 +103,12 @@ class EloquentPaymentRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
+        'tip' =>   [
+                'data'          => 'tip',
+                'name'          => 'tip',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
 		'total' =>   [
                 'data'          => 'total',
                 'name'          => 'total',
