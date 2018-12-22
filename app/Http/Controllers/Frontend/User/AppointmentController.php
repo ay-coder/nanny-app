@@ -57,6 +57,7 @@ class AppointmentController extends Controller
      */
     public function delete($id)
     {
+        $userInfo       = access()->user();
         $bookingInfo    = $this->repository->model->where([
             'id'        => $id
         ])->first();
