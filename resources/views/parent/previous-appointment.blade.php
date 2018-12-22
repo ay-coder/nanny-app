@@ -93,9 +93,15 @@
                                 <td><span>Total Hours</span>{{ isset($booking['payment']->total_hour) ?: 0 }} hrs</td>
                                 <td class="price-info">${{ isset($booking['payment']->sub_total) ?: 0 }}</td>
                             </tr>
+                            
                             <tr class="grand-total">
-                                <td><span>Payment</span>Cash</td>
-                                <td class="price-info">${{ isset($booking['payment']->total) ?: 0 }}</td>
+                                <td><span>Tip</span>Amount</td>
+                                <td class="price-info">${{ isset($booking['payment']->tip) ?: 0 }}</td>
+                            </tr>
+
+                            <tr class="grand-total">
+                                <td><span>Total</span>Amount</td>
+                                <td class="price-info">${{ isset($booking['payment']) ?  $booking['payment']->total + $booking['payment']->tip  : 0 }}</td>
                             </tr>
                         </tbody>
                     </table>
