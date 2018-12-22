@@ -79,9 +79,10 @@ class APIBookingController extends BaseApiController
      */
     public function pastBookings(Request $request)
     {
+        $userInfo   = $this->getAuthenticatedUser();
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'booking_date';
-        $order      = $request->get('order') ? $request->get('order') : 'ASC';
+        $order      = $request->get('order') ? $request->get('order') : 'DESC';
         $items      = $paginate ? $this->repository->model->whereIn('booking_status', ['COMPLETED', 'CANCELED'])->with(['user', 'sitter', 'baby', 'payment', 'review'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAllPast($orderBy, $order);
 
         if(isset($items) && count($items))
