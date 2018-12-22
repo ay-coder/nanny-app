@@ -122,6 +122,16 @@ class UsersController extends BaseApiController
         }
 
         $userInfo   = Auth::user();
+        $user = Auth::user();
+        if($user->user_type != 2)
+        {
+            return response()->json([
+                    'error'     => 'No Sitter found with Given Details.',
+                    'message'   => 'No Sitter found with Given Details.',
+                    'status'    => false,
+                    ], 200);   
+        }
+
         $user       = User::where('id', $userInfo->id)->with('sitter')->first()->toArray();
         $userData   = array_merge($user, ['token' => $token]);
 
@@ -711,55 +721,55 @@ class UsersController extends BaseApiController
 
     public function profileCompletion(Request $request)
     {
-    	$userInfo = $this->getAuthenticatedUser();
+        $userInfo = $this->getAuthenticatedUser();
 
-    	if(isset($userInfo) && isset($userInfo->id))
-		{
-			$count 	= 0;
-			$mobile = $gender = $address = $birthdate = $name 	= false;
+        if(isset($userInfo) && isset($userInfo->id))
+        {
+            $count  = 0;
+            $mobile = $gender = $address = $birthdate = $name   = false;
 
-			if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
-			{
-				$count 	= $count + 20;
-				$name 	= true;
-			}
+            if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
+            {
+                $count  = $count + 20;
+                $name   = true;
+            }
 
-			if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
-			{
-				$count 		= $count + 20;
-				$gender 	= true;
-			}
+            if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
+            {
+                $count      = $count + 20;
+                $gender     = true;
+            }
 
 
-			if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
-			{
-				$count 		= $count + 20;
-				$mobile 	= true;
-			}
+            if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
+            {
+                $count      = $count + 20;
+                $mobile     = true;
+            }
 
-			if(isset($userInfo->address) && strlen($userInfo->address) > 2)
-			{
-				$count 		= $count + 20;
-				$address 	= true;
-			}
+            if(isset($userInfo->address) && strlen($userInfo->address) > 2)
+            {
+                $count      = $count + 20;
+                $address    = true;
+            }
 
-			if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
-			{
-				$count 		= $count + 20;
-				$birthdate 	= true;
-			}
+            if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
+            {
+                $count      = $count + 20;
+                $birthdate  = true;
+            }
 
-			$successResponse = [
-				'name'							=> $name,
-				'gender'						=> $gender,
-				'mobile'						=> $mobile,
-				'address'						=> $address,
-				'birthdate'						=> $birthdate,
-	            'profile_completion_count' 		=> (int) $count
-	        ];
+            $successResponse = [
+                'name'                          => $name,
+                'gender'                        => $gender,
+                'mobile'                        => $mobile,
+                'address'                       => $address,
+                'birthdate'                     => $birthdate,
+                'profile_completion_count'      => (int) $count
+            ];
 
-	        return $this->successResponse($successResponse);
-		}
+            return $this->successResponse($successResponse);
+        }
 
         return $this->setStatusCode(400)->failureResponse([
             'reason' => 'User Not Found !'
