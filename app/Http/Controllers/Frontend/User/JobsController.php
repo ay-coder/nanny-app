@@ -147,9 +147,16 @@ class JobsController extends Controller
 
                 if($bookingInfo->save())
                 {
-                    $parentText     = config('constants.NotificationText.PARENT.JOB_START');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_START');
+                    $parentText     = $userInfo->name .' has started the job';
                     $parent         = User::find($bookingInfo->user_id);
+                    $parentpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'booking_id' => $bookingInfo->id,
+                        'sitter_id' => $userInfo->id,
+                        'ntype'     => 'BOOKING_START'
+                    ];
 
                     $storeParentNotification = [
                         'user_id'       => $parent->id,
@@ -159,16 +166,9 @@ class JobsController extends Controller
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
+
+                    access()->sentPushNotification($parent, $parentpayload);
 
                     return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Job Started Successfully.');
                 }
@@ -224,26 +224,26 @@ class JobsController extends Controller
                     $parent         = User::find($bookingInfo->user_id);
                     $paymentInfo    = Payment::create($inputData);
                     $parentText     = config('constants.NotificationText.PARENT.JOB_STOP');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_STOP');
+                    
+                    $parentpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'booking_id' => $bookingInfo->id,
+                        'sitter_id' => $userInfo->id,
+                        'ntype'     => 'BOOKING_STOP'
+                    ];
 
                     $storeParentNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => $userInfo->id,
                         'sitter_id'     => $userInfo->id,
                         'to_user_id'    => $parent->id,
                         'booking_id'    => $bookingInfo->id,
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
+                    access()->sentPushNotification($parent, $parentpayload);
 
                     return redirect()->route('frontend.user.sitter.myjobs')->withFlashSuccess('Job Stopped Successfully.');
                 }

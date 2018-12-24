@@ -128,28 +128,31 @@ class AppointmentController extends Controller
                 $bookingInfo->booking_status = 'ACCEPTED';
                 if($bookingInfo->save())
                 {
-                    $parentText     = config('constants.NotificationText.PARENT.JOB_ACCEPT');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_ACCEPT');
                     $parent         = User::find($bookingInfo->user_id);
+                    $sitter         = User::find($bookingInfo->sitter_id);
+                    $parentText     = $sitter->name . ' has Accepted your booking';
+
+                    $parentpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'sitter_id' => $userInfo->id,
+                        'booking_id' => $bookingInfo->id,
+                        'ntype'     => 'BOOKING_ACCEPTED'
+                    ];
+
 
                     $storeParentNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => $userInfo->id,
                         'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
                         'to_user_id'    => $parent->id,
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
+
+                    access()->sentPushNotification($parent, $parentpayload);
 
                     return redirect()->back()->withFlashSuccess('Booking accepted Successfully');
                 }
@@ -180,28 +183,32 @@ class AppointmentController extends Controller
                 $bookingInfo->booking_status = 'REJECTED';
                 if($bookingInfo->save())
                 {
-                    $parentText     = config('constants.NotificationText.PARENT.JOB_REJECT');
-                    $sitterText     = config('constants.NotificationText.SITTER.JOB_REJECT');
                     $parent         = User::find($bookingInfo->user_id);
+                    $parentText     = $userInfo->name . ' has cancelled your booking';
+
+                    $parentpayload  = [
+                        'mtitle'    => '',
+                        'mdesc'     => $parentText,
+                        'parent_id' => $parent->id,
+                        'sitter_id' => $userInfo->id,
+                        'booking_id' => $bookingInfo->id,
+                        'ntype'     => 'BOOKING_SITTER_CANCELED'
+                    ];
+
 
                     $storeParentNotification = [
-                        'user_id'       => $parent->id,
+                        'user_id'       => $userInfo->id,
                         'sitter_id'     => $userInfo->id,
                         'booking_id'    => $bookingInfo->id,
                         'to_user_id'    => $parent->id,
                         'description'   => $parentText
                     ];
 
-                    $storeSitterNotification = [
-                        'user_id'       => $parent->id,
-                        'sitter_id'     => $userInfo->id,
-                        'booking_id'    => $bookingInfo->id,
-                        'to_user_id'    => $userInfo->id,
-                        'description'   => $sitterText
-                    ];
-
                     access()->addNotification($storeParentNotification);
-                    access()->addNotification($storeSitterNotification);
+
+                    access()->sentPushNotification($parent, $parentpayload);
+
+                    access()->restoreSingleBooking($bookingInfo->user_id);
 
                     return redirect()->back()->withFlashSuccess('Booking rejected Successfully');
                 }
