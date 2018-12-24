@@ -166,6 +166,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>
+                            {{ Form::hidden('stripeToken')}}
                             {{ Form::close() }}
                         </div>
                         <!-- Payment Detail End -->
