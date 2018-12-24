@@ -252,6 +252,7 @@
 <script>
     $(document).ready(function(){
         Nanny.Myjobs();
+
         $('#calendar').fullCalendar({
             header: {
               left: 'false',
@@ -265,7 +266,21 @@
             events : {!! $calenderData !!},
             timeFormat: 'H(:mm)',
             eventColor: '#719d78',
+
+            eventClick: function(calEvent, jsEvent, view) {
+                
+                if(calEvent.status == 'upcoming')
+                {
+                    $("#current_jobs_btn").click();
+                }
+                else
+                {
+                    $("#previous_jobs_btn").click();
+                }
+            }
         });
+
+        //console.log({!! $calenderData !!});
     });
 </script>
 @stop

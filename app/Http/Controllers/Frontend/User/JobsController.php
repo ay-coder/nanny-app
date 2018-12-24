@@ -40,18 +40,37 @@ class JobsController extends Controller
     public function index()
     {
         $session = array();
+        $currentJobs = $this->repository->getSitterActiveBookings(access()->user()->id);
+        $pastJobs    = $this->repository->getSitterPastBookings(access()->user()->id);
+        $pastJobs    = $pastJobs->sortByDesc('booking_date');
+
         $calenderRecords    = Booking::with(['user', 'sitter', 'baby', 'payment'])->where('sitter_id', access()->user()->id)->orderBy('id', 'desc')->get();
         if (count($calenderRecords) > 0) {
-            foreach ($calenderRecords as $key => $calenderRecord) {
+            foreach ($calenderRecords as $key => $calenderRecord) 
+            {
                 if(!empty($calenderRecord->booking_date) && !empty($calenderRecord->start_time) && !empty($calenderRecord->end_time)) {
                     $date = Carbon::parse($calenderRecord->booking_date)->format('Y-d-m');
 
+                    $currentDateTime = strtotime(date('Y-m-d H:i:s'));
+                    $bookingEndDate  = strtotime($calenderRecord->booking_end_time);
+
                     $booking_start_time     = $date . 'T' . $calenderRecord->start_time;
                     $booking_end_time       = $date . 'T' . $calenderRecord->end_time;
+
+                    $status     = 'past';
+                    $isCurrent  = $currentJobs->where('id', $calenderRecord->id)->first();
+                    if(isset($isCurrent))
+                    {
+                        $status = 'upcoming';
+                    }
+                    
                     $session[] = [
-                        'start' => $booking_start_time,
-                    'end'   => $booking_end_time,
-                    'title' => $calenderRecord['user']->name];
+                        'id'    => $calenderRecord->id,
+                        'status' => $status,
+                        'start' => $calenderRecord->booking_start_time,
+                        'end'   => $calenderRecord->booking_end_time,
+                        'title' => $calenderRecord['user']->name
+                    ];
                 }
             }
             $calenderData = json_encode($session, JSON_NUMERIC_CHECK);
@@ -62,9 +81,7 @@ class JobsController extends Controller
             $calenderData = json_encode($session, JSON_NUMERIC_CHECK);
         }
 
-        $currentJobs = $this->repository->getSitterActiveBookings(access()->user()->id);
-        $pastJobs    = $this->repository->getSitterPastBookings(access()->user()->id);
-        $pastJobs    = $pastJobs->sortByDesc('booking_date');
+       
 
         return view('sitter.my-jobs', compact('calenderData', 'currentJobs', 'pastJobs', 'calenderRecords'));
     }

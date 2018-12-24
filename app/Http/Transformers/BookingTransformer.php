@@ -61,6 +61,8 @@ class BookingTransformer extends Transformer
 
         $response = [
             "booking_id"        => (int) $item->id,
+            "cancel_by_parent"  => (int) $item->cancel_by_parent,
+            "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
             "user_id"           => (int) $item->user_id,
             "sitter_id"         => (int) $item->sitter_id,
             'sitter_name'       =>  $sitter->name,
@@ -173,6 +175,8 @@ class BookingTransformer extends Transformer
             $sitterRating   = access()->getAverageRating($item->sitter_id);
             $response[$sr]  = [
                 "booking_id"        => (int) $item->id,
+                "cancel_by_parent"  => (int) $item->cancel_by_parent,
+                "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 'sitter_name'       =>  isset($sitter) ? $sitter->name : '',
