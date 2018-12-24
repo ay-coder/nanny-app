@@ -457,7 +457,8 @@ class APIBookingController extends BaseApiController
                 access()->restoreSingleBooking($userInfo->id);
 
 
-                $bookingInfo->booking_status = 'CANCELED';
+                $bookingInfo->booking_status    = 'CANCELED';
+                $bookingInfo->cancel_by_parent  = 1;
                 if($bookingInfo->save())
                 {
                     return $this->successResponse([
@@ -516,7 +517,8 @@ class APIBookingController extends BaseApiController
 
                 access()->restoreSingleBooking($bookingInfo->user_id);
 
-                $bookingInfo->booking_status = 'CANCELED';
+                $bookingInfo->booking_status    = 'CANCELED';
+                $bookingInfo->cancel_by_sitter  = 1;
                 if($bookingInfo->save())
                 {
                     return $this->successResponse([

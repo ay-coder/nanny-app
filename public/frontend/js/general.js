@@ -18,10 +18,13 @@ $(function () {
 	    });
 
 		// DateTime Picker
-		$('.date').datetimepicker({
-			viewMode: 'days',
-            format: 'DD/MM/YYYY'
-		});
+		if($('.date'))
+		{
+			/*$('.date').datetimepicker({
+				viewMode: 'days',
+	            format: 'DD/MM/YYYY'
+			});*/
+		}
 
 		$('.futuredate').datetimepicker({
 			viewMode: 'days',

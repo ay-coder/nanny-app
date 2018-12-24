@@ -6,6 +6,7 @@ use App\Http\Transformers\ActivationTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Activation\EloquentActivationRepository;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Access\User\User;
 
 class APIActivationController extends BaseApiController
 {
@@ -197,5 +198,33 @@ class APIActivationController extends BaseApiController
         return $this->setStatusCode(404)->failureResponse([
             'reason' => 'Invalid Inputs'
         ], 'Something went wrong !');
+    }
+
+    /**
+     * Get My Activation
+     * 
+     * @param Request $request
+     * @return json
+     */
+    public function getMyActivation(Request $request)
+    {
+        $userInfo       = $this->getAuthenticatedUser();       
+        $activationInfo = $this->repository->model->where([
+            'user_id'           => $userInfo->id,
+        ])
+        ->with('plan')
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        if(isset($activationInfo) && count($activationInfo))
+        {
+            $itemsOutput = $this->activationTransformer->myActivationTransform($activationInfo);
+
+            return $this->successResponse($itemsOutput);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'No Activation Found!'
+            ], 'No Activation Found !');
     }
 }

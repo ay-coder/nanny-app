@@ -154,6 +154,8 @@ class SittersTransformer extends Transformer
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
+                "cancel_by_parent"  => (int) $item->cancel_by_parent,
+                "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 "user_name"         =>  $user->name,
@@ -265,6 +267,8 @@ class SittersTransformer extends Transformer
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
+                "cancel_by_parent"  => (int) $item->cancel_by_parent,
+                "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 "user_name"         =>  $user->name,
@@ -365,6 +369,8 @@ class SittersTransformer extends Transformer
 
             $response = [
                 "booking_id"        => (int) $item->id,
+                "cancel_by_parent"  => (int) $item->cancel_by_parent,
+                "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 "user_name"         =>  $user->name,
@@ -470,6 +476,8 @@ class SittersTransformer extends Transformer
 
             $response[$sr] = [
                 "booking_id"        => (int) $item->id,
+                "cancel_by_parent"  => (int) $item->cancel_by_parent,
+                "cancel_by_sitter"  => (int) $item->cancel_by_sitter,
                 "user_id"           => (int) $item->user_id,
                 "sitter_id"         => (int) $item->sitter_id,
                 "user_name"         =>  $user->name,
