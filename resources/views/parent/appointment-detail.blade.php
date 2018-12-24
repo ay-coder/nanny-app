@@ -149,10 +149,11 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="text-center">
+                                                {{ Form::hidden('stripeToken')}}
                                                 <script
                                                     src="https://checkout.stripe.com/checkout.js"
                                                     class="stripe-button subscription-button"
-                                                    data-key="pk_test_HENG7NMtGpezjtivffTaE1fx"
+                                                    data-key="pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm"
                                                     data-image="{{url('/default.png')}}"
                                                     data-name="Nanny"
                                                     data-email="{{access()->user()->email}}"
@@ -166,7 +167,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                            {{ Form::hidden('stripeToken')}}
+                            
                             {{ Form::close() }}
                         </div>
                         <!-- Payment Detail End -->

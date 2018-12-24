@@ -26,10 +26,11 @@
                             <span class="per-month">per month</span>
                         @endif
                         @if(empty($activationInfo))
+                            {{ Form::hidden('stripeToken')}}
                             <script
                                 src="https://checkout.stripe.com/checkout.js"
                                 class="stripe-button subscription-button"
-                                data-key="pk_test_vXrJK3KUajoynCNMuXcOcffq"
+                                data-key="pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm"
                                 data-image={{url('/default.png')}}
                                 data-name="Nanny"
                                 data-email="{{access()->user()->email}}"
