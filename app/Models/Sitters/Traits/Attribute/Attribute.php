@@ -49,10 +49,11 @@ trait Attribute
      */
     public function getAdminActionButtonsAttribute()
     {
-        return 'N/A';
         $repository = new EloquentSittersRepository;
         $routes     = $repository->getModuleRoutes();
         
-        return $this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true) .  $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
+        return $this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true);
+
+        // .  $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
     }
 }
