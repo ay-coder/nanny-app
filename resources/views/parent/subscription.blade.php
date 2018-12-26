@@ -26,6 +26,7 @@
                             <span class="per-month">per month</span>
                         @endif
                         @if(empty($activationInfo))
+                            {{ Form::hidden('stripeToken')}}
                             <script
                                 src="https://checkout.stripe.com/checkout.js"
                                 class="stripe-button subscription-button"

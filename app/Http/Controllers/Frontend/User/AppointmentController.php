@@ -314,6 +314,7 @@ class AppointmentController extends Controller
         $bookingId      = $request->get('booking_id');
         $token          = $request->get('stripeToken');
         $tip            = (float) $tipAmount;
+        
         $paymentStatus  = $this->paymentRepository->addPayment($paymentId, $token, $tip);
 
         if($paymentStatus)

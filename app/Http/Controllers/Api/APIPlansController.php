@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Transformers\PlansTransformer;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Plans\EloquentPlansRepository;
+use App\Repositories\Activation\EloquentActivationRepository;
 
 class APIPlansController extends BaseApiController
 {
@@ -54,9 +55,32 @@ class APIPlansController extends BaseApiController
 
         if(isset($items) && count($items))
         {
-            $itemsOutput = $this->plansTransformer->transformCollection($items);
+            $repo           = new EloquentActivationRepository;
+            $userInfo       = $this->getAuthenticatedUser();       
+            $activationInfo = $repo->model->where([
+                'user_id'           => $userInfo->id,
+            ])
+            ->with('plan')
+            ->orderBy('id', 'DESC')
+            ->get();
+            
+            $totalBooking = 0;
 
-            return $this->successResponse($itemsOutput);
+            if(isset($items) && count($items))
+            {
+                foreach($activationInfo as $activation)
+                {
+                    $totalBooking   = $totalBooking + $activation->allowed_bookings;
+                }
+            }
+
+            $itemsOutput = $this->plansTransformer->transformCollection($items);
+            $response = [
+                'plans'             => $itemsOutput,
+                'allowed_bookings'  => $totalBooking
+            ];
+
+            return $this->successResponse($response);
         }
 
         return $this->setStatusCode(400)->failureResponse([
