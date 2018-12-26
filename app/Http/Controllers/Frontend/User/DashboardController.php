@@ -92,10 +92,6 @@ class DashboardController extends Controller
                 $input['baby_ids'] = implode(",", $input['baby_ids']);
             }
                 
-            if(isset($input['is_multiple']) && $input['is_multiple'] == 0)
-            {
-                $input['baby_id']   = $input['baby_ids'][0];
-            }
             $input              = array_merge($input, [
                 'user_id'             => access()->user()->id,
                 'booking_date'       => $bookingDate,
