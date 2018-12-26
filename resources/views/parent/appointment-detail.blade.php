@@ -23,7 +23,9 @@
                             <!-- Nanny Detail Start -->
                             <tr>
                                 <td><span class="date">{{ Carbon\Carbon::createFromFormat('Y-m-d', $booking->booking_date)->format('d F Y') }}</span></td>
-                                <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($booking->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}</span></span>
+                                <td>
+                                <span class="time"><span class="start-time">{{ Carbon\Carbon::parse($booking->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}</span></span>
+                                
                                 </td>
                                 <td>
                                     <div class="user small">

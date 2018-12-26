@@ -37,6 +37,17 @@
                                                     {{ Carbon\Carbon::createFromFormat('Y-m-d', $up->booking_date)->format('d F Y') }}
                                             </a>
                                         </span>
+                                        <br>
+                                        
+                                        @if(isset($up->is_pet) && $up->is_pet ==1 )
+                                            <span><img src="{{ url('/uploads/user/pets.png') }}" alt="Pet" style="width: 25px; height: 25px;" ></span>
+                                        @endif
+
+                                        @if(isset($up->booking_type) && $up->booking_type ==1 )
+                                            <span><img src="{{ url('/uploads/user/touriest.png') }}" alt=""  style="width: 25px; height: 25px;"></span>
+                                        @else
+                                            <span><img src="{{ url('/uploads/user/local.png') }}" alt=""  style="width: 25px; height: 25px;"></span>
+                                        @endif
                                     </td>
                                     <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($up->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($up->end_time)->format('h:i A') }}</span></span></td>
                                     <td>
