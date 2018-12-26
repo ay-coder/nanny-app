@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Plans\EloquentPlansRepository;
 use App\Repositories\Activation\EloquentActivationRepository;
 use Illuminate\Http\Request;
+use App\Models\Messages\Messages;
 
 /**
  * Class AccountController.
@@ -35,7 +36,17 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        $plans = $this->repository->getAll('id', 'ASC');
+        $plans      = $this->repository->getAll('id', 'ASC');
+        $userId     = access()->user()->id;
+        $messages   = Messages::where([
+            'from_user_id' => 1,
+            'to_user_id'    => $userId
+        ])->orWhere([
+            'from_user_id'  => $userId,
+            'to_user_id'    => 1
+        ])->orderBy('id', 'desc')->get();
+
+
         $activationInfo = $this->activationRepository->model->where([
             'user_id'           => access()->user()->id,
             'payment_status'    => 1,
@@ -45,7 +56,7 @@ class SubscriptionController extends Controller
         ->with(['plan'])
         ->first();
 
-        return view('parent.subscription', compact('plans', 'activationInfo'));
+        return view('parent.subscription', compact('plans', 'activationInfo', 'messages'));
     }
 
     /**
@@ -64,5 +75,10 @@ class SubscriptionController extends Controller
         }
 
         return redirect()->route('frontend.user.parent.subscription')->withFlashDanger('Please select Plan for subscription');
+    }
+
+    public function addMessage(Request $request)
+    {
+        dd($request->all());
     }
 }

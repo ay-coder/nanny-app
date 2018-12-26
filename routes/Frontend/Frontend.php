@@ -69,6 +69,11 @@ Route::group(['middleware' => 'auth'], function () {
          */
         Route::get('parent/subscription', 'SubscriptionController@index')->name('parent.subscription');
         Route::post('parent/plansubscription', 'SubscriptionController@subscribePlan')->name('parent.plansubscription');
+        
+
+        Route::post('parent/add-message', 'SubscriptionController@addMessage')->name('parent.add-message');
+
+
 
         /*
          * Appointment

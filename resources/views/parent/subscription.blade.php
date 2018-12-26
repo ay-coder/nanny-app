@@ -70,5 +70,59 @@
         </div><!-- .row End -->
     </div><!-- .container End -->
 </section><!-- .subscription End -->
+
+
+<!-- Deneral Discussion Popup Start -->
+<div class="modal fade" id="generalDiscussion" tabindex="-1" role="dialog" aria-labelledby="generaldiscussionTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{!! route('frontend.user.parent.add-message') !!}" method="post">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title" id="generaldiscussionTitle">General Discussion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    @if(isset($messages) && count($messages))
+                        @foreach($messages as $message)
+                            @if($message->from_user_id == 1 || $message->to_user_id == 1)
+                                <div class="chat-message">
+                                    <span class="msg">
+                                        {!! $message->message !!}                            
+                                    </span><span class="time">
+                                    {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                                    </span></div>
+                            @else
+                                <div class="chat-message">
+                                    <span class="msg">
+                                        {!! $message->message !!} 
+                                    </span>
+                                    <span class="time">
+                                        {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                                    </span></div> 
+                            @endif
+
+                        @endforeach
+                    @endif
+                
+                    
+                    <div class="chat-message"><span class="msg image"><img src="../assets/images/baby4.png" alt=""></span><span class="time">03.36AM</span></div>
+                </div>
+                <div class="modal-footer text-center">
+                    <div class="send-msg">
+                        <button class="attached-btn" type="button">Attached file</button>
+
+                        <input type="text" id="messageTextInput" placeholder="Enter message..." class="form-control">
+                        <input type="submit" class="send-btn" id="messageSendBtn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Deneral Discussion Popup End -->
+
 <!-- Main Content End -->
 @endsection

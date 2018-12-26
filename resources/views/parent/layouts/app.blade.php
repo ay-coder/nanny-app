@@ -68,6 +68,20 @@
         <script type="text/javascript" src="{!! asset('frontend/js/general.js') !!}"></script>
         <script type="text/javascript" src="{!! asset('js/custom/custom.js') !!}"></script>
         <script type="text/javascript" src="{!! asset('frontend/js/nanny-app.js') !!}"></script>
+
+        <script>
+        /*if(document.getElementById('messageSendBtn'))
+        {
+            document.getElementById('messageSendBtn').onclick = function(e)
+            {
+                if(document.getElementById('messageTextInput'))
+                {
+                    alert(document.getElementById('messageTextInput').value);
+                }
+
+            }   
+        }*/
+        </script>
         @yield('end-scripts')
         @include('includes.partials.ga')
     </body>
