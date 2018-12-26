@@ -169,7 +169,12 @@
                                                     <img src="{{ url('/uploads/user/'. $pre['sitter']->profile_pic) }}" alt="Profile Pic">
                                                 </div>
                                                 <div class="content-wrap">
-                                                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1 && empty($pre['review']))
+                                                @php
+
+                                                    $isReviews = $reviews->where('booking_id', $pre->id)->first();
+                                                @endphp     
+
+                                                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1 && !isset($isReviews))
                                                         <a style="margin-right: 2px;" href="JavaScript:void(0)" data-toggle="modal" data-target="#reviewnow_{{ $pre['payment']->id }}" class="btn btn-start btn-sm">Review now</a>
                                                     @else
                                                         <span class="rating-wrap small"><span class="rating" style="width: {{(AvgRating(null, null, $pre->id) * 20)}}%;"></span></span>
@@ -239,7 +244,7 @@
         <div class="reviews-wrapper">
             @if(count($previous) > 0)
                 @foreach($previous as $pre)
-                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1 && empty($pre['review']))
+                    @if(!empty($pre['payment']) && $pre['payment']->payment_status == 1)
                         <div class="modal fade" id="reviewnow_{{ $pre['payment']->id }}" tabindex="-1" role="dialog" aria-labelledby="reviewnowTitle" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
