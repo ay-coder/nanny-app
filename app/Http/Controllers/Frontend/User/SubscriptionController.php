@@ -77,8 +77,5 @@ class SubscriptionController extends Controller
         return redirect()->route('frontend.user.parent.subscription')->withFlashDanger('Please select Plan for subscription');
     }
 
-    public function addMessage(Request $request)
-    {
-        dd($request->all());
-    }
+    
 }

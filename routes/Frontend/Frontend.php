@@ -13,6 +13,9 @@ Route::get('contactus', 'FrontendController@contactus')->name('contactus');
 
 Route::get('macros', 'FrontendController@macros')->name('macros');
 
+
+ 
+
 /*
  * These frontend controllers require the user to be logged in
  * All route names are prefixed with 'frontend.'
@@ -23,6 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
          * Parent Dashboard Specific
          */
         Route::get('parent/home', 'DashboardController@parentIndex')->name('parent.dashboard');
+
+        Route::any('parent/send-message', 'DashboardController@addMessage')->name('parent.send-message');
+       
 
         Route::post('parent/search', 'DashboardController@searchSitters')->name('parent.search');
         Route::get('parent/find/{id}', 'DashboardController@findSitter')->name('parent.findsitter');
@@ -70,8 +76,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('parent/subscription', 'SubscriptionController@index')->name('parent.subscription');
         Route::post('parent/plansubscription', 'SubscriptionController@subscribePlan')->name('parent.plansubscription');
         
-
-        Route::post('parent/add-message', 'SubscriptionController@addMessage')->name('parent.add-message');
 
 
 

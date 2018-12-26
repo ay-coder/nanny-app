@@ -76,7 +76,7 @@
 <div class="modal fade" id="generalDiscussion" tabindex="-1" role="dialog" aria-labelledby="generaldiscussionTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{!! route('frontend.user.parent.add-message') !!}" method="post">
+            <form action="{{ route('frontend.user.parent.send-message') }}" method="post">
                 <div class="modal-header text-center">
                     <h5 class="modal-title" id="generaldiscussionTitle">General Discussion</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

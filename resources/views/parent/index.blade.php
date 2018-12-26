@@ -29,12 +29,24 @@
         <!-- Select Location start -->
         <div class="form-group select-location">
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="choosetype-local" value="local" name="choosetype" required="required" checked="checked" class="custom-control-input">
+                <input type="radio" id="choosetype-local" value="0" name="booking_type" required="required" checked="checked" class="custom-control-input">
                 <label class="custom-control-label" for="choosetype-local">Local</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="choosetype-tourist" value="tourist" name="choosetype" required="required" class="custom-control-input">
+                <input type="radio" id="choosetype-tourist" value="1" name="booking_type" required="required" class="custom-control-input">
                 <label class="custom-control-label" for="choosetype-tourist">Tourist</label>
+            </div>
+        </div>
+
+        <!-- Select Location start -->
+        <div class="form-group select-location">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="is_pet_yes" value="1" name="is_pet" required="required" checked="checked" class="custom-control-input">
+                <label class="custom-control-label" for="is_pet_yes">Yes</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="is_pet_no" value="0" name="is_pet" required="required" class="custom-control-input">
+                <label class="custom-control-label" for="is_pet_no">No</label>
             </div>
         </div>
         <!-- Select Location End -->

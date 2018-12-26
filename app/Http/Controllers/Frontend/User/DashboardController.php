@@ -36,11 +36,12 @@ class DashboardController extends Controller
      */
     public function searchSitters(SearchRequest $request)
     {
+        $input = $request->all();
         $repository = new EloquentSittersRepository();
         session(['find_sitter' => $request->except('_token')]);
         $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
 
-        return view('parent.sitterlisting', compact('sitters'));
+        return view('parent.sitterlisting', compact('sitters', 'input'));
     }
 
     /**
@@ -79,13 +80,17 @@ class DashboardController extends Controller
         if(isset($isBooking) && count($isBooking))
         {
             $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
+
             $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
             $input['baby_id'] = $input['baby_ids'][0];
             $input['baby_ids'] = implode(",", $input['baby_ids']);
             $input['sitter_id'] = $request->sitter_id;
+
             $input              = array_merge($input, [
                 'user_id'             => access()->user()->id,
                 'booking_date'       => $bookingDate,
+                'booking_type'       => isset($input['booking_type']) ? $input['booking_type'] : 0,
+                'is_pet'            => isset($input['is_pet']) ? $input['is_pet'] : 0,
                 'start_time'         => date('H:i:s', strtotime($input['start_time'])),
                 'end_time'           => date('H:i:s', strtotime($input['end_time'])),
                 'booking_status'     => 'REQUESTED',
@@ -144,5 +149,10 @@ class DashboardController extends Controller
         
         return redirect()->route('frontend.user.parent.dashboard')->withFlashDanger('Please purchase plan to Continue Booking.');
         
+    }
+
+    public function addMessage(Request $request)
+    {
+        dd($request->all());
     }
 }
