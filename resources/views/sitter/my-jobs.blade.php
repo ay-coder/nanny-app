@@ -44,7 +44,7 @@
 
                                             <br>
                                             
-                                            @if(isset($currentJob->is_pet) && $pre->currentJob ==1 )
+                                            @if(isset($currentJob->is_pet) && $currentJob->is_pet ==1 )
                                                 <span><img src="{{ url('/uploads/user/pets.png') }}" alt="Pet" style="width: 25px; height: 25px;" ></span>
                                             @endif
                                         </td>
