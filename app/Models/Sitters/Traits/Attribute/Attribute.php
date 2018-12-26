@@ -49,6 +49,7 @@ trait Attribute
      */
     public function getAdminActionButtonsAttribute()
     {
+        return 'N/A';
         $repository = new EloquentSittersRepository;
         $routes     = $repository->getModuleRoutes();
         
