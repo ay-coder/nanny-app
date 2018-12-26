@@ -38,7 +38,7 @@
     <div class="form-group">
         {{ Form::label('email', 'Email Id:', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('email', isset($item->user) ? $item->user->email : null, ['class' => 'form-control', 'placeholder' => 'Email', 'required' => 'required']) }}
+            {{ Form::text('email', isset($item->user) ? $item->user->email : null, ['class' => 'form-control', 'disabled' => $disabled, 'placeholder' => 'Email', 'required' => 'required']) }}
         </div>
     </div>
 </div>

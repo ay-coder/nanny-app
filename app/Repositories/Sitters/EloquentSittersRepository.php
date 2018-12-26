@@ -36,6 +36,7 @@ class EloquentSittersRepository extends DbRepository
         'id'            => 'Id',
         'category'      => 'Category',
         'username'      => 'User Name',
+        'email'         => 'Email Id',
         'vacation_mode' => 'Vacation Mode',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
@@ -65,6 +66,12 @@ class EloquentSittersRepository extends DbRepository
 		'username' =>   [
                 'data'          => 'username',
                 'name'          => 'username',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'email' =>   [
+                'data'          => 'email',
+                'name'          => 'email',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -305,6 +312,7 @@ class EloquentSittersRepository extends DbRepository
         return [
             $this->model->getTable().'.*',
             $this->userModel->getTable().'.name as username',
+            $this->userModel->getTable().'.email',
             $this->userModel->getTable().'.mobile'
 
         ];
