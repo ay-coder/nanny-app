@@ -83,15 +83,19 @@ class DashboardController extends Controller
 
             $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
 
-
-
-            $input['baby_id']   = $input['baby_ids'][0];
-            $otherBabies        = implode(",", $input['baby_ids']);
-            array_pop($otherBabies);
-            $input['baby_ids']  = $otherBabies;
-            $input['is_multiple']  = count($otherBabies) ? 1 : 0;
+            $input['baby_id'] = $input['baby_ids'][0];
             $input['sitter_id'] = $request->sitter_id;
 
+            if(count($input['baby_ids']) > 1 )
+            {
+                unset($input['baby_ids'][0]);
+                $input['baby_ids'] = implode(",", $input['baby_ids']);
+            }
+                
+            if(isset($input['is_multiple']) && $input['is_multiple'] == 0)
+            {
+                $input['baby_id']   = $input['baby_ids'][0];
+            }
             $input              = array_merge($input, [
                 'user_id'             => access()->user()->id,
                 'booking_date'       => $bookingDate,
