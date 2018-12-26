@@ -80,18 +80,23 @@ class DashboardController extends Controller
         if(isset($isBooking) && count($isBooking))
         {
             $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
-
-            $input['is_multiple'] = (count($input['baby_ids']) > 1) ? 1 : 0;
-
-            $input['baby_id'] = $input['baby_ids'][0];
-            $input['sitter_id'] = $request->sitter_id;
-
-            if(count($input['baby_ids']) > 1 )
+           
+            if(count($input['baby_ids']) == 1)
             {
-                unset($input['baby_ids'][0]);
-                $input['baby_ids'] = implode(",", $input['baby_ids']);
+                $input['is_multiple']   = 0;
+                $input['baby_id']       = $input['baby_ids'][0];
+                unset($input['baby_ids']);
             }
-                
+            else
+            {
+                $input['is_multiple'] = 1;
+                $input['baby_id']       = $input['baby_ids'][0];
+                $babyIds = $input['baby_ids'];
+                unset($babyIds[0]);
+                $input['baby_ids']    = implode(",", $babyIds);
+            }
+
+            $input['sitter_id'] = $request->sitter_id;
             $input              = array_merge($input, [
                 'user_id'             => access()->user()->id,
                 'booking_date'       => $bookingDate,
