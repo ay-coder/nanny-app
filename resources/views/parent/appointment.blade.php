@@ -171,6 +171,19 @@
                                                     </span>
                                                 @endif
                                             @endif
+
+                                            <br>
+                                            
+                                            @if(isset($pre->is_pet) && $pre->is_pet ==1 )
+                                                <span><img src="{{ url('/uploads/user/pets.png') }}" alt="Pet" style="width: 25px; height: 25px;" ></span>
+                                            @endif
+
+                                            @if(isset($pre->booking_type) && $pre->booking_type ==1 )
+                                                <span><img src="{{ url('/uploads/user/touriest.png') }}" alt=""  style="width: 25px; height: 25px;"></span>
+                                            @else
+                                                <span><img src="{{ url('/uploads/user/local.png') }}" alt=""  style="width: 25px; height: 25px;"></span>
+                                            @endif
+                                            
                                         </td>
                                         <td><span class="time"><span class="start-time">{{ Carbon\Carbon::parse($pre->start_time)->format('h:i A') }}</span><span>{{ Carbon\Carbon::parse($pre->end_time)->format('h:i A') }}</span></span>
                                         </td>

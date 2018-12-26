@@ -41,6 +41,12 @@
                                                     {{ Carbon\Carbon::createFromFormat('Y-m-d', $currentJob->booking_date)->format('d F Y') }}
                                                 </a>
                                             </span>
+
+                                            <br>
+                                            
+                                            @if(isset($currentJob->is_pet) && $pre->currentJob ==1 )
+                                                <span><img src="{{ url('/uploads/user/pets.png') }}" alt="Pet" style="width: 25px; height: 25px;" ></span>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="time">
@@ -148,6 +154,12 @@
                                             <span class="date">
                                                 {{ Carbon\Carbon::createFromFormat('Y-m-d', $pastJob->booking_date)->format('d F Y') }}
                                             </span>
+
+                                            <br>
+                                            
+                                            @if(isset($pastJob->is_pet) && $pre->pastJob ==1 )
+                                                <span><img src="{{ url('/uploads/user/pets.png') }}" alt="Pet" style="width: 25px; height: 25px;" ></span>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="time">
