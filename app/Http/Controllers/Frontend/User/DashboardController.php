@@ -86,8 +86,8 @@ class DashboardController extends Controller
 
 
             $input['baby_id']   = $input['baby_ids'][0];
-            $otherBabies        = implode(",", $input['baby_ids'])
-            unset($otherBabies[0]);
+            $otherBabies        = implode(",", $input['baby_ids']);
+            array_pop($otherBabies);
             $input['baby_ids']  = $otherBabies;
             $input['is_multiple']  = count($otherBabies) ? 1 : 0;
             $input['sitter_id'] = $request->sitter_id;
