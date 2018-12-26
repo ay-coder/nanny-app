@@ -40,7 +40,7 @@ class SubscriptionController extends Controller
             'user_id'           => access()->user()->id,
             'payment_status'    => 1,
             'status'            => 1,
-        ])
+        ])->where('allowed_bookings', '>', 0)
         ->orderBy('id', 'DESC')
         ->with(['plan'])
         ->first();
