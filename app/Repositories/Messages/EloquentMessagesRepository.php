@@ -32,16 +32,13 @@ class EloquentMessagesRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
-'from_user_id'        => 'From_user_id',
-'to_user_id'        => 'To_user_id',
-'image'        => 'Image',
-'message'        => 'Message',
-'is_image'        => 'Is_image',
-'is_read'        => 'Is_read',
-'created_at'        => 'Created_at',
-'updated_at'        => 'Updated_at',
-"actions"         => "Actions"
+        'id'                => 'Id',
+        'from_user_id'      => 'From',
+        'to_user_id'        => 'To',
+        'image'             => 'Image',
+        'message'           => 'Message',
+        'created_at'        => 'Created_at',
+        "actions"         => "Actions"
     ];
 
     /**
@@ -80,27 +77,9 @@ class EloquentMessagesRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'is_image' =>   [
-                'data'          => 'is_image',
-                'name'          => 'is_image',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'is_read' =>   [
-                'data'          => 'is_read',
-                'name'          => 'is_read',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
 		'created_at' =>   [
                 'data'          => 'created_at',
                 'name'          => 'created_at',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'updated_at' =>   [
-                'data'          => 'updated_at',
-                'name'          => 'updated_at',
                 'searchable'    => true,
                 'sortable'      => true
             ],

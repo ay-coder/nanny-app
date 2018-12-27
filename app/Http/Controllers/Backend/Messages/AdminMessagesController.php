@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Messages\EloquentMessagesRepository;
-
+use Html;
 /**
  * Class AdminMessagesController
  */
@@ -147,6 +147,16 @@ class AdminMessagesController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
+            ->addColumn('from_user_id', function ($item) {
+                return $item->from_user->name;
+            })
+            ->addColumn('to_user_id', function ($item) {
+                return $item->to_user->name;
+            })
+            ->addColumn('image', function ($item) {
+                return Html::image('/uploads/messages/'.$item->image, 'image', ['width' => 50, 'height' => 50]);
+                //URL::to('/').;
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })
