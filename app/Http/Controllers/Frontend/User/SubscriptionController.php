@@ -44,7 +44,7 @@ class SubscriptionController extends Controller
         ])->orWhere([
             'from_user_id'  => $userId,
             'to_user_id'    => 1
-        ])->orderBy('id', 'desc')->get();
+        ])->orderBy('id')->get();
 
 
         $activationInfo = $this->activationRepository->model->where([

@@ -9,6 +9,7 @@ use App\Models\Access\User\User;
 use App\Repositories\Sitters\EloquentSittersRepository;
 use App\Repositories\Booking\EloquentBookingRepository;
 use Carbon\Carbon;
+use App\Models\Messages\Messages;
 
 /**
  * Class DashboardController.
@@ -164,6 +165,34 @@ class DashboardController extends Controller
 
     public function addMessage(Request $request)
     {
-        dd($request->all());
+        $user       = access()->user();
+        $message    = $request->get('message-text');
+        $imageName  = '';
+        $isImage    = 0;
+
+        if($request->file('attachment'))
+        {
+            $imageName  = rand(11111, 99999) . '_message.' . $request->file('attachment')->getClientOriginalExtension();
+            if(strlen($request->file('attachment')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('attachment')->move(base_path() . '/public/uploads/messages/', $imageName);
+                $isImage = 1;
+            }
+        }
+
+        $status = Messages::create([
+            'from_user_id'  => $user->id,
+            'to_user_id'    => 1,
+            'image'         => $imageName,
+            'message'       => $message,
+            'is_image'      => $isImage
+        ]);
+
+        if($status)
+        {
+            return redirect()->route('frontend.user.parent.subscription')->withFlashSuccess('Message Send Successfully.'); 
+        }
+
+        return redirect()->route('frontend.user.parent.subscription')->withFlashDanger('Please try again! Something went Wrong.');
     }
 }
