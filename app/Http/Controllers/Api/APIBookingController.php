@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Payment\Payment;
 use App\Models\Access\User\User;
 use App\Library\Push\PushNotification;
+use DateTime;
 
 class APIBookingController extends BaseApiController
 {
@@ -142,6 +143,32 @@ class APIBookingController extends BaseApiController
                 'booking_status'    => 'REQUESTED',
                 'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
             ]);
+
+
+            $startTime  = $bookingStartTime;
+            $endTime    = $bookingEndTime;
+
+            $query = $this->repository->model->where([
+                'sitter_id'  => $request->get('sitter_id'),
+            ]);
+
+            if($startTime)
+            {
+                $query->where(function($q) use($startTime, $endTime)
+                {
+                    $q->whereBetween('booking_start_time',  [$startTime, $endTime])
+                    ->orWhereBetween('booking_end_time',  [$startTime, $endTime]);
+                });
+            }
+
+            $timeAllow = $query->get();
+
+            if(isset($timeAllow) && count($timeAllow))
+            {
+                return $this->setStatusCode(400)->failureResponse([
+                    'reason' => 'Sitter is already Booked, Please Select any other Sitter.'
+                    ], 'Sitter is already Booked, Please Select any other Sitter.');
+            }
 
             $model = $this->repository->create($input);
 

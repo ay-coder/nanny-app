@@ -8,6 +8,7 @@ use App\Repositories\Sitters\EloquentSittersRepository;
 use App\Repositories\Booking\EloquentBookingRepository;
 use App\Models\Booking\Booking;
 use App\Models\Sitters\Sitters;
+use DateTime;
 
 class APISittersController extends BaseApiController
 {
@@ -75,10 +76,59 @@ class APISittersController extends BaseApiController
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
         $items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $bookingRepo = new EloquentBookingRepository;
 
         if(isset($items) && count($items))
-        {
-            $itemsOutput = $this->sittersTransformer->transformCollection($items);
+        {   
+            $sitters = [];
+            if($request->has('start_time') && $request->has('end_time'))
+            {
+                $input              = $request->all();
+                $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d H:i:s');
+                $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['start_time']));
+                $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['end_time']));
+                $blockSitterIds     = [];
+
+                foreach($items as $item)
+                {
+                    if(in_array($item->user_id, $blockSitterIds))
+                    {
+                        continue;
+                    }
+
+                    $startTime  = $bookingStartTime;
+                    $endTime    = $bookingEndTime;
+
+                    $query = $bookingRepo->model->where([
+                        'sitter_id'  => $item->user_id,
+                    ]);
+
+                    if($startTime)
+                    {
+                        $query->where(function($q) use($startTime, $endTime)
+                            {
+                                $q->whereBetween('booking_start_time',  [$startTime, $endTime])
+                                ->orWhereBetween('booking_end_time',  [$startTime, $endTime]);
+                            });
+                    }
+
+                    $timeAllow = $query->first();
+
+                    if(isset($timeAllow) && count($timeAllow))
+                    {
+                        $blockSitterIds[] = $item->user_id;
+                        continue;
+                    }
+
+                    $sitters[] = $item;
+                }
+            }
+            else
+            {
+                $sitters  = $items;
+            }
+
+            $itemsOutput = $this->sittersTransformer->transformCollection($sitters);
 
             return $this->successResponse($itemsOutput);
         }
