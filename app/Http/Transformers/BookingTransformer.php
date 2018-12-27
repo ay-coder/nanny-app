@@ -203,14 +203,17 @@ class BookingTransformer extends Transformer
                 'payment_status'    => isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
             ];
 
-            $babyData[] = [
-                'baby_id'       => (int) $baby->id,
-                "title"         =>  isset($baby->title) ? $baby->title : '',
-                "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
-                "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
-                "description"   =>  isset($baby->description) ? $baby->description : '',
-                "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
-            ];
+            if(isset($baby->id))
+            {
+                $babyData[] = [
+                    'baby_id'       => (int) $baby->id,
+                    "title"         =>  isset($baby->title) ? $baby->title : '',
+                    "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
+                    "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
+                    "description"   =>  isset($baby->description) ? $baby->description : '',
+                    "image"         =>  URL::to('/').'/uploads/babies/'.$baby->image
+                ];
+            }
 
             if($item->is_multiple == 1 && isset($item->baby_ids))
             {
