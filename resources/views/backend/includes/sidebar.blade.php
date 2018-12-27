@@ -58,6 +58,13 @@
                 </a>
             </li>
 
+            <li class="{{ active_class(Active::checkUriPattern('admin/plans')) }}">
+                <a href="{{ route('admin.plans.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Plans</span>
+                </a>
+            </li>
+
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)

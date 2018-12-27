@@ -27,6 +27,12 @@ class Sitters extends BaseModel
         "id", "user_id", "vacation_mode", "category", "about_me", "description", 
         "sitter_start_time", "sitter_end_time",
         "created_at", "updated_at", 
+        "hourly_rate", 
+        "account_holder_name",
+        "account_number",
+        "aba_number",
+        "bank_name",
+        "bank_address"
     ];
 
     /**

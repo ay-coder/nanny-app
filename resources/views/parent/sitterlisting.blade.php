@@ -14,26 +14,32 @@
 <div class="search-result">
     <!-- Searched items start -->
     <ul class="row">
-        @foreach($sitters as $sitter)
-            <li class="col-md-4">
-                <div class="user vertical white-box">
-                    <div class="img-wrap">
-                        <img src="{{ url('/uploads/user/'. $sitter['user']->profile_pic) }}" alt="Profile Pic">
-                    </div>
-                    <div class="content-wrap">
-                        <h5>{{ $sitter['user']->name }}</h3>
-                        <div class="rating-review">
-                            
-
-                            <span class="rating-wrap"><span class="rating" style="width: {{ AvgRating(null, $sitter['user']->id) * 20 }}%;"></span></span>
-                            
-                            <span class="total-review">({{ $sitter['reviews']->count() }} Reviews)</span>
+        @if(isset($sitters) && count($sitters))
+            @foreach($sitters as $sitter)
+                <li class="col-md-4">
+                    <div class="user vertical white-box">
+                        <div class="img-wrap">
+                            <img src="{{ url('/uploads/user/'. $sitter['user']->profile_pic) }}" alt="Profile Pic">
                         </div>
-                        <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter['user']->id]) }}" class="btn btn-default">Book Nanny</a>
+                        <div class="content-wrap">
+                            <h5>{{ $sitter['user']->name }}</h3>
+                            <div class="rating-review">
+                                
+
+                                <span class="rating-wrap"><span class="rating" style="width: {{ AvgRating(null, $sitter['user']->id) * 20 }}%;"></span></span>
+                                
+                                <span class="total-review">({{ $sitter['reviews']->count() }} Reviews)</span>
+                            </div>
+                            <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter['user']->id]) }}" class="btn btn-default">Book Nanny</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-        @endforeach
+                </li>
+            @endforeach
+        @else
+            <div class="alert alert-info">
+                No Sitters Found for Selected Date/Time!
+            </div>
+        @endif
     </ul>
     <!-- Searched items End -->
 

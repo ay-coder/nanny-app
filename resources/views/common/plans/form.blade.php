@@ -9,7 +9,7 @@
     <div class="form-group">
         {{ Form::label('amount', 'Amount :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('amount', null, ['class' => 'form-control', 'placeholder' => 'Amount', 'required' => 'required']) }}
+            {{ Form::number('amount', null, ['min' => 0, 'step' => 1, 'class' => 'form-control', 'placeholder' => 'Amount', 'required' => 'required']) }}
         </div>
     </div>
 </div><div class="box-body">

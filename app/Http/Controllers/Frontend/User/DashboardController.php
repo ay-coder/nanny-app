@@ -39,8 +39,59 @@ class DashboardController extends Controller
     {
         $input = $request->all();
         $repository = new EloquentSittersRepository();
+        $bookingRepo = new EloquentBookingRepository();
         session(['find_sitter' => $request->except('_token')]);
-        $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
+
+        
+        
+
+        $items = $repository->model->get();
+        $bookingDate        = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
+        $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d');
+        $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
+        $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
+
+
+        $sitters        = [];
+        $blockSitterIds = [];
+        $allowedSitterIds = [];
+        foreach($items as $item)
+        {
+            if(in_array($item->user_id, $blockSitterIds))
+            {
+                continue;
+            }
+
+            $startTime  = $bookingStartTime;
+            $endTime    = $bookingEndTime;
+
+            $query = $bookingRepo->model->where([
+                'sitter_id'  => $item->user_id,
+            ]);
+
+            if($startTime)
+            {
+                $query->where(function($q) use($startTime, $endTime)
+                    {
+                        $q->whereBetween('booking_start_time',  [$startTime, $endTime])
+                        ->orWhereBetween('booking_end_time',  [$startTime, $endTime]);
+                    });
+            }
+
+            $timeAllow = $query->first();
+
+            if(isset($timeAllow) && count($timeAllow))
+            {
+                $blockSitterIds[] = $item->user_id;
+                continue;
+            }
+
+            $allowedSitterIds[] = $item->user_id;
+        }
+        
+        $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])
+        ->whereIn('user_id', $allowedSitterIds)
+        ->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
 
         return view('parent.sitterlisting', compact('sitters', 'input'));
     }
@@ -97,6 +148,12 @@ class DashboardController extends Controller
                 $input['baby_ids']    = implode(",", $babyIds);
             }
 
+            
+
+            $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d');
+            $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
+            $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
+
             $input['sitter_id'] = $request->sitter_id;
             $input              = array_merge($input, [
                 'user_id'             => access()->user()->id,
@@ -105,6 +162,8 @@ class DashboardController extends Controller
                 'is_pet'            => isset($input['is_pet']) ? $input['is_pet'] : 0,
                 'start_time'         => date('H:i:s', strtotime($input['start_time'])),
                 'end_time'           => date('H:i:s', strtotime($input['end_time'])),
+                'booking_start_time' => $bookingStartTime,
+                'booking_end_time'  => $bookingEndTime,
                 'booking_status'     => 'REQUESTED',
                 'parking_fees'       => isset($input['parking_fees']) ? $input['parking_fees'] : 0
             ]);

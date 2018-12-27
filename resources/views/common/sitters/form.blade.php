@@ -53,6 +53,15 @@
 
 </div>
 
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('hourly_rate', 'Per Hour:', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::number('hourly_rate', null, ['min' => 0 , 'step' => 1, 'class' => 'form-control', 'required' => 'required']) }}
+        </div>
+    </div>
+
+</div>
 
 <div class="box-body">
     <div class="form-group">
@@ -79,7 +88,44 @@
     </div>
 </div>
 
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('account_number', 'Account Number :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('account_number', null, ['class' => 'form-control', 'placeholder' => 'Account Number', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
 
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('aba_number', 'ABA Number :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('aba_number', null, ['class' => 'form-control', 'placeholder' => 'ABA Number ', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('bank_name', 'Bank Name :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('bank_name', null, ['class' => 'form-control', 'placeholder' => 'Bank Name', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('bank_address', 'Bank Address :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::textarea('bank_address', null, ['class' => 'form-control', 'placeholder' => 'Bank Address', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
 
 <div class="box-body">
     <div class="form-group">

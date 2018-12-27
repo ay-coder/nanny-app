@@ -306,6 +306,13 @@ class Access
 
     public function getSitterPerHour($sitterId = null)
     {
+        $sitter = Sitters::where('id', $sitterId)->first();
+
+        if(isset($sitter))
+        {
+            return $sitter->hourly_rate;
+        }
+        
         return 10;
     }
 
@@ -381,5 +388,18 @@ class Access
             }
         }
         return true;
+    }
+
+    /**
+     * Get My Availabe Booknigs
+     * 
+     * @param int $userId
+     * @return int
+     */
+    public function getMyAvailabeBooknigs($userId = null)
+    {
+        $activation = Activation::where('user_id', $userId)->orderBy('id', 'desc')->get();
+
+        return $activation->sum('allowed_bookings');
     }
 }

@@ -7,6 +7,8 @@
         @if(!empty($activationInfo))
             <div class="alert alert-success text-left alert-fadeout mt-25">
                 You are already subscribed with {{ $activationInfo['plan']->sub_title }} Plan.
+                <br>
+                Booking Left : {!! access()->getMyAvailabeBooknigs(access()->user()->id) !!}
             </div>
         @endif
         <div class="row">
