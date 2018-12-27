@@ -267,7 +267,6 @@ class UsersController extends BaseApiController
             return $this->socialLogin($request);
         }
 
-
         $validator = Validator::make($request->all(), [
             'email'             => 'required|unique:users|max:255',
             'social_token'      => 'required|unique:users|max:255',
