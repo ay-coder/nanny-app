@@ -100,8 +100,13 @@
                             </tr>
 
                             <tr class="grand-total">
+                                <td><span>Parking</span>Amount</td>
+                                <td class="price-info">${{ $booking->parking_fees }}</td>
+                            </tr>
+
+                            <tr class="grand-total">
                                 <td><span>Total</span>Amount</td>
-                                <td class="price-info">${{ isset($booking['payment']) ?  $booking['payment']->total + $booking['payment']->tip  : 0 }}</td>
+                                <td class="price-info">${{ isset($booking['payment']) ?  $booking['payment']->total + $booking->parking_fees + $booking['payment']->tip  : 0 }}</td>
                             </tr>
                         </tbody>
                     </table>
