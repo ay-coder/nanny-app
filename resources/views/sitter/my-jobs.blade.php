@@ -87,11 +87,8 @@
                                                     <a href="{{ route('frontend.user.sitter.job.cancel', ['job_id' => $currentJob->id]) }}" class="btn btn-cancel btn-sm">Cancel
                                                     </a>
 
-                                                    @if($currentJob->booking_date == date('Y-m-d'))
+                                                    
                                                     <a href="{{ route('frontend.user.sitter.job.start', ['job_id' => $currentJob->id]) }}" class="btn btn-start btn-sm active">Start</a>
-                                                    @else
-                                                        <a href="javascript:void(0);" class="btn btn-start btn-sm disabled">Start</a>
-                                                    @endif
                                                 @else
                                                     <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_start_time)->format('h:i A') }}</span>
                                                     @if($currentJob->booking_status == 'STARTED')
