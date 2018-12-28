@@ -92,8 +92,17 @@ class AdminMessagesController extends Controller
     {
         $item = $this->repository->findOrThrowException($id);
 
+        $messages = $this->repository->model->where([
+            'from_user_id'  => $item->from_user_id,
+            'to_user_id'    => $item->to_user_id
+        ])->orWhere([
+            'from_user_id'  => $item->to_user_id,
+            'to_user_id'    => $item->from_user_id
+        ])->orderBy('id', 'desc')->get();
+
         return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
             'item'          => $item,
+            'messages'      => $messages,
             'repository'    => $this->repository
         ]);
     }
@@ -120,10 +129,14 @@ class AdminMessagesController extends Controller
      * @return \Illuminate\View\View
      */
     public function update($id, Request $request)
-    {
-        $status = $this->repository->update($id, $request->all());
+    {   
+        $status = $this->repository->model->create([
+            'from_user_id'  => 1,
+            'to_user_id'    => $request->get('to_user_id'),
+            'messages'      => $request->get('message')
+        ]);
 
-        return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->editSuccessMessage);
+        return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess('Replied Successfully!');
     }
 
     /**

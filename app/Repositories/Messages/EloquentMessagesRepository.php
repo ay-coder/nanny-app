@@ -270,7 +270,25 @@ class EloquentMessagesRepository extends DbRepository
      */
     public function getForDataTable()
     {
-        return $this->model->select($this->getTableFields())->get();
+        return $this->model->orderBy('id', 'desc')->get();
+        $collection = $this->model->orderBy('id', 'desc')->get();
+        $output     = [];
+        $fromId     = [];
+
+        foreach($collection as $message)
+        {
+            $checkUserId = $message->from_user_id == 1 ? $message->to_user_id : $message->from_user_id ;
+            
+            if(! in_array($checkUserId, $fromId) && !in_array($checkUserId, $fromId))
+            {
+                $output[] = $message;
+                $fromId[] = $message->from_user_id;
+                $fromId[] = $message->to_user_id;
+            }
+            
+        }
+
+        return collect($output);
     }
 
     /**

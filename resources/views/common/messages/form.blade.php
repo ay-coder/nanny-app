@@ -1,43 +1,64 @@
+
 <div class="box-body">
+
+    
+    @if(isset($messages) && count($messages))
+        @foreach($messages as $message)
+
+            @if($message->from_user_id == 1)
+                <div class="col-md-12">
+                    <div class="chat-message">
+                        <span class="msg">
+                            {!! $message->message !!}                            
+                        </span><span class="time">
+                        {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                        Admin
+                        </span>
+                    </div>
+                </div>
+
+                @if($message->is_image)
+                    <div class="col-md-12">
+                        <div class="chat-message">
+                        <span class="msg image">
+                            <img src="{!! URL::to('/').'/uploads/messages/'.$message->image !!}" alt="">
+                        </span>
+                        <span class="time">
+                            {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                        </span></div>
+                    </div>
+                @endif
+            @else
+                <div class="chat-message your-msg">
+                    <span class="msg">
+                        {!! $message->message !!} 
+                    </span>
+                    <span class="time">
+                        {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                    </span></div> 
+
+                    @if($message->is_image)
+                        <div class="chat-message your-msg">
+                        <span class="msg image">
+                            <img src="{!! URL::to('/').'/uploads/messages/'.$message->image !!}" alt="">
+                        </span>
+                        <span class="time">
+                            {!! date('m-d-Y H:i a', strtotime($message->created_at)) !!}
+                        </span></div>
+                    @endif
+            @endif
+
+        @endforeach
+    @endif
+    
+
     <div class="form-group">
-        {{ Form::label('from_user_id', 'From User Id :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('message', 'Message:', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('from_user_id', null, ['class' => 'form-control', 'placeholder' => 'From User Id', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('to_user_id', 'To User Id :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('to_user_id', null, ['class' => 'form-control', 'placeholder' => 'To User Id', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('image', 'Image :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('image', null, ['class' => 'form-control', 'placeholder' => 'Image', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('message', 'Message :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('message', null, ['class' => 'form-control', 'placeholder' => 'Message', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('is_image', 'Is Image :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('is_image', null, ['class' => 'form-control', 'placeholder' => 'Is Image', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('is_read', 'Is Read :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('is_read', null, ['class' => 'form-control', 'placeholder' => 'Is Read', 'required' => 'required']) }}
+            {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Message', 'required' => 'required']) }}
         </div>
     </div>
 </div>
+
+{{ Form::hidden('to_user_id', null) }}
+
