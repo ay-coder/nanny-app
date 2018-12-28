@@ -51,6 +51,17 @@
         </div>
         <!-- Select Location End -->
 
+        <div class="form-row">
+            <div class="form-group col-md-4 dropdown">
+                <label class="control-label" for="date">Parking Fees</label>
+                <input type="number" value="0" step="0.1" name="parking_fees" class="form-control" required="required" placeholder="Parking Fees">
+            </div>
+            {{-- <div class="form-group col-md-4 dropdown">
+                <label class="control-label" for="date">End Date</label>
+                <input type="text" name="end_booking_date" class="form-control futuredate" required="required" placeholder="dd/mm/yyyy">
+            </div> --}}
+        </div>
+
         <!-- Select Baby List start -->
         <div class="form-group baby-list">
             <div class="row">

@@ -99,7 +99,7 @@
                         </div>
                         <!-- Time Display Start -->
                         @php
-                            $subTotal = (access()->getSitterPerHour()) * (round((strtotime($booking->booking_end_time) - strtotime($booking->booking_start_time))/3600, 1));
+                            $subTotal = $booking->parking_fees + (access()->getSitterPerHour()) * (round((strtotime($booking->booking_end_time) - strtotime($booking->booking_start_time))/3600, 1));
                         @endphp
                         <!-- Price Display Start -->
                         <div class="price-display">${{ $subTotal }}</div>
@@ -132,6 +132,14 @@
                                         </tr>
                                         <tr class="price-row">
                                             <td>
+                                                Parking Fees
+                                            </td>
+                                            <td class="price">
+                                                ${{ $booking->parking_fees }}
+                                            </td>
+                                        </tr>
+                                        <tr class="price-row">
+                                            <td>
                                                 Tip Amount
                                             </td>
                                             <td class="price">
@@ -146,7 +154,7 @@
                                             </td>
                                             <td class="price">
                                                 $<span id="show_total_amount">{{ $subTotal }}</span>
-                                                {{ Form::hidden('total_amount' , $subTotal, ['id' => 'total_amount']) }}
+                                                {{ Form::hidden('total_amount' , $subTotal + $booking->parking_fees, ['id' => 'total_amount']) }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -191,7 +199,10 @@
         {
             $tipValue = parseFloat($tipValue);
             $('#show_tip_amount').html($tipValue);
-            var $totalValue = $tipValue + parseFloat($('#sub_total').val());
+
+            var $totalValue = $tipValue + parseFloat($('#sub_total').val())  + parseFloat($('#parking_fees').val());
+
+
             $('#show_total_amount').html($totalValue);
             $('#total_amount').val($totalValue);
         } else {

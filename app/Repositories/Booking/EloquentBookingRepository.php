@@ -347,9 +347,7 @@ class EloquentBookingRepository extends DbRepository
 
         $output = collect($result);
 
-        return $output->sortBy($orderBy);
-
-        return $all->sortBy($orderBy);
+        return $output->sortByDesc($orderBy);
     }
 
     /**
