@@ -144,6 +144,7 @@ class BookingTransformer extends Transformer
             $baby           = (object) $item->baby;
             $review         = (object) $item->review;
             $payment        = (object) $item->payment;
+            $babyData       = [];
             $paymentData    = (object) [];
             $reviewData     = (object) [];
 
