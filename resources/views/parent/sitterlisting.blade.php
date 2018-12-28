@@ -19,7 +19,9 @@
                 <li class="col-md-4">
                     <div class="user vertical white-box">
                         <div class="img-wrap">
-                            <img src="{{ url('/uploads/user/'. $sitter['user']->profile_pic) }}" alt="Profile Pic">
+                            @if(isset($sitter['user']))
+                                <img src="{{ url('/uploads/user/'. $sitter['user']->profile_pic) }}" alt="Profile Pic">
+                            @endif
                         </div>
                         <div class="content-wrap">
                             <h5>{{ $sitter['user']->name }}</h3>

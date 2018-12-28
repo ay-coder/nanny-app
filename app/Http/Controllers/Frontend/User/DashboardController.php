@@ -43,11 +43,27 @@ class DashboardController extends Controller
         session(['find_sitter' => $request->except('_token')]);
 
         
-        
+        $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
+
+
+
+        if($request->has('booking_end_date'))
+        {
+            $bookingEndDate = $request->get('booking_end_date');
+
+            if(strtotime($bookingDate) > strtotime($bookingEndDate))
+            {
+                $bookingEndDate = $bookingDate;
+            }
+        }
+        else
+        {
+            $bookingEndDate = $bookingDate;
+        }
 
         $items = $repository->model->get();
-        $bookingDate        = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
-        $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d');
+        
+        $bookingEndDate     = $bookingEndDate;
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
         $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
 
@@ -79,6 +95,7 @@ class DashboardController extends Controller
             }
 
             $timeAllow = $query->first();
+           
 
             if(isset($timeAllow) && count($timeAllow))
             {
