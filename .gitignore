@@ -19,3 +19,6 @@ error.log
 Todo.rtf
 .vagrant
 /.vagrant
+
+public/uploads
+/public/uploads/

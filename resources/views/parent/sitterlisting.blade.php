@@ -21,19 +21,19 @@
                     <div class="user vertical white-box">
                         <div class="img-wrap">
                             @if(isset($sitter['user']))
-                                <img src="{{ url('/uploads/user/'. $sitter['user']->profile_pic) }}" alt="Profile Pic">
+                                <img src="{{ url('/uploads/user/'. $sitter->user->profile_pic) }}" alt="Profile Pic">
                             @endif
                         </div>
                         <div class="content-wrap">
-                            <h5>{{ $sitter['user']->name }}</h3>
+                            <h5>{{ isset($sitter->user) ? $sitter->user->name : '' }}</h3>
                             <div class="rating-review">
                                 
 
-                                <span class="rating-wrap"><span class="rating" style="width: {{ AvgRating(null, $sitter['user']->id) * 20 }}%;"></span></span>
+                                <span class="rating-wrap"><span class="rating" style="width: {{ AvgRating(null, $sitter->user_id) * 20 }}%;"></span></span>
                                 
-                                <span class="total-review">({{ $sitter['reviews']->count() }} Reviews)</span>
+                                <span class="total-review">({{ count($sitter->reviews) }} Reviews)</span>
                             </div>
-                            <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter['user']->id]) }}" class="btn btn-default">Book Nanny</a>
+                            <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter->user_id]) }}" class="btn btn-default">Book Nanny</a>
                         </div>
                     </div>
                     </li>

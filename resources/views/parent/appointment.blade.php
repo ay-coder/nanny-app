@@ -76,6 +76,9 @@
                                                     Pay
                                                 </a>
                                             @else
+                                                @if($up->booking_status == 'ACCEPTED')
+                                                <a href="{{ route('frontend.user.parent.appointment.delete', ['id' => $up->id]) }}" class="btn btn-cancel btn-sm">  cancel</a>
+                                                @endif
                                                 <a href="javascript:void(0);" class="btn btn-pending btn-sm">{{ ucfirst($up->booking_status) }}</a>
                                             @endif
                                         @endif

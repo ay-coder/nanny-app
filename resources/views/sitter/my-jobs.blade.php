@@ -83,7 +83,7 @@
                                                 <a href="{{ route('frontend.user.sitter.booking.reject', ['booking_id' => $currentJob->id]) }}" class="btn btn-reject btn-sm">Reject</a>
                                                 <a href="{{ route('frontend.user.sitter.booking.accept', ['booking_id' => $currentJob->id]) }}" class="btn btn-accept btn-sm">Accept</a>
                                             @else
-                                                @if(empty($currentJob->booking_start_time))
+                                                @if($currentJob->booking_status == 'ACCEPTED')
                                                     <a href="{{ route('frontend.user.sitter.job.cancel', ['job_id' => $currentJob->id]) }}" class="btn btn-cancel btn-sm">Cancel
                                                     </a>
 
@@ -94,7 +94,7 @@
                                                     @endif
                                                 @else
                                                     <span class="time-info">{{ Carbon\Carbon::parse($currentJob->booking_start_time)->format('h:i A') }}</span>
-                                                    @if(empty($currentJob->booking_end_time))
+                                                    @if($currentJob->booking_status == 'STARTED')
                                                         <a href="{{ route('frontend.user.sitter.job.stop', ['job_id' => $currentJob->id]) }}" class="btn btn-stop btn-sm">Stop</a>
                                                     @else
                                                         <span class="time-info">
