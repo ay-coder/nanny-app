@@ -16,10 +16,8 @@
     <ul class="row">
         @if(isset($sitters) && count($sitters))
             @foreach($sitters as $sitter)
-                @if(!isset($sitter))
-                    {!! continue !!}
-                @endif
-                <li class="col-md-4">
+                @if(isset($sitter))
+                    <li class="col-md-4">
                     <div class="user vertical white-box">
                         <div class="img-wrap">
                             @if(isset($sitter['user']))
@@ -38,7 +36,8 @@
                             <a href="{{ route('frontend.user.parent.findsitter', ['id' => $sitter['user']->id]) }}" class="btn btn-default">Book Nanny</a>
                         </div>
                     </div>
-                </li>
+                    </li>
+                @endif
             @endforeach
         @else
             <div class="alert alert-info">
