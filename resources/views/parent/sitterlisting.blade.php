@@ -16,6 +16,9 @@
     <ul class="row">
         @if(isset($sitters) && count($sitters))
             @foreach($sitters as $sitter)
+                @if(!isset($sitter))
+                    {!! continue !!}
+                @endif
                 <li class="col-md-4">
                     <div class="user vertical white-box">
                         <div class="img-wrap">
