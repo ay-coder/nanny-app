@@ -61,67 +61,67 @@ class EloquentBookingRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'username' =>   [
+        'username' =>   [
                 'data'          => 'username',
                 'name'          => 'username',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'sitter_id' =>   [
+        'sitter_id' =>   [
                 'data'          => 'sitter_id',
                 'name'          => 'sitter_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'baby_id' =>   [
+        'baby_id' =>   [
                 'data'          => 'baby_id',
                 'name'          => 'baby_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'is_multiple' =>   [
+        'is_multiple' =>   [
                 'data'          => 'is_multiple',
                 'name'          => 'is_multiple',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_date' =>   [
+        'booking_date' =>   [
                 'data'          => 'booking_date',
                 'name'          => 'booking_date',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'start_time' =>   [
+        'start_time' =>   [
                 'data'          => 'start_time',
                 'name'          => 'start_time',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'end_time' =>   [
+        'end_time' =>   [
                 'data'          => 'end_time',
                 'name'          => 'end_time',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_start_time' =>   [
+        'booking_start_time' =>   [
                 'data'          => 'booking_start_time',
                 'name'          => 'booking_start_time',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_end_time' =>   [
+        'booking_end_time' =>   [
                 'data'          => 'booking_end_time',
                 'name'          => 'booking_end_time',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'booking_status' =>   [
+        'booking_status' =>   [
                 'data'          => 'booking_status',
                 'name'          => 'booking_status',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'actions' => [
+        'actions' => [
             'data'          => 'actions',
             'name'          => 'actions',
             'searchable'    => false,
@@ -316,22 +316,38 @@ class EloquentBookingRepository extends DbRepository
     {
         $parentId = Auth::user()->id;
 
-
         $completed = $this->model->whereIn('booking_status', ['COMPLETED'])
             ->with(['user', 'sitter', 'baby', 'payment', 'review'])
-            ->leftjoin('data_payments', 'data_payments.booking_id', 'data_bookings.id')
             ->where('user_id', $parentId)
-            ->where('data_payments.payment_status', '!=', null) 
             ->orderBy($orderBy, $sort)
             ->get();
 
-         $canceled = $this->model->whereIn('booking_status', [ 'CANCELED'])
+        $canceled = $this->model->whereIn('booking_status', [ 'CANCELED'])
             ->with(['user', 'sitter', 'baby', 'payment', 'review'])
             ->where('user_id', $parentId)
             ->orderBy($orderBy, $sort)
             ->get();
 
-        $all = $completed->merge($canceled);
+        $result = [];
+
+        foreach($completed as $c)
+        {
+            if(isset($c->payment) && isset($c->payment->payment_status))
+            {
+                $result[] = $c;
+            }
+        }
+
+
+        foreach($canceled as $cd)
+        {
+            $result[] = $cd;
+        }
+
+
+        $output = collect($result);
+
+        return $output->sortBy($orderBy);
 
         return $all->sortBy($orderBy);
     }
