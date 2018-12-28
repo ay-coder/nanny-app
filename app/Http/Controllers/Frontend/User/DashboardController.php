@@ -45,8 +45,6 @@ class DashboardController extends Controller
         
         $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
 
-
-
         if($request->has('booking_end_date'))
         {
             $bookingEndDate = $request->get('booking_end_date');
@@ -83,7 +81,7 @@ class DashboardController extends Controller
 
             $query = $bookingRepo->model->where([
                 'sitter_id'  => $item->user_id,
-            ]);
+            ])->whereIn('booking_status', [ 'REQUESTED', 'CANCELED', 'PENDING']);
 
             if($startTime)
             {
