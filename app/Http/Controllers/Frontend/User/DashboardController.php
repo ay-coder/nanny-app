@@ -163,11 +163,10 @@ class DashboardController extends Controller
                 $input['baby_ids']    = implode(",", $babyIds);
             }
 
-            
-
-            $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : date('Y-m-d');
+            $bookingEndDate     = $request->has('booking_end_date') ? $request->get('booking_end_date') : $bookingDate;
             $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
             $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
+
 
             $input['sitter_id'] = $request->sitter_id;
             $input              = array_merge($input, [
