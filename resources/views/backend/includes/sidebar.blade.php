@@ -65,6 +65,13 @@
                 </a>
             </li>
 
+            <li class="{{ active_class(Active::checkUriPattern('admin/activation')) }}">
+                <a href="{{ route('admin.activation.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Activation</span>
+                </a>
+            </li>
+
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)

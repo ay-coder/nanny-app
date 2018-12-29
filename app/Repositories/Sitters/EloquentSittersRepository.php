@@ -40,7 +40,6 @@ class EloquentSittersRepository extends DbRepository
         'vacation_mode' => 'Vacation Mode',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
-        'hourly_rate'      => 'Per Hour',
         'account_number'     => 'Account Number',
         'aba_number'     => 'ABA Number',
         'bank_name'     => 'Bank Name',
@@ -94,12 +93,6 @@ class EloquentSittersRepository extends DbRepository
 		'about_me' =>   [
                 'data'          => 'about_me',
                 'name'          => 'about_me',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-        'hourly_rate' =>   [
-                'data'          => 'hourly_rate',
-                'name'          => 'hourly_rate',
                 'searchable'    => true,
                 'sortable'      => true
             ],

@@ -1,4 +1,4 @@
-<?php namespace App\Models\Activation\Traits\Attribute;
+<?php namespace App\Models\General\Traits\Attribute;
 
 /**
  * Trait Attribute
@@ -6,7 +6,7 @@
  * @author Anuj Jaha ( er.anujjaha@gmail.com )
  */
 
-use App\Repositories\Activation\EloquentActivationRepository;
+use App\Repositories\General\EloquentGeneralRepository;
 
 trait Attribute
 {
@@ -38,7 +38,7 @@ trait Attribute
      */
     public function getActionButtonsAttribute()
     {
-        $repository = new EloquentActivationRepository;
+        $repository = new EloquentGeneralRepository;
         $routes     = $repository->getModuleRoutes();
 
         return $this->getEditButtonAttribute($routes, $repository->clientRoutePrefix) . $this->getDeleteButtonAttribute($routes, $repository->clientRoutePrefix);
@@ -49,10 +49,11 @@ trait Attribute
      */
     public function getAdminActionButtonsAttribute()
     {
-        return 'N/A';
-        $repository = new EloquentActivationRepository;
+        $repository = new EloquentGeneralRepository;
         $routes     = $repository->getModuleRoutes();
 
-        return $this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true) . $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
+        return $this->getEditButtonAttribute($routes, $repository->adminRoutePrefix, true);
+
+        //. $this->getDeleteButtonAttribute($routes, $repository->adminRoutePrefix);
     }
 }

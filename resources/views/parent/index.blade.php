@@ -40,6 +40,9 @@
 
         <!-- Select Location start -->
         <div class="form-group select-location">
+        <hr>
+            <label class="control-label" for="date">Pet</label>
+            <br>
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" id="is_pet_yes" value="1" name="is_pet" required="required" checked="checked" class="custom-control-input">
                 <label class="custom-control-label" for="is_pet_yes">Yes</label>

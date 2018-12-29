@@ -10,6 +10,7 @@ use App\Models\Sitters\Sitters;
 use App\Library\Push\PushNotification;
 use App\Models\Activation\Activation;
 use App\Models\Booking\Booking;
+use App\Models\General\General;
 
 /**
  * Class Access.
@@ -306,14 +307,9 @@ class Access
 
     public function getSitterPerHour($sitterId = null)
     {
-        $sitter = Sitters::where('id', $sitterId)->first();
+        $value =  General::where('data_key', 'sitter_hourly_rate')->select('data_value')->first();
 
-        if(isset($sitter))
-        {
-            return $sitter->hourly_rate;
-        }
-        
-        return 10;
+        return $value->data_value;
     }
 
     /**
@@ -401,5 +397,23 @@ class Access
         $activation = Activation::where('user_id', $userId)->orderBy('id', 'desc')->get();
 
         return $activation->sum('allowed_bookings');
+    }
+
+    /**
+     * Get Config Value
+     * 
+     * @param string $key
+     * @return mixed
+     */
+    public function getConfigValue($key = null)
+    {
+        if($key)
+        {
+            $value =  General::where('data_key', $key)->select('data_value')->first();
+
+            return $value->data_value;
+
+        }
+        return '';
     }
 }

@@ -1,33 +1,30 @@
-<?php namespace App\Repositories\Activation;
+<?php namespace App\Repositories\General;
 
 /**
- * Class EloquentActivationRepository
+ * Class EloquentGeneralRepository
  *
  * @author Anuj Jaha ( er.anujjaha@gmail.com)
  */
 
-use App\Models\Activation\Activation;
+use App\Models\General\General;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
-use App\Models\Plans\Plans;
-use Cartalyst\Stripe\Stripe;
-use App\Models\Access\User\User;
 
-class EloquentActivationRepository extends DbRepository
+class EloquentGeneralRepository extends DbRepository
 {
     /**
-     * Activation Model
+     * General Model
      *
      * @var Object
      */
     public $model;
 
     /**
-     * Activation Title
+     * General Title
      *
      * @var string
      */
-    public $moduleTitle = 'Activation';
+    public $moduleTitle = 'General';
 
     /**
      * Table Headers
@@ -36,10 +33,10 @@ class EloquentActivationRepository extends DbRepository
      */
     public $tableHeaders = [
         'id'        => 'Id',
-        'username'        => 'Parent',
-        'plan_title'        => 'Plan',
-        'allowed_bookings'        => 'Allowed_bookings',
-        "actions"         => "Actions"
+'data_key'        => 'Entity',
+'data_value'        => 'Value',
+'updated_at'        => 'Updated_at',
+"actions"         => "Actions"
     ];
 
     /**
@@ -54,21 +51,21 @@ class EloquentActivationRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'username' =>   [
-                'data'          => 'username',
-                'name'          => 'username',
+		'data_key' =>   [
+                'data'          => 'data_key',
+                'name'          => 'data_key',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'plan_title' =>   [
-                'data'          => 'plan_title',
-                'name'          => 'plan_title',
+		'data_value' =>   [
+                'data'          => 'data_value',
+                'name'          => 'data_value',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'allowed_bookings' =>   [
-                'data'          => 'allowed_bookings',
-                'name'          => 'allowed_bookings',
+		'updated_at' =>   [
+                'data'          => 'updated_at',
+                'name'          => 'updated_at',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -121,13 +118,13 @@ class EloquentActivationRepository extends DbRepository
      * @var array
      */
     public $moduleRoutes = [
-        'listRoute'     => 'activation.index',
-        'createRoute'   => 'activation.create',
-        'storeRoute'    => 'activation.store',
-        'editRoute'     => 'activation.edit',
-        'updateRoute'   => 'activation.update',
-        'deleteRoute'   => 'activation.destroy',
-        'dataRoute'     => 'activation.get-list-data'
+        'listRoute'     => 'general.index',
+        'createRoute'   => 'general.create',
+        'storeRoute'    => 'general.store',
+        'editRoute'     => 'general.edit',
+        'updateRoute'   => 'general.update',
+        'deleteRoute'   => 'general.destroy',
+        'dataRoute'     => 'general.get-list-data'
     ];
 
     /**
@@ -136,10 +133,10 @@ class EloquentActivationRepository extends DbRepository
      * @var array
      */
     public $moduleViews = [
-        'listView'      => 'activation.index',
-        'createView'    => 'activation.create',
-        'editView'      => 'activation.edit',
-        'deleteView'    => 'activation.destroy',
+        'listView'      => 'general.index',
+        'createView'    => 'general.create',
+        'editView'      => 'general.edit',
+        'deleteView'    => 'general.destroy',
     ];
 
     /**
@@ -148,13 +145,11 @@ class EloquentActivationRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model        = new Activation;
-        $this->userModel    = new User;
-        $this->planModel    = new Plans;
+        $this->model = new General;
     }
 
     /**
-     * Create Activation
+     * Create General
      *
      * @param array $input
      * @return mixed
@@ -173,7 +168,7 @@ class EloquentActivationRepository extends DbRepository
     }
 
     /**
-     * Update Activation
+     * Update General
      *
      * @param int $id
      * @param array $input
@@ -194,7 +189,7 @@ class EloquentActivationRepository extends DbRepository
     }
 
     /**
-     * Destroy Activation
+     * Destroy General
      *
      * @param int $id
      * @return mixed
@@ -248,10 +243,7 @@ class EloquentActivationRepository extends DbRepository
     public function getTableFields()
     {
         return [
-            $this->model->getTable().'.*',
-            $this->userModel->getTable().'.name as username',
-            $this->planModel->getTable().'.title as plan_title'
-
+            $this->model->getTable().'.*'
         ];
     }
 
@@ -260,10 +252,7 @@ class EloquentActivationRepository extends DbRepository
      */
     public function getForDataTable()
     {
-        return  $this->model->select($this->getTableFields())
-                ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.user_id')
-                ->leftjoin($this->planModel->getTable(), $this->planModel->getTable().'.id', '=', $this->model->getTable().'.plan_id')
-                ->get();
+        return $this->model->select($this->getTableFields())->get();
     }
 
     /**
@@ -331,68 +320,5 @@ class EloquentActivationRepository extends DbRepository
         unset($clientColumns['username']);
 
         return json_encode($this->setTableStructure($clientColumns));
-    }
-
-    /**
-     * Add Payment
-     *
-     * @param int $planId
-     * @param string $token
-     * @param float $tip
-     */
-    public function addPayment($planId = null, $token = null, $tip = 0)
-    {
-        if($planId && $token)
-        {
-            $plan = Plans::where('id', $planId)->first();
-
-            if(isset($plan->id))
-            {
-                $total = (float) $plan->amount;
-
-                if(isset($plan) && $total > 0)
-                {
-                    $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
-                    
-                    $charge = $stripe->charges()->create([
-                        'amount'            => $total,
-                        'currency'          => 'usd',
-                        'description'       => 'Plan Purchase by Parent',
-                        'source'            => $token,
-                        'statement_descriptor' =>'Test Payment'
-                    ]);
-
-                    if($plan->plan_type == 'A')
-                    {
-                        $totalBookings = 1;
-                    }
-
-                    if($plan->plan_type == 'B')
-                    {
-                        $totalBookings = 10;
-                    }
-
-                    if($plan->plan_type == 'C')
-                    {
-                        $totalBookings = 10;
-                    }
-
-
-                    return $this->model->create([
-                        'user_id'           => access()->user()->id,
-                        'plan_id'           => $planId,
-                        'allowed_bookings'  => $totalBookings,
-                        'status'            => 1,
-                        'activated_at'      => date('Y-m-d H:i:s'),
-                        'payment_status'    => 1,
-                        'payment_via'       => "STRIPE - " . $charge['id'],
-                        'payment_details'   => $charge['statement_descriptor']
-                    ]);
-                }
-            }
-
-        }
-
-        return false;
     }
 }
