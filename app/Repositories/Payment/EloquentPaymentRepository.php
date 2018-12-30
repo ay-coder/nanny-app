@@ -398,7 +398,8 @@ class EloquentPaymentRepository extends DbRepository
         if($paymentId && $token)
         {
             $payment    = $this->model->where('id', $paymentId)->first();
-            $total      = (float) $payment->total + $tip;
+            $totalAmount = access()->getBookingTotal($payment->booking_id);
+            $total      = (float) $totalAmount + $tip;
 
             if(isset($payment) && $total > 0)
             {

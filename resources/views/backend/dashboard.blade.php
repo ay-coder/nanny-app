@@ -24,16 +24,6 @@
                 'role'      => 'form',
                 'method'    => 'post'
             ])}}
-                
-                <div class="box-body">
-                    <div class="form-group">
-                        {{ Form::label('sitter_hourly_rate', 'Sitter Hourly Rate :', ['class' => 'col-lg-2 control-label']) }}
-                        <div class="col-lg-10">
-                            {{ Form::number('sitter_hourly_rate', access()->getConfigValue('sitter_hourly_rate'), ['step' => 0.1, 'min' => 0,  'class' => 'form-control', 'placeholder' => 'Sitter Hourly Rate', 'required' => 'required']) }}
-                        </div>
-                    </div>
-                </div>
-
                 <div class="box-body">
                     <div class="form-group">
                         {{ Form::label('booking_local_rate', 'Local Rate :', ['step' => 0.1, 'min' => 0, 'class' => 'col-lg-2 control-label']) }}
@@ -48,6 +38,15 @@
                         {{ Form::label('booking_touriest_rate', 'Touriest Rate :', ['step' => 0.1, 'min' => 0, 'class' => 'col-lg-2 control-label']) }}
                         <div class="col-lg-10">
                             {{ Form::text('booking_touriest_rate', access()->getConfigValue('booking_touriest_rate'), ['class' => 'form-control', 'placeholder' => 'Touriest Rate', 'required' => 'required']) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-group">
+                        {{ Form::label('booking_tax_rate', 'Applicable Tax Rate :', ['step' => 0.1, 'min' => 0, 'class' => 'col-lg-2 control-label']) }}
+                        <div class="col-lg-10">
+                            {{ Form::text('booking_tax_rate', access()->getConfigValue('booking_tax_rate'), ['class' => 'form-control', 'placeholder' => 'Local Rate ', 'required' => 'required']) }}
                         </div>
                     </div>
                 </div>

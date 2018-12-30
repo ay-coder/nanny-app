@@ -651,16 +651,17 @@ class APIBookingController extends BaseApiController
                     $hourTotal      = abs($hourdiff * $perHour);
                     $parkingFees    = isset($bookingInfo->parking_fees) ? $bookingInfo->parking_fees : 0;
 
+
                     $inputData = [
                         'booking_id'    => $request->get('booking_id'),
                         'sitter_id'     => $userInfo->id,
-                        'per_hour'      => $perHour,
+                        'per_hour'      => access()->getSitterPerHourByBooking($bookingInfo->booking_type),
                         'total_hour'    => $hourdiff,
                         'sub_total'     => $hourTotal,
                         'tax'           => 0,
                         'other_charges' => 0,
                         'parking_fees'  => $parkingFees,
-                        'total'         => $parkingFees + ($hourdiff * $perHour),
+                        'total'         => access()->getBookingTotal($bookingId),
                         'description'   => 'Test Mode - Payment'
                     ];
 

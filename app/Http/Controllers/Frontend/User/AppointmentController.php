@@ -11,6 +11,7 @@ use App\Models\Booking\Booking;
 use App\Http\Requests\Frontend\User\PaymentRequest;
 use Carbon\Carbon;
 use App\Models\Access\User\User;
+use App\Models\Babies\Babies;
 
 /**
  * Class AccountController.
@@ -251,10 +252,13 @@ class AppointmentController extends Controller
             $booking        = $this->repository->getSingleBooking($bookingId);
             if(isset($booking) && count($booking))
             {
-                if($booking->is_multiple == 1 && isset($item->baby_ids))
+                if($booking->is_multiple == 1 && isset($booking->baby_ids))
                 {
-                    $babyIds    = array_values(explode(',', $item->baby_ids));
-                    $babies     = Babies::whereIn('id', $babyIds)->get();
+                    $babyIds    = array_values(explode(',', $booking->baby_ids));
+                    $babies     = Babies::whereIn('id', $babyIds)
+                    ->orWhere('id', $booking->baby_id)
+                    ->get();
+                    
 
                     if(isset($babies) && count($babies))
                     {
@@ -279,19 +283,23 @@ class AppointmentController extends Controller
     {
         if($bookingId)
         {
-            $booking        = $this->repository->getSingleBooking($bookingId);
+            $booking = $this->repository->getSingleBooking($bookingId);
             if(isset($booking) && count($booking))
             {
-                if($booking->is_multiple == 1 && isset($item->baby_ids))
+                if($booking->is_multiple == 1 && isset($booking->baby_ids))
                 {
-                    $babyIds    = array_values(explode(',', $item->baby_ids));
-                    $babies     = Babies::whereIn('id', $babyIds)->get();
-
+                    $babyIds    = array_values(explode(',', $booking->baby_ids));
+                    $babies     = Babies::whereIn('id', $babyIds)
+                    ->orWhere('id', $booking->baby_id)
+                    ->get();
+                       
                     if(isset($babies) && count($babies))
                     {
                         return view('parent.appointment-detail', compact('booking', 'babies'));
                     }
-                } else {
+                } 
+                else
+                {
                     $babies[] = $booking['baby'];
                     return view('parent.appointment-detail', compact('booking', 'babies'));
                 }

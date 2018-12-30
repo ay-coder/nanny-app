@@ -313,6 +313,32 @@ class Access
     }
 
     /**
+     * Get Sitter PerHourBy Booking
+     * 
+     * @param string|ing $bookingType
+     * @return float
+     */
+    public function getSitterPerHourByBooking($bookingType = null)
+    {
+        if($bookingType == 1)
+        {
+            $value =  General::where('data_key', 'booking_touriest_rate')->select('data_value')->first();
+        }
+        else
+        {
+            $value =  General::where('data_key', 'booking_local_rate')->select('data_value')->first();
+
+        }
+
+        if($value)
+        {
+            return $value->data_value;
+        }
+
+        return 0;
+    }
+
+    /**
      * Sent Push Notification
      * 
      * @param object $user
@@ -415,5 +441,31 @@ class Access
 
         }
         return '';
+    }
+
+    /**
+     * Get Booking Total
+     * 
+     * @param int $bookingId
+     * @return float
+     */
+    public function getBookingTotal($bookingId = null)
+    {
+        if($bookingId)
+        {
+            $bookingInfo    = Booking::where('id', $bookingId)->first();
+            $babiesCount    = isset($bookingInfo->baby_ids) ? count(explode(',', $bookingInfo->baby_ids)) : 0;
+            $sitterRate     = $this->getSitterPerHourByBooking($bookingInfo->booking_type);
+            $subTotal       = $bookingInfo->parking_fees + ($sitterRate) * (round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1));
+
+            if($babiesCount > 0)
+            {
+                $subTotal = $subTotal + $babiesCount;
+            }
+
+            return $subTotal;
+        }
+
+        return 0;
     }
 }

@@ -228,13 +228,13 @@ class JobsController extends Controller
                     $inputData = [
                         'booking_id'    => $bookingId,
                         'sitter_id'     => $userInfo->id,
-                        'per_hour'      => $perHour,
+                        'per_hour'      => access()->getSitterPerHourByBooking($bookingInfo->booking_type),
                         'total_hour'    => $hourdiff,
                         'sub_total'     => $hourTotal,
                         'tax'           => 0,
                         'other_charges' => 0,
                         'parking_fees'  => $parkingFees,
-                        'total'         => $parkingFees + ($hourdiff * $perHour),
+                        'total'         => access()->getBookingTotal($bookingId),
                         'description'   => 'Test Mode - Payment'
                     ];
 

@@ -90,8 +90,11 @@
                                 <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->per_hour : 0 }}</td>
                             </tr>
                             <tr>
-                                <td><span>Total Hours</span>{{ isset($booking['payment']) ? $booking['payment']->total_hour : 0 }} hrs</td>
-                                <td class="price-info">${{ isset($booking['payment']) ? $booking['payment']->total_hour * $booking['payment']->per_hour : 0 }}</td>
+                                <td><span>Total Hours</span>
+                                    {{ isset($booking['payment']) ? $booking['payment']->total_hour : 0 }} hrs</td>
+                                <td class="price-info">
+                                    ${{ isset($booking['payment']) ? $booking['payment']->total_hour * $booking['payment']->per_hour : 0 }}
+                                </td>
                             </tr>
                             
                             <tr class="grand-total">
@@ -105,8 +108,13 @@
                             </tr>
 
                             <tr class="grand-total">
-                                <td><span>Total</span>Amount</td>
-                                <td class="price-info">${{ isset($booking['payment']) ?  $booking['payment']->total + $booking->parking_fees + $booking['payment']->tip  : 0 }}</td>
+                                <td><span>Total</span>Amount
+                                    Babies Count : {{ count($babies) }}
+
+                                </td>
+                                <td class="price-info">
+                                    ${{ isset($booking['payment']) ?  access()->getBookingTotal($booking->id) + $booking['payment']->tip  : 0 }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
