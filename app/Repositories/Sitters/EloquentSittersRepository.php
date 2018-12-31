@@ -215,11 +215,12 @@ class EloquentSittersRepository extends DbRepository
     public function create($input)
     {
         $userData = [
-            'name'      => $input['name'],
-            'email'     => $input['email'],
-            'password'  => bcrypt($input['password']),
-            'mobile'    => $input['mobile'],
-            'user_type' => 2
+            'name'          => $input['name'],
+            'email'         => $input['email'],
+            'password'      => bcrypt($input['password']),
+            'mobile'        => $input['mobile'],
+            'user_type'     => 2,
+            'profile_pic'   => isset($input['profile_pic']) ? $input['profile_pic'] : 'default.png'
         ];
 
         $user = User::create($userData);
@@ -257,6 +258,14 @@ class EloquentSittersRepository extends DbRepository
                 $model->user->mobile = $input['mobile'];
                 $updateUser = true;
             }
+
+
+            if(isset($input['profile_pic']))
+            {
+                $model->user->profile_pic = $input['profile_pic'];
+                $updateUser = true;
+            }
+
             if(isset($input['name']))
             {
                 $model->user->name = $input['name'];                    

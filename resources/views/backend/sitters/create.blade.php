@@ -14,7 +14,8 @@
         'route'     => $repository->getActionRoute('storeRoute'),
         'class'     => 'form-horizontal',
         'role'      => 'form',
-        'method'    => 'post'
+        'method'    => 'post',
+        'files'     => true
     ])}}
 
         <div class="box box-success">

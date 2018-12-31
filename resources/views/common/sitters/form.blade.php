@@ -146,7 +146,14 @@
     </div>
 </div>
 
-
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('profile_pic', 'Profile Picture :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::file('profile_pic', null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+</div>
 
 <div class="box-body">
     <div class="form-group">
@@ -165,3 +172,4 @@
         </div>
     </div>
 </div>
+

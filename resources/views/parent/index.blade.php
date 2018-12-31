@@ -7,7 +7,7 @@
         <div class="form-row">
             <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="date">Start Date</label>
-                <input type="text" name="booking_date" class="form-control futuredate" required="required" placeholder="dd/mm/yyyy">
+                <input type="text" value="<?php echo date('d/m/Y');?>" name="booking_date" class="form-control futuredate" required="required">
             </div>
             {{-- <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="date">End Date</label>
@@ -17,11 +17,11 @@
         <div class="form-row">
             <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="start-time">Start Time</label>
-                <input type="text" name="start_time" class="form-control startTime" required="required" placeholder="Start Time">
+                <input type="text" value="<?php echo date("H:m");?>" name="start_time" class="form-control startTimeB" required="required" placeholder="Start Time">
             </div>
             <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="end-time">End Time</label>
-                <input type="text" name="end_time" class="form-control endTime" required="required" placeholder="End Time">
+                <input type="text" value="<?php echo date("H:m", strtotime('+3 hours'));?>" name="end_time" class="form-control endTimeB" required="required" placeholder="End Time">
             </div>
         </div>
         <!-- Select Date, Time End -->
@@ -96,4 +96,54 @@
     {{ Form::close() }}
 </div>
 <!-- Search form End -->
+@endsection
+
+@section('after-scripts')
+<script type="text/javascript">
+    
+            $('.startTimeB').datetimepicker({
+                format: 'HH:mm'
+            });
+
+            $(".startTimeB").on("dp.change",function (e) 
+            {
+                validateBookingTime();
+            });
+            $('.endTimeB').datetimepicker({
+                format: 'HH:mm'
+            }).on("dp.change",function (e) 
+            {
+                validateBookingTime();
+                console.log('Change Ebnd Time');
+            });
+
+            $('.futuredate').datetimepicker({
+                viewMode: 'days',
+                format: 'DD/MM/YYYY',
+                minDate: new Date(),
+                defaultDate:new Date()
+            });
+
+            $('.futuredate').val(moment().format('DD/MM/YYYY'));
+
+            function validateBookingTime()
+            {
+                var startTime   = moment($('.endTimeB').val(), 'HH:mm:ss');
+                    diff        = startTime.diff(moment($('.startTimeB').val(), 'HH:mm:ss'));
+
+                if(diff >= 10800000)
+                {
+                    console.log("ALL WELL");
+                }
+                else
+                {
+                    var minEndTime = moment($('.startTimeB').val(), 'HH:mm:ss').add(3, 'hours').format('HH:mm');
+                    
+                    $('.endTimeB').val(minEndTime);
+                    console.log("Reset Date Time");
+                    alert("Minimum 3 Hours Require for Booking !");
+                }
+            }
+
+</script>
 @endsection

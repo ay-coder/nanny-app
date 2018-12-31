@@ -47,6 +47,7 @@
         <!-- Scripts -->
         @yield('before-scripts')
         {!! Html::script(mix('js/frontend.js')) !!}
+        <script type="text/javascript" src="{!! asset('js/lib/moment.min.js') !!}"></script>
         @yield('after-scripts')
         <script type="text/javascript" src="{!! asset('js/custom/custom.js') !!}"></script>
         @include('includes.partials.ga')

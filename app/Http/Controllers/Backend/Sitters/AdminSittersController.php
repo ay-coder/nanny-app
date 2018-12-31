@@ -78,7 +78,19 @@ class AdminSittersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->repository->create($request->all());
+        $input = $request->all();
+
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+
+        $this->repository->create($input);
 
         return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->createSuccessMessage);
     }
@@ -121,7 +133,19 @@ class AdminSittersController extends Controller
      */
     public function update($id, Request $request)
     {
-        $status = $this->repository->update($id, $request->all());
+        $input = $request->all();
+
+        if($request->file('profile_pic'))
+        {
+            $imageName  = rand(11111, 99999) . '_user.' . $request->file('profile_pic')->getClientOriginalExtension();
+            if(strlen($request->file('profile_pic')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('profile_pic')->move(base_path() . '/public/uploads/user/', $imageName);
+                $input = array_merge($input, ['profile_pic' => $imageName]);
+            }
+        }
+
+        $status = $this->repository->update($id, $input);
 
         return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess($this->editSuccessMessage);
     }
