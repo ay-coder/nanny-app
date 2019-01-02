@@ -646,7 +646,7 @@ class APIBookingController extends BaseApiController
 
                 if($bookingInfo->save())
                 {
-                    $perHour        = access()->getSitterPerHour($userInfo->id);
+                    $perHour        = access()->getSitterPerHourByBooking($bookingInfo->booking_type);
                     $hourdiff       = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
                     $hourTotal      = abs($hourdiff * $perHour);
                     $parkingFees    = isset($bookingInfo->parking_fees) ? $bookingInfo->parking_fees : 0;
@@ -687,7 +687,7 @@ class APIBookingController extends BaseApiController
                     ];
 
                     access()->addNotification($storeParentNotification);
-                     access()->sentPushNotification($parent, $parentpayload);
+                    access()->sentPushNotification($parent, $parentpayload);
 
 
                     return $this->successResponse([
