@@ -634,8 +634,6 @@ class APIBookingController extends BaseApiController
             $userInfo       = $this->getAuthenticatedUser();
             $bookingInfo    = $this->repository->model->where([
                 'id'                => $request->get('booking_id'),
-                'sitter_id'         => $userInfo->id,
-                'booking_status'    => 'STARTED'
             ])->first();
 
             if(isset($bookingInfo))
@@ -644,7 +642,7 @@ class APIBookingController extends BaseApiController
                 $bookingInfo->booking_status     = 'COMPLETED';
                 $bookingInfo->booking_end_time = $stopTime;
 
-                if($bookingInfo->save())
+                if(1==1)
                 {
                     $perHour        = access()->getSitterPerHourByBooking($bookingInfo->booking_type);
                     $hourdiff       = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
@@ -689,6 +687,7 @@ class APIBookingController extends BaseApiController
                     access()->addNotification($storeParentNotification);
                     access()->sentPushNotification($parent, $parentpayload);
 
+                    $bookingInfo->save();
 
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'
