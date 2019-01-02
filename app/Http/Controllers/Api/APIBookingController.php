@@ -634,6 +634,7 @@ class APIBookingController extends BaseApiController
             $userInfo       = $this->getAuthenticatedUser();
             $bookingInfo    = $this->repository->model->where([
                 'id'                => $request->get('booking_id'),
+                'booking_status'    => 'STARTED'
             ])->first();
 
             if(isset($bookingInfo))
@@ -688,7 +689,6 @@ class APIBookingController extends BaseApiController
                     access()->sentPushNotification($parent, $parentpayload);
 
                     $bookingInfo->save();
-
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'
                     ], 'Booking Completed by Sitter');
