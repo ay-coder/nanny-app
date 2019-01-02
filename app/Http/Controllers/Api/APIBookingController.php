@@ -634,6 +634,7 @@ class APIBookingController extends BaseApiController
             $userInfo       = $this->getAuthenticatedUser();
             $bookingInfo    = $this->repository->model->where([
                 'id'                => $request->get('booking_id'),
+                'sitter_id'         => $userInfo->id,
                 'booking_status'    => 'STARTED'
             ])->first();
 
@@ -643,9 +644,9 @@ class APIBookingController extends BaseApiController
                 $bookingInfo->booking_status     = 'COMPLETED';
                 $bookingInfo->booking_end_time = $stopTime;
 
-                if(1==1)
+                if($bookingInfo->save())
                 {
-                    $perHour        = access()->getSitterPerHourByBooking($bookingInfo->booking_type);
+                    $perHour        = access()->getSitterPerHour($userInfo->id);
                     $hourdiff       = round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1);
                     $hourTotal      = abs($hourdiff * $perHour);
                     $parkingFees    = isset($bookingInfo->parking_fees) ? $bookingInfo->parking_fees : 0;
@@ -660,7 +661,7 @@ class APIBookingController extends BaseApiController
                         'tax'           => 0,
                         'other_charges' => 0,
                         'parking_fees'  => $parkingFees,
-                        'total'         => access()->getBookingTotal($bookingId),
+                        'total'         => access()->getBookingTotal($bookingInfo->id),
                         'description'   => 'Test Mode - Payment'
                     ];
 
@@ -688,7 +689,7 @@ class APIBookingController extends BaseApiController
                     access()->addNotification($storeParentNotification);
                     access()->sentPushNotification($parent, $parentpayload);
 
-                    $bookingInfo->save();
+
                     return $this->successResponse([
                         'success' => 'Booking Completed by Sitter'
                     ], 'Booking Completed by Sitter');
