@@ -15,6 +15,13 @@ class SittersTransformer extends Transformer
      */
     public function transform($item)
     {
+        $bookingType = 0;
+
+        if(request()->input('booking_type'))
+        {
+            $bookingType = request()->input('booking_type');
+        }
+
         if(is_array($item))
         {
             $item = (object)$item;
@@ -50,7 +57,7 @@ class SittersTransformer extends Transformer
             'gender'                => $this->nulltoBlank($item->user->gender),
             'birthday'              => $this->nulltoBlank($item->user->birthdate),
             'avg_rating'            => $avgRating,
-            'per_hour'              => (float) access()->getSitterPerHour($item->user_id),
+            'per_hour'              => (float) access()->getSitterPerHourByBooking($bookingType),
             'reviews'               => []
         ];
 

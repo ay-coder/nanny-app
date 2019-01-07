@@ -335,7 +335,7 @@ class Access
             return $value->data_value;
         }
 
-        return 0;
+        return 10;
     }
 
     /**
