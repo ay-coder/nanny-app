@@ -10,6 +10,7 @@ use App\Models\Payment\Payment;
 use App\Models\Access\User\User;
 use App\Library\Push\PushNotification;
 use DateTime;
+use App\Models\Messages\Messages;
 
 class APIBookingController extends BaseApiController
 {
@@ -219,6 +220,13 @@ class APIBookingController extends BaseApiController
                 access()->sentPushNotification($sitter, $sitterpayload);
 
                 $responseData = $this->bookingTransformer->transform($model);
+
+                Messages::create([
+                    'from_user_id'  => $userInfo->id,
+                    'to_user_id'    => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'message'       => 'New Booking Request'
+                ]);
 
                 $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
                 $isBooking->save();

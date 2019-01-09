@@ -223,6 +223,13 @@ class DashboardController extends Controller
                 $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
                 $isBooking->save();
 
+                Messages::create([
+                    'from_user_id'  => access()->user()->id,
+                    'to_user_id'    => $model->sitter_id,
+                    'booking_id'    => $model->id,
+                    'message'       => 'New Booking Request'
+                ]);
+
                 if(session()->has('find_sitter')){
                     session()->forget('find_sitter');
                 }

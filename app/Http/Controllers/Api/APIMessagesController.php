@@ -68,6 +68,73 @@ class APIMessagesController extends BaseApiController
     }
 
     /**
+     * List of All Messages
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function myMessages(Request $request)
+    {
+        $userInfo   = $this->getAuthenticatedUser();
+        $items      = $this->repository->getAllUserMessages($userInfo->id);
+
+        if(isset($items) && count($items))
+        {
+            $itemsOutput = $this->messagesTransformer->myMessageTransform($items);
+
+            return $this->successResponse($itemsOutput);
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Messages!'
+            ], 'No Messages Found !');
+    }
+
+    /**
+     * List of All Messages
+     *
+     * @param Request $request
+     * @return json
+     */
+    public function getChat(Request $request)
+    {
+        if($request->has('from_user_id') && $request->has('to_user_id'))
+        {
+            $messages = $this->repository->getAllChat($request->get('from_user_id'), $request->get('to_user_id'));   
+            
+            if($messages && count($messages))
+            {
+                $userInfo       = $this->getAuthenticatedUser();
+                $readMessageIds = [];
+
+                foreach($messages as $message)
+                {
+                    if($userInfo->id == $message->to_user_id)
+                    {
+                        $readMessageIds[] = $message->id;
+                    }
+                }
+
+                // Set Read Message
+                if(count($readMessageIds))
+                {
+                    $this->repository->model->whereIn('id', $readMessageIds)
+                    ->update(['is_read' => 1]);
+                }
+                
+                $itemsOutput = $this->messagesTransformer->myMessageTransform($messages);
+
+                return $this->successResponse($itemsOutput);
+            }
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'message' => 'Unable to find Messages!'
+            ], 'No Messages Found !');
+        
+    }
+
+    /**
      * Create
      *
      * @param Request $request
@@ -138,6 +205,80 @@ class APIMessagesController extends BaseApiController
             'reason' => 'Invalid Inputs'
             ], 'Something went wrong !');
     }
+
+    /**
+     * Create
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function createMyMessage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'to_user_id'        => 'required'
+        ]);
+
+        if($validator->fails())
+        {
+            $messageData = '';
+
+            foreach($validator->messages()->toArray() as $message)
+            {
+                $messageData = $message[0];
+            }
+            return $this->failureResponse($validator->messages(), $messageData);
+        }
+
+        $userInfo   = $this->getAuthenticatedUser();
+        $input      = $request->all();
+        $input      = array_merge($input, ['from_user_id' => $userInfo->id ]);
+
+
+        if($request->file('image'))
+        {
+            $imageName  = rand(11111, 99999) . '_message.' . $request->file('image')->getClientOriginalExtension();
+            if(strlen($request->file('image')->getClientOriginalExtension()) > 0)
+            {
+                $request->file('image')->move(base_path() . '/public/uploads/messages/', $imageName);
+                $input = array_merge($input, ['image' => $imageName, 'is_image' => 1]);
+            }
+        }
+
+
+        $model = $this->repository->create($input);
+
+        if($model)
+        {
+            $toUser     = User::find($request->get('to_user_id'));
+            $text       = $userInfo->name . ' has sent you message';
+            $payloadData = [
+                'mtitle'    => '',
+                'mdesc'     => $text,
+                'ntype'     => 'NEW_MESSAGE'
+            ];
+
+            $storeNotification = [
+                'user_id'       => $userInfo->id,
+                'to_user_id'    => $request->get('to_user_id'),
+                'description'   => $text
+            ];
+
+            access()->addNotification($storeNotification);
+
+            access()->sentPushNotification($toUser, $payloadData);
+
+
+            $responseData = $this->messagesTransformer->transform($model);
+
+            return $this->successResponse($responseData, 'Messages is Created Successfully');
+        }
+
+        return $this->setStatusCode(400)->failureResponse([
+            'reason' => 'Invalid Inputs'
+            ], 'Something went wrong !');
+    }
+
+    
 
     /**
      * View

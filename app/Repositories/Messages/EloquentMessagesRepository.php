@@ -238,6 +238,86 @@ class EloquentMessagesRepository extends DbRepository
     }
 
     /**
+     * Get All User Messages
+     * 
+     * @var int
+     */
+    public function getAllUserMessages($userId = null)
+    {
+        if($userId)
+        {
+            $messages = $this->model
+            ->with([
+                'from_user',
+                'to_user',
+                'booking'
+            ])
+            ->where('from_user_id', '!=', 1)
+            ->where('to_user_id', '!=', 1)
+            ->where(function($q) use($userId)
+            {
+                $q->where('from_user_id', $userId)
+                ->orWhere('to_user_id', $userId);
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
+            $response   = [];
+            $userIds    = [];
+            $inPair     = [];
+            $outPair    = [];
+            $messageIds = [];
+
+            foreach($messages as $message)
+            {
+                $checkInPair = $message->from_user_id . ','. $message->to_user_id;
+                $checkOutPair = $message->to_user_id . ','. $message->from_user_id;
+
+                if(!in_array($checkInPair, $inPair) && !in_array($checkOutPair, $outPair) && !in_array($checkOutPair, $inPair) && !in_array($checkInPair, $outPair) )
+                {
+                    $messageIds[]   = $message->id;
+                    $response[]     = $message;
+                    $inPair[]       = $checkInPair;
+                    $outPair[]      = $checkOutPair;
+                }
+            }
+            
+            return $response;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Get All
+     *
+     * @param string $orderBy
+     * @param string $sort
+     * @return mixed
+     */
+    public function getAllChat($userId = null, $otherUserId = null)
+    {
+        if($userId && $otherUserId)
+        {
+            return $this->model->where([
+                'from_user_id'      => $userId,
+                'to_user_id'        => $otherUserId
+            ])->orWhere([
+                'to_user_id'        => $userId,
+                'from_user_id'      => $otherUserId
+            ])
+            ->with([
+                'from_user',
+                'to_user',
+                'booking'
+            ])
+            ->get();
+        }
+
+        return false;
+    }
+
+    /**
      * Get by Id
      *
      * @param int $id
