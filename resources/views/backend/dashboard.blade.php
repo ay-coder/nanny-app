@@ -46,7 +46,7 @@
                     <div class="form-group">
                         {{ Form::label('booking_tax_rate', 'Applicable Tax Rate :', ['step' => 0.1, 'min' => 0, 'class' => 'col-lg-2 control-label']) }}
                         <div class="col-lg-10">
-                            {{ Form::text('booking_tax_rate', access()->getConfigValue('booking_tax_rate'), ['class' => 'form-control', 'placeholder' => 'Local Rate ', 'required' => 'required']) }}
+                        {{ Form::text('booking_tax_rate', access()->getConfigValue('booking_tax_rate'), ['class' => 'form-control', 'placeholder' => 'Local Rate ', 'required' => 'required']) }}
                         </div>
                     </div>
                 </div>

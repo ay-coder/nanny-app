@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
         /*
          * Parent Dashboard Specific
          */
-        Route::get('parent/home', 'DashboardController@parentIndex')->name('parent.dashboard');
+    Route::get('parent/home', 'DashboardController@parentIndex')->name('parent.dashboard');
 
         Route::any('parent/send-message', 'DashboardController@addMessage')->name('parent.send-message');
        
@@ -76,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('parent/subscription', 'SubscriptionController@index')->name('parent.subscription');
         Route::post('parent/plansubscription', 'SubscriptionController@subscribePlan')->name('parent.plansubscription');
         
-
+          
 
 
         /*

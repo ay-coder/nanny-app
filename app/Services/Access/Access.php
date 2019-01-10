@@ -455,6 +455,7 @@ class Access
         if($bookingId)
         {
             $bookingInfo    = Booking::where('id', $bookingId)->first();
+            $tax            = $this->getBookingTax($bookingId);
             $babiesCount    = isset($bookingInfo->baby_ids) ? count(explode(',', $bookingInfo->baby_ids)) : 0;
             $sitterRate     = $this->getSitterPerHourByBooking($bookingInfo->booking_type);
             $subTotal       = $bookingInfo->parking_fees + ($sitterRate) * (round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1));
@@ -464,7 +465,40 @@ class Access
                 $subTotal = $subTotal + $babiesCount;
             }
 
-            return $subTotal;
+            return $subTotal + $tax;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get Booking Tax
+     * 
+     * @param int $bookingId
+     * @return float
+     */
+    public function getBookingTax($bookingId = null)
+    {
+        if($bookingId)
+        {
+            $bookingInfo    = Booking::where('id', $bookingId)->first();
+            $tax            = $this->getConfigValue('booking_tax_rate');
+            $babiesCount    = isset($bookingInfo->baby_ids) ? count(explode(',', $bookingInfo->baby_ids)) : 0;
+            $sitterRate     = $this->getSitterPerHourByBooking($bookingInfo->booking_type);
+            $subTotal       = $bookingInfo->parking_fees + ($sitterRate) * (round((strtotime($bookingInfo->booking_end_time) - strtotime($bookingInfo->booking_start_time))/3600, 1));
+
+            if($babiesCount > 0)
+            {
+                $subTotal = $subTotal + $babiesCount;
+            }
+
+            $taxAmount = 0;
+            if(isset($tax) && $tax > 0)
+            {
+                $taxAmount = ( $subTotal * $tax ) / 100;
+            }
+            
+            return $taxAmount;
         }
 
         return 0;

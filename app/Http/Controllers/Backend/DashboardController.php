@@ -42,6 +42,13 @@ class DashboardController extends Controller
     		]);
     	}
 
+    	if($request->has('booking_tax_rate'))
+    	{
+    		General::where('data_key', 'booking_tax_rate')->update([
+    			'data_value' => $request->get('booking_tax_rate')
+    		]);
+    	}
+
     	return view('backend.dashboard')->with([
     		'repository' => $repository,
     		'item'		 => $item,
