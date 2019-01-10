@@ -12,6 +12,7 @@ use App\Models\Activation\Activation;
 use App\Models\Booking\Booking;
 use App\Models\General\General;
 
+
 /**
  * Class Access.
  */
@@ -467,5 +468,31 @@ class Access
         }
 
         return 0;
+    }
+
+    /**
+     * Get Last Booking
+     *
+     * @param int $toUserId
+     * @param int $fromUserId
+     * @return object
+     */
+    public function getLastBooking($toUserId, $fromUserId)
+    {
+        $booking = Booking::where([
+            'user_id'   => $toUserId,
+            'sitter_id' => $fromUserId
+        ])->orWhere([
+            'user_id'   => $fromUserId,
+            'sitter_id' => $toUserId
+        ])->orderBy('id', 'DESC')->first();
+
+
+        if(isset($booking))
+        {
+            return $booking;
+        }
+
+        return false;
     }
 }
