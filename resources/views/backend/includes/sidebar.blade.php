@@ -37,6 +37,13 @@
                 </a>
             </li>
 
+            {{-- <li class="{{ active_class(Active::checkUriPattern('admin/push-notifications')) }}">
+                <a href="{{ route('admin.push-notifications') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Push Notification</span>
+                </a>
+            </li> --}}
+
             <li class="{{ active_class(Active::checkUriPattern('admin/sitters')) }}">
                 <a href="{{ route('admin.sitters.index') }}">
                     <i class="fa fa-dashboard"></i>

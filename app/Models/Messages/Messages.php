@@ -24,7 +24,7 @@ class Messages extends BaseModel
      *
      */
     protected $fillable = [
-        "id", "from_user_id", "to_user_id", "image", "message", "is_image", "is_read", "created_at", "updated_at", 
+        "id", "booking_id", "from_user_id", "to_user_id", "image", "message", "is_image", "is_read", "created_at", "updated_at", 
     ];
 
     /**

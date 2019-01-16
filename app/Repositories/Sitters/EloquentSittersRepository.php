@@ -38,6 +38,7 @@ class EloquentSittersRepository extends DbRepository
         'username'      => 'User Name',
         'email'         => 'Email Id',
         'vacation_mode' => 'Vacation Mode',
+        'stripe_id'     => 'Stripe ID',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
         'account_number'     => 'Account Number',
@@ -81,6 +82,18 @@ class EloquentSittersRepository extends DbRepository
         'vacation_mode' =>   [
                 'data'          => 'vacation_mode',
                 'name'          => 'vacation_mode',
+                'searchable'    => true,
+                'sortable'      => true
+            ], 'vacation_mode' =>   [
+                'data'          => 'vacation_mode',
+                'name'          => 'vacation_mode',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+
+        'stripe_id' =>   [
+                'data'          => 'stripe_id',
+                'name'          => 'stripe_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],

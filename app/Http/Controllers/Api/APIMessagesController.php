@@ -98,9 +98,9 @@ class APIMessagesController extends BaseApiController
      */
     public function getChat(Request $request)
     {
-        if($request->has('from_user_id') && $request->has('to_user_id'))
+        if($request->has('from_user_id') && $request->has('to_user_id') && $request->has('booking_id'))
         {
-            $messages = $this->repository->getAllChat($request->get('from_user_id'), $request->get('to_user_id'));   
+            $messages = $this->repository->getAllChat($request->get('from_user_id'), $request->get('to_user_id'), $request->get('booking_id'));   
             
             if($messages && count($messages))
             {
@@ -171,7 +171,6 @@ class APIMessagesController extends BaseApiController
                 $input = array_merge($input, ['image' => $imageName, 'is_image' => 1]);
             }
         }
-
 
         $model = $this->repository->create($input);
 

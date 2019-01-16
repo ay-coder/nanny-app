@@ -50,17 +50,6 @@
             {{ Form::text('mobile', isset($item->user) ? $item->user->mobile : null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
     </div>
-
-</div>
-
-<div class="box-body">
-    <div class="form-group">
-        {{ Form::label('hourly_rate', 'Per Hour:', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::number('hourly_rate', null, ['min' => 0 , 'step' => 1, 'class' => 'form-control', 'required' => 'required']) }}
-        </div>
-    </div>
-
 </div>
 
 <div class="box-body">
@@ -83,7 +72,7 @@
                 '' => 'Please Select Category',
                 'Baby Child' => 'Baby Child',
                 'Pet'        => 'Pet'
-            ], null, ['class' => 'form-control', 'placeholder' => 'Category', 'required' => 'required']) }}
+            ], null, ['class' => 'form-control',  'required' => 'required']) }}
         </div>
     </div>
 </div>
@@ -107,7 +96,14 @@
     </div>
 </div>
 
-
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('stripe_id', 'Stripe ID :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('stripe_id', null, ['class' => 'form-control', 'placeholder' => 'Stripe ID']) }}
+        </div>
+    </div>
+</div>
 
 <div class="box-body">
     <div class="form-group">

@@ -32,7 +32,9 @@ class Sitters extends BaseModel
         "account_number",
         "aba_number",
         "bank_name",
-        "bank_address"
+        "bank_address",
+        'stripe_id',
+        'stripe_details'
     ];
 
     /**

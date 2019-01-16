@@ -295,11 +295,21 @@ class EloquentMessagesRepository extends DbRepository
      * @param string $sort
      * @return mixed
      */
-    public function getAllChat($userId = null, $otherUserId = null)
+    public function getAllChat($userId = null, $otherUserId = null, $bookingId = null)
     {
         if($userId && $otherUserId)
         {
-            return $this->model->where([
+            $condition = [
+                'booking_id' => $bookingId
+            ];
+            
+            return $this->model->with([
+                'from_user',
+                'to_user',
+                'booking'
+            ])->where()->get($condition);
+
+            /*return $this->model->where([
                 'from_user_id'      => $userId,
                 'to_user_id'        => $otherUserId
             ])->orWhere([
@@ -311,7 +321,7 @@ class EloquentMessagesRepository extends DbRepository
                 'to_user',
                 'booking'
             ])
-            ->get();
+            ->get();*/
         }
 
         return false;

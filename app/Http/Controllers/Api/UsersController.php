@@ -711,7 +711,7 @@ class UsersController extends BaseApiController
         $successResponse = [
             'support_number'        => '110001010',
             'privacy_policy_url'    => 'https://www.google.co.in/',
-            'tax'                   => (float) 0,
+            'tax'                   => (float) access()->getConfigValue('booking_tax_rate'),
             'other_charges'         => (float) 0
         ];
 
@@ -829,7 +829,6 @@ class UsersController extends BaseApiController
 
     public function testNotification(Request $request)
     {
-
         $ios        = $request->has('android') ? false : true;
         $text       = 'This is Test Push Notification';
         $payload    = [
