@@ -307,7 +307,9 @@ class EloquentMessagesRepository extends DbRepository
                 'from_user',
                 'to_user',
                 'booking'
-            ])->where()->get($condition);
+            ])
+            ->where($condition)
+            ->get();
 
             /*return $this->model->where([
                 'from_user_id'      => $userId,
