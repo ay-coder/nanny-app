@@ -55,9 +55,11 @@
     @endif
     <div class="btn-grpup">
         <button type="submit" class="btn btn-default">Sign Up</button>
-        <span class="separator">or</span>
+        {{-- <span class="separator">or</span>
+
         <a href="#" class="btn btn-default google-login">Signup with Google</a>
         <a href="#" class="btn btn-default facebook-login">signup with facebook</a>
+        --}}
         <span class="acount-link">Already a member? <a href="{{ route('frontend.auth.login') }}">Log In</a></span>
     </div>
 {{ Form::close() }}
