@@ -268,11 +268,45 @@ class DashboardController extends Controller
             'is_image'      => $isImage
         ]);
 
+        Messages::create([
+            'from_user_id'  => 1,
+            'to_user_id'    => $user->id,
+            'message'       => "Thanks for reaching out to us. We will respond you in next 12hours. In case you don't hear from us, you can write us an email at info@fivestarsitters.com or contact us on: (702) 209-2102"
+        ]);
+
         if($status)
         {
-            return redirect()->route('frontend.user.parent.subscription')->withFlashSuccess('Message Send Successfully.'); 
+            return redirect()->back()->withFlashSuccess('Message Send Successfully.'); 
         }
 
-        return redirect()->route('frontend.user.parent.subscription')->withFlashDanger('Please try again! Something went Wrong.');
+        return redirect()->back()->withFlashDanger('Please try again! Something went Wrong.');
+    }
+
+    public function addNewMessage(Request $request)
+    {
+        $bookingRepo = new EloquentBookingRepository;
+        $currentUser = access()->user();
+        $bookingInfo = $bookingRepo->model->where('id', $request->get('bookingId'))->first();
+        $toUserId    = $bookingInfo->user_id == $currentUser->id ? $bookingInfo->sitter_id : $bookingInfo->user_id;
+        $inputData   = [
+            'from_user_id'  => $currentUser->id,
+            'to_user_id'    => $toUserId,
+            'booking_id'    => $request->get('bookingId'),
+            'message'       => $request->get('message')
+        ];
+        
+        $status = Messages::create($inputData);
+
+        if($status)
+        {
+            return response()->json([
+                'status' => true
+                ]);
+        }
+
+
+        return response()->json([
+                'status'=> false
+                ]);
     }
 }

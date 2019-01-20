@@ -11,7 +11,7 @@ use App\Library\Push\PushNotification;
 use App\Models\Activation\Activation;
 use App\Models\Booking\Booking;
 use App\Models\General\General;
-
+use App\Models\Messages\Messages;
 
 /**
  * Class Access.
@@ -525,6 +525,31 @@ class Access
         if(isset($booking))
         {
             return $booking;
+        }
+
+        return false;
+    }
+
+    public function getMyChat()
+    {
+        return Messages::where([
+            'from_user_id' => 1,
+            'to_user_id'    => access()->user()->id
+        ])->orWhere([
+            'from_user_id'  => access()->user()->id,
+            'to_user_id'    => 1
+        ])->orderBy('id')->get();
+    }
+
+    public function getChat($bookingId = null)
+    {
+        if(isset($bookingId))
+        {
+            return Messages::where([
+                'booking_id' => $bookingId
+            ])
+            ->orderBy('id', 'DESC')
+            ->get();
         }
 
         return false;

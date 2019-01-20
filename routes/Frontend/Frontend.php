@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
          */
     Route::get('parent/home', 'DashboardController@parentIndex')->name('parent.dashboard');
 
+    Route::post('add-message', 'DashboardController@addNewMessage')->name('add-new-message');
+
         Route::any('parent/send-message', 'DashboardController@addMessage')->name('parent.send-message');
        
 
@@ -83,6 +85,9 @@ Route::group(['middleware' => 'auth'], function () {
          * Appointment
          */
         Route::get('parent/myappointment', 'AppointmentController@index')->name('parent.myappointment');
+
+        
+
         Route::post('parent/appointment/payment', 'AppointmentController@bookingPayment')->name('parent.bookingpayment');
         Route::get('parent/previous/{booking_id}', 'AppointmentController@previousParentBooking')->name('parent.previousbooking');
         Route::get('parent/booking/{booking_id}', 'AppointmentController@ParentBookingdetails')->name('parent.bookingdetails');

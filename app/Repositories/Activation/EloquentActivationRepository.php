@@ -35,11 +35,10 @@ class EloquentActivationRepository extends DbRepository
      * @var array
      */
     public $tableHeaders = [
-        'id'        => 'Id',
-        'username'        => 'Parent',
+        'id'                => 'Id',
+        'username'          => 'Parent',
         'plan_title'        => 'Plan',
-        'allowed_bookings'        => 'Allowed_bookings',
-        "actions"         => "Actions"
+        'allowed_bookings'  => 'Allowed_bookings',
     ];
 
     /**
@@ -71,14 +70,8 @@ class EloquentActivationRepository extends DbRepository
                 'name'          => 'allowed_bookings',
                 'searchable'    => true,
                 'sortable'      => true
-            ],
-		'actions' => [
-            'data'          => 'actions',
-            'name'          => 'actions',
-            'searchable'    => false,
-            'sortable'      => false
-        ]
-    ];
+            ]
+	];
 
     /**
      * Is Admin
@@ -287,10 +280,7 @@ class EloquentActivationRepository extends DbRepository
      */
     public function prepareInputData($input = array(), $isCreate = false)
     {
-        if($isCreate)
-        {
-            $input = array_merge($input, ['user_id' => access()->user()->id]);
-        }
+        $input = array_merge($input, ['status' => 1, 'payment_details' => 'Added by Admin']);
 
         return $input;
     }

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Activation\EloquentActivationRepository;
+use App\Models\Plans\Plans;
+use App\Models\Access\User\User;
 
 /**
  * Class AdminActivationController
@@ -66,8 +68,13 @@ class AdminActivationController extends Controller
      */
     public function create(Request $request)
     {
+        $plans      = Plans::pluck('title', 'id')->toArray();
+        $parents    = User::where('user_type', 1)->pluck('name', 'id')->toArray();
+
         return view($this->repository->setAdmin(true)->getModuleView('createView'))->with([
-            'repository' => $this->repository
+            'plans'         => $plans,
+            'parents'       => $parents,
+            'repository'    => $this->repository
         ]);
     }
 
@@ -90,11 +97,15 @@ class AdminActivationController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $item = $this->repository->findOrThrowException($id);
+        $item       = $this->repository->findOrThrowException($id);
+        $plans      = Plans::pluck('title', 'id')->toArray();
+        $parents    = User::where('user_type', 1)->pluck('name', 'id')->toArray();
 
         return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
             'item'          => $item,
-            'repository'    => $this->repository
+            'repository'    => $this->repository,
+            'plans'         => $plans,
+            'parents'       => $parents
         ]);
     }
 

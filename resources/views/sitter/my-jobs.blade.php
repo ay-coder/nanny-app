@@ -110,6 +110,30 @@
                                     @if(!empty($currentJob['baby']))
                                         <tr class="baby-detail" style="display: none;">
                                             <td colspan="4">
+                                                <div class="message-container">
+                                                    <div class="message-list">
+                                                        @php
+                                                            $messages = access()->getChat($currentJob->id);
+                                                        @endphp
+                                                            @if(isset($messages) && count($messages))
+                                                            
+                                                                @foreach($messages as $message)
+                                                                    <div class="chat-message">
+                                                                        {!! $message->message !!}
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <input style="background-color: white;" class="form-control" type="text" id="new-message-{!! $currentJob->id !!}" name="new-message">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="submit" data-id="{!! $currentJob->id !!}" name="Save" class="btn btn-submit newMessageBtn">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="baby">
                                                     <div class="baby-info">
                                                         <div class="img-wrap">
@@ -291,5 +315,36 @@
 
         //console.log({!! $calenderData !!});
     });
+
+    jQuery(".newMessageBtn").on('click', function(e)
+    {
+        var dataId  = e.target.getAttribute('data-id'),
+            message = jQuery("#new-message-" + dataId).val(),
+            params  = {
+                bookingId: dataId,
+                message:   message
+            };
+
+        jQuery.ajax(
+        {
+            url : '{!! route('frontend.user.add-new-message') !!}',
+            method: 'POST',
+            dataType: 'JSON',
+            data: params,
+            success: function(data) 
+            {
+                if(data.status == true)
+                {
+                    alert("Message sent Successfully");
+                    location.reload();
+                }
+            },
+            error: function()
+            {
+
+            }
+        });
+        console.log();
+    })
 </script>
 @stop
