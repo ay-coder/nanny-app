@@ -23,6 +23,7 @@ class BabiesTransformer extends Transformer
             "baby_id"       =>  (int) $item->id,
             "parent_id"     =>  (int) $item->parent_id,
             "title"         =>  isset($item->title) ? $item->title : '',
+            "gender"        =>  isset($item->gender) ? $item->gender : '',
             "birthdate"     =>  isset($item->birthdate) ? $item->birthdate : '',
             "age"           =>  isset($item->age) ? (int) $item->age : 0,
             "description"   =>  isset($item->description) ? $item->description : '', 

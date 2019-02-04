@@ -132,6 +132,7 @@
                                                 <div class="content-wrap">
                                                     <h5>{{ $baby->title }}</h5>
                                                     <span class="yrs">{{ $baby->age }} Yrs</span>
+                                                    <span class="yrs">({{ $baby->gender }})</span>
                                                 </div>
                                             </div>
                                             <div class="special-instruction">
@@ -173,6 +174,16 @@
                                                     <label for="name">Name</label>
                                                     {{ Form::text("data[$baby->id][title]", $baby->title, ['class' => 'form-control', 'placeholder' => 'Enter your name', 'required' => 'required']) }}
                                                 </div>
+
+                                                 <div class="form-group">
+                                                    <label for="name">Gender</label>
+                                                    {{ Form::select("data[$baby->id][gender]", [
+                                                        'Male' => 'Male',
+                                                        'Female' => 'Female',
+                                                        'N/A'   => 'N/A'
+                                                    ],$baby->gender, ['style' => 'height: 50px;', 'class' => 'form-control', 'required' => 'required']) }}
+                                                </div>
+
                                                 <div class="form-group dropdown">
                                                     <label data-id="{{ $baby->birthdate}}" for="name">Birthday</label>
                                                     {{ Form::text("data[$baby->id][birthdate]",  $baby->birthdate, ['class' => 'form-control datePicker', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
@@ -218,6 +229,17 @@
                                             <label for="name">Birthday</label>
                                             {{ Form::text("birthdate", null, ['class' => 'form-control pastdate', 'placeholder' => 'Birthdate', 'required' => 'required']) }}
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="gender">Gender</label>
+                                            {{ Form::select("gender", [
+                                                        'Male' => 'Male',
+                                                        'Female' => 'Female',
+                                                        'N/A'   => 'N/A'
+                                                    ],$baby->gender, ['style' => 'height: 50px;', 'class' => 'form-control', 'required' => 'required']) }}
+                                        </div>
+
+
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">

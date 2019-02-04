@@ -93,6 +93,7 @@ class BookingTransformer extends Transformer
             $babyData[] = [
                 'baby_id'       => (int) $baby->id,
                 "title"         =>  isset($baby->title) ? $baby->title : '',
+                "gender"        =>  isset($baby->gender) ? $baby->gender : '',
                 "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                 "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
                 "description"   =>  isset($baby->description) ? $baby->description : '',
@@ -112,6 +113,7 @@ class BookingTransformer extends Transformer
                     $babyData[] = [
                         'baby_id'       => (int) $baby->id,
                         "title"         =>  isset($baby->title) ? $baby->title : '',
+                        "gender"        =>  isset($baby->gender) ? $baby->gender : '',
                         "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                         "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
                         "description"   =>  isset($baby->description) ? $baby->description : '',
@@ -209,6 +211,7 @@ class BookingTransformer extends Transformer
                 $babyData[] = [
                     'baby_id'       => (int) $baby->id,
                     "title"         =>  isset($baby->title) ? $baby->title : '',
+                    "gender"        =>  isset($baby->gender) ? $baby->gender : '',
                     "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                     "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
                     "description"   =>  isset($baby->description) ? $baby->description : '',
@@ -228,6 +231,7 @@ class BookingTransformer extends Transformer
                         $babyData[] = [
                             'baby_id'       => (int) $baby->id,
                             "title"         =>  isset($baby->title) ? $baby->title : '',
+                            "gender"        =>  isset($baby->gender) ? $baby->gender : '',
                             "birthdate"     =>  isset($baby->birthdate) ? $baby->birthdate : '',
                             "age"           => (int) isset($baby->age) ? (int) $baby->age : 0,
                             "description"   =>  isset($baby->description) ? $baby->description : '',

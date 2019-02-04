@@ -386,6 +386,7 @@ class EloquentBabiesRepository extends DbRepository
         foreach ($request->data as $key => $value) {
             $baby = $this->getById($key);
             $baby->title = $value['title'];
+            $baby->gender = isset($value['gender']) ? $value['gender'] : 'N/A';
             $baby->birthdate = $value['birthdate'];
             $baby->age = Carbon::parse(Carbon::createFromFormat('d/m/Y', $value['birthdate'])->format('d-m-Y'))->age;
             $baby->description = $value['description'];
