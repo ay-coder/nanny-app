@@ -142,6 +142,8 @@
                                                         <div class="content-wrap">
                                                             <h5>{{ $currentJob['baby']->title }}</h5>
                                                             <span class="yrs">{{ $currentJob['baby']->age }} Yrs</span>
+
+                                                            <span class="yrs">({{ $currentJob['baby']->gender }})</span>
                                                         </div>
                                                     </div>
                                                     <div class="special-instruction">
