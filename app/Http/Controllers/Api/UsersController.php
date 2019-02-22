@@ -724,12 +724,13 @@ class UsersController extends BaseApiController
 
         if(isset($userInfo) && isset($userInfo->id))
         {
-            $count  = 0;
-            $mobile = $gender = $address = $birthdate = $name   = false;
+            $successResponse = access()->userProfileCompletion($userInfo);
+            /*$count  = 0;
+            $mobile = $gender = $address = $birthdate = $name $email = false;
 
             if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
             {
-                $count  = $count + 20;
+                $count  = $count + 25;
                 $name   = true;
             }
 
@@ -765,7 +766,7 @@ class UsersController extends BaseApiController
                 'address'                       => $address,
                 'birthdate'                     => $birthdate,
                 'profile_completion_count'      => (int) $count
-            ];
+            ];*/
 
             return $this->successResponse($successResponse);
         }
