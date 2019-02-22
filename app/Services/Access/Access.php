@@ -212,43 +212,50 @@ class Access
     public function userProfileCompletion($userInfo)
     {
         $count  = 0;
-        $mobile = $gender = $address = $birthdate = $name   = false;
+        $mobile = $gender = $address = $birthdate = $name = $email = false;
 
         if(isset($userInfo) && isset($userInfo->id))
         {
             if(isset($userInfo->name)  && strlen($userInfo->name) > 2)
             {
-                $count  = $count + 20;
+                $count  = $count + 25;
                 $name   = true;
             }
 
-            if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
+            if(isset($userInfo->email)  && strlen($userInfo->email) > 2)
+            {
+                $count  = $count + 25;
+                $email   = true;
+            }
+
+            /*if(isset($userInfo->gender) && strlen($userInfo->gender) > 2)
             {
                 $count      = $count + 20;
                 $gender     = true;
-            }
+            }*/
 
 
             if(isset($userInfo->mobile) && strlen($userInfo->mobile) > 2)
             {
-                $count      = $count + 20;
+                $count      = $count + 25;
                 $mobile     = true;
             }
 
             if(isset($userInfo->address) && strlen($userInfo->address) > 2)
             {
-                $count      = $count + 20;
+                $count      = $count + 25;
                 $address    = true;
             }
 
-            if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
+            /*if(isset($userInfo->birthdate) && strlen($userInfo->birthdate) > 2)
             {
                 $count      = $count + 20;
                 $birthdate  = true;
-            }
+            }*/
 
             return [
                 'name'                          => $name,
+                'email'                         => $email,
                 'gender'                        => $gender,
                 'mobile'                        => $mobile,
                 'address'                       => $address,
@@ -259,6 +266,7 @@ class Access
 
         return [
             'name'                          => $name,
+            'email'                         => $email,
             'gender'                        => $gender,
             'mobile'                        => $mobile,
             'address'                       => $address,
