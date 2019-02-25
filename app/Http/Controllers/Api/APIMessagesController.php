@@ -187,7 +187,8 @@ class APIMessagesController extends BaseApiController
             $storeNotification = [
                 'user_id'       => $userInfo->id,
                 'to_user_id'    => $request->get('to_user_id'),
-                'description'   => $toUserText
+                'description'   => $toUserText,
+                'ntype'         => 'NEW_MESSAGE'
             ];
 
             access()->addNotification($storeNotification);
@@ -215,6 +216,7 @@ class APIMessagesController extends BaseApiController
     {
         $validator = Validator::make($request->all(), [
             'to_user_id'        => 'required'
+            'booking_id'        => 'required'
         ]);
 
         if($validator->fails())
@@ -254,12 +256,15 @@ class APIMessagesController extends BaseApiController
                 'mtitle'    => '',
                 'mdesc'     => $text,
                 'ntype'     => 'NEW_MESSAGE'
+                
             ];
 
             $storeNotification = [
                 'user_id'       => $userInfo->id,
                 'to_user_id'    => $request->get('to_user_id'),
-                'description'   => $text
+                'booking_id'    => $request->get('booking_id'),
+                'description'   => $text,
+                'ntype'         => 'NEW_MESSAGE'
             ];
 
             access()->addNotification($storeNotification);

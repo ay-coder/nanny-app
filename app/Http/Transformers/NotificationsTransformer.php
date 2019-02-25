@@ -43,6 +43,7 @@ class NotificationsTransformer extends Transformer
             "sitter_id"             =>  $item->sitter_id, 
             "sitter_name"           =>  isset($item->sitter) && isset($item->sitter->name) ? $item->sitter->name : '',
             "icon"                  =>  URL::to('/').'/uploads/notifications/' .$item->icon, 
+            "ntype"                 =>  $this->nulltoBlank($item->ntype),
             "description"           =>  $this->nulltoBlank($item->description),
             "is_read"               =>  $item->is_read,
             "read_time"             =>  $this->nulltoBlank($item->read_time),
