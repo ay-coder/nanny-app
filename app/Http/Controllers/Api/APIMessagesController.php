@@ -215,7 +215,7 @@ class APIMessagesController extends BaseApiController
     public function createMyMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'to_user_id'        => 'required'
+            'to_user_id'        => 'required',
             'booking_id'        => 'required'
         ]);
 
