@@ -540,13 +540,16 @@ class Access
 
     public function getMyChat()
     {
-        return Messages::where([
-            'from_user_id' => 1,
-            'to_user_id'    => access()->user()->id
-        ])->orWhere([
-            'from_user_id'  => access()->user()->id,
-            'to_user_id'    => 1
-        ])->orderBy('id')->get();
+        return Messages::where('booking_id', null)->where(function($q)
+            {
+                $q->where([
+                        'from_user_id' => 1,
+                        'to_user_id'    => access()->user()->id
+                    ])->orWhere([
+                        'from_user_id'  => access()->user()->id,
+                        'to_user_id'    => 1
+                    ]);
+            })->orderBy('id')->get();
     }
 
     public function getChat($bookingId = null)
