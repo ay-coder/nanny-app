@@ -79,6 +79,13 @@
                 </a>
             </li>
 
+            <li class="{{ active_class(Active::checkUriPattern('admin/messages')) }}">
+                <a href="{{ route('admin.messages.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Messages</span>
+                </a>
+            </li>
+
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)
