@@ -17,7 +17,7 @@ trait Attribute
     {
         $id = $isAdmin ? $this->id : hasher()->encode($this->id);
 
-        return '<a href="'.route($prefix .'.'. $routes->editRoute, $id).'" class="btn btn-xs btn-primary"><i class="fa fa fa-reply" data-toggle="tooltip" data-placement="top" title="Edit"></i></a> ';
+        return '<a href="'.route($prefix .'.'. $routes->editRoute, $id).'" class="btn btn-xs btn-primary"><i class="fa fa fa-reply" data-toggle="tooltip" data-placement="top" title="Reply"></i></a> ';
     }
 
     /**
