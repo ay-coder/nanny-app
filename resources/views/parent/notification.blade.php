@@ -79,7 +79,7 @@
                         <li class="chat">
                             <h3>Genral Discussion</h3>
                             <span>Chat with us</span>
-                            <a href="#" class="chat-btn">Chat</a>
+                            <a href="{!! route('frontend.contactus') !!}" class="chat-btn">Chat</a>
                         </li>
                     </ul>
                 </div>

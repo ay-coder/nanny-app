@@ -11,7 +11,6 @@
 
 @section('content')
     {{ Form::model($item, ['route' => [$repository->getActionRoute('updateRoute'), $item], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) }}
-
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">{{ $repository->moduleTitle }}</h3>

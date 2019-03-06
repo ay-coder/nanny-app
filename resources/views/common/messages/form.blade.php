@@ -59,6 +59,5 @@
         </div>
     </div>
 </div>
-
-{{ Form::hidden('to_user_id', null) }}
+{{ Form::hidden('to_user_id', isset($message->from_user_id) ? $message->from_user_id : null) }}
 

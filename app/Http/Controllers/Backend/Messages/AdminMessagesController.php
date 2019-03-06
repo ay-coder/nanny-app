@@ -133,7 +133,7 @@ class AdminMessagesController extends Controller
         $status = $this->repository->model->create([
             'from_user_id'  => 1,
             'to_user_id'    => $request->get('to_user_id'),
-            'messages'      => $request->get('message')
+            'message'       => $request->get('message')
         ]);
 
         return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess('Replied Successfully!');
