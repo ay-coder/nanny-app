@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Messages\EloquentMessagesRepository;
 use Html;
+use App\Models\Access\User\User;
+
 /**
  * Class AdminMessagesController
  */
@@ -135,6 +137,25 @@ class AdminMessagesController extends Controller
             'to_user_id'    => $request->get('to_user_id'),
             'message'       => $request->get('message')
         ]);
+
+        $toUser     = User::find($request->get('to_user_id'));
+        $text       = 'Admin has sent you message';
+        $payloadData = [
+            'mtitle'    => '',
+            'mdesc'     => $text,
+            'ntype'     => 'NEW_MESSAGE'
+        ];
+
+        $storeNotification = [
+            'user_id'       => 1,
+            'to_user_id'    => $request->get('to_user_id'),
+            'description'   => $text,
+            'ntype'         => 'NEW_MESSAGE'
+        ];
+
+        access()->addNotification($storeNotification);
+
+        access()->sentPushNotification($toUser, $payloadData);
 
         return redirect()->route($this->repository->setAdmin(true)->getActionRoute('listRoute'))->withFlashSuccess('Replied Successfully!');
     }
