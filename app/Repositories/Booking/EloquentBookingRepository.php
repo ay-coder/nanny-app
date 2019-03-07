@@ -570,8 +570,63 @@ class EloquentBookingRepository extends DbRepository
     {
         if($bookingId)
         {
-            return $this->model->where('id', $bookingId)
-            ->update(['booking_status' => 'CANCELED']);
+            $bookingInfo = $this->model->where('id', $bookingId)->first();
+
+            $sitter         = User::find($bookingInfo->sitter_id);
+            $parent         = User::find($bookingInfo->user_id);
+            $sitterText     = 'Admin has cancelled the appointment';
+
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText,
+                'parent_id' => $bookingInfo->user_id,
+                'sitter_id' => $bookingInfo->sitter_id,
+                'booking_id' => $bookingInfo->id,
+                'ntype'     => 'BOOKING_ADMIN_CANCELED'
+            ];
+
+
+            $storeSitterNotification = [
+                'user_id'       => 1,
+                'sitter_id'     => $sitter->id,
+                'booking_id'    => $bookingInfo->id,
+                'to_user_id'    => $sitter->id,
+                'description'   => $sitterText
+            ];
+
+            access()->addNotification($storeSitterNotification);
+
+            access()->sentPushNotification($sitter, $sitterpayload);
+
+            // Restore Booking
+            access()->restoreSingleBooking($bookingInfo->sitter_id);
+
+            $parentText     = 'Admin has cancelled your booking';
+
+            $parentpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $parentText,
+                'parent_id' => $bookingInfo->user_id,
+                'sitter_id' => $bookingInfo->sitter_id,
+                'booking_id' => $bookingInfo->id,
+                'ntype'     => 'BOOKING_ADMIN_CANCELED'
+            ];
+
+
+            $storeParentNotification = [
+                'user_id'       => 1,
+                'sitter_id'     => $bookingInfo->sitter_id,
+                'booking_id'    => $bookingInfo->id,
+                'to_user_id'    => $parent->id,
+                'description'   => $parentText
+            ];
+
+            access()->addNotification($storeParentNotification);
+
+            access()->sentPushNotification($parent, $parentpayload);
+
+            $bookingInfo->booking_status = 'CANCELED';
+            return $bookingInfo->save();
         }
 
         return false; 
