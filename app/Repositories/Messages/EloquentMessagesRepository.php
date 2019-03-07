@@ -9,6 +9,7 @@
 use App\Models\Messages\Messages;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use App\Models\Access\User\User;
 
 class EloquentMessagesRepository extends DbRepository
 {
@@ -159,7 +160,8 @@ class EloquentMessagesRepository extends DbRepository
      */
     public function __construct()
     {
-        $this->model = new Messages;
+        $this->model        = new Messages;
+        $this->userModel    = new User;
     }
 
     /**
@@ -353,7 +355,8 @@ class EloquentMessagesRepository extends DbRepository
     public function getTableFields()
     {
         return [
-            $this->model->getTable().'.*'
+            $this->model->getTable().'.*',
+            $this->userModel->getTable().'.name as username'
         ];
     }
 
@@ -363,7 +366,10 @@ class EloquentMessagesRepository extends DbRepository
     public function getForDataTable()
     {
         return $this->model->orderBy('id', 'desc')->get();
-        $collection = $this->model->orderBy('id', 'desc')->get();
+        $collection = $this->model
+            ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.from_user_id')
+            ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.to_user_id')
+            ->orderBy('id', 'desc')->get();
         $output     = [];
         $fromId     = [];
 

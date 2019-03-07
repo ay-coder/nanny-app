@@ -54,13 +54,62 @@
         var headers      = JSON.parse('{!! $repository->getTableHeaders() !!}'),
             columns      = JSON.parse('{!! $repository->getTableColumns() !!}');
             moduleConfig = {
-                getTableDataUrl: '{!! route($repository->getActionRoute("dataRoute")) !!}'
+                getTableDataUrl: '{!! route($repository->getActionRoute("dataRoute")) !!}',
+                cancelURL: '{!! route('admin.booking.cancel') !!}'
             };
 
         jQuery(document).ready(function()
         {
             BaseCommon.Utils.setTableHeaders(document.getElementById("tableHeadersContainer"), headers);
             BaseCommon.Utils.setTableColumns(document.getElementById("items-table"), moduleConfig.getTableDataUrl, 'GET', columns);
+
+            setTimeout(function()
+            {
+                bindCancelEvent();
+            }, 1000);
+            
     	});
+
+        function bindCancelEvent()
+        {
+            var elements = document.querySelectorAll('.cancel-appointment');
+            
+            if(elements)
+            {
+                for(var i = 0; i < elements.length; i++)
+                {
+                    elements[i].onclick = function(e)
+                    {
+                        var element     = BaseCommon.Utils.getClosestElement(e.target, 'a');
+                            bookingId   = element.getAttribute('data-id');
+
+                        cancelBooking(bookingId);
+                    }
+                }
+            }
+        }
+
+        function cancelBooking(id)
+        {
+            jQuery.ajax({
+                url: moduleConfig.cancelURL,
+                method: "GET",
+                dataType: "JSON",
+                data: {
+                    bookingId: id
+                },
+                success: function(data)
+                {
+                    if(data.status == true)
+                    {
+                        alert("Booking Canceld Successfully!");
+                        window.location.reload();
+                        return ;
+                    }
+
+                    alert("Something went Wrong!");
+                }
+            })
+        }
     </script>
 @endsection

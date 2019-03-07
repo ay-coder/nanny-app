@@ -8,6 +8,8 @@
 // Switch between the included languages
 Route::get('lang/{lang}', 'LanguageController@swap');
 
+
+
 /* ----------------------------------------------------------------------- */
 
 /*
@@ -19,6 +21,7 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 });
 
 /* ----------------------------------------------------------------------- */
+
 
 /*
  * Backend Routes
@@ -33,4 +36,5 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
      * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
      */
     includeRouteFiles(__DIR__.'/Backend/');
+
 });

@@ -56,8 +56,29 @@ class AdminMessagesController extends Controller
      */
     public function index()
     {
+        $users = User::where('id', '!=', 1)->get();
+        $users = $users->pluck('name', 'id')->toArray();
+
         return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
-            'repository' => $this->repository
+            'repository' => $this->repository,
+            'allUsers'   => $users
+        ]);
+    }
+
+    /**
+     * Messages Listing
+     *
+     * @return \Illuminate\View\View
+     */
+    public function filter(Request $request)
+    {
+        dd($request->all());
+        $users = User::where('id', '!=', 1)->get();
+        $users = $users->pluck('name', 'id')->toArray();
+
+        return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
+            'repository' => $this->repository,
+            'allUsers'   => $users
         ]);
     }
 

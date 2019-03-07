@@ -139,6 +139,31 @@ class AdminBookingController extends Controller
     }
 
     /**
+     * Cancel
+     * 
+     * @param Request $request
+     * @return JSON
+     */
+    public function cancel(Request $request)
+    {
+        if($request->has('bookingId'))
+        {
+            $status = $this->repository->cancelByAdmin($request->get('bookingId'));
+
+            if($status)
+            {
+                return response()->json([
+                    'status' => true
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status' => true
+        ]);
+    }
+
+    /**
      * Get Table Data
      *
      * @return json|mixed
@@ -154,7 +179,11 @@ class AdminBookingController extends Controller
                 return $item->baby->title;
             })
             ->addColumn('actions', function ($item) {
-                return $item->admin_action_buttons;
+                if(in_array($item->booking_status, ['PENDING', 'REQUESTED']))
+                {
+                    return '<a href="javascript:void(0);" title="Cancel" data-id="'. $item->id .'"><i class="cancel-appointment fa fa-2x fa-close"></i></a>';
+                }
+                return 'N/A';
             })
             ->make(true);
     }

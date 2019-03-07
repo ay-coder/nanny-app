@@ -41,9 +41,9 @@ class EloquentSittersRepository extends DbRepository
         'stripe_id'     => 'Stripe ID',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
-        'account_number'     => 'Account Number',
+        /*'account_number'     => 'Account Number',
         'aba_number'     => 'ABA Number',
-        'bank_name'     => 'Bank Name',
+        'bank_name'     => 'Bank Name',*/
         'sitter_start_time'      => 'Start Time',
         'sitter_end_time'      => 'End Time',
         "actions"       => "Actions"

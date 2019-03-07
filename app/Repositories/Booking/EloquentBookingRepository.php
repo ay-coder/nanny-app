@@ -559,4 +559,21 @@ class EloquentBookingRepository extends DbRepository
 
         return false;
     }
+
+    /**
+     * Cancel By Admin
+     * 
+     * @param int $bookingId
+     * @return bool
+     */
+    public function cancelByAdmin($bookingId = null)
+    {
+        if($bookingId)
+        {
+            return $this->model->where('id', $bookingId)
+            ->update(['booking_status' => 'CANCELED']);
+        }
+
+        return false; 
+    }
 }

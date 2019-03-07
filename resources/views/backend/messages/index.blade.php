@@ -18,6 +18,12 @@
 
             <div class="box-tools pull-right">
                 @include('common.'.strtolower($repository->moduleTitle).'.header-buttons', ['createRoute' => $repository->getActionRoute('createRoute')])
+
+                
+                
+                {{-- Form::select('user_id', $allUsers, null, ['class' => 'form-control']) --}}
+
+                
             </div>
         </div>
 

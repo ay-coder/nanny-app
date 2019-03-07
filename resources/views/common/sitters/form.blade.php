@@ -87,14 +87,14 @@
 </div>
 
 
-<div class="box-body">
+{{-- <div class="box-body">
     <div class="form-group">
         {{ Form::label('aba_number', 'ABA Number :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
             {{ Form::text('aba_number', null, ['class' => 'form-control', 'placeholder' => 'ABA Number ', 'required' => 'required']) }}
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="box-body">
     <div class="form-group">
@@ -104,7 +104,7 @@
         </div>
     </div>
 </div>
-
+{{-- 
 <div class="box-body">
     <div class="form-group">
         {{ Form::label('bank_name', 'Bank Name :', ['class' => 'col-lg-2 control-label']) }}
@@ -121,7 +121,7 @@
             {{ Form::textarea('bank_address', null, ['class' => 'form-control', 'placeholder' => 'Bank Address', 'required' => 'required']) }}
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="box-body">
     <div class="form-group">
