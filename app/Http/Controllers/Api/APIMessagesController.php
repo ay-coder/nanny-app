@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use App\Repositories\Messages\EloquentMessagesRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Access\User\User;
+use App\Models\Booking\Booking;
 
 class APIMessagesController extends BaseApiController
 {
@@ -231,6 +232,7 @@ class APIMessagesController extends BaseApiController
         }
 
         $userInfo   = $this->getAuthenticatedUser();
+        $bookingInfo = Booking::where('id', $request->get('booking_id'))->first();
         $input      = $request->all();
         $input      = array_merge($input, ['from_user_id' => $userInfo->id ]);
 
@@ -255,6 +257,9 @@ class APIMessagesController extends BaseApiController
             $payloadData = [
                 'mtitle'    => '',
                 'mdesc'     => $text,
+                'booking_id' => $request->get('booking_id'),
+                'parent_id' => $bookingInfo->parent_id,
+                'sitter_id' => $bookingInfo->sitter_id,
                 'ntype'     => 'NEW_MESSAGE'
                 
             ];
