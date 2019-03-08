@@ -32,7 +32,7 @@ class NotificationsTransformer extends Transformer
                 "user_id"           => (int) $item->booking->user_id,
                 "sitter_id"         => (int) $item->booking->sitter_id,
                 "booking_status"    =>  $item->booking->booking_status, 
-                'payment_status'    => access()->getPaymentStatus($item->booking->id)
+                'payment_status'    => (int) access()->getPaymentStatus($item->booking->id)
             ];
         }
 
