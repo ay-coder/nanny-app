@@ -12,6 +12,7 @@ use App\Models\Activation\Activation;
 use App\Models\Booking\Booking;
 use App\Models\General\General;
 use App\Models\Messages\Messages;
+use App\Models\Payment\Payment;
 
 /**
  * Class Access.
@@ -564,5 +565,26 @@ class Access
         }
 
         return false;
+    }
+
+    /**
+     * Get Payment Status
+     * 
+     * @param int $bookingId
+     * @return bool
+     */
+    public function getPaymentStatus($bookingId = null)
+    {
+        if($bookingId)
+        {
+            $payment = Payment::where('booking_id', $bookingId)->first();
+
+            if(isset($payment) && isset($payment->id))
+            {
+                return $payment->payment_status;
+            }
+        }
+
+        return 0;
     }
 }

@@ -38,7 +38,7 @@ class EloquentMessagesRepository extends DbRepository
         'to_user_id'        => 'To',
         'image'             => 'Image',
         'message'           => 'Message',
-        'created_at'        => 'Created_at',
+        'created_at'        => 'Created At',
         "actions"         => "Actions"
     ];
 
@@ -365,6 +365,12 @@ class EloquentMessagesRepository extends DbRepository
      */
     public function getForDataTable()
     {
+        if(session('messageFilter'))
+        {
+            return $this->model->where('from_user_id', session('messageFilter'))
+            ->orWhere('to_user_id', session('messageFilter'))
+            ->orderBy('id', 'desc')->get();
+        }
         return $this->model->orderBy('id', 'desc')->get();
         $collection = $this->model
             ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.from_user_id')

@@ -32,7 +32,7 @@ class NotificationsTransformer extends Transformer
                 "user_id"           => (int) $item->booking->user_id,
                 "sitter_id"         => (int) $item->booking->sitter_id,
                 "booking_status"    =>  $item->booking->booking_status, 
-                'payment_status'    => isset($item->booking->payment->payment_status) ? $this->nulltoBlank($item->booking->payment->payment_status) : 0
+                'payment_status'    => access()->getPaymentStatus($item->booking->id)
             ];
         }
 

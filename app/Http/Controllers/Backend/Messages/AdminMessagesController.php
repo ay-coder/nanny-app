@@ -6,6 +6,7 @@ use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Messages\EloquentMessagesRepository;
 use Html;
 use App\Models\Access\User\User;
+use Session;
 
 /**
  * Class AdminMessagesController
@@ -58,7 +59,7 @@ class AdminMessagesController extends Controller
     {
         $users = User::where('id', '!=', 1)->get();
         $users = $users->pluck('name', 'id')->toArray();
-
+        
         return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
             'repository' => $this->repository,
             'allUsers'   => $users
@@ -72,13 +73,9 @@ class AdminMessagesController extends Controller
      */
     public function filter(Request $request)
     {
-        dd($request->all());
-        $users = User::where('id', '!=', 1)->get();
-        $users = $users->pluck('name', 'id')->toArray();
-
-        return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
-            'repository' => $this->repository,
-            'allUsers'   => $users
+        session(['messageFilter' => $request->get('userId')]);
+        return response()->json([
+            'status' => true
         ]);
     }
 

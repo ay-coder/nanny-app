@@ -16,14 +16,13 @@
         <div class="box-header with-border">
             <h3 class="box-title">{{ isset($repository->moduleTitle) ? str_plural($repository->moduleTitle) : '' }} Listing</h3>
 
-            <div class="box-tools pull-right">
-                @include('common.'.strtolower($repository->moduleTitle).'.header-buttons', ['createRoute' => $repository->getActionRoute('createRoute')])
-
-                
-                
-                {{-- Form::select('user_id', $allUsers, null, ['class' => 'form-control']) --}}
-
-                
+        </div>
+        <div class="box-tools">
+            <div class="col-md-4">
+                {{ Form::select('user_id', ['' => 'Please Select User'] + $allUsers, session('messageFilter') ? session('messageFilter') : '', ['id' => 'user_id', 'class' => 'form-control']) }}
+            </div> 
+            <div>
+                <button class="btn btn-primary" id="filterBtn">Filter</button>
             </div>
         </div>
 
@@ -60,13 +59,53 @@
         var headers      = JSON.parse('{!! $repository->getTableHeaders() !!}'),
             columns      = JSON.parse('{!! $repository->getTableColumns() !!}');
             moduleConfig = {
-                getTableDataUrl: '{!! route($repository->getActionRoute("dataRoute")) !!}'
+                getTableDataUrl: '{!! route($repository->getActionRoute("dataRoute")) !!}',
+                filterMessageUrl: '{!! route('admin.messages.filter') !!}'
             };
 
         jQuery(document).ready(function()
         {
             BaseCommon.Utils.setTableHeaders(document.getElementById("tableHeadersContainer"), headers);
             BaseCommon.Utils.setTableColumns(document.getElementById("items-table"), moduleConfig.getTableDataUrl, 'GET', columns);
+
+            setTimeout(function()
+            {
+                bindFilterEvent();
+            }, 1000);
     	});
+
+        function bindFilterEvent()
+        {
+            var element = document.getElementById('filterBtn');
+            if(element)
+            {
+                element.onclick = function(e)
+                {
+                    filterMessages(document.getElementById('user_id').value);
+                }
+            }
+        }
+
+        function filterMessages(id)
+        {
+            jQuery.ajax({
+                url: moduleConfig.filterMessageUrl,
+                method: "GET",
+                dataType: "JSON",
+                data: {
+                    userId: id
+                },
+                success: function(data)
+                {
+                    if(data.status == true)
+                    {
+                        window.location.reload();
+                        return ;
+                    }
+
+                    alert("Something went Wrong!");
+                }
+            })
+        }
     </script>
 @endsection
