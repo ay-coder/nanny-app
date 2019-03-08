@@ -161,14 +161,14 @@ class AdminMessagesController extends Controller
         $payloadData = [
             'mtitle'    => '',
             'mdesc'     => $text,
-            'ntype'     => 'NEW_MESSAGE'
+            'ntype'     => 'ADMIN_MESSAGE'
         ];
 
         $storeNotification = [
             'user_id'       => 1,
             'to_user_id'    => $request->get('to_user_id'),
             'description'   => $text,
-            'ntype'         => 'NEW_MESSAGE'
+            'ntype'         => 'ADMIN_MESSAGE'
         ];
 
         access()->addNotification($storeNotification);
