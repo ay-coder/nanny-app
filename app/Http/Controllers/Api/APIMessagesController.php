@@ -258,7 +258,7 @@ class APIMessagesController extends BaseApiController
                 'mtitle'    => '',
                 'mdesc'     => $text,
                 'booking_id' => $request->get('booking_id'),
-                'parent_id' => $bookingInfo->parent_id,
+                'parent_id' => $bookingInfo->user_id,
                 'sitter_id' => $bookingInfo->sitter_id,
                 'ntype'     => 'NEW_MESSAGE'
                 
