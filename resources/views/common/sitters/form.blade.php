@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-
+{{-- 
 <div class="box-body">
     <div class="form-group">
         {{ Form::label('account_number', 'Account Number :', ['class' => 'col-lg-2 control-label']) }}
@@ -85,7 +85,7 @@
         </div>
     </div>
 </div>
-
+ --}}
 
 {{-- <div class="box-body">
     <div class="form-group">

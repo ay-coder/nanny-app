@@ -2,6 +2,7 @@
 
 use App\Models\Access\User\User;
 use App\Models\Reviews\Reviews;
+use App\Models\Booking\Booking;
 
 trait Relationship
 {
@@ -23,6 +24,16 @@ trait Relationship
     public function reviews()
     {
         return $this->hasMany(Reviews::class, 'sitter_id', 'user_id');
+    }
+
+    /**
+     * Belongs to relations with Sitter.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sitter_bookings()
+    {
+        return $this->hasMany(Booking::class, 'sitter_id');
     }
 
 }

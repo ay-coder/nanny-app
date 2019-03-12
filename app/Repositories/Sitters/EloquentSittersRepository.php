@@ -38,6 +38,7 @@ class EloquentSittersRepository extends DbRepository
         'username'      => 'User Name',
         'email'         => 'Email Id',
         'vacation_mode' => 'Vacation Mode',
+        'booking_by_sitter' => 'Booking by Sitter',
         'stripe_id'     => 'Stripe ID',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
@@ -84,13 +85,13 @@ class EloquentSittersRepository extends DbRepository
                 'name'          => 'vacation_mode',
                 'searchable'    => true,
                 'sortable'      => true
-            ], 'vacation_mode' =>   [
-                'data'          => 'vacation_mode',
-                'name'          => 'vacation_mode',
+            ],
+        'booking_by_sitter' =>   [
+                'data'          => 'booking_by_sitter',
+                'name'          => 'booking_by_sitter',
                 'searchable'    => true,
                 'sortable'      => true
             ],
-
         'stripe_id' =>   [
                 'data'          => 'stripe_id',
                 'name'          => 'stripe_id',
@@ -109,13 +110,13 @@ class EloquentSittersRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-        'account_number' =>   [
+        /*'account_number' =>   [
                 'data'          => 'account_number',
                 'name'          => 'account_number',
                 'searchable'    => true,
                 'sortable'      => true
-            ],
-        'aba_number' =>   [
+            ],*/
+        /*'aba_number' =>   [
                 'data'          => 'aba_number',
                 'name'          => 'aba_number',
                 'searchable'    => true,
@@ -126,7 +127,7 @@ class EloquentSittersRepository extends DbRepository
                 'name'          => 'bank_name',
                 'searchable'    => true,
                 'sortable'      => true
-            ],
+            ],*/
 		'sitter_start_time' =>   [
                 'data'          => 'sitter_start_time',
                 'name'          => 'sitter_start_time',

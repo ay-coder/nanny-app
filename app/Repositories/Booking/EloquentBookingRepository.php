@@ -209,7 +209,62 @@ class EloquentBookingRepository extends DbRepository
      */
     public function create($input)
     {
-        $input = $this->prepareInputData($input, true);
+        if(isset($input['baby_ids']))
+        {
+            if(count($input['baby_ids']) == 1)
+            {
+                $input['baby_id'] = $input['baby_ids'][0];
+                unset($input['baby_ids']);
+            }
+            else if(is_array($input['baby_ids']) && count($input['baby_ids']))
+            {
+                $input['baby_id'] = array_pop($input['baby_ids']);
+
+                if(count($input['baby_ids']))
+                {
+                    $input['is_multiple'] = 1;
+                    $input['baby_ids'] = implode(',', $input['baby_ids']);
+                }
+            }
+        }
+
+        $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
+        $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
+        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
+        $input              = array_merge($input, ['user_id' => $input['user_id'],
+            'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
+            'booking_start_time' => $bookingStartTime,
+            'booking_end_time'  => $bookingEndTime,
+            'start_time'        => $input['booking_start_time'],
+            'end_time'          => $input['booking_end_time'],
+            'booking_status'    => 'REQUESTED',
+            'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
+        ]);
+
+        
+        $startTime  = $bookingStartTime;
+        $endTime    = $bookingEndTime;
+
+        $query = $this->model->where([
+            'sitter_id'  => $input['sitter_id'],
+        ]);
+
+        if($startTime)
+        {
+            $query->where(function($q) use($startTime, $endTime)
+            {
+                $q->whereBetween('booking_start_time',  [$startTime, $endTime])
+                ->orWhereBetween('booking_end_time',  [$startTime, $endTime]);
+            });
+        }
+
+        $timeAllow = $query->get();
+
+        if(isset($timeAllow) && count($timeAllow))
+        {
+            return false;
+        }
+
         $model = $this->model->create($input);
 
         if($model)
@@ -229,12 +284,66 @@ class EloquentBookingRepository extends DbRepository
      */
     public function update($id, $input)
     {
+        if(isset($input['baby_ids']))
+        {
+            if(count($input['baby_ids']) == 1)
+            {
+                $input['baby_id'] = $input['baby_ids'][0];
+                unset($input['baby_ids']);
+            }
+            else if(is_array($input['baby_ids']) && count($input['baby_ids']))
+            {
+                $input['baby_id'] = array_pop($input['baby_ids']);
+
+                if(count($input['baby_ids']))
+                {
+                    $input['is_multiple'] = 1;
+                    $input['baby_ids'] = implode(',', $input['baby_ids']);
+                }
+            }
+        }
+
+        $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
+        $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
+        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
+        $input              = array_merge($input, ['user_id' => $input['user_id'],
+            'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
+            'booking_start_time' => $bookingStartTime,
+            'booking_end_time'  => $bookingEndTime,
+            'start_time'        => $input['booking_start_time'],
+            'end_time'          => $input['booking_end_time'],
+            'booking_status'    => 'REQUESTED',
+            'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
+        ]);
+
+        
+        $startTime  = $bookingStartTime;
+        $endTime    = $bookingEndTime;
+
+        $query = $this->model->where([
+            'sitter_id'  => $input['sitter_id'],
+        ]);
+
+        if($startTime)
+        {
+            $query->where(function($q) use($startTime, $endTime)
+            {
+                $q->whereBetween('booking_start_time',  [$startTime, $endTime])
+                ->orWhereBetween('booking_end_time',  [$startTime, $endTime]);
+            });
+        }
+
+        $timeAllow = $query->get();
+
+        if(isset($timeAllow) && count($timeAllow))
+        {
+            return false;
+        }
+
         $model = $this->model->find($id);
 
         if($model)
         {
-            $input = $this->prepareInputData($input);
-
             return $model->update($input);
         }
 

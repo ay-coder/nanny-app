@@ -1,85 +1,59 @@
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('user_id', 'User Id :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('user_id', null, ['class' => 'form-control', 'placeholder' => 'User Id', 'required' => 'required']) }}
-        </div>
+        @if(isset($item->id))
+            <input type="hidden" name="user_id" value="{!!  $item->user_id!!}">
+            {{ Form::label('user_id', 'Parent:', ['class' => 'col-lg-2 control-label']) }}
+            {!! $item->user->name !!}
+        @else
+            {{ Form::label('user_id', 'Parent :', ['class' => 'col-lg-2 control-label']) }}
+            <div class="col-lg-10">
+                {{ Form::select('user_id', ['' => 'Select Parent'] + $parents, null, ['class' => 'form-control', 'required' => 'required', isset($item->id) ? 'disabled' : '']) }}
+            </div>
+        @endif
     </div>
-</div><div class="box-body">
+</div>
+
+
+
+<div class="box-body">
     <div class="form-group">
-        {{ Form::label('sitter_id', 'Sitter Id :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('sitter_id', 'Sitter:', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('sitter_id', null, ['class' => 'form-control', 'placeholder' => 'Sitter Id', 'required' => 'required']) }}
+            {{ Form::select('sitter_id', [ '' => 'Please Select Sitter'] + $sitters, null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
     </div>
-</div><div class="box-body">
+</div>
+
+
+<div class="box-body">
     <div class="form-group">
-        {{ Form::label('baby_id', 'Baby Id :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('baby_ids', 'Select Babies:', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('baby_id', null, ['class' => 'form-control', 'placeholder' => 'Baby Id', 'required' => 'required']) }}
+            {{ Form::select('baby_ids[]', isset($allBabies) ? $allBabies : ['' => 'Select Baby'], isset($selectedBabies) ? $selectedBabies : null, ['id' => 'baby_ids', 'class' => 'form-control', 'multiple' => 'multiple', 'required' => 'required']) }}
         </div>
     </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('baby_ids', 'Baby Ids :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('baby_ids', null, ['class' => 'form-control', 'placeholder' => 'Baby Ids', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('is_multiple', 'Is Multiple :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('is_multiple', null, ['class' => 'form-control', 'placeholder' => 'Is Multiple', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
+</div>
+
+<div class="box-body">
     <div class="form-group">
         {{ Form::label('booking_date', 'Booking Date :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('booking_date', null, ['class' => 'form-control', 'placeholder' => 'Booking Date', 'required' => 'required']) }}
+            {{ Form::text('booking_date', null, ['class' => 'form-control futuredate', 'placeholder' => 'Booking Date', 'required' => 'required']) }}
         </div>
     </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('start_time', 'Start Time :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('start_time', null, ['class' => 'form-control', 'placeholder' => 'Start Time', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('end_time', 'End Time :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('end_time', null, ['class' => 'form-control', 'placeholder' => 'End Time', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
+</div>
+<div class="box-body">
     <div class="form-group">
         {{ Form::label('booking_start_time', 'Booking Start Time :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('booking_start_time', null, ['class' => 'form-control', 'placeholder' => 'Booking Start Time', 'required' => 'required']) }}
+            {{ Form::text('booking_start_time', isset($item->id) ? $item->start_time : date('h:i'), ['class' => 'form-control startTimeB', 'placeholder' => 'Booking Start Time', 'required' => 'required']) }}
         </div>
     </div>
 </div><div class="box-body">
     <div class="form-group">
         {{ Form::label('booking_end_time', 'Booking End Time :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('booking_end_time', null, ['class' => 'form-control', 'placeholder' => 'Booking End Time', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('booking_status', 'Booking Status :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('booking_status', null, ['class' => 'form-control', 'placeholder' => 'Booking Status', 'required' => 'required']) }}
-        </div>
-    </div>
-</div><div class="box-body">
-    <div class="form-group">
-        {{ Form::label('status', 'Status :', ['class' => 'col-lg-2 control-label']) }}
-        <div class="col-lg-10">
-            {{ Form::text('status', null, ['class' => 'form-control', 'placeholder' => 'Status', 'required' => 'required']) }}
+            {{ Form::text('booking_end_time', isset($item->id) ? $item->end_time : date('h:i', strtotime('+3 hours')), ['class' => 'form-control endTimeB', 'placeholder' => 'Booking End Time', 'required' => 'required']) }}
         </div>
     </div>
 </div>

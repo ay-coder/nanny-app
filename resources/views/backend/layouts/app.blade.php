@@ -10,7 +10,7 @@
 
         <!-- Meta -->
         <meta name="description" content="@yield('meta_description', 'Default Description')">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+        <meta name="author" content="@yield('meta_author', 'Anuj Jaha')">
         @yield('meta')
 
         <!-- Styles -->
@@ -23,6 +23,11 @@
         @else
             {{ Html::style(mix('css/backend.css')) }}
         @endif
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
+
 
         @yield('after-styles')
 
@@ -71,6 +76,13 @@
         @yield('before-scripts')
         {{ Html::script(mix('js/backend.js')) }}
         <script type="text/javascript" src="{!! asset('js/custom/custom.js') !!}"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
         @yield('after-scripts')
+
     </body>
 </html>

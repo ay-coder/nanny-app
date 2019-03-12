@@ -227,7 +227,7 @@ var BaseCommon =
 			        type: method
 			    },
 			    columns: columns,
-			    order: [[0, "asc"]],
+			    order: [[0, "desc"]],
 			    searchDelay: 1200
 			});
 		}

@@ -147,6 +147,9 @@ class AdminPlansController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
             ->escapeColumns(['id', 'sort'])
+            ->addColumn('subscription_count', function ($item) {
+                return $item->subscription_count > 1000 ? 'Unlimited' : $item->subscription_count;
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })

@@ -41,3 +41,53 @@
         </div>
     {{ Form::close() }}
 @endsection
+
+@section('after-scripts')
+<script type="text/javascript">
+    
+            $('.startTimeB').datetimepicker({
+                format: 'HH:mm'
+            });
+
+            $(".startTimeB").on("dp.change",function (e) 
+            {
+                validateBookingTime();
+            });
+            $('.endTimeB').datetimepicker({
+                format: 'HH:mm'
+            }).on("dp.change",function (e) 
+            {
+                validateBookingTime();
+                console.log('Change Ebnd Time');
+            });
+
+            $('.futuredate').datetimepicker({
+                viewMode: 'days',
+                format: 'DD/MM/YYYY',
+                minDate: new Date(),
+                defaultDate:new Date()
+            });
+
+            $('.futuredate').val(moment().format('DD/MM/YYYY'));
+
+            function validateBookingTime()
+            {
+                var startTime   = moment($('.endTimeB').val(), 'HH:mm:ss');
+                    diff        = startTime.diff(moment($('.startTimeB').val(), 'HH:mm:ss'));
+
+                if(diff >= 10800000)
+                {
+                    console.log("ALL WELL");
+                }
+                else
+                {
+                    var minEndTime = moment($('.startTimeB').val(), 'HH:mm:ss').add(3, 'hours').format('HH:mm');
+                    
+                    $('.endTimeB').val(minEndTime);
+                    console.log("Reset Date Time");
+                    alert("Minimum 3 Hours Require for Booking !");
+                }
+            }
+
+</script>
+@endsection

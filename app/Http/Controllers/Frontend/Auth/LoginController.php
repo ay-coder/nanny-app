@@ -99,6 +99,14 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $isAdmin    = false;
+        $authUser   = access()->user();
+
+        if($authUser->id == 1)
+        {
+            $isAdmin = true;
+        }
+
         /*
          * Boilerplate needed logic
          */
@@ -126,6 +134,11 @@ class LoginController extends Controller
         $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
+
+        if($isAdmin)
+        {
+            return redirect('/admin-login');
+        }
 
         return redirect('/');
     }

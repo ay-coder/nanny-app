@@ -66,13 +66,13 @@
             setTimeout(function()
             {
                 bindCancelEvent();
-            }, 1000);
+            }, 5000);
             
     	});
 
         function bindCancelEvent()
         {
-            var elements = document.querySelectorAll('.cancel-appointment');
+            var elements = jQuery('.cancel-appointment');
             
             if(elements)
             {
@@ -82,6 +82,8 @@
                     {
                         var element     = BaseCommon.Utils.getClosestElement(e.target, 'a');
                             bookingId   = element.getAttribute('data-id');
+
+                        console.log(bookingId);
 
                         cancelBooking(bookingId);
                     }

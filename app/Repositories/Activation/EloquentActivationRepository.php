@@ -38,7 +38,7 @@ class EloquentActivationRepository extends DbRepository
         'id'                => 'Id',
         'username'          => 'Parent',
         'plan_title'        => 'Plan',
-        'allowed_bookings'  => 'Allowed_bookings',
+        'allowed_bookings'  => 'Allowed Bookings',
     ];
 
     /**
@@ -354,17 +354,17 @@ class EloquentActivationRepository extends DbRepository
 
                     if($plan->plan_type == 'A')
                     {
-                        $totalBookings = 1;
+                        $totalBookings = $plan->subscription_count;
                     }
 
                     if($plan->plan_type == 'B')
                     {
-                        $totalBookings = 10;
+                        $totalBookings = $plan->subscription_count;
                     }
 
                     if($plan->plan_type == 'C')
                     {
-                        $totalBookings = 10;
+                        $totalBookings = 9000000;   
                     }
 
 

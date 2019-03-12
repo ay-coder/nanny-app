@@ -37,6 +37,7 @@ class EloquentPlansRepository extends DbRepository
         'amount'        => 'Amount',
         'description'   => 'Description',
         'plan_type'     => 'Plan Type',
+        'subscription_count'     => 'Allowed Bookings',
         "actions"       => "Actions"
     ];
 
@@ -74,6 +75,12 @@ class EloquentPlansRepository extends DbRepository
 		'plan_type' =>   [
                 'data'          => 'plan_type',
                 'name'          => 'plan_type',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'subscription_count' =>   [
+                'data'          => 'subscription_count',
+                'name'          => 'subscription_count',
                 'searchable'    => true,
                 'sortable'      => true
             ],

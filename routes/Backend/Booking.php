@@ -13,5 +13,7 @@ Route::group([
      // Route for Ajax DataTable
     Route::get("booking/cancel", "AdminBookingController@cancel")->name("booking.cancel");
 
+    Route::get("booking/get-babies", "AdminBookingController@getBabies")->name("booking.get-babies");
+
     Route::resource("booking", "AdminBookingController");
 });

@@ -174,6 +174,9 @@ class AdminSittersController extends Controller
             ->addColumn('vacation_mode', function ($item) {
                 return $item->vacation_mode == 1  ? 'Yes' : 'No';
             })
+            ->addColumn('booking_by_sitter', function ($item) {
+                return isset($item->sitter_bookings) ? count($item->sitter_bookings) : 0;
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })
