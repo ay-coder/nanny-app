@@ -11,6 +11,7 @@ use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
 use App\Models\Payment\Payment;
 use App\Models\Access\User\User;
+use Carbon\Carbon;
 use Auth;
 
 class EloquentBookingRepository extends DbRepository
@@ -241,7 +242,6 @@ class EloquentBookingRepository extends DbRepository
             'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
         ]);
 
-        
         $startTime  = $bookingStartTime;
         $endTime    = $bookingEndTime;
 
@@ -269,6 +269,30 @@ class EloquentBookingRepository extends DbRepository
 
         if($model)
         {
+            $parent         = User::find($model->user_id);
+            $sitter         = User::find($model->sitter_id);
+            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText,
+                'parent_id' => $parent->id,
+                'sitter_id' => $model->sitter_id,
+                'booking_id' => $model->id,
+                'ntype'     => 'NEW_BOOKING'
+            ];
+
+            $storeSitterNotification = [
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
+                'booking_id'    => $model->id,
+                'to_user_id'    => $model->sitter_id,
+                'description'   => $sitterText
+            ];
+
+            access()->addNotification($storeSitterNotification);
+
+            access()->sentPushNotification($sitter, $sitterpayload);
             return $model;
         }
 
@@ -303,9 +327,17 @@ class EloquentBookingRepository extends DbRepository
             }
         }
 
+        $inputBookingDate = explode('/', $input['booking_date']);
+        $inputDate        = $inputBookingDate[2] . '-'.$inputBookingDate[1]. '-'. $inputBookingDate[0];
+
+        $inputDate        = Carbon::parse($inputDate)->format('Y-m-d');
+
+        $input['booking_date'] = $inputDate;
+        
         $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
         $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
         $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
+
         $input              = array_merge($input, ['user_id' => $input['user_id'],
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
             'booking_start_time' => $bookingStartTime,
@@ -316,7 +348,6 @@ class EloquentBookingRepository extends DbRepository
             'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
         ]);
 
-        
         $startTime  = $bookingStartTime;
         $endTime    = $bookingEndTime;
 
@@ -344,7 +375,34 @@ class EloquentBookingRepository extends DbRepository
 
         if($model)
         {
-            return $model->update($input);
+            $model          = $model->update($input);
+            $model          = $this->model->find($id);
+            $parent         = User::find($model->user_id);
+            $sitter         = User::find($model->sitter_id);
+            $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');
+
+            $sitterpayload  = [
+                'mtitle'    => '',
+                'mdesc'     => $sitterText,
+                'parent_id' => $parent->id,
+                'sitter_id' => $model->sitter_id,
+                'booking_id' => $model->id,
+                'ntype'     => 'NEW_BOOKING'
+            ];
+
+            $storeSitterNotification = [
+                'user_id'       => $model->user_id,
+                'sitter_id'     => $model->sitter_id,
+                'booking_id'    => $model->id,
+                'to_user_id'    => $model->sitter_id,
+                'description'   => $sitterText
+            ];
+
+            access()->addNotification($storeSitterNotification);
+
+            access()->sentPushNotification($sitter, $sitterpayload);
+
+            return $model;
         }
 
         return false;
