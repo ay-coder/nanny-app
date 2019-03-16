@@ -9,6 +9,7 @@ use App\Repositories\Booking\EloquentBookingRepository;
 use App\Models\Booking\Booking;
 use App\Models\Sitters\Sitters;
 use DateTime;
+use App\Models\Babies\Babies;
 
 class APISittersController extends BaseApiController
 {
@@ -75,7 +76,23 @@ class APISittersController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'ASC';
-        $items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);
+        $minAge     = 0;
+        $maxAge     = 100;
+        $babyIds    = $request->has('babyIds') ? explode(",", $request->get('babyIds')) : [];
+
+        if(isset($babyIds) && count($babyIds))
+        {
+            $babies = Babies::whereIn('id', $babyIds)->pluck('age')->toArray();
+
+            $minAge = min($babies);
+            $maxAge = max($babies);
+        }
+
+        /*$items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);*/
+
+        $items = $this->repository->model->where('age_start_range', '>=', $minAge)
+        ->where('age_end_range', '<=', $maxAge)->get();
+
         $bookingRepo = new EloquentBookingRepository;
 
         if(isset($items) && count($items))

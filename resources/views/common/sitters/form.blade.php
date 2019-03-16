@@ -98,6 +98,24 @@
 
 <div class="box-body">
     <div class="form-group">
+        {{ Form::label('age_start_range', 'Min Age Experience :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::number('age_start_range', null, ['min' => 0, 'step' => 1, 'class' => 'form-control']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('age_end_range', 'Max Age Experience :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::number('age_end_range', null, ['max' => 100, 'step' => 1,'class' => 'form-control']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
         {{ Form::label('stripe_id', 'Stripe ID :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
             {{ Form::text('stripe_id', null, ['class' => 'form-control', 'placeholder' => 'Stripe ID']) }}

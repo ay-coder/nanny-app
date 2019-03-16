@@ -38,6 +38,8 @@ class EloquentSittersRepository extends DbRepository
         'username'      => 'User Name',
         'email'         => 'Email Id',
         'vacation_mode' => 'Vacation Mode',
+        'age_start_range' => 'Min Age Experience',
+        'age_end_range' => 'Max Age Experience',
         'booking_by_sitter' => 'Booking by Sitter',
         'stripe_id'     => 'Stripe ID',
         'mobile'        => 'Contact Number',
@@ -83,6 +85,18 @@ class EloquentSittersRepository extends DbRepository
         'vacation_mode' =>   [
                 'data'          => 'vacation_mode',
                 'name'          => 'vacation_mode',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'age_start_range' =>   [
+                'data'          => 'age_start_range',
+                'name'          => 'age_start_range',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'age_end_range' =>   [
+                'data'          => 'age_end_range',
+                'name'          => 'age_end_range',
                 'searchable'    => true,
                 'sortable'      => true
             ],

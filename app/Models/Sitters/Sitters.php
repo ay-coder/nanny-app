@@ -34,6 +34,9 @@ class Sitters extends BaseModel
         "bank_name",
         "bank_address",
         'stripe_id',
+        'age_start_range',
+        'age_end_range',
+
         'stripe_details'
     ];
 
