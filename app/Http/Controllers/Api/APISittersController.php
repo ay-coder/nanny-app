@@ -121,7 +121,7 @@ class APISittersController extends BaseApiController
 
                     $query = $bookingRepo->model->where([
                         'sitter_id'  => $item->user_id,
-                    ]);
+                    ])->whereIn('booking_status', [ 'REQUESTED', 'PENDING', 'STARTED']);
 
                     if($startTime)
                     {

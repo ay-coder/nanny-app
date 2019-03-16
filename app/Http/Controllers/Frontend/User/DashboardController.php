@@ -101,7 +101,7 @@ class DashboardController extends Controller
 
             $query = $bookingRepo->model->where([
                 'sitter_id'  => $item->user_id,
-            ])->whereIn('booking_status', [ 'REQUESTED', 'CANCELED', 'PENDING', 'STARTED']);
+            ])->whereIn('booking_status', [ 'REQUESTED', 'PENDING', 'STARTED']);
 
             if($startTime)
             {
