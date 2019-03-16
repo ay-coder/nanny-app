@@ -42,6 +42,22 @@ class DashboardController extends Controller
         $bookingRepo = new EloquentBookingRepository();
         session(['find_sitter' => $request->except('_token')]);
 
+        $minAge     = 0;
+        $maxAge     = 100;
+        $babyIds    = $request->has('babyIds') ? explode(",", $request->get('babyIds')) : [];
+
+        if(isset($babyIds) && count($babyIds))
+        {
+            $babies = Babies::whereIn('id', $babyIds)->pluck('age')->toArray();
+
+            if(isset($babies) && count($babies))
+            {
+                $minAge = min($babies);
+                $maxAge = max($babies);
+            }
+        }
+
+
         
         $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
 
@@ -59,7 +75,11 @@ class DashboardController extends Controller
             $bookingEndDate = $bookingDate;
         }
 
-        $items = $repository->model->get();
+        /*$items = $repository->model->get();*/
+
+        $items = $this->repository->model->where('age_start_range', '>=', $minAge)
+        ->where('age_end_range', '<=', $maxAge)->get();
+
         
         $bookingEndDate     = $bookingEndDate;
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
