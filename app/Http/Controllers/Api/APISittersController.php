@@ -84,8 +84,11 @@ class APISittersController extends BaseApiController
         {
             $babies = Babies::whereIn('id', $babyIds)->pluck('age')->toArray();
 
-            $minAge = min($babies);
-            $maxAge = max($babies);
+            if(isset($babies) && count($babies))
+            {
+                $minAge = min($babies);
+                $maxAge = max($babies);
+            }
         }
 
         /*$items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);*/
