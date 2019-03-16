@@ -93,8 +93,11 @@ class APISittersController extends BaseApiController
 
         /*$items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);*/
 
-        $items = $this->repository->model->where('age_start_range', '>=', $minAge)
+        $items = $this->repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)
+        ->where('vacation_mode', 0)
         ->where('age_end_range', '<=', $maxAge)->get();
+
+
 
         $bookingRepo = new EloquentBookingRepository;
 
