@@ -77,8 +77,7 @@ class DashboardController extends Controller
 
         /*$items = $repository->model->get();*/
 
-        $items = $repository->model->where('age_start_range', '>=', $minAge)
-        ->where('age_end_range', '<=', $maxAge)->get();
+        $items = $repository->with(['user', 'reviews', 'reviews.user'])->model->where('age_start_range', '>=', $minAge)->get();
 
         
         $bookingEndDate     = $bookingEndDate;
@@ -91,6 +90,11 @@ class DashboardController extends Controller
         $allowedSitterIds = [];
         foreach($items as $item)
         {
+            if($item->age_end_range < $maxAge)
+            {
+                continue;   
+            }   
+            
             if(in_array($item->user_id, $blockSitterIds))
             {
                 continue;
