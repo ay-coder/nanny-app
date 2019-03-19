@@ -77,7 +77,7 @@ class DashboardController extends Controller
 
         /*$items = $repository->model->get();*/
 
-        $items = $this->repository->model->where('age_start_range', '>=', $minAge)
+        $items = $repository->model->where('age_start_range', '>=', $minAge)
         ->where('age_end_range', '<=', $maxAge)->get();
 
         
