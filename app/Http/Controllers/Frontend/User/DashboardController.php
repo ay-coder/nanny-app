@@ -77,7 +77,7 @@ class DashboardController extends Controller
 
         /*$items = $repository->model->get();*/
 
-        $items = $repository->with(['user', 'reviews', 'reviews.user'])->model->where('age_start_range', '>=', $minAge)->get();
+        $items = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)->get();
 
         
         $bookingEndDate     = $bookingEndDate;
