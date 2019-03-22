@@ -43,6 +43,12 @@
                     <span>Push Notification</span>
                 </a>
             </li> --}}
+            <li class="{{ active_class(Active::checkUriPattern('admin/parents')) }}">
+                <a href="{{ route('admin.parents.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Parents</span>
+                </a>
+            </li>
 
             <li class="{{ active_class(Active::checkUriPattern('admin/sitters')) }}">
                 <a href="{{ route('admin.sitters.index') }}">
