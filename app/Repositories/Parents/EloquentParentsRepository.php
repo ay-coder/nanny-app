@@ -42,8 +42,6 @@ class EloquentParentsRepository extends DbRepository
         'birthdate'     => 'Birthdate',
         'address'       => 'Address',
         'city'          => 'City',
-        'state'         => 'State',
-        'zip'           => 'Zip',
         'created_at'    => 'Created At',
         "actions"       => "Actions"
     ];

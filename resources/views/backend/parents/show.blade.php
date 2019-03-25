@@ -32,14 +32,7 @@
                 Address : {!! $item->address. ' '. $item->city  !!}
            </div>
 
-           <div class="col-md-4">
-                Zip : {!! $item->zip !!}
-           </div>
-
-           <div class="col-md-4">
-                State : {!! $item->state !!}
-           </div>
-
+          
            <div class="clearfix"></div>
            <hr>
            <h4>Babies Details</h4>
