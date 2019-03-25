@@ -111,7 +111,7 @@ class APISittersController extends BaseApiController
 
                 foreach($items as $item)
                 {
-                    if($item->age_end_range < $maxAge)
+                    if($item->age_end_range > $maxAge)
                     {
                         continue;   
                     }

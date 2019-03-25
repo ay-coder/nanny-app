@@ -57,8 +57,6 @@ class DashboardController extends Controller
             }
         }
 
-
-        
         $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
 
         if($request->has('booking_end_date'))
@@ -75,7 +73,8 @@ class DashboardController extends Controller
             $bookingEndDate = $bookingDate;
         }
 
-        /*$items = $repository->model->get();*/
+        ///$items = $repository->model->get();
+
 
         $items = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)->get();
 
@@ -84,13 +83,12 @@ class DashboardController extends Controller
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
         $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
 
-
         $sitters        = [];
         $blockSitterIds = [];
         $allowedSitterIds = [];
         foreach($items as $item)
         {
-            if($item->age_end_range < $maxAge)
+            if($item->age_end_range > $maxAge)
             {
                 continue;   
             }   
@@ -121,18 +119,22 @@ class DashboardController extends Controller
 
             if(isset($timeAllow) && count($timeAllow))
             {
+                
                 $blockSitterIds[] = $item->user_id;
                 continue;
             }
 
             $allowedSitterIds[] = $item->user_id;
         }
-        
+
         $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])
         ->whereIn('user_id', $allowedSitterIds)
         ->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
 
-        return view('parent.sitterlisting', compact('sitters', 'input'));
+        return view('parent.sitterlisting')->with([
+            'sitters' => $sitters,
+            'input'   => $input
+        ]);
     }
 
     /**
