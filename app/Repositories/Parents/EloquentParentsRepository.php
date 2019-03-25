@@ -106,18 +106,6 @@ class EloquentParentsRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'state' =>   [
-                'data'          => 'state',
-                'name'          => 'state',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
-		'zip' =>   [
-                'data'          => 'zip',
-                'name'          => 'zip',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
 		'created_at' =>   [
                 'data'          => 'created_at',
                 'name'          => 'created_at',
