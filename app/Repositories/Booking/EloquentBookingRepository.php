@@ -237,22 +237,23 @@ class EloquentBookingRepository extends DbRepository
         $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
         $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
         $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
-        $input              = array_merge($input, ['user_id' => $input['user_id'],
+        
+        /*$input              = array_merge($input, ['user_id' => $input['user_id'],
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
-            'booking_start_time' => $bookingStartTime,
-            'booking_end_time'  => $bookingEndTime,
+            'booking_start_time' => isset($input['booking_start_time']) ? $input['booking_start_time'] : $bookingStartTime,
+            'booking_end_time'  => isset($input['booking_end_time']) ? : $input['booking_end_time'] : $bookingEndTime,
             'start_time'        => $input['booking_start_time'],
             'end_time'          => $input['booking_end_time'],
             'booking_status'    => 'REQUESTED',
             'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
-        ]);
+        ]);*/
 
         $startTime  = $bookingStartTime;
         $endTime    = $bookingEndTime;
 
         $query = $this->model->where([
             'sitter_id'  => $input['sitter_id'],
-        ]);
+        ])->whereIn('booking_status', [ 'REQUESTED', 'PENDING', 'STARTED']);
 
         if($startTime)
         {
