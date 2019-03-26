@@ -92,6 +92,30 @@
                 </a>
             </li>
 
+            <li class="header">Reports</li>
+            
+            <li class="{{ active_class(Active::checkUriPattern('admin/subscription')) }}">
+                <a href="{{ route('admin.subscription.index') }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Subscription Report</span>
+                </a>
+            </li>
+
+            <li class="{{ active_class(Active::checkUriPattern('admin/sitterearning')) }}">
+                <a href="{{ route('admin.sitterearning.index') }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Sitter Earning Report</span>
+                </a>
+            </li>
+
+
+            <li class="{{ active_class(Active::checkUriPattern('admin/sitterbooking')) }}">
+                <a href="{{ route('admin.sitterbooking.index') }}">
+                    <i class="fa fa-circle-o"></i>
+                    <span>Sitter Booking Report</span>
+                </a>
+            </li>
+    
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
             @role(1)

@@ -229,6 +229,11 @@ class EloquentBookingRepository extends DbRepository
             }
         }
 
+        if(isset($input['baby_id']))
+        {
+            $input['baby_id'] = $input['baby_id'];
+        }
+
         $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
         $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
         $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
