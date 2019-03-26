@@ -51,16 +51,16 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        if (config('access.users.confirm_email')) {
+        /*if (config('access.users.confirm_email') && 1 == 2) {
             $user = $this->user->create($request->all());
             event(new UserRegistered($user));
 
             return redirect($this->redirectPath())->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.created_confirm'));
         } else {
-            access()->login($this->user->create($request->all()));
-            event(new UserRegistered(access()->user()));
+        }*/
+        access()->login($this->user->create($request->all()));
+        //event(new UserRegistered(access()->user()));
 
-            return redirect($this->redirectPath());
-        }
+        return redirect($this->redirectPath());
     }
 }

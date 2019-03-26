@@ -157,7 +157,7 @@ class AdminSitterEarningController extends Controller
                 return date('m-d-Y', strtotime($item->booking_date));
             })
             ->addColumn('amount', function ($item) {
-                return isset($item->payment) ? $item->payment->per_hour * $item->payment->total_hour + $item->payment->parking_fees  : 'N/A';
+                return isset($item->payment) ? $item->payment->per_hour * $item->payment->total_hour + $item->payment->parking_fees + $item->payment->tip : 'N/A';
             })
             ->make(true);
     }

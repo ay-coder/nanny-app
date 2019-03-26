@@ -157,8 +157,6 @@
                         <ul>
                             @if(isset($user->babies) && count($user->babies) > 0)
                                 @foreach($user->babies as $baby)
-
-                               
                                     <li class="edit-list">
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -236,7 +234,7 @@
                                                         'Male' => 'Male',
                                                         'Female' => 'Female',
                                                         'N/A'   => 'N/A'
-                                                    ],$baby->gender, ['style' => 'height: 50px;', 'class' => 'form-control', 'required' => 'required']) }}
+                                                    ], isset($baby) ? $baby->gender : null, ['style' => 'height: 50px;', 'class' => 'form-control', 'required' => 'required']) }}
                                         </div>
 
 

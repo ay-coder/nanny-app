@@ -210,6 +210,15 @@ class EloquentBookingRepository extends DbRepository
      */
     public function create($input)
     {
+        $userId     = isset($input['user_id']) ? $input['user_id'] : false;
+        $isBooking  = access()->isActiveBookingAvailable($userId);
+
+        if($isBooking == false)
+        {
+            return false;
+        }
+
+
         if(isset($input['baby_ids']))
         {
             if(count($input['baby_ids']) == 1)
@@ -234,22 +243,34 @@ class EloquentBookingRepository extends DbRepository
             $input['baby_id'] = $input['baby_id'];
         }
 
-        $bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
+
+        /*$bookingEndDate     = isset($input['booking_date']) ? $input['booking_date'] : date('Y-m-d H:i:s');
         $bookingStartTime   = date('Y-m-d H:i:s', strtotime($input['booking_date'] . $input['booking_start_time']));
-        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));
-        
+        $bookingEndTime     = date('Y-m-d H:i:s', strtotime($bookingEndDate . $input['booking_end_time']));*/
+
+        $bookingDate = str_replace('/', '-', $input['booking_date']);
+        $bookingDate = date('Y-m-d', strtotime($bookingDate));
+        $input['booking_date']      = $bookingDate;
+        $input['booking_status']    = 'REQUESTED';
+        $input['start_time']        = $input['booking_start_time'];
+        $input['end_time']          = $input['booking_end_time'];
+        $input['booking_start_time']= $bookingDate. ' ' . $input['booking_start_time'];
+        $input['booking_end_time']  = $bookingDate. ' ' . $input['booking_end_time'];
+
+
+
         /*$input              = array_merge($input, ['user_id' => $input['user_id'],
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
             'booking_start_time' => isset($input['booking_start_time']) ? $input['booking_start_time'] : $bookingStartTime,
             'booking_end_time'  => isset($input['booking_end_time']) ? : $input['booking_end_time'] : $bookingEndTime,
             'start_time'        => $input['booking_start_time'],
             'end_time'          => $input['booking_end_time'],
-            'booking_status'    => 'REQUESTED',
+            'booking_status'    => ,
             'parking_fees'      => isset($input['parking_fees']) ? $input['parking_fees'] : 0
         ]);*/
 
-        $startTime  = $bookingStartTime;
-        $endTime    = $bookingEndTime;
+        $startTime  = $input['booking_start_time'];
+        $endTime    = $input['booking_end_time'];
 
         $query = $this->model->where([
             'sitter_id'  => $input['sitter_id'],
@@ -275,6 +296,13 @@ class EloquentBookingRepository extends DbRepository
 
         if($model)
         {
+            if($userId)
+            {
+                
+                $isBooking->allowed_bookings = $isBooking->allowed_bookings - 1;
+                $isBooking->save();
+            }
+
             $parent         = User::find($model->user_id);
             $sitter         = User::find($model->sitter_id);
             $sitterText     = config('constants.NotificationText.SITTER.JOB_ADD');

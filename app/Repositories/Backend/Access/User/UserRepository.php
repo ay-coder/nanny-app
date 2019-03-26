@@ -130,9 +130,9 @@ class UserRepository extends BaseRepository
                 $user->attachRoles($roles['assignees_roles']);
 
                 //Send confirmation email if requested
-                if (isset($data['confirmation_email']) && $user->confirmed == 0) {
+                /*if (isset($data['confirmation_email']) && $user->confirmed == 0) {
                     $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-                }
+                }*/
 
                 event(new UserCreated($user));
 

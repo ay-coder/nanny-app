@@ -91,12 +91,11 @@ class UserRepository extends BaseRepository
         $user = new $user();
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->mobile = isset($data['mobile']) ?: null;
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
+        $user->mobile = isset($data['mobile']) ? $data['mobile'] : null;
         $user->status = 1;
         $user->user_type = isset($data['user_type']) ? $data['user_type'] : 1; // 1 = parent , 2 = sitter
         $user->password = $provider ? null : bcrypt($data['password']);
-        $user->confirmed = $provider ? 1 : (config('access.users.confirm_email') ? 0 : 1);
+        $user->confirmed = 1;
 
         DB::transaction(function () use ($user) {
             if ($user->save()) {
@@ -113,9 +112,9 @@ class UserRepository extends BaseRepository
          *
          * If this is a social account they are confirmed through the social provider by default
          */
-        if (config('access.users.confirm_email') && $provider === false) {
+        /*if (config('access.users.confirm_email') && $provider === false) {
             $user->notify(new UserNeedsConfirmation($user->confirmation_code));
-        }
+        }*/
 
         /*
          * Return the user object
