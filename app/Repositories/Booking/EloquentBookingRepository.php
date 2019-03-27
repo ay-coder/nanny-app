@@ -252,12 +252,10 @@ class EloquentBookingRepository extends DbRepository
         $bookingDate = date('Y-m-d', strtotime($bookingDate));
         $input['booking_date']      = $bookingDate;
         $input['booking_status']    = 'REQUESTED';
-        $input['start_time']        = $input['booking_start_time'];
-        $input['end_time']          = $input['booking_end_time'];
-        $input['booking_start_time']= $bookingDate. ' ' . $input['booking_start_time'];
-        $input['booking_end_time']  = $bookingDate. ' ' . $input['booking_end_time'];
-
-
+        $input['start_time']        = date('H:i:s', strtotime($input['booking_start_time']));
+        $input['end_time']          = date('H:i:s', strtotime($input['booking_end_time']));
+        $input['booking_start_time']= $input['booking_start_time'];
+        $input['booking_end_time']  = $input['booking_end_time'];
 
         /*$input              = array_merge($input, ['user_id' => $input['user_id'],
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
