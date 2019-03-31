@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\SitterEarning\EloquentSitterEarningRepository;
+use App\Models\Access\User\User;
 
 /**
  * Class AdminSitterEarningController
@@ -54,8 +55,12 @@ class AdminSitterEarningController extends Controller
      */
     public function index()
     {
+        $users = User::where('id', '!=', 1)->where('user_type', 2)->get();
+        $users = $users->pluck('name', 'id')->toArray();
+
         return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
-            'repository' => $this->repository
+            'repository' => $this->repository,
+            'allUsers'   => $users
         ]);
     }
 
@@ -161,4 +166,23 @@ class AdminSitterEarningController extends Controller
             })
             ->make(true);
     }
+
+    /**
+     * Subscription Listing
+     *
+     * @return \Illuminate\View\View
+     */
+    public function filter(Request $request)
+    {
+        session([
+            'sitterEarningFilter' => $request->get('userId'),
+            'startDate'          => $request->get('startDate'),
+            'endDate'            => $request->get('endDate')
+        ]);
+        
+        return response()->json([
+            'status' => true
+        ]);
+    }
+    
 }

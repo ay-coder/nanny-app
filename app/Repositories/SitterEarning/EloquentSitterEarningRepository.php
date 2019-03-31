@@ -266,6 +266,20 @@ class EloquentSitterEarningRepository extends DbRepository
      */
     public function getForDataTable()
     {
+        if(session('sitterEarningFilter'))
+        {
+            $startDate  = Carbon::parse(session('startDate'))->startOfDay();
+            $endDate    = Carbon::parse(session('endDate'))->endOfDay();
+
+            return $this->model->with(['payment', 'user', 'sitter'])
+                ->select($this->getTableFields())
+                ->where('sitter_id', session('sitterEarningFilter'))
+                ->where($this->userModel->getTable().'.created_at', '>=', $startDate)
+                ->where($this->userModel->getTable().'.created_at', '<=', $endDate)
+                ->where('booking_status', 'COMPLETED')
+                ->get();
+        }
+
         return $this->model->with(['payment', 'user', 'sitter'])->select($this->getTableFields())
             ->where('booking_status', 'COMPLETED')->get();
     }

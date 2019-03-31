@@ -7,6 +7,8 @@ Route::group([
      * Admin SitterEarning Controller
      */
 
+    Route::get("sitterearning/filter", "AdminSitterEarningController@filter")->name("sitterearning.filter");
+    
     // Route for Ajax DataTable
     Route::get("sitterearning/get", "AdminSitterEarningController@getTableData")->name("sitterearning.get-list-data");
 

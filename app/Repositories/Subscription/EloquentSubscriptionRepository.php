@@ -12,6 +12,7 @@ use App\Exceptions\GeneralException;
 use App\Models\Plans\Plans;
 use Cartalyst\Stripe\Stripe;
 use App\Models\Access\User\User;
+use Carbon\Carbon;
 
 class EloquentSubscriptionRepository extends DbRepository
 {
@@ -260,6 +261,20 @@ class EloquentSubscriptionRepository extends DbRepository
      */
     public function getForDataTable()
     {
+        if(session('subscriptionFilter'))
+        {
+            $startDate  = Carbon::parse(session('startDate'))->startOfDay();
+            $endDate    = Carbon::parse(session('endDate'))->endOfDay();
+
+            return  $this->model->select($this->getTableFields())
+                    ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.user_id')
+                    ->leftjoin($this->planModel->getTable(), $this->planModel->getTable().'.id', '=', $this->model->getTable().'.plan_id')
+                    ->where('user_id', session('subscriptionFilter'))
+                    ->where($this->userModel->getTable().'.created_at', '>=', $startDate)
+                    ->where($this->userModel->getTable().'.created_at', '<=', $endDate)
+                    ->get();
+        }
+        
         return  $this->model->select($this->getTableFields())
                 ->leftjoin($this->userModel->getTable(), $this->userModel->getTable().'.id', '=', $this->model->getTable().'.user_id')
                 ->leftjoin($this->planModel->getTable(), $this->planModel->getTable().'.id', '=', $this->model->getTable().'.plan_id')

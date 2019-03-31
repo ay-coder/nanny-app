@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Subscription\EloquentSubscriptionRepository;
+use App\Models\Access\User\User;
 
 /**
  * Class AdminSubscriptionController
@@ -54,8 +55,12 @@ class AdminSubscriptionController extends Controller
      */
     public function index()
     {
+        $users = User::where('id', '!=', 1)->where('user_type', 1)->get();
+        $users = $users->pluck('name', 'id')->toArray();
+
         return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
-            'repository' => $this->repository
+            'repository' => $this->repository,
+            'allUsers'   => $users
         ]);
     }
 
@@ -151,5 +156,23 @@ class AdminSubscriptionController extends Controller
                 return isset($item->plan) ? $item->plan->amount : 'N/A';
             })
             ->make(true);
+    }
+
+    /**
+     * Subscription Listing
+     *
+     * @return \Illuminate\View\View
+     */
+    public function filter(Request $request)
+    {
+        session([
+            'subscriptionFilter' => $request->get('userId'),
+            'startDate'          => $request->get('startDate'),
+            'endDate'            => $request->get('endDate')
+        ]);
+        
+        return response()->json([
+            'status' => true
+        ]);
     }
 }
