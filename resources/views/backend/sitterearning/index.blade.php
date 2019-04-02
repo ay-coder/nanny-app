@@ -77,7 +77,7 @@
             columns      = JSON.parse('{!! $repository->getTableColumns() !!}');
             moduleConfig = {
                 getTableDataUrl: '{!! route($repository->getActionRoute("dataRoute")) !!}',
-                filterMessageUrl: '{!! route('admin.subscription.filter') !!}'
+                filterMessageUrl: '{!! route('admin.sitterearning.filter') !!}'
             };
 
         jQuery(document).ready(function()

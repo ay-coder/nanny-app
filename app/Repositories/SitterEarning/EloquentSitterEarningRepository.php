@@ -9,6 +9,8 @@
 use App\Models\SitterEarning\SitterEarning;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use Carbon\Carbon;
+
 
 class EloquentSitterEarningRepository extends DbRepository
 {
@@ -33,8 +35,8 @@ class EloquentSitterEarningRepository extends DbRepository
      */
     public $tableHeaders = [
         'id'                => 'Id',
-        'user_id'           => 'Parent',
         'sitter_id'         => 'Sitter',
+        'user_id'           => 'Parent',
         'booking_date'      => 'Date',
         'start_time'        => 'In Time',
         'end_time'          => 'Out Time',
@@ -53,15 +55,15 @@ class EloquentSitterEarningRepository extends DbRepository
                 'searchable'    => true,
                 'sortable'      => true
             ],
-		'user_id' =>   [
-                'data'          => 'user_id',
-                'name'          => 'user_id',
-                'searchable'    => true,
-                'sortable'      => true
-            ],
 		'sitter_id' =>   [
                 'data'          => 'sitter_id',
                 'name'          => 'sitter_id',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'user_id' =>   [
+                'data'          => 'user_id',
+                'name'          => 'user_id',
                 'searchable'    => true,
                 'sortable'      => true
             ],
@@ -274,8 +276,8 @@ class EloquentSitterEarningRepository extends DbRepository
             return $this->model->with(['payment', 'user', 'sitter'])
                 ->select($this->getTableFields())
                 ->where('sitter_id', session('sitterEarningFilter'))
-                ->where($this->userModel->getTable().'.created_at', '>=', $startDate)
-                ->where($this->userModel->getTable().'.created_at', '<=', $endDate)
+                ->where($this->model->getTable().'.created_at', '>=', $startDate)
+                ->where($this->model->getTable().'.created_at', '<=', $endDate)
                 ->where('booking_status', 'COMPLETED')
                 ->get();
         }

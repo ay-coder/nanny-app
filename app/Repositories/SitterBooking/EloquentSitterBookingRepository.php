@@ -9,6 +9,7 @@
 use App\Models\SitterBooking\SitterBooking;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
+use Carbon\Carbon;
 
 class EloquentSitterBookingRepository extends DbRepository
 {
@@ -238,6 +239,24 @@ class EloquentSitterBookingRepository extends DbRepository
      */
     public function getForDataTable()
     {
+        if(session('sitterBookingFilter'))
+        {
+            $startDate  = Carbon::parse(session('startDate'))->startOfDay();
+            $endDate    = Carbon::parse(session('endDate'))->endOfDay();
+
+            $data = $this->model->with('sitter_completed_bookings')
+                ->select($this->getTableFields())
+                ->leftjoin('data_bookings', 'data_bookings.sitter_id', '=', 'data_sitter_details.user_id')
+                ->where('data_sitter_details.user_id', session('sitterBookingFilter'))
+                ->where('data_bookings.created_at', '>=', $startDate)
+                ->where('data_bookings.created_at', '<=', $endDate)
+                ->get();
+
+            return $data->unique('id');
+        }
+
+      
+
         return $this->model->with('sitter_completed_bookings')->select($this->getTableFields())->get();
     }
 
