@@ -388,7 +388,7 @@ class EloquentBabiesRepository extends DbRepository
             $baby->title = $value['title'];
             $baby->gender = isset($value['gender']) ? $value['gender'] : 'N/A';
             $baby->birthdate = $value['birthdate'];
-            $baby->age = Carbon::parse(Carbon::createFromFormat('d/m/Y', $value['birthdate'])->format('d-m-Y'))->age;
+            $baby->age = Carbon::parse($value['birthdate'])->age;
             $baby->description = $value['description'];
             $baby->title = $value['title'];
 

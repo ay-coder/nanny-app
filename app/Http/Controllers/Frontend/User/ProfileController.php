@@ -68,7 +68,6 @@ class ProfileController extends Controller
     {
         $babyRepository = new EloquentBabiesRepository();
         $output = $babyRepository->updateBabies($request);
-
         return redirect()->route('frontend.user.parent.account')->withFlashSuccess('Babies Successfully updated.');
     }
 
