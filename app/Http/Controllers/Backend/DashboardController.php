@@ -18,7 +18,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-    	$repository = new EloquentGeneralRepository;
+        $repository = new EloquentGeneralRepository;
     	$item		= new General;
     	$values 	= General::all();
 

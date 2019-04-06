@@ -3,6 +3,7 @@
 use App\Models\Access\User\User;
 use App\Models\Reviews\Reviews;
 use App\Models\Booking\Booking;
+use App\Models\BlockTimes\BlockTimes;
 
 trait Relationship
 {
@@ -34,6 +35,11 @@ trait Relationship
     public function sitter_bookings()
     {
         return $this->hasMany(Booking::class, 'sitter_id');
+    }
+
+    public function block_hours()
+    {
+        return $this->hasMany(BlockTimes::class,  'sitter_id', 'user_id');
     }
 
 }

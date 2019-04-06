@@ -36,7 +36,7 @@ class DashboardController extends Controller
      * @return [type]
      */
     public function searchSitters(SearchRequest $request)
-    {
+    {   
         $input = $request->all();
         $repository = new EloquentSittersRepository();
         $bookingRepo = new EloquentBookingRepository();
@@ -73,21 +73,54 @@ class DashboardController extends Controller
             $bookingEndDate = $bookingDate;
         }
 
-        ///$items = $repository->model->get();
-
-
-        $items = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)->get();
-
-        
         $bookingEndDate     = $bookingEndDate;
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
         $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
 
-        $sitters        = [];
-        $blockSitterIds = [];
-        $allowedSitterIds = [];
+        $items = $repository->model->with(['user', 'reviews', 'reviews.user', 'block_hours'])->where('age_start_range', '>=', $minAge)->get();
+
+        $sitters            = [];
+        $blockSitterIds     = [];
+        $allowedSitterIds   = [];
         foreach($items as $item)
         {
+            $isContinue = false;
+            $startTime  = $bookingStartTime;
+            $endTime    = $bookingEndTime;
+            $bookingday = date('D', strtotime($bookingStartTime));
+
+            $bookingStartStrTime    = Carbon::parse($startTime);
+            $bookingEndStrTime      = Carbon::parse($endTime);
+            
+            //dd($item)   ;
+            $sitterBlockHours = $item->block_hours()->where('day_name', $bookingday)->get();
+            //dd($sitterBlockHours);
+
+            if(isset($sitterBlockHours) && count($sitterBlockHours))
+            {
+                foreach($sitterBlockHours as $blockHr)
+                {
+                    $blockStartTime = Carbon::parse(date('Y-m-d') . ' '. $blockHr->start_time);
+                    $blockEndTime   = Carbon::parse(date('Y-m-d') . ' ' . $blockHr->end_time);
+
+                    if($blockStartTime->between($bookingStartStrTime, $bookingEndStrTime, true))
+                    {
+                        $isContinue = true;
+                    }
+
+                    if($blockEndTime->between($bookingStartStrTime, $bookingEndStrTime, true))
+                    {
+                        $isContinue = true;
+                    }
+                }
+            }
+            
+
+            if($isContinue == true)
+            {
+                continue;     
+            }
+
             if($item->age_end_range > $maxAge)
             {
                 continue;   
@@ -97,9 +130,6 @@ class DashboardController extends Controller
             {
                 continue;
             }
-
-            $startTime  = $bookingStartTime;
-            $endTime    = $bookingEndTime;
 
             $query = $bookingRepo->model->where([
                 'sitter_id'  => $item->user_id,
