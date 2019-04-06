@@ -92,10 +92,8 @@ class DashboardController extends Controller
             $bookingStartStrTime    = Carbon::parse($startTime);
             $bookingEndStrTime      = Carbon::parse($endTime);
             
-            //dd($item)   ;
             $sitterBlockHours = $item->block_hours()->where('day_name', $bookingday)->get();
-            //dd($sitterBlockHours);
-
+            
             if(isset($sitterBlockHours) && count($sitterBlockHours))
             {
                 foreach($sitterBlockHours as $blockHr)
