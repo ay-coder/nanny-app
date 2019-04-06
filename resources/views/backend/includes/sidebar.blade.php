@@ -92,6 +92,13 @@
                 </a>
             </li>
 
+            <li class="{{ active_class(Active::checkUriPattern('admin/blocktimes')) }}">
+                <a href="{{ route('admin.blocktimes.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Manage Schedule</span>
+                </a>
+            </li>
+
             <li class="header">Reports</li>
             
             <li class="{{ active_class(Active::checkUriPattern('admin/subscription')) }}">

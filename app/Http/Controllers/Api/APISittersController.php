@@ -10,6 +10,7 @@ use App\Models\Booking\Booking;
 use App\Models\Sitters\Sitters;
 use DateTime;
 use App\Models\Babies\Babies;
+use Carbon\Carbon;
 
 class APISittersController extends BaseApiController
 {
@@ -93,7 +94,7 @@ class APISittersController extends BaseApiController
 
         /*$items      = $paginate ? $this->repository->model->with('user')->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order);*/
 
-        $items = $this->repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)
+        $items = $this->repository->model->with(['user', 'reviews', 'reviews.user', 'block_hours'])->where('age_start_range', '>=', $minAge)
         ->where('vacation_mode', 0)->get();
 
         $bookingRepo = new EloquentBookingRepository;
@@ -111,6 +112,43 @@ class APISittersController extends BaseApiController
 
                 foreach($items as $item)
                 {
+
+                    $isContinue = false;
+                    $startTime  = $bookingStartTime;
+                    $endTime    = $bookingEndTime;
+                    $bookingday = date('D', strtotime($bookingStartTime));
+
+                    $bookingStartStrTime    = Carbon::parse($startTime);
+                    $bookingEndStrTime      = Carbon::parse($endTime);
+                    
+                    $sitterBlockHours = $item->block_hours()->where('day_name', $bookingday)->get();
+                    
+                    if(isset($sitterBlockHours) && count($sitterBlockHours))
+                    {
+                        foreach($sitterBlockHours as $blockHr)
+                        {
+                            $blockStartTime = Carbon::parse(date('Y-m-d') . ' '. $blockHr->start_time);
+                            $blockEndTime   = Carbon::parse(date('Y-m-d') . ' ' . $blockHr->end_time);
+
+                            if($blockStartTime->between($bookingStartStrTime, $bookingEndStrTime, true))
+                            {
+                                $isContinue = true;
+                            }
+
+                            if($blockEndTime->between($bookingStartStrTime, $bookingEndStrTime, true))
+                            {
+                                $isContinue = true;
+                            }
+                        }
+                    }
+                    
+
+                    if($isContinue == true)
+                    {
+                        continue;     
+                    }
+
+
                     if($item->age_end_range > $maxAge)
                     {
                         continue;   

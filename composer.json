@@ -13,6 +13,7 @@
         "aloha/twilio": "^4.0",
         "arcanedev/log-viewer": "~4.0",
         "arcanedev/no-captcha": "~3.0",
+        "barryvdh/laravel-dompdf": "^0.8.4",
         "cartalyst/stripe": "^2.1",
         "creativeorange/gravatar": "~1.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
@@ -21,6 +22,8 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.4.*",
+        "maatwebsite/excel": "^3.1",
+        "niklasravnsborg/laravel-pdf": "^3.1",
         "tymon/jwt-auth": "0.5.*",
         "yajra/laravel-datatables-oracle": "^7.0"
     },
