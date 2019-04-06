@@ -10,6 +10,7 @@ use App\Repositories\Sitters\EloquentSittersRepository;
 use App\Repositories\Booking\EloquentBookingRepository;
 use Carbon\Carbon;
 use App\Models\Messages\Messages;
+use App\Models\Babies\Babies;
 
 /**
  * Class DashboardController.
@@ -44,8 +45,21 @@ class DashboardController extends Controller
 
         $minAge     = 0;
         $maxAge     = 100;
-        $babyIds    = $request->has('babyIds') ? explode(",", $request->get('babyIds')) : [];
 
+        /*if($request->has('baby_ids'))
+        {
+            if(is_array($request->get('baby_ids')))
+            {
+                $babyIds = $request->get('baby_ids');
+            }
+            else
+            {
+                $babyIds = explode(",", $request->get('baby_ids');
+            }
+        }*/
+        
+        $babyIds = $request->has('baby_ids') ? $request->get('baby_ids') : [];
+         
         if(isset($babyIds) && count($babyIds))
         {
             $babies = Babies::whereIn('id', $babyIds)->pluck('age')->toArray();
@@ -76,8 +90,9 @@ class DashboardController extends Controller
         ///$items = $repository->model->get();
 
 
-        $items = $repository->model->with(['user', 'reviews', 'reviews.user'])->where('age_start_range', '>=', $minAge)->get();
-
+        $items = $repository->model->with(['user', 'reviews', 'reviews.user'])
+            ->where('vacation_mode', 0)
+            ->get();
         
         $bookingEndDate     = $bookingEndDate;
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
@@ -87,7 +102,12 @@ class DashboardController extends Controller
         $blockSitterIds = [];
         $allowedSitterIds = [];
         foreach($items as $item)
-        {
+        {   
+            if($item->age_start_range > $maxAge)
+            {
+                continue;   
+            }
+
             if($item->age_end_range > $maxAge)
             {
                 continue;   
