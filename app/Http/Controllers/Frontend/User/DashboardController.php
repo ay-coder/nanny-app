@@ -96,7 +96,8 @@ class DashboardController extends Controller
         $bookingStartTime   = $bookingDate . ' '. date('H:i:s', strtotime($input['start_time']));
         $bookingEndTime     = $bookingEndDate . ' '. date('H:i:s', strtotime($input['end_time']));
 
-        /*$items = $repository->model->with(['user', 'reviews', 'reviews.user', 'block_hours'])->where('age_start_range', '>=', $minAge)->get();*/
+        //$items = $repository->model->with(['user', 'reviews', 'reviews.user', 'block_hours'])->get();
+
 
         $sitters            = [];
         $blockSitterIds     = [];
@@ -138,16 +139,16 @@ class DashboardController extends Controller
                 continue;     
             }
 
-            if($item->age_start_range > $maxAge)
+            if(! in_array($maxAge, range($item->age_start_range, $item->age_end_range))) 
             {
-                continue;   
+                continue;
             }
 
-            if($item->age_end_range > $maxAge)
+            if(! in_array($minAge, range($item->age_start_range, $item->age_end_range))) 
             {
-                continue;   
-            }   
-            
+                continue;
+            }
+
             if(in_array($item->user_id, $blockSitterIds))
             {
                 continue;
