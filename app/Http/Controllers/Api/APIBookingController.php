@@ -146,7 +146,7 @@ class APIBookingController extends BaseApiController
             ]);
 
 
-            $startTime  = $bookingStartTime;
+            /*$startTime  = $bookingStartTime;
             $endTime    = $bookingEndTime;
 
             $query = $this->repository->model->where([
@@ -169,7 +169,7 @@ class APIBookingController extends BaseApiController
                 return $this->setStatusCode(400)->failureResponse([
                     'reason' => 'Sitter is already Booked, Please Select any other Sitter.'
                     ], 'Sitter is already Booked, Please Select any other Sitter.');
-            }
+            }*/
 
             $model = $this->repository->create($input);
 
