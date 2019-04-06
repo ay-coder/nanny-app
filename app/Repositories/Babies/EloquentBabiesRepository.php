@@ -388,7 +388,16 @@ class EloquentBabiesRepository extends DbRepository
             $baby->title = $value['title'];
             $baby->gender = isset($value['gender']) ? $value['gender'] : 'N/A';
             $baby->birthdate = $value['birthdate'];
-            $baby->age = Carbon::parse($value['birthdate'])->age;
+
+            $birthDate = date('mm/dd/yyyy', strtotime($value['birthdate']));
+            $birthDate = explode("/", $birthDate);
+              //get age from date or birthdate
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md")
+                ? ((date("Y") - $birthDate[2]) - 1)
+                : (date("Y") - $birthDate[2]));
+
+
+            $baby->age = $age;
             $baby->description = $value['description'];
             $baby->title = $value['title'];
 
