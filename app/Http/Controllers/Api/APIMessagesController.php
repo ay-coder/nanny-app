@@ -54,8 +54,23 @@ class APIMessagesController extends BaseApiController
         $paginate   = $request->get('paginate') ? $request->get('paginate') : false;
         $orderBy    = $request->get('orderBy') ? $request->get('orderBy') : 'id';
         $order      = $request->get('order') ? $request->get('order') : 'asc';
-        $items      = $paginate ? $this->repository->model->where('from_user_id', $userInfo->id)->orWhere('to_user_id', $userInfo->id)->with(['from_user', 'to_user'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order, $userInfo->id);
+        $loginUserId = $userInfo->id;
+        /*$items      = $paginate ? $this->repository->model->where('from_user_id', $userInfo->id)->orWhere('to_user_id', $userInfo->id)->with(['from_user', 'to_user'])->orderBy($orderBy, $order)->paginate($paginate)->items() : $this->repository->getAll($orderBy, $order, $userInfo->id);*/
 
+        $items = $this->repository->model->where('booking_id', null)
+            ->where(function($q) use($loginUserId)
+            {
+                $q->where([
+                        'from_user_id' => 1,
+                        'to_user_id'    => $loginUserId
+                    ])->orWhere([
+                        'from_user_id'  => $loginUserId,
+                        'to_user_id'    => 1
+                    ]);
+            })
+            ->with(['from_user', 'to_user'])
+            ->orderBy('id', 'desc')
+            ->get();
         if(isset($items) && count($items))
         {
             $itemsOutput = $this->messagesTransformer->transformCollection($items);
