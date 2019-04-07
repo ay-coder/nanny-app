@@ -389,11 +389,13 @@ class EloquentBabiesRepository extends DbRepository
             $baby->gender = isset($value['gender']) ? $value['gender'] : 'N/A';
             $baby->birthdate = $value['birthdate'];
 
-            $bDate = Carbon::parse($value['birthdate']);
+            $dateMap = explode("/", $value['birthdate']);
+            $day    = $dateMap[0];
+            $month  = $dateMap[1];
+            $year   = $dateMap[2];
+            $bDate  = Carbon::parse($day .'-'. $month .'-'.  $year);
             $now    = Carbon::now();
-
-            $age = $bDate->diffInYears($now);
-
+            $age    = $bDate->diffInYears($now);
 
             $baby->age = $age;
             $baby->description = $value['description'];
