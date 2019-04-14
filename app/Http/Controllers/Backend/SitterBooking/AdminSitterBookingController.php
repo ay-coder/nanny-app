@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\SitterBooking\EloquentSitterBookingRepository;
+use PDF;
 use App\Models\Access\User\User;
 
 /**
@@ -53,8 +54,45 @@ class AdminSitterBookingController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('download') && $request->has('download') == 1)
+        {
+
+            $selected_array = [
+                'id', 'Sitter Name', 'No of Completed Bookings'
+            ];
+
+            $data = $this->repository->getForDataTable();
+            $Array_data = [];
+
+            foreach($data as $d)
+            {
+                $bookingCount = isset($d->sitter_completed_bookings)  ? count($d->sitter_completed_bookings) : 0 ;
+
+                $Array_data[] = [
+                    $d->id,
+                    $d->user->name,
+                    $bookingCount
+                ];
+            }
+
+
+            $Filename = 'sitter-booking-report.csv';
+            header('Content-Type: text/csv; charset=utf-8');
+            Header('Content-Type: application/force-download');
+            header('Content-Disposition: attachment; filename='.$Filename.'');
+            // create a file pointer connected to the output stream
+            $output = fopen('php://output', 'w');
+            fputcsv($output, $selected_array);
+            foreach ($Array_data as $row){
+                fputcsv($output, $row);
+            }
+            fclose($output);
+
+            return;
+        }
+
         $users = User::where('id', '!=', 1)->where('user_type', 2)->get();
         $users = $users->pluck('name', 'id')->toArray();
 
@@ -168,6 +206,22 @@ class AdminSitterBookingController extends Controller
      */
     public function filter(Request $request)
     {
+        if($request->has('printPDF') && $request->get('printPDF') == 1)
+        {
+            $data = $this->repository->getForDataTable();
+            //dd(PDF::loadHTML('test')->save('myfile.pdf'));
+
+            $pdf = PDF::loadView('backend.sitterbooking.pdf', [ 'data' => $data]);
+            $pdfPath = public_path() . '/pdf/sitter-booking-report.pdf';
+            if($pdf->save($pdfPath))
+            {
+                return response()->json([
+                    'status' => true,
+                    'path'   => url('/pdf/sitter-booking-report.pdf')
+                ]);
+            }
+        }
+
         session([
             'sitterBookingFilter' => $request->get('userId'),
             'startDate'          => $request->get('startDate'),
