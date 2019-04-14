@@ -204,6 +204,9 @@ return [
 
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         App\Providers\HasherServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Cyberduck\LaravelExcel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -274,6 +277,8 @@ return [
         'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
         
         'Twilio' => Aloha\Twilio\Support\Laravel\Facade::class,
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

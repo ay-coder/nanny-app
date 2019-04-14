@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Subscription\EloquentSubscriptionRepository;
 use App\Models\Access\User\User;
+use PDF;
 
 /**
  * Class AdminSubscriptionController
@@ -53,8 +54,45 @@ class AdminSubscriptionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        if($request->has('download') && $request->has('download') == 1)
+        {
+
+            $selected_array = [
+                'id', 'Parent Name', 'Subscription Plan', 'Allowed Bookings', 'Amount'
+            ];
+
+            $data = $this->repository->getForDataTable();
+            $Array_data = [];
+
+            foreach($data as $d)
+            {
+                $Array_data[] = [
+                    $d->id,
+                    $d->username,
+                    $d->plan_title,
+                    $d->allowed_bookings,
+                    $d->plan->amount
+                ];
+            }
+
+
+            $Filename = 'subscription-report.csv';
+            header('Content-Type: text/csv; charset=utf-8');
+            Header('Content-Type: application/force-download');
+            header('Content-Disposition: attachment; filename='.$Filename.'');
+            // create a file pointer connected to the output stream
+            $output = fopen('php://output', 'w');
+            fputcsv($output, $selected_array);
+            foreach ($Array_data as $row){
+                fputcsv($output, $row);
+            }
+            fclose($output);
+
+            return;
+        }
+
         $users = User::where('id', '!=', 1)->where('user_type', 1)->get();
         $users = $users->pluck('name', 'id')->toArray();
 
@@ -165,6 +203,22 @@ class AdminSubscriptionController extends Controller
      */
     public function filter(Request $request)
     {
+        if($request->has('printPDF') && $request->get('printPDF') == 1)
+        {
+            $data = $this->repository->getForDataTable();
+            //dd(PDF::loadHTML('test')->save('myfile.pdf'));
+
+            $pdf = PDF::loadView('backend.subscription.pdf', [ 'data' => $data]);
+            $pdfPath = public_path() . '/pdf/subscription-report.pdf';
+            if($pdf->save($pdfPath))
+            {
+                return response()->json([
+                    'status' => true,
+                    'path'   => url('/pdf/subscription-report.pdf')
+                ]);
+            }
+        }
+
         session([
             'subscriptionFilter' => $request->get('userId'),
             'startDate'          => $request->get('startDate'),

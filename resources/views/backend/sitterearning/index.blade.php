@@ -37,6 +37,9 @@
 
                     <div class="col-md-3">
                         <button class="btn btn-primary" id="filterBtn">Filter</button>
+                        <a href="javascript:void(0);" target="_blank" class="btn btn-primary" id="PdfBtn">Print PDF</a>
+
+                        <a href="{!! route('admin.sitterearning.index', ['download' => 1]) !!}" target="_blank" class="btn btn-primary" id="ExcelBtn">Excel</a>
                     </div>
                 </div> 
             </div>
@@ -97,12 +100,22 @@
 
         function bindFilterEvent()
         {
-            var element = document.getElementById('filterBtn');
+            var element     = document.getElementById('filterBtn'),
+                printBtn    = document.getElementById('PdfBtn');
+
             if(element)
             {
                 element.onclick = function(e)
                 {
                     filterMessages(document.getElementById('user_id').value);
+                }
+            }
+
+            if(printBtn)
+            {
+                printBtn.onclick = function(e)
+                {
+                    printPDF(document.getElementById('user_id').value);
                 }
             }
         }
@@ -123,6 +136,33 @@
                     if(data.status == true)
                     {
                         window.location.reload();
+                        return ;
+                    }
+
+                    alert("Something went Wrong!");
+                }
+            })
+        }
+
+        function printPDF(id)
+        {
+            jQuery.ajax({
+                url: moduleConfig.filterMessageUrl,
+                method: "GET",
+                dataType: "JSON",
+                data: {
+                    userId: id,
+                    startDate: document.getElementById('startDate').value,
+                    printPDF:  1,
+                    endDate: document.getElementById('endDate').value
+                },
+                success: function(data)
+                {
+                    if(data.status == true)
+                    {
+                        //window.location.assign(data.path);
+                        window.open(data.path, '_blank');
+                        //window.location.reload();
                         return ;
                     }
 

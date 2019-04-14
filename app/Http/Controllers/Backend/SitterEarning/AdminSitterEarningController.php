@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\SitterEarning\EloquentSitterEarningRepository;
 use App\Models\Access\User\User;
+use PDF;
 
 /**
  * Class AdminSitterEarningController
@@ -53,8 +54,49 @@ class AdminSitterEarningController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('download') && $request->has('download') == 1)
+        {
+
+            $selected_array = [
+                'id', 'Sitter', 'Parent Name', 'Date', 'In Time', 'Out Time', 'Amount'
+            ];
+
+            $data = $this->repository->getForDataTable();
+            $Array_data = [];
+
+            foreach($data as $d)
+            {
+                $bDate = date('m-d-Y', strtotime($d->booking_date));
+
+                $Array_data[] = [
+                    $d->id,
+                    $d->sitter->name,
+                    $d->user->name,
+                    $bDate,
+                    $d->start_time,
+                    $d->end_time,
+                    $d->payment->per_hour * $d->payment->total_hour + $d->payment->parking_fees + $d->payment->tip
+                ];
+            }
+
+
+            $Filename = 'sitterearning-report.csv';
+            header('Content-Type: text/csv; charset=utf-8');
+            Header('Content-Type: application/force-download');
+            header('Content-Disposition: attachment; filename='.$Filename.'');
+            // create a file pointer connected to the output stream
+            $output = fopen('php://output', 'w');
+            fputcsv($output, $selected_array);
+            foreach ($Array_data as $row){
+                fputcsv($output, $row);
+            }
+            fclose($output);
+
+            return;
+        }
+
         $users = User::where('id', '!=', 1)->where('user_type', 2)->get();
         $users = $users->pluck('name', 'id')->toArray();
 
@@ -174,6 +216,23 @@ class AdminSitterEarningController extends Controller
      */
     public function filter(Request $request)
     {
+        if($request->has('printPDF') && $request->get('printPDF') == 1)
+        {
+            $data = $this->repository->getForDataTable();
+            //dd(PDF::loadHTML('test')->save('myfile.pdf'));
+
+            $pdf = PDF::loadView('backend.sitterearning.pdf', [ 'data' => $data]);
+            $pdfPath = public_path() . '/pdf/sitter-earning-report.pdf';
+            if($pdf->save($pdfPath))
+            {
+                return response()->json([
+                    'status' => true,
+                    'path'   => url('/pdf/sitter-earning-report.pdf')
+                ]);
+            }
+        }
+
+
         session([
             'sitterEarningFilter' => $request->get('userId'),
             'startDate'          => $request->get('startDate'),
