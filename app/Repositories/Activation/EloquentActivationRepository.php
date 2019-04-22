@@ -352,6 +352,15 @@ class EloquentActivationRepository extends DbRepository
                         'statement_descriptor' =>'Test Payment'
                     ]);
 
+                    /*$transfer = $stripe->transfers()->create([
+                        "amount" => 400,
+                        "currency" => "usd",
+                        "destination" => "acct_1EQNPGDab27zyLji",
+                        "transfer_group" => "ORDER_95"
+                    ]);
+
+                    dd($transfer);*/
+
                     if($plan->plan_type == 'A')
                     {
                         $totalBookings = $plan->subscription_count;

@@ -393,7 +393,7 @@ class EloquentPaymentRepository extends DbRepository
      * @param string $token
      * @param float $tip
      */
-    public function addPayment($paymentId = null, $token = null, $tip = 0)
+    public function addPayment1($paymentId = null, $token = null, $tip = 0)
     {
         if($paymentId && $token)
         {
@@ -416,6 +416,61 @@ class EloquentPaymentRepository extends DbRepository
 
                 $payment->payment_status    = 1;
                 $payment->payment_via       = "STRIPE - " . $charge['id'];
+                $payment->payment_details   = $charge['statement_descriptor'];
+                $payment->tip               = $tip;
+
+                return $payment->save();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add Payment
+     *
+     * @param int $paymentId
+     * @param string $token
+     * @param float $tip
+     */
+    public function addPayment($paymentId = null, $token = null, $tip = 0)
+    {
+        if($paymentId && $token)
+        {
+            $payment    = $this->model->where('id', $paymentId)->first();
+            $totalAmount = access()->getBookingTotal($payment->booking_id);
+            $total      = (float) $totalAmount + $tip;
+
+            if(isset($payment) && $total > 0)
+            {
+                $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
+                //sk_test_bm8U8YSh3YQIhyQRKvhWFvcY
+                //sk_test_autrVFuGHApy11JWvn3hWpPY
+                $charge = $stripe->charges()->create([
+                    'amount'            => $total,
+                    'currency'          => 'usd',
+                    'description'       => 'Paid By Sitter',
+                    'source'            => $token,
+                    'statement_descriptor' =>'Test Payment'
+                ]);
+
+                $sitterPay = '';
+
+                if(isset($payment->sitter->stripe_id))
+                {
+                     
+                    /*$stripe->transfers()->create([
+                        "amount"        => $total,
+                        "currency"      => "usd",
+                        "destination"   => $payment->sitter->stripe_id,
+                        "transfer_group" => $payment->id
+                    ]);
+
+                    $sitterPay = ' Sitter Payment done';*/
+                }
+
+                $payment->payment_status    = 1;
+                $payment->payment_via       = "STRIPE - " . $charge['id'] . $sitterPay;
                 $payment->payment_details   = $charge['statement_descriptor'];
                 $payment->tip               = $tip;
 

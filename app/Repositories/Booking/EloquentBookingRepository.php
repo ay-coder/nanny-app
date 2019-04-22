@@ -208,7 +208,7 @@ class EloquentBookingRepository extends DbRepository
      * @param array $input
      * @return mixed
      */
-    public function create($input)
+    public function create($input, $isShowBaby = true)
     {
         $userId     = isset($input['user_id']) ? $input['user_id'] : false;
         $isBooking  = access()->isActiveBookingAvailable($userId);
@@ -218,22 +218,25 @@ class EloquentBookingRepository extends DbRepository
             return false;
         }
 
-
-        if(isset($input['baby_ids']))
+        if($isShowBaby)
         {
-            if(count($input['baby_ids']) == 1)
+            if(isset($input['baby_ids']))
             {
-                $input['baby_id'] = $input['baby_ids'][0];
-                unset($input['baby_ids']);
-            }
-            else if(is_array($input['baby_ids']) && count($input['baby_ids']))
-            {
-                $input['baby_id'] = array_pop($input['baby_ids']);
-
-                if(count($input['baby_ids']))
+                $input['baby_ids'] = explode(',', $input['baby_ids']);
+                if(count($input['baby_ids']) == 1)
                 {
-                    $input['is_multiple'] = 1;
-                    $input['baby_ids'] = implode(',', $input['baby_ids']);
+                    $input['baby_id'] = $input['baby_ids'][0];
+                    unset($input['baby_ids']);
+                }
+                else if(is_array($input['baby_ids']) && count($input['baby_ids']))
+                {
+                    $input['baby_id'] = array_pop($input['baby_ids']);
+
+                    if(count($input['baby_ids']))
+                    {
+                        $input['is_multiple'] = 1;
+                        $input['baby_ids'] = implode(',', $input['baby_ids']);
+                    }
                 }
             }
         }

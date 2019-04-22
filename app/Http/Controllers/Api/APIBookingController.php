@@ -11,6 +11,7 @@ use App\Models\Access\User\User;
 use App\Library\Push\PushNotification;
 use DateTime;
 use App\Models\Messages\Messages;
+use File;
 
 class APIBookingController extends BaseApiController
 {
@@ -108,6 +109,9 @@ class APIBookingController extends BaseApiController
     public function create(Request $request)
     {
         $input = $request->all();
+
+        //File::put('/var/www/html/nanny-app/public/input.txt', json_encode($input));
+        //dd("FORCE");
 
         $validator = Validator::make($request->all(), [
             'baby_id'       => 'required',

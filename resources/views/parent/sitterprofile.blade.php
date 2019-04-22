@@ -1,5 +1,6 @@
 @extends('parent.layouts.app')
 
+
 @section('content')
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-wrap">

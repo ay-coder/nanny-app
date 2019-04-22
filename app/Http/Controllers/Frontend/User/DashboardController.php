@@ -62,12 +62,21 @@ class DashboardController extends Controller
          
         if(isset($babyIds) && count($babyIds))
         {
-            $babies = Babies::whereIn('id', $babyIds)->pluck('age')->toArray();
+            $babies     = Babies::whereIn('id', $babyIds)->get();
+            $babyAge    = [];
 
-            if(isset($babies) && count($babies))
+            foreach($babies as $tBaby)
             {
-                $minAge = min($babies);
-                $maxAge = max($babies);
+                $bDate  = Carbon::parse($tBaby->birthdate);
+                $now    = Carbon::now();
+                $age    = $bDate->diffInYears($now);
+                $babyAge[] = $age;
+            }
+
+            if(isset($babyAge) && count($babyAge))
+            {
+                $minAge = min($babyAge);
+                $maxAge = max($babyAge);
             }
         }
 
@@ -226,7 +235,7 @@ class DashboardController extends Controller
         if(isset($isBooking) && count($isBooking))
         {
             $bookingDate = Carbon::createFromFormat('d/m/Y',$input['booking_date'])->format('Y-m-d');
-           
+            
             if(count($input['baby_ids']) == 1)
             {
                 $input['is_multiple']   = 0;
@@ -262,7 +271,7 @@ class DashboardController extends Controller
             ]);
 
             $bookingRepository = new EloquentBookingRepository();
-            $model = $bookingRepository->create($input);
+            $model = $bookingRepository->create($input, false);
 
             if($model)
             {

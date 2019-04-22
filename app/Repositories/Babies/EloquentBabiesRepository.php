@@ -338,7 +338,13 @@ class EloquentBabiesRepository extends DbRepository
         $diff           = date_diff(date_create($dateOfBirth), date_create($today));
 
 
-        $input['age'] = $diff->format('%y');
+        $bDate  = Carbon::parse($dateOfBirth);
+        $now    = Carbon::now();
+        $age    = $bDate->diffInYears($now);
+            
+
+        $input['birthdate'] = $dateOfBirth;
+        $input['age'] = $age;
 
         return $input;
     }
@@ -387,7 +393,7 @@ class EloquentBabiesRepository extends DbRepository
             $baby = $this->getById($key);
             $baby->title = $value['title'];
             $baby->gender = isset($value['gender']) ? $value['gender'] : 'N/A';
-            $baby->birthdate = $value['birthdate'];
+            
 
             $dateMap = explode("/", $value['birthdate']);
             $day    = $dateMap[0];
@@ -396,7 +402,7 @@ class EloquentBabiesRepository extends DbRepository
             $bDate  = Carbon::parse($day .'-'. $month .'-'.  $year);
             $now    = Carbon::now();
             $age    = $bDate->diffInYears($now);
-
+            $baby->birthdate = $bDate->format('Y-m-d');
             $baby->age = $age;
             $baby->description = $value['description'];
             $baby->title = $value['title'];
