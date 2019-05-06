@@ -89,7 +89,7 @@ class AdminBookingController extends Controller
      */
     public function store(Request $request)
     {
-        $status = $this->repository->create($request->all());
+        $status = $this->repository->create($request->all(), true, true);
 
         if($status == false)
         {

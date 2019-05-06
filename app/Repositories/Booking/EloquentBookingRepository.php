@@ -208,7 +208,7 @@ class EloquentBookingRepository extends DbRepository
      * @param array $input
      * @return mixed
      */
-    public function create($input, $isShowBaby = true)
+    public function create($input, $isShowBaby = true, $isAdmin = false)
     {
         $userId     = isset($input['user_id']) ? $input['user_id'] : false;
         $isBooking  = access()->isActiveBookingAvailable($userId);
@@ -222,7 +222,11 @@ class EloquentBookingRepository extends DbRepository
         {
             if(isset($input['baby_ids']))
             {
-                $input['baby_ids'] = explode(',', $input['baby_ids']);
+                if(!is_array($input['baby_ids']))
+                {
+                    $input['baby_ids'] = explode(',', $input['baby_ids']);
+                }
+                
                 if(count($input['baby_ids']) == 1)
                 {
                     $input['baby_id'] = $input['baby_ids'][0];
@@ -257,8 +261,17 @@ class EloquentBookingRepository extends DbRepository
         $input['booking_status']    = 'REQUESTED';
         $input['start_time']        = date('H:i:s', strtotime($input['booking_start_time']));
         $input['end_time']          = date('H:i:s', strtotime($input['booking_end_time']));
-        $input['booking_start_time']= $input['booking_start_time'];
-        $input['booking_end_time']  = $input['booking_end_time'];
+
+        if($isAdmin)
+        {
+            $input['booking_start_time']= $input['booking_date'] . ' ' . $input['booking_start_time'];
+            $input['booking_end_time']  = $input['booking_date'] . ' ' . $input['booking_end_time'];
+        }
+        else
+        {
+            $input['booking_start_time'] = $input['booking_start_time'];
+            $input['booking_end_time']   = $input['booking_end_time'];   
+        }
 
         /*$input              = array_merge($input, ['user_id' => $input['user_id'],
             'booking_date'      => date('Y-m-d', strtotime($input['booking_date'])),
