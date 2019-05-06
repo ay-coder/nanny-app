@@ -436,7 +436,9 @@ class EloquentPaymentRepository extends DbRepository
     public function addPayment($paymentId = null, $token = null, $tip = 0)
     {
         if($paymentId && $token)
-        {
+        //if(1==1)
+        {   
+            //$paymentId  = 15;
             $payment    = $this->model->where('id', $paymentId)->first();
             $totalAmount = access()->getBookingTotal($payment->booking_id);
             $total      = (float) $totalAmount + $tip;
@@ -444,6 +446,8 @@ class EloquentPaymentRepository extends DbRepository
             if(isset($payment) && $total > 0)
             {
                 $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
+
+                //\Stripe\Stripe::setApiKey("sk_test_bm8U8YSh3YQIhyQRKvhWFvcY");
                 //sk_test_bm8U8YSh3YQIhyQRKvhWFvcY
                 //sk_test_autrVFuGHApy11JWvn3hWpPY
                 $charge = $stripe->charges()->create([
@@ -456,9 +460,18 @@ class EloquentPaymentRepository extends DbRepository
 
                 $sitterPay = '';
 
-                if(isset($payment->sitter->stripe_id))
+                if(isset($payment->sitter->stripe_id) || 1==1)
                 {
-                     
+
+                    // Create a Transfer to a connected account (later):
+                   /* $transfer = \Stripe\Transfer::create([
+                      "amount" => 10,
+                      "currency" => "usd",
+                      "destination" => "acct_1ES61MFUcFlhJfEM",
+                      "transfer_group" => "ORDER_95",
+                    ]);*/
+                        
+                        //dd($transfer);
                     /*$stripe->transfers()->create([
                         "amount"        => $total,
                         "currency"      => "usd",

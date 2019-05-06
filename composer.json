@@ -24,6 +24,7 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.4.*",
         "niklasravnsborg/laravel-pdf": "^3.1",
+        "stripe/stripe-php": "^6.34",
         "tymon/jwt-auth": "0.5.*",
         "yajra/laravel-datatables-oracle": "^7.0"
     },

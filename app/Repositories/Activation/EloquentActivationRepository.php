@@ -343,7 +343,7 @@ class EloquentActivationRepository extends DbRepository
                 if(isset($plan) && $total > 0)
                 {
                     $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
-                    
+
                     $charge = $stripe->charges()->create([
                         'amount'            => $total,
                         'currency'          => 'usd',
@@ -353,10 +353,10 @@ class EloquentActivationRepository extends DbRepository
                     ]);
 
                     /*$transfer = $stripe->transfers()->create([
-                        "amount" => 400,
+                        "amount" => 1,
                         "currency" => "usd",
-                        "destination" => "acct_1EQNPGDab27zyLji",
-                        "transfer_group" => "ORDER_95"
+                        "destination" => "acct_1EQNtjLcmS8QkWkW",
+                         "transfer_group" => "ORDER_95"
                     ]);
 
                     dd($transfer);*/
