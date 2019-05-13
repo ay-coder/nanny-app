@@ -41,7 +41,8 @@ class EloquentSittersRepository extends DbRepository
         'age_start_range' => 'Min Age Experience',
         'age_end_range' => 'Max Age Experience',
         'booking_by_sitter' => 'Booking by Sitter',
-        'stripe_id'     => 'Stripe ID',
+        'stripe_id'     => 'Secret Key',
+        'stripe_details'     => 'Public Key',
         'mobile'        => 'Contact Number',
         'about_me'      => 'About',
         /*'account_number'     => 'Account Number',
@@ -109,6 +110,12 @@ class EloquentSittersRepository extends DbRepository
         'stripe_id' =>   [
                 'data'          => 'stripe_id',
                 'name'          => 'stripe_id',
+                'searchable'    => true,
+                'sortable'      => true
+            ],
+        'stripe_details' =>   [
+                'data'          => 'stripe_details',
+                'name'          => 'stripe_details',
                 'searchable'    => true,
                 'sortable'      => true
             ],

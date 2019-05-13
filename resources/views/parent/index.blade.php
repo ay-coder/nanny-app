@@ -7,7 +7,7 @@
         <div class="form-row">
             <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="date">Start Date</label>
-                <input type="text" value="<?php echo date('d/m/Y');?>" name="booking_date" class="form-control futuredate" required="required">
+                <input type="text" value="<?php echo date('m/d/Y');?>" name="booking_date" class="form-control futuredate" required="required">
             </div>
             {{-- <div class="form-group col-md-4 dropdown">
                 <label class="control-label" for="date">End Date</label>
@@ -41,7 +41,7 @@
         <!-- Select Location start -->
         <div class="form-group select-location">
         <hr>
-            <label class="control-label" for="date">Pet</label>
+            <label class="control-label" for="date">Pets</label>
             <br>
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" id="is_pet_yes" value="1" name="is_pet" required="required" checked="checked" class="custom-control-input">
@@ -119,12 +119,12 @@
 
             $('.futuredate').datetimepicker({
                 viewMode: 'days',
-                format: 'DD/MM/YYYY',
+                format: 'MM/DD/YYYY',
                 minDate: new Date(),
                 defaultDate:new Date()
             });
 
-            $('.futuredate').val(moment().format('DD/MM/YYYY'));
+            $('.futuredate').val(moment().format('MM/DD/YYYY));
 
             function validateBookingTime()
             {

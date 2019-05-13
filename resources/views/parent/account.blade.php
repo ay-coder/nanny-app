@@ -189,7 +189,7 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="form-group">
-                                                    <label for="special-instruction">Add Special Instruction</label>
+                                                    <label for="special-instruction">Add Special Instructions</label>
                                                     {{ Form::textarea("data[$baby->id][description]", $baby->description, ['class' => 'form-control', 'placeholder' => 'Add Special Instruction', 'required' => 'required']) }}
                                                 </div>
                                             </div>
@@ -221,7 +221,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            {{ Form::text("title", null, ['class' => 'form-control', 'placeholder' => 'Enter your name', 'required' => 'required']) }}
+                                            {{ Form::text("title", null, ['class' => 'form-control', 'placeholder' => "Enter child's name", 'required' => 'required']) }}
                                         </div>
                                         <div class="form-group dropdown">
                                             <label for="name">Birthday</label>

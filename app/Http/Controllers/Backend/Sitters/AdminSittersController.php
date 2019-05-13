@@ -177,6 +177,14 @@ class AdminSittersController extends Controller
             ->addColumn('booking_by_sitter', function ($item) {
                 return isset($item->sitter_bookings) ? count($item->sitter_bookings) : 0;
             })
+            ->addColumn('about_me', function ($item) {
+                return substr($item->about_me, 0, 20) . '...';
+            })
+            ->addColumn('stripe_id', function ($item) {
+                return substr($item->stripe_id, 0, 10) . '...';
+            })->addColumn('about_details', function ($item) {
+                return substr($item->stripe_details, 0, 10) . '...';
+            })
             ->addColumn('actions', function ($item) {
                 return $item->admin_action_buttons;
             })

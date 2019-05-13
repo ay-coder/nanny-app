@@ -1,6 +1,16 @@
 @extends('parent.layouts.app')
 
 @section('content')
+
+@php
+    $defaultKey = 'pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm';
+    $sitter     = access()->getSitterById($booking->sitter_id);
+
+    if(isset($sitter) && isset($sitter->stripe_id) && isset($sitter->stripe_details) && strlen($sitter->stripe_details) > 20 && strlen($sitter->stripe_id) > 20)    
+    {
+        $defaultKey = $sitter->stripe_details;
+    }
+@endphp
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
@@ -164,7 +174,7 @@
                                                 <script
                                                     src="https://checkout.stripe.com/checkout.js"
                                                     class="stripe-button subscription-button"
-                                                    data-key="pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm"
+                                                    data-key="{!! $defaultKey !!}"
                                                     data-image="{{url('/default.png')}}"
                                                     data-name="Nanny"
                                                     data-email="{{access()->user()->email}}"

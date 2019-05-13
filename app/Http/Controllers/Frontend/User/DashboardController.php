@@ -191,7 +191,7 @@ class DashboardController extends Controller
 
         $sitters = $repository->model->with(['user', 'reviews', 'reviews.user'])
         ->whereIn('user_id', $allowedSitterIds)
-        ->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(6);
+        ->where('vacation_mode', 0)->orderBy('id', 'asc')->paginate(1000);
 
         return view('parent.sitterlisting')->with([
             'sitters' => $sitters,

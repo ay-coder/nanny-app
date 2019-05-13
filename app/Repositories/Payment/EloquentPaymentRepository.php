@@ -10,6 +10,7 @@ use App\Models\Payment\Payment;
 use App\Repositories\DbRepository;
 use App\Exceptions\GeneralException;
 use Cartalyst\Stripe\Stripe;
+use App\Models\Sitters\Sitters;
 
 class EloquentPaymentRepository extends DbRepository
 {
@@ -436,54 +437,43 @@ class EloquentPaymentRepository extends DbRepository
     public function addPayment($paymentId = null, $token = null, $tip = 0)
     {
         if($paymentId && $token)
-        //if(1==1)
         {   
             //$paymentId  = 15;
-            $payment    = $this->model->where('id', $paymentId)->first();
+            $payment    = $this->model->with('sitter', 'sitter.sitter')->where('id', $paymentId)->first();
             $totalAmount = access()->getBookingTotal($payment->booking_id);
             $total      = (float) $totalAmount + $tip;
 
             if(isset($payment) && $total > 0)
             {
-                $stripe = new Stripe('sk_test_bm8U8YSh3YQIhyQRKvhWFvcY');
+                $sitter     = access()->getSitterById($payment->sitter_id);
+                $publicKey  = 'pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm';
+                $secretKey  = 'sk_test_bm8U8YSh3YQIhyQRKvhWFvcY';
+                $paidTo     = 'NannyApp';
+                
+                if(isset($sitter) && isset($sitter->stripe_id) && isset($sitter->stripe_details))
+                {
+                    if(strlen($sitter->stripe_details) > 20 && strlen($sitter->stripe_id) > 20)
+                    {
+                        $publicKey  = $sitter->stripe_details;
+                        $secretKey  = $sitter->stripe_id;
+                        $paidTo     = 'Sitter';
+                    }
+                }
 
-                //\Stripe\Stripe::setApiKey("sk_test_bm8U8YSh3YQIhyQRKvhWFvcY");
-                //sk_test_bm8U8YSh3YQIhyQRKvhWFvcY
-                //sk_test_autrVFuGHApy11JWvn3hWpPY
-                $charge = $stripe->charges()->create([
-                    'amount'            => $total,
-                    'currency'          => 'usd',
-                    'description'       => 'Paid By Sitter',
-                    'source'            => $token,
+                \Stripe\Stripe::setApiKey($secretKey);
+
+                // Create a Charge:
+                $charge = \Stripe\Charge::create([
+                    "amount"            => $total * 100,
+                    "currency"          => "usd",
+                    "source"            => $token,
+                    "transfer_group"    => "BOOKING_ID_".$payment->booking_id,
+                    'description'       => 'Paid To '. $paidTo,
                     'statement_descriptor' =>'Test Payment'
                 ]);
 
-                $sitterPay = '';
-
-                if(isset($payment->sitter->stripe_id) || 1==1)
-                {
-
-                    // Create a Transfer to a connected account (later):
-                   /* $transfer = \Stripe\Transfer::create([
-                      "amount" => 10,
-                      "currency" => "usd",
-                      "destination" => "acct_1ES61MFUcFlhJfEM",
-                      "transfer_group" => "ORDER_95",
-                    ]);*/
-                        
-                        //dd($transfer);
-                    /*$stripe->transfers()->create([
-                        "amount"        => $total,
-                        "currency"      => "usd",
-                        "destination"   => $payment->sitter->stripe_id,
-                        "transfer_group" => $payment->id
-                    ]);
-
-                    $sitterPay = ' Sitter Payment done';*/
-                }
-
                 $payment->payment_status    = 1;
-                $payment->payment_via       = "STRIPE - " . $charge['id'] . $sitterPay;
+                $payment->payment_via       = "STRIPE - " . $charge['id'] . ' '. $paidTo;
                 $payment->payment_details   = $charge['statement_descriptor'];
                 $payment->tip               = $tip;
 

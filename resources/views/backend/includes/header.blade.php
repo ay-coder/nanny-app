@@ -114,6 +114,15 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="user-menu" style="margin-top: 10px;">
+                    <div class="pull-right">
+                        <a href="{!! route('frontend.auth.logout') !!}" class="btn btn-danger btn-flat">
+                            <i class="fa fa-sign-out"></i>
+                            {{ trans('navs.general.logout') }}
+                        </a>
+                    </div>
+                </li>
             </ul>
         </div><!-- /.navbar-custom-menu -->
     </nav>

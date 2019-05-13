@@ -116,9 +116,18 @@
 
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('stripe_id', 'Stripe ID :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('stripe_id', 'Stripe Secret Key :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('stripe_id', null, ['class' => 'form-control', 'placeholder' => 'Stripe ID']) }}
+            {{ Form::text('stripe_id', null, ['class' => 'form-control', 'placeholder' => 'Stripe Secret Key']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('stripe_details', 'Stripe Public Key :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('stripe_details', null, ['class' => 'form-control', 'placeholder' => 'Stripe Public Key']) }}
         </div>
     </div>
 </div>
@@ -140,7 +149,8 @@
         </div>
     </div>
 </div> --}}
-
+<?php
+/*
 <div class="box-body">
     <div class="form-group">
         {{ Form::label('sitter_start_time', 'Start Time :', ['class' => 'col-lg-2 control-label']) }}
@@ -159,7 +169,7 @@
         </div>
     </div>
 </div>
-
+*/?>
 <div class="box-body">
     <div class="form-group">
         {{ Form::label('profile_pic', 'Profile Picture :', ['class' => 'col-lg-2 control-label']) }}

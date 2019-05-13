@@ -588,4 +588,20 @@ class Access
 
         return 0;
     }
+
+    /**
+     * Get Sitter ById
+     * 
+     * @param int $sitterId [description]
+     * @return object
+     */
+    public function getSitterById($sitterId = null)
+    {
+        if($sitterId)
+        {
+            return Sitters::where('user_id', $sitterId)->first();
+        }
+
+        return false;
+    }  
 }

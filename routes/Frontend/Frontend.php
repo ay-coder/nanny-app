@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::any('parent/send-message', 'DashboardController@addMessage')->name('parent.send-message');
        
 
-        Route::post('parent/search', 'DashboardController@searchSitters')->name('parent.search');
+        Route::any('parent/search', 'DashboardController@searchSitters')->name('parent.search');
         Route::get('parent/find/{id}', 'DashboardController@findSitter')->name('parent.findsitter');
         Route::post('parent/booksitter', 'DashboardController@bookSitter')->name('parent.booksitter');
 
