@@ -154,13 +154,13 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">About Me</label>
-                                    {{ Form::textarea("about_me", $user->sitter->about_me, ['class' => 'form-control', 'placeholder' => 'About me', 'required' => 'required', 'rows' => 5]) }}
+                                    {{ Form::textarea("about_me", $user->sitter->about_me, ['class' => 'form-control', 'disabled' =>'disabled', 'placeholder' => 'About me', 'required' => 'required', 'rows' => 5]) }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            {{--<div class="col-md-4">
                                 <div class="form-group upload-image">
                                     <label for="name" class="inputFilelabel"></label>
                                     {{ Form::file('profile_pic', ['class' => 'inputFile', 'id' => 'parent-image']) }}
@@ -170,7 +170,7 @@
                                         <img class="image_upload_preview" src="{{url('/default.png')}}" alt="Profile pic">
                                     @endif
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">Description</label>

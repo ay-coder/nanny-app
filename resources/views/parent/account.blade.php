@@ -136,7 +136,7 @@
                                                 </div>
                                             </div>
                                             <div class="special-instruction">
-                                                <h3>Special Instruction</h3>
+                                                <h3>Special Instructions (Allergies/Special Needs)</h3>
                                                 <p>{{ $baby->description }}</p>
                                             </div>
                                         </div>
@@ -190,7 +190,7 @@
                                             <div class="col-sm-8">
                                                 <div class="form-group">
                                                     <label for="special-instruction">Add Special Instructions</label>
-                                                    {{ Form::textarea("data[$baby->id][description]", $baby->description, ['class' => 'form-control', 'placeholder' => 'Add Special Instruction', 'required' => 'required']) }}
+                                                    {{ Form::textarea("data[$baby->id][description]", $baby->description, ['class' => 'form-control', 'placeholder' => 'Special Instructions (Allergies/Special Needs)', 'required' => 'required']) }}
                                                 </div>
                                             </div>
                                         </div>

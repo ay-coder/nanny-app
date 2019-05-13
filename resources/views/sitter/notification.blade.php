@@ -5,7 +5,7 @@
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('frontend.user.sitter.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Notification</li>
+        <li class="breadcrumb-item active" aria-current="page">Notifications</li>
     </ol>
 </div>
 <!-- Breadcrumb End -->
@@ -73,7 +73,7 @@
         <div class="col-sm-4 col-lg-4 right-column">
             <div class="white-box">
                 <div class="white-box-title">
-                    <h3>Total Earning</h3>
+                    <h3>Total Earnings</h3>
                 </div>
                 <div class="white-box-content">
                     <span class="total-earn">${{ totalEarning(access()->user()->id) }}</span>

@@ -40,9 +40,9 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.myjobs') }}">My Jobs</a>
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.account') }}">My Profile<span class="status"></span></a>
-                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.earning') }}">My Earning</a>
+                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.earning') }}">My Earnings</a>
                                 <a class="dropdown-item" href="{{ route('frontend.user.sitter.vacation') }}">Vacation Mode</a>
-                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.notification') }}">Notification</a>
+                                <a class="dropdown-item" href="{{ route('frontend.user.sitter.notification') }}">Notifications</a>
                                 <a class="dropdown-item" href="{{ route('frontend.auth.logout') }}">Logout</a>
                             </div>
                         </li>

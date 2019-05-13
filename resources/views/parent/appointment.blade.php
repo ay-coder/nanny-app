@@ -5,7 +5,7 @@
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('frontend.user.parent.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">My Appointment</li>
+        <li class="breadcrumb-item active" aria-current="page">My Appointments</li>
     </ol>
 </div>
 <!-- Breadcrumb End -->
@@ -164,7 +164,7 @@
                             @else
                             <tr>
                                 <td colspan="4">
-                                    No Upcoming Appointment Found
+                                    No Upcoming Appointments Found
                                 </td>
                             </tr>
                             @endif
@@ -245,7 +245,7 @@
                             @else
                                 <tr>
                                     <td colspan="4">
-                                        No previous Appointment Found
+                                        No previous Appointments Found
                                     </td>
                                 </tr>
                             @endif
@@ -261,7 +261,7 @@
         <div class="col-sm-12 col-lg-4 right-column">
             <div class="white-box">
                 <div class="white-box-title">
-                    <h3>Review</h3>
+                    <h3>My Reviews</h3>
                 </div>
                 <div class="white-box-content">
                     <!-- Review List Start -->

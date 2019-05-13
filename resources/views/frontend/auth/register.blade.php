@@ -8,7 +8,7 @@
             <span class="input-group-text"><i class="icon-user"></i></span>
         </div>
         <label for="parent_name" class="sr-only">Enter your name</label>
-        {{ Form::input('name', 'name', null, ['class' => 'form-control', 'placeholder' => 'Enter your name', 'required' => 'required']) }}
+        {{ Form::input('name', 'name', null, ['class' => 'form-control', 'placeholder' => 'Enter Your Full Name', 'required' => 'required']) }}
     </div>
 
     <div class="input-group mb-3 email-wrap">
@@ -16,7 +16,7 @@
             <span class="input-group-text"><i class="icon-envelope"></i></span>
         </div>
         <label for="parent_email" class="sr-only">Enter email</label>
-        {{ Form::input('email', 'email', null, ['class' => 'form-control', 'placeholder' => "Enter email", 'required' => 'required']) }}
+        {{ Form::input('email', 'email', null, ['class' => 'form-control', 'placeholder' => "Enter Email", 'required' => 'required']) }}
     </div>
 
     <div class="input-group mb-3 password-wrap">
@@ -60,7 +60,7 @@
         <a href="#" class="btn btn-default google-login">Signup with Google</a>
         <a href="#" class="btn btn-default facebook-login">signup with facebook</a>
         --}}
-        <span class="acount-link">Already a member? <a href="{{ route('frontend.auth.login') }}">Log In</a></span>
+        <span class="acount-link" style="margin-top: 10px; font-size: 14px;">Already a member? <a href="{{ route('frontend.auth.login') }}">Log In</a></span>
     </div>
 {{ Form::close() }}
 <div class="row text-center">

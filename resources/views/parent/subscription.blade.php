@@ -14,6 +14,7 @@
         <div class="row">
             @foreach($plans as $plan)
                 @php
+                    $planStripeTitle = $plan->subscription_count > 1 ? 'Subscriptions' : 'Subscription';
                     $class = ($plan->plan_type == 'A') ? 'green-box' : (($plan->plan_type == 'B') ? 'blue-box' : 'yellow-box');
                 @endphp
                 <!-- Subscription plan box start -->
@@ -34,7 +35,7 @@
                                 class="stripe-button subscription-button"
                                 data-key="pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm"
                                 data-image={{url('/default.png')}}
-                                data-name="Nanny"
+                                data-name="{{ $planStripeTitle }}"
                                 data-email="{{access()->user()->email}}"
                                 data-description={{$plan->sub_title}}
                                 data-locale="auto"
@@ -59,8 +60,8 @@
                                 <a href="#" class="contact-btn">Contact</a>
                             </li>
                             <li class="chat">
-                                <h3>Genral Discussion</h3>
-                                <span>Chat with us</span>
+                                <h3></h3>
+                                <span>Help</span>
                                 <a  href="JavaScript:void(0)" data-toggle="modal" data-target="#generalDiscussion" class="chat-btn">Chat</a>
                             </li>
                         </ul>

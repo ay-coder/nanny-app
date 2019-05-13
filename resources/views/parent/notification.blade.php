@@ -5,7 +5,7 @@
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('frontend.user.parent.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Notification</li>
+        <li class="breadcrumb-item active" aria-current="page">Notifications</li>
     </ol>
 </div>
 <!-- Breadcrumb End -->
@@ -19,7 +19,7 @@
             <!-- Notification List Start -->
             <div class="white-box">
                 <div class="white-box-title">
-                    <h3>Notification</h3>
+                    <h3>Notifications</h3>
                 </div>
                 <div class="white-box-content">
 

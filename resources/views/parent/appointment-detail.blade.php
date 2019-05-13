@@ -131,7 +131,7 @@
                                         </tr>
                                         <tr class="price-row">
                                             <td>
-                                                Total Amount
+                                                Amount
                                             </td>
                                             {{ Form::hidden('sub_total', $subTotal, ['id' => 'sub_total']) }}
                                             {{ Form::hidden('booking_id', $booking->id, ['id' => 'booking_id']) }}

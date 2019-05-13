@@ -5,7 +5,7 @@
 <div class="breadcrumb-wrap">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('frontend.user.sitter.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">My Earning</li>
+        <li class="breadcrumb-item active" aria-current="page">My Earnings</li>
     </ol>
 </div>
 <!-- Breadcrumb End -->
@@ -52,7 +52,7 @@
                                 @endforeach
                             @else
                             <tr>
-                                No history found.
+                                No History Found
                             </tr>
                             @endif
                         </tbody>
@@ -65,7 +65,7 @@
         <div class="col-sm-12 col-lg-4 right-column">
             <div class="white-box">
                 <div class="white-box-title">
-                    <h3>Total Earning</h3>
+                    <h3>Total Earnings</h3>
                 </div>
                 <div class="white-box-content">
                     <span class="total-earn">${{ totalEarning(access()->user()->id) }}</span>

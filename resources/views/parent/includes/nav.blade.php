@@ -38,10 +38,10 @@
                           {{ access()->user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('frontend.user.parent.myappointment') }}">My Appointment</a>
+                            <a class="dropdown-item" href="{{ route('frontend.user.parent.myappointment') }}">My Appointments</a>
                             <a class="dropdown-item" href="{{ route('frontend.user.parent.account') }}">My Profile <span class="status"></span></a>
                             <a class="dropdown-item" href="{{ route('frontend.user.parent.subscription') }}">Subscriptions</a>
-                            <a class="dropdown-item" href="{{ route('frontend.user.parent.notification') }}">Notification</a>
+                            <a class="dropdown-item" href="{{ route('frontend.user.parent.notification') }}">Notifications</a>
                             <a class="dropdown-item" href="{{ route('frontend.auth.logout') }}">Logout</a>
                         </div>
                     </li>
@@ -66,8 +66,8 @@
         @if(\Route::currentRouteName() == 'frontend.user.parent.subscription')
             <div class="subscription banner-tagline">
                 <span>SUBSCRIPTIONS <br>& PACKAGES</span>
-                <p>We have a subscription or package to meet every Members' needs. Please
-                    <br>review below and contact us if you have any questions or concerns.</p>
+                <p>We have a subscription or package to meet every Members’ needs.
+                <br> Please review below, and contact us if you have any questions or concerns.</p>
             </div><!-- Banner End-->
         @endif
     </div><!-- Container End -->

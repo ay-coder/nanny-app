@@ -7,7 +7,7 @@
         <a class="nav-link active" id="parents-tab" data-toggle="tab" href="#parents" role="tab" aria-controls="parents" aria-selected="true">Parents</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="sitter-tab" data-toggle="tab" href="#sitter" role="tab" aria-controls="sitter" aria-selected="false">Sitter</a>
+        <a class="nav-link" id="sitter-tab" data-toggle="tab" href="#sitter" role="tab" aria-controls="sitter" aria-selected="false">Sitters</a>
     </li>
 </ul>
 
@@ -43,7 +43,7 @@
                 <a href="{{ route('frontend.auth.social.login', ['provider' => 'google']) }}" class="btn btn-default google-login">Login with Google</a>
                 <a href="{{ route('frontend.auth.social.login', ['provider' => 'facebook']) }}" class="btn btn-default facebook-login">Login with facebook</a>
                 --}}
-                <span class="acount-link">Don’t have an account? <a href="{{ route('frontend.auth.register') }}">Sign Up</a></span>
+                <span class="acount-link" style="margin-top: 10px; font-size: 14px;">Don’t have an account? <a href="{{ route('frontend.auth.register') }}">Sign Up</a></span>
             </div>
         {{ Form::close() }}
     </div>
