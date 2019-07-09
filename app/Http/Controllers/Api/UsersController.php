@@ -711,6 +711,8 @@ class UsersController extends BaseApiController
         $successResponse = [
             'support_number'        => '110001010',
             'privacy_policy_url'    => 'https://www.google.co.in/',
+            'stripe_public_key'     => 'pk_test_Ky5y4G4B1yGfbfF2wr7CSqqm',
+            'stripe_secret_key'     => 'sk_test_bm8U8YSh3YQIhyQRKvhWFvcY',
             'tax'                   => (float) access()->getConfigValue('booking_tax_rate'),
             'other_charges'         => (float) 0
         ];

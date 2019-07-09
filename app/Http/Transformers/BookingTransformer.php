@@ -25,6 +25,7 @@ class BookingTransformer extends Transformer
         $baby           = (object) $item->baby;
         $review         = (object) $item->review;
         $payment        = (object) $item->payment;
+        $sitterInfo     = access()->getSitterById($item->sitter_id);
         $paymentData    = (object) [];
         $reviewData     = (object) [];
 
@@ -53,7 +54,9 @@ class BookingTransformer extends Transformer
                 
                 'payment_status'=> isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
                 'payment_via'=> $this->nulltoBlank($payment->payment_via),
-                'payment_details'=> $this->nulltoBlank($payment->payment_details)
+                'payment_details'=> $this->nulltoBlank($payment->payment_details),
+                'stripe_public_key'     => $this->nulltoBlank($sitterInfo->stripe_details),
+                'stripe_secret_key'     => $this->nulltoBlank($sitterInfo->stripe_id),
             ];
         }
 
@@ -146,6 +149,7 @@ class BookingTransformer extends Transformer
             $baby           = (object) $item->baby;
             $review         = (object) $item->review;
             $payment        = (object) $item->payment;
+            $sitterInfo     = access()->getSitterById($item->sitter_id);
             $babyData       = [];
             $paymentData    = (object) [];
             $reviewData     = (object) [];
@@ -174,7 +178,9 @@ class BookingTransformer extends Transformer
                     'description'   => $payment->description,
                     'payment_status'=> isset($payment->payment_status) ? $this->nulltoBlank($payment->payment_status) : 0,
                     'payment_via'=> $this->nulltoBlank($payment->payment_via),
-                    'payment_details'=> $this->nulltoBlank($payment->payment_details)
+                    'payment_details'=> $this->nulltoBlank($payment->payment_details),
+                    'stripe_public_key'     => $this->nulltoBlank($sitterInfo->stripe_details),
+                    'stripe_secret_key'     => $this->nulltoBlank($sitterInfo->stripe_id),
                 ];
             }
 
